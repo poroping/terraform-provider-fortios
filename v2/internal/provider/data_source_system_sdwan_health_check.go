@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -109,6 +109,11 @@ func dataSourceSystemSdwanHealthCheck() *schema.Resource {
 					},
 				},
 			},
+			"mos_codec": {
+				Type:        schema.TypeString,
+				Description: "Codec to use for MOS calculation (default = g711).",
+				Computed:    true,
+			},
 			"name": {
 				Type:        schema.TypeString,
 				Description: "Status check or health check name.",
@@ -196,6 +201,11 @@ func dataSourceSystemSdwanHealthCheck() *schema.Resource {
 							Description: "Criteria on which to base link selection.",
 							Computed:    true,
 						},
+						"mos_threshold": {
+							Type:        schema.TypeString,
+							Description: "Minimum Mean Opinion Score for SLA to be marked as pass. (1.0 - 5.0, default = 3.6).",
+							Computed:    true,
+						},
 						"packetloss_threshold": {
 							Type:        schema.TypeInt,
 							Description: "Packet loss for SLA to make decision in percentage. (0 - 100, default = 0).",
@@ -212,6 +222,11 @@ func dataSourceSystemSdwanHealthCheck() *schema.Resource {
 			"sla_pass_log_period": {
 				Type:        schema.TypeInt,
 				Description: "Time interval in seconds that SLA pass log messages will be generated (0 - 3600, default = 0).",
+				Computed:    true,
+			},
+			"source": {
+				Type:        schema.TypeString,
+				Description: "Source IP address used in the health-check packet to the server.",
 				Computed:    true,
 			},
 			"system_dns": {
@@ -262,6 +277,11 @@ func dataSourceSystemSdwanHealthCheck() *schema.Resource {
 			"user": {
 				Type:        schema.TypeString,
 				Description: "The user name to access probe server.",
+				Computed:    true,
+			},
+			"vrf": {
+				Type:        schema.TypeInt,
+				Description: "Virtual Routing Forwarding ID.",
 				Computed:    true,
 			},
 		},

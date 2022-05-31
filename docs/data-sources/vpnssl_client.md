@@ -26,6 +26,7 @@ Use this data source to get information on a fortios Client.
 The following attributes are exported:
 
 * `certificate` - Certificate to offer to SSL-VPN server if it requests one.
+* `class_id` - Traffic class ID.
 * `comment` - Comment.
 * `distance` - Distance for routes added by SSL-VPN (1 - 255).
 * `interface` - SSL interface to send/receive traffic over.

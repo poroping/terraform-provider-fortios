@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -69,6 +69,11 @@ func dataSourceEmailfilterBlockAllowList() *schema.Resource {
 						"ip6_subnet": {
 							Type:        schema.TypeString,
 							Description: "IPv6 network address/subnet mask bits.",
+							Computed:    true,
+						},
+						"pattern": {
+							Type:        schema.TypeString,
+							Description: "Pattern to match.",
 							Computed:    true,
 						},
 						"pattern_type": {

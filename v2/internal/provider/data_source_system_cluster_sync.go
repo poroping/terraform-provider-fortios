@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -126,32 +126,32 @@ func dataSourceSystemClusterSync() *schema.Resource {
 						},
 						"dstaddr": {
 							Type:        schema.TypeString,
-							Description: "Only sessions to this IPv4 address are synchronized. You can only enter one address. To synchronize sessions for multiple destination addresses, add multiple filters.",
+							Description: "Only sessions to this IPv4 address are synchronized.",
 							Computed:    true,
 						},
 						"dstaddr6": {
 							Type:        schema.TypeString,
-							Description: "Only sessions to this IPv6 address are synchronized. You can only enter one address. To synchronize sessions for multiple destination addresses, add multiple filters.",
+							Description: "Only sessions to this IPv6 address are synchronized.",
 							Computed:    true,
 						},
 						"dstintf": {
 							Type:        schema.TypeString,
-							Description: "Only sessions to this interface are synchronized. You can only enter one interface name. To synchronize sessions to multiple destination interfaces, add multiple filters.",
+							Description: "Only sessions to this interface are synchronized.",
 							Computed:    true,
 						},
 						"srcaddr": {
 							Type:        schema.TypeString,
-							Description: "Only sessions from this IPv4 address are synchronized. You can only enter one address. To synchronize sessions from multiple source addresses, add multiple filters.",
+							Description: "Only sessions from this IPv4 address are synchronized.",
 							Computed:    true,
 						},
 						"srcaddr6": {
 							Type:        schema.TypeString,
-							Description: "Only sessions from this IPv6 address are synchronized. You can only enter one address. To synchronize sessions from multiple source addresses, add multiple filters.",
+							Description: "Only sessions from this IPv6 address are synchronized.",
 							Computed:    true,
 						},
 						"srcintf": {
 							Type:        schema.TypeString,
-							Description: "Only sessions from this interface are synchronized. You can only enter one interface name. To synchronize sessions for multiple source interfaces, add multiple filters.",
+							Description: "Only sessions from this interface are synchronized.",
 							Computed:    true,
 						},
 					},

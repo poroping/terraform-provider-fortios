@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -165,6 +165,14 @@ func resourceSystemSnmpCommunity() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"mib_view": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 32),
+
+				Description: "SNMP access control MIB view.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
@@ -260,6 +268,23 @@ func resourceSystemSnmpCommunity() *schema.Resource {
 				Description: "Enable/disable SNMP v2c traps.",
 				Optional:    true,
 				Computed:    true,
+			},
+			"vdoms": {
+				Type:        schema.TypeList,
+				Description: "SNMP access control VDOMs.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 79),
+
+							Description: "VDOM name",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
 			},
 		},
 	}
@@ -494,6 +519,28 @@ func flattenSystemSnmpCommunityHosts6(d *schema.ResourceData, v *[]models.System
 	return flat
 }
 
+func flattenSystemSnmpCommunityVdoms(d *schema.ResourceData, v *[]models.SystemSnmpCommunityVdoms, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Name; tmp != nil {
+				v["name"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "name")
+	}
+
+	return flat
+}
+
 func refreshObjectSystemSnmpCommunity(d *schema.ResourceData, o *models.SystemSnmpCommunity, sv string, sort bool) diag.Diagnostics {
 	var err error
 
@@ -522,6 +569,14 @@ func refreshObjectSystemSnmpCommunity(d *schema.ResourceData, o *models.SystemSn
 
 		if err = d.Set("fosid", v); err != nil {
 			return diag.Errorf("error reading fosid: %v", err)
+		}
+	}
+
+	if o.MibView != nil {
+		v := *o.MibView
+
+		if err = d.Set("mib_view", v); err != nil {
+			return diag.Errorf("error reading mib_view: %v", err)
 		}
 	}
 
@@ -618,6 +673,12 @@ func refreshObjectSystemSnmpCommunity(d *schema.ResourceData, o *models.SystemSn
 
 		if err = d.Set("trap_v2c_status", v); err != nil {
 			return diag.Errorf("error reading trap_v2c_status: %v", err)
+		}
+	}
+
+	if o.Vdoms != nil {
+		if err = d.Set("vdoms", flattenSystemSnmpCommunityVdoms(d, o.Vdoms, "vdoms", sort)); err != nil {
+			return diag.Errorf("error reading vdoms: %v", err)
 		}
 	}
 
@@ -730,6 +791,30 @@ func expandSystemSnmpCommunityHosts6(d *schema.ResourceData, v interface{}, pre 
 	return &result, nil
 }
 
+func expandSystemSnmpCommunityVdoms(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemSnmpCommunityVdoms, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.SystemSnmpCommunityVdoms
+
+	for i := range l {
+		tmp := models.SystemSnmpCommunityVdoms{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Name = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
 func getObjectSystemSnmpCommunity(d *schema.ResourceData, sv string) (*models.SystemSnmpCommunity, diag.Diagnostics) {
 	obj := models.SystemSnmpCommunity{}
 	diags := diag.Diagnostics{}
@@ -785,6 +870,15 @@ func getObjectSystemSnmpCommunity(d *schema.ResourceData, sv string) (*models.Sy
 			}
 			tmp := int64(v2)
 			obj.Id = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("mib_view"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("mib_view", sv)
+				diags = append(diags, e)
+			}
+			obj.MibView = &v2
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {
@@ -899,6 +993,23 @@ func getObjectSystemSnmpCommunity(d *schema.ResourceData, sv string) (*models.Sy
 				diags = append(diags, e)
 			}
 			obj.TrapV2cStatus = &v2
+		}
+	}
+	if v, ok := d.GetOk("vdoms"); ok {
+		if !utils.CheckVer(sv, "v7.2.0", "") {
+			e := utils.AttributeVersionWarning("vdoms", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandSystemSnmpCommunityVdoms(d, v, "vdoms", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.Vdoms = t
+		}
+	} else if d.HasChange("vdoms") {
+		old, new := d.GetChange("vdoms")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.Vdoms = &[]models.SystemSnmpCommunityVdoms{}
 		}
 	}
 	return &obj, diags

@@ -38,6 +38,7 @@ The `entries` block contains:
 * `id` - Entry ID.
 * `ip4_subnet` - IPv4 network address/subnet mask bits.
 * `ip6_subnet` - IPv6 network address/subnet mask bits.
+* `pattern` - Pattern to match.
 * `pattern_type` - Wildcard pattern or regular expression.
 * `status` - Enable/disable status.
 * `type` - Entry type.

@@ -58,6 +58,7 @@ Action for automation stitches.
 * `method` - Request method (POST, PUT, GET, PATCH or DELETE). Valid values: `post` `put` `get` `patch` `delete` .
 * `minimum_interval` - Limit execution to no more than once in this interval (in seconds).
 * `name` - Name.
+* `output_size` - Number of megabytes to limit script output to (1 - 1024, default = 10).
 * `port` - Protocol port.
 * `protocol` - Request protocol. Valid values: `http` `https` .
 * `replacement_message` - Enable/disable replacement message. Valid values: `enable` `disable` .
@@ -65,6 +66,7 @@ Action for automation stitches.
 * `required` - Required in action chain. Valid values: `enable` `disable` .
 * `script` - CLI script.
 * `security_tag` - NSX security tag.
+* `timeout` - Maximum running time for this script in seconds (0 = no timeout).
 * `tls_certificate` - Custom TLS certificate for API request. This attribute must reference one of the following datasources: `certificate.local.name` .
 * `uri` - Request API URI.
 * `verify_host_cert` - Enable/disable verification of the remote host certificate. Valid values: `enable` `disable` .

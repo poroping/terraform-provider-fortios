@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -170,6 +170,20 @@ func dataSourceSystemSdwanService() *schema.Resource {
 				Description: "Enable/disable negation of input device match.",
 				Computed:    true,
 			},
+			"input_zone": {
+				Type:        schema.TypeList,
+				Description: "Source input-zone name.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "Zone.",
+							Computed:    true,
+						},
+					},
+				},
+			},
 			"internet_service": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable use of Internet service for application-based load balancing.",
@@ -184,6 +198,20 @@ func dataSourceSystemSdwanService() *schema.Resource {
 						"id": {
 							Type:        schema.TypeInt,
 							Description: "Application control based Internet Service ID.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service_app_ctrl_category": {
+				Type:        schema.TypeList,
+				Description: "IDs of one or more application control categories.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"id": {
+							Type:        schema.TypeInt,
+							Description: "Application control category ID.",
 							Computed:    true,
 						},
 					},

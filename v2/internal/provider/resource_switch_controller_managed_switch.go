@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -71,6 +71,14 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 							Description: "Enable to override global 802.1X settings on individual FortiSwitches.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"mab_reauth": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+							Description: "Enable or disable MAB reauthentication settings.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -718,6 +726,38 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 							Type: schema.TypeInt,
 
 							Description: "Port properties flags.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"flap_duration": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(5, 300),
+
+							Description: "Period over which flap events are calculated (seconds).",
+							Optional:    true,
+							Computed:    true,
+						},
+						"flap_rate": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(1, 30),
+
+							Description: "Number of stage change events needed within flap-duration.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"flap_timeout": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(0, 120),
+
+							Description: "Flap guard disabling protection (min).",
+							Optional:    true,
+							Computed:    true,
+						},
+						"flapguard": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+							Description: "Enable/disable flap guard.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -2102,6 +2142,10 @@ func flattenSwitchControllerManagedSwitch8021XSettings(d *schema.ResourceData, v
 				v["local_override"] = *tmp
 			}
 
+			if tmp := cfg.MabReauth; tmp != nil {
+				v["mab_reauth"] = *tmp
+			}
+
 			if tmp := cfg.MaxReauthAttempt; tmp != nil {
 				v["max_reauth_attempt"] = *tmp
 			}
@@ -2447,6 +2491,22 @@ func flattenSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v *[]mode
 
 			if tmp := cfg.Flags; tmp != nil {
 				v["flags"] = *tmp
+			}
+
+			if tmp := cfg.FlapDuration; tmp != nil {
+				v["flap_duration"] = *tmp
+			}
+
+			if tmp := cfg.FlapRate; tmp != nil {
+				v["flap_rate"] = *tmp
+			}
+
+			if tmp := cfg.FlapTimeout; tmp != nil {
+				v["flap_timeout"] = *tmp
+			}
+
+			if tmp := cfg.Flapguard; tmp != nil {
+				v["flapguard"] = *tmp
 			}
 
 			if tmp := cfg.FlowControl; tmp != nil {
@@ -3687,6 +3747,13 @@ func expandSwitchControllerManagedSwitch8021XSettings(d *schema.ResourceData, v 
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.mab_reauth", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.MabReauth = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.max_reauth_attempt", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(int); ok {
@@ -4199,6 +4266,37 @@ func expandSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v interfac
 			if v2, ok := v1.(int); ok {
 				v3 := int64(v2)
 				tmp.Flags = &v3
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.flap_duration", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.FlapDuration = &v3
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.flap_rate", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.FlapRate = &v3
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.flap_timeout", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.FlapTimeout = &v3
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.flapguard", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Flapguard = &v2
 			}
 		}
 

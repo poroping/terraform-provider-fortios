@@ -23,9 +23,12 @@ Configure Virtual Access Points (VAPs).
 * `access_control_list` - Profile name for access-control-list. This attribute must reference one of the following datasources: `wireless-controller.access-control-list.name` .
 * `acct_interim_interval` - WiFi RADIUS accounting interim interval (60 - 86400 sec, default = 0).
 * `additional_akms` - Additional AKMs. Valid values: `akm6` .
-* `address_group` - Address group ID. This attribute must reference one of the following datasources: `wireless-controller.addrgrp.id` .
+* `address_group` - Firewall Address Group Name. This attribute must reference one of the following datasources: `firewall.addrgrp.name` .
+* `address_group_policy` - Configure MAC address filtering policy for MAC addresses that are in the address-group. Valid values: `disable` `allow` `deny` .
 * `antivirus_profile` - AntiVirus profile name. This attribute must reference one of the following datasources: `antivirus.profile.name` .
+* `application_detection_engine` - Enable/disable application detection engine (default = disable). Valid values: `enable` `disable` .
 * `application_list` - Application control list name. This attribute must reference one of the following datasources: `application.list.name` .
+* `application_report_intv` - Application report interval (30 - 864000 sec, default = 120).
 * `atf_weight` - Airtime weight in percentage (default = 20).
 * `auth` - Authentication protocol. Valid values: `psk` `radius` `usergroup` .
 * `auth_cert` - HTTPS server certificate. This attribute must reference one of the following datasources: `vpn.certificate.local.name` .
@@ -77,6 +80,7 @@ Configure Virtual Access Points (VAPs).
 * `ipv6_rules` - Optional rules of IPv6 packets. For example, you can keep RA, RS and so on off of the wireless network. Valid values: `drop-icmp6ra` `drop-icmp6rs` `drop-llmnr6` `drop-icmp6mld2` `drop-dhcp6s` `drop-dhcp6c` `ndp-proxy` `drop-ns-dad` `drop-ns-nondad` .
 * `key` - WEP Key.
 * `keyindex` - WEP key index (1 - 4).
+* `l3_roaming` - Enable/disable layer 3 roaming (default = disable). Valid values: `enable` `disable` .
 * `ldpc` - VAP low-density parity-check (LDPC) coding configuration. Valid values: `disable` `rx` `tx` `rxtx` .
 * `local_authentication` - Enable/disable AP local authentication. Valid values: `enable` `disable` .
 * `local_bridging` - Enable/disable bridging of wireless and Ethernet interfaces on the FortiAP (default = disable). Valid values: `enable` `disable` .

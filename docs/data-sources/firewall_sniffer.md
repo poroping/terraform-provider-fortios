@@ -29,6 +29,8 @@ The following attributes are exported:
 * `application_list_status` - Enable/disable application control profile.
 * `av_profile` - Name of an existing antivirus profile.
 * `av_profile_status` - Enable/disable antivirus profile.
+* `dlp_profile` - Name of an existing DLP profile.
+* `dlp_profile_status` - Enable/disable DLP profile.
 * `dlp_sensor` - Name of an existing DLP sensor.
 * `dlp_sensor_status` - Enable/disable DLP sensor.
 * `dsri` - Enable/disable DSRI.

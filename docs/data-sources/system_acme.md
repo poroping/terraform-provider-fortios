@@ -24,6 +24,8 @@ Use this data source to get information on a fortios Configure ACME client.
 
 The following attributes are exported:
 
+* `source_ip` - Source IPv4 address used to connect to the ACME server.
+* `source_ip6` - Source IPv6 address used to connect to the ACME server.
 * `accounts` - ACME accounts list.The structure of `accounts` block is documented below.
 
 The `accounts` block contains:

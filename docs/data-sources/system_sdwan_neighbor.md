@@ -27,7 +27,12 @@ The following attributes are exported:
 
 * `health_check` - SD-WAN health-check name.
 * `ip` - IP/IPv6 address of neighbor.
-* `member` - Member sequence number.
+* `minimum_sla_meet_members` - Minimum number of members which meet SLA when the neighbor is preferred.
 * `mode` - What metric to select the neighbor.
 * `role` - Role of neighbor.
 * `sla_id` - SLA ID.
+* `member` - Member sequence number list.The structure of `member` block is documented below.
+
+The `member` block contains:
+
+* `seq_num` - Member sequence number.

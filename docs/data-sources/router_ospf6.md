@@ -33,6 +33,9 @@ The following attributes are exported:
 * `default_information_route_map` - Default information route map.
 * `default_metric` - Default metric of redistribute routes.
 * `log_neighbour_changes` - Log OSPFv3 neighbor changes.
+* `restart_mode` - OSPFv3 restart mode (graceful or none).
+* `restart_on_topology_change` - Enable/disable continuing graceful restart upon topology change.
+* `restart_period` - Graceful restart period in seconds.
 * `router_id` - A.B.C.D, in IPv4 address format.
 * `spf_timers` - SPF calculation frequency.
 * `area` - OSPF6 area configuration.The structure of `area` block is documented below.

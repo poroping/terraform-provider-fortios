@@ -72,6 +72,12 @@ The following attributes are exported:
 * `dns_server_protocol` - DNS transport protocols.
 * `drop_fragment` - Enable/disable drop fragment packets.
 * `drop_overlapped_fragment` - Enable/disable drop overlapped fragment packets.
+* `eap_ca_cert` - EAP CA certificate name.
+* `eap_identity` - EAP identity.
+* `eap_method` - EAP method.
+* `eap_password` - EAP password.
+* `eap_supplicant` - Enable/disable EAP-Supplicant.
+* `eap_user_cert` - EAP user certificate name.
 * `egress_cos` - Override outgoing CoS in user VLAN tag.
 * `egress_shaping_profile` - Outgoing traffic shaping profile.
 * `eip` - External IP.
@@ -96,6 +102,7 @@ The following attributes are exported:
 * `icmp_send_redirect` - Enable/disable sending of ICMP redirects.
 * `ident_accept` - Enable/disable authentication for this interface.
 * `idle_timeout` - PPPoE auto disconnect after idle timeout seconds, 0 means no timeout.
+* `ike_saml_server` - Configure IKE authentication SAML server.
 * `inbandwidth` - Bandwidth limit for incoming traffic (0 - 16776000 kbps), 0 means unlimited.
 * `ingress_cos` - Override incoming CoS in user VLAN tag on VLAN interface or assign a priority VLAN tag on physical interface.
 * `ingress_shaping_profile` - Incoming traffic shaping profile.

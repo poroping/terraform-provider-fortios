@@ -29,6 +29,7 @@ Configure proxy policies.
 * `decrypted_traffic_mirror` - Decrypted traffic mirror. This attribute must reference one of the following datasources: `firewall.decrypted-traffic-mirror.name` .
 * `device_ownership` - When enabled, the ownership enforcement will be done at policy level. Valid values: `enable` `disable` .
 * `disclaimer` - Web proxy disclaimer setting: by domain, policy, or user. Valid values: `disable` `domain` `policy` `user` .
+* `dlp_profile` - Name of an existing DLP profile. This attribute must reference one of the following datasources: `dlp.profile.name` .
 * `dlp_sensor` - Name of an existing DLP sensor. This attribute must reference one of the following datasources: `dlp.sensor.name` .
 * `dstaddr_negate` - When enabled, destination addresses match against any address EXCEPT the specified destination addresses. Valid values: `enable` `disable` .
 * `emailfilter_profile` - Name of an existing email filter profile. This attribute must reference one of the following datasources: `emailfilter.profile.name` .

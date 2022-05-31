@@ -27,6 +27,7 @@ The following attributes are exported:
 
 * `events` - SNMP trap events.
 * `id` - Community ID.
+* `mib_view` - SNMP access control MIB view.
 * `name` - Community name.
 * `query_v1_port` - SNMP v1 query port (default = 161).
 * `query_v1_status` - Enable/disable SNMP v1 queries.
@@ -57,3 +58,8 @@ The `hosts6` block contains:
 * `id` - Host6 entry ID.
 * `ipv6` - SNMP manager IPv6 address prefix.
 * `source_ipv6` - Source IPv6 address for SNMP traps.
+* `vdoms` - SNMP access control VDOMs.The structure of `vdoms` block is documented below.
+
+The `vdoms` block contains:
+
+* `name` - VDOM name

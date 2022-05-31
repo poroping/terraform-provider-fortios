@@ -20,6 +20,7 @@ Client.
 * `allow_append` - If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution! Requires `name` to be defined.
 
 * `certificate` - Certificate to offer to SSL-VPN server if it requests one. This attribute must reference one of the following datasources: `vpn.certificate.local.name` .
+* `class_id` - Traffic class ID. This attribute must reference one of the following datasources: `firewall.traffic-class.class-id` .
 * `comment` - Comment.
 * `distance` - Distance for routes added by SSL-VPN (1 - 255).
 * `interface` - SSL interface to send/receive traffic over. This attribute must reference one of the following datasources: `system.interface.name` .

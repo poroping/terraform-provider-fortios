@@ -29,6 +29,8 @@ The following attributes are exported:
 * `account_key_processing` - Account key processing operation, either keep or strip domain string of UPN in the token.
 * `antiphish` - Enable/disable AntiPhishing credential backend.
 * `ca_cert` - CA certificate name.
+* `client_cert` - Client certificate name.
+* `client_cert_auth` - Enable/disable using client certificate for TLS authentication.
 * `cnid` - Common name identifier for the LDAP server. The common name identifier for most LDAP servers is "cn".
 * `dn` - Distinguished name used to look up entries on the LDAP server.
 * `group_filter` - Filter used for group matching.

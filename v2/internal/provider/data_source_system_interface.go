@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -318,6 +318,37 @@ func dataSourceSystemInterface() *schema.Resource {
 				Description: "Enable/disable drop overlapped fragment packets.",
 				Computed:    true,
 			},
+			"eap_ca_cert": {
+				Type:        schema.TypeString,
+				Description: "EAP CA certificate name.",
+				Computed:    true,
+			},
+			"eap_identity": {
+				Type:        schema.TypeString,
+				Description: "EAP identity.",
+				Computed:    true,
+			},
+			"eap_method": {
+				Type:        schema.TypeString,
+				Description: "EAP method.",
+				Computed:    true,
+			},
+			"eap_password": {
+				Type:        schema.TypeString,
+				Description: "EAP password.",
+				Computed:    true,
+				Sensitive:   true,
+			},
+			"eap_supplicant": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable EAP-Supplicant.",
+				Computed:    true,
+			},
+			"eap_user_cert": {
+				Type:        schema.TypeString,
+				Description: "EAP user certificate name.",
+				Computed:    true,
+			},
 			"egress_cos": {
 				Type:        schema.TypeString,
 				Description: "Override outgoing CoS in user VLAN tag.",
@@ -499,6 +530,11 @@ func dataSourceSystemInterface() *schema.Resource {
 			"idle_timeout": {
 				Type:        schema.TypeInt,
 				Description: "PPPoE auto disconnect after idle timeout seconds, 0 means no timeout.",
+				Computed:    true,
+			},
+			"ike_saml_server": {
+				Type:        schema.TypeString,
+				Description: "Configure IKE authentication SAML server.",
 				Computed:    true,
 			},
 			"inbandwidth": {

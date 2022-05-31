@@ -27,6 +27,7 @@ The following attributes are exported:
 * `email` - Notifier email address.
 * `enc_algorithm` - Configure the level of SSL protection for secure communication with FortiSandbox.
 * `forticloud` - Enable/disable FortiSandbox Cloud.
+* `inline_scan` - Enable/disable FortiSandbox inline scan.
 * `interface` - Specify outgoing interface to reach server.
 * `interface_select_method` - Specify how to select outgoing interface to reach server.
 * `server` - Server address of the remote FortiSandbox.

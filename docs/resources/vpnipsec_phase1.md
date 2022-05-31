@@ -102,6 +102,7 @@ Configure VPN remote gateway.
 * `mesh_selector_type` - Add selectors containing subsets of the configuration depending on traffic. Valid values: `disable` `subnet` `host` .
 * `mode` - ID protection mode used to establish a secure channel. Valid values: `aggressive` `main` .
 * `mode_cfg` - Enable/disable configuration method. Valid values: `disable` `enable` .
+* `mode_cfg_allow_client_selector` - Enable/disable mode-cfg client to use custom phase2 selectors. Valid values: `disable` `enable` .
 * `name` - IPsec remote gateway name.
 * `nattraversal` - Enable/disable NAT traversal. Valid values: `enable` `disable` `forced` .
 * `negotiate_timeout` - IKE SA negotiation timeout in seconds (1 - 300).

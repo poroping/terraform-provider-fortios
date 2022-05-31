@@ -61,6 +61,7 @@ Configure FortiGuard services.
 * `update_ffdb` - Enable/disable Internet Service Database update. Valid values: `enable` `disable` .
 * `update_server_location` - Location from which to receive FortiGuard updates. Valid values: `automatic` `usa` `eu` .
 * `update_uwdb` - Enable/disable allowlist update. Valid values: `enable` `disable` .
+* `vdom` - FortiGuard Service virtual domain name. This attribute must reference one of the following datasources: `system.vdom.name` .
 * `videofilter_expiration` - Expiration date of the FortiGuard video filter contract.
 * `videofilter_license` - Interval of time between license checks for the FortiGuard video filter contract.
 * `webfilter_cache` - Enable/disable FortiGuard web filter caching. Valid values: `enable` `disable` .

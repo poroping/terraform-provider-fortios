@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -116,6 +116,14 @@ func resourceEndpointControlFctems() *schema.Resource {
 				Description: "FortiClient Enterprise Management Server (EMS) name.",
 				ForceNew:    true,
 				Required:    true,
+			},
+			"out_of_sync_threshold": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(10, 3600),
+
+				Description: "Outdated resource threshold in seconds (10 - 3600, default = 180).",
+				Optional:    true,
+				Computed:    true,
 			},
 			"preserve_ssl_session": {
 				Type:         schema.TypeString,
@@ -438,6 +446,14 @@ func refreshObjectEndpointControlFctems(d *schema.ResourceData, o *models.Endpoi
 		}
 	}
 
+	if o.OutOfSyncThreshold != nil {
+		v := *o.OutOfSyncThreshold
+
+		if err = d.Set("out_of_sync_threshold", v); err != nil {
+			return diag.Errorf("error reading out_of_sync_threshold: %v", err)
+		}
+	}
+
 	if o.PreserveSslSession != nil {
 		v := *o.PreserveSslSession
 
@@ -614,6 +630,16 @@ func getObjectEndpointControlFctems(d *schema.ResourceData, sv string) (*models.
 				diags = append(diags, e)
 			}
 			obj.Name = &v2
+		}
+	}
+	if v1, ok := d.GetOk("out_of_sync_threshold"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("out_of_sync_threshold", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.OutOfSyncThreshold = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("preserve_ssl_session"); ok {

@@ -45,6 +45,7 @@ The following attributes are exported:
 * `diffservcode_forward` - Change packet's DiffServ to this value.
 * `diffservcode_rev` - Change packet's reverse (reply) DiffServ to this value.
 * `disclaimer` - Enable/disable user authentication disclaimer.
+* `dlp_profile` - Name of an existing DLP profile.
 * `dlp_sensor` - Name of an existing DLP sensor.
 * `dnsfilter_profile` - Name of an existing DNS filter profile.
 * `dsri` - Enable DSRI to ignore HTTP server responses.
@@ -90,6 +91,8 @@ The following attributes are exported:
 * `per_ip_shaper` - Per-IP traffic shaper.
 * `permit_any_host` - Accept UDP packets from any host.
 * `permit_stun_host` - Accept UDP packets from any Session Traversal Utilities for NAT (STUN) host.
+* `policy_expiry` - Enable/disable policy expiry.
+* `policy_expiry_date` - Policy expiry date (YYYY-MM-DD HH:MM:SS).
 * `policyid` - Policy ID (0 - 4294967294).
 * `profile_group` - Name of profile group.
 * `profile_protocol_options` - Name of an existing Protocol options profile.

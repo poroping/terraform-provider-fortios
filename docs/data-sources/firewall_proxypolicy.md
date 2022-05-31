@@ -34,6 +34,7 @@ The following attributes are exported:
 * `decrypted_traffic_mirror` - Decrypted traffic mirror.
 * `device_ownership` - When enabled, the ownership enforcement will be done at policy level.
 * `disclaimer` - Web proxy disclaimer setting: by domain, policy, or user.
+* `dlp_profile` - Name of an existing DLP profile.
 * `dlp_sensor` - Name of an existing DLP sensor.
 * `dstaddr_negate` - When enabled, destination addresses match against any address EXCEPT the specified destination addresses.
 * `emailfilter_profile` - Name of an existing email filter profile.

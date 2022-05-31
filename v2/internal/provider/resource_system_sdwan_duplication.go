@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -159,6 +159,14 @@ func resourceSystemSdwanDuplication() *schema.Resource {
 						},
 					},
 				},
+			},
+			"sla_match_service": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable packet duplication matching health-check SLAs in service rule.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"srcaddr": {
 				Type:        schema.TypeList,
@@ -425,6 +433,14 @@ func refreshObjectSystemSdwanDuplication(d *schema.ResourceData, o *models.Syste
 		}
 	}
 
+	if o.SlaMatchService != nil {
+		v := *o.SlaMatchService
+
+		if err = d.Set("sla_match_service", v); err != nil {
+			return diag.Errorf("error reading sla_match_service: %v", err)
+		}
+	}
+
 	if o.Srcaddr != nil {
 		if err = d.Set("srcaddr", flattenSystemSdwanDuplicationSrcaddr(d, o.Srcaddr, "srcaddr", sort)); err != nil {
 			return diag.Errorf("error reading srcaddr: %v", err)
@@ -561,6 +577,15 @@ func getObjectSystemSdwanDuplication(d *schema.ResourceData, sv string) (*models
 		old, new := d.GetChange("service_id")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
 			obj.ServiceId = &[]models.SystemSdwanDuplicationServiceId{}
+		}
+	}
+	if v1, ok := d.GetOk("sla_match_service"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("sla_match_service", sv)
+				diags = append(diags, e)
+			}
+			obj.SlaMatchService = &v2
 		}
 	}
 	if v, ok := d.GetOk("srcaddr"); ok {

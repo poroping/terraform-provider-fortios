@@ -23,7 +23,7 @@ Configure SD-WAN zones.
 * `allow_append` - If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution! Requires `name` to be defined.
 
 * `name` - Zone name.
-* `service_sla_tie_break` - Method of selecting member if more than one meets the SLA. Valid values: `cfg-order` `fib-best-match` .
+* `service_sla_tie_break` - Method of selecting member if more than one meets the SLA. Valid values: `cfg-order` `fib-best-match` `input-device` .
 
 ## Attribute Reference
 

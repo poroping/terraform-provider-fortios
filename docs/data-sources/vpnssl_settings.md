@@ -29,6 +29,7 @@ The following attributes are exported:
 * `auth_timeout` - SSL-VPN authentication timeout (1 - 259200 sec (3 days), 0 for no timeout).
 * `auto_tunnel_static_route` - Enable/disable to auto-create static routes for the SSL-VPN tunnel IP addresses.
 * `banned_cipher` - Select one or more cipher technologies that cannot be used in SSL-VPN negotiations. Only applies to TLS 1.2 and below.
+* `browser_language_detection` - Enable/disable overriding the configured system language based on the preferred language of the browser.
 * `check_referer` - Enable/disable verification of referer field in HTTP request header.
 * `ciphersuite` - Select one or more TLS 1.3 ciphersuites to enable. Does not affect ciphers in TLS 1.2 and below. At least one must be enabled. To disable all, set ssl-max-proto-ver to tls1-2 or below.
 * `client_sigalgs` - Set signature algorithms related to client authentication. Affects TLS version <= 1.2 only.
@@ -85,6 +86,7 @@ The following attributes are exported:
 * `unsafe_legacy_renegotiation` - Enable/disable unsafe legacy re-negotiation.
 * `url_obscuration` - Enable/disable to obscure the host name of the URL of the web browser display.
 * `user_peer` - Name of user peer.
+* `web_mode_snat` - Enable/disable use of IP pools defined in firewall policy while using web-mode.
 * `wins_server1` - WINS server 1.
 * `wins_server2` - WINS server 2.
 * `x_content_type_options` - Add HTTP X-Content-Type-Options header.

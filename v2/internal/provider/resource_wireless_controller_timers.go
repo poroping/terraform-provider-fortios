@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -38,11 +38,27 @@ func resourceWirelessControllerTimers() *schema.Resource {
 				Optional:    true,
 				ForceNew:    true,
 			},
+			"auth_timeout": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(5, 30),
+
+				Description: "Time after which a client is considered failed in RADIUS authentication and times out (5 - 30 sec, default = 5).",
+				Optional:    true,
+				Computed:    true,
+			},
 			"ble_scan_report_intv": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(10, 3600),
 
 				Description: "Time between running Bluetooth Low Energy (BLE) reports (10 - 3600 sec, default = 30).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"client_idle_rehome_timeout": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(2, 3600),
+
+				Description: "Time after which a client is considered idle and disconnected from the home controller (2 - 3600 sec, default = 20, 0 for no timeout).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -99,6 +115,13 @@ func resourceWirelessControllerTimers() *schema.Resource {
 				ValidateFunc: validation.IntBetween(1, 255),
 
 				Description: "Time between running radio reports (1 - 255 sec, default = 15).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"rogue_ap_cleanup": {
+				Type: schema.TypeInt,
+
+				Description: "Time period in minutes to keep rogue AP after it is gone (default = 0).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -298,11 +321,27 @@ func resourceWirelessControllerTimersRead(ctx context.Context, d *schema.Resourc
 func refreshObjectWirelessControllerTimers(d *schema.ResourceData, o *models.WirelessControllerTimers, sv string, sort bool) diag.Diagnostics {
 	var err error
 
+	if o.AuthTimeout != nil {
+		v := *o.AuthTimeout
+
+		if err = d.Set("auth_timeout", v); err != nil {
+			return diag.Errorf("error reading auth_timeout: %v", err)
+		}
+	}
+
 	if o.BleScanReportIntv != nil {
 		v := *o.BleScanReportIntv
 
 		if err = d.Set("ble_scan_report_intv", v); err != nil {
 			return diag.Errorf("error reading ble_scan_report_intv: %v", err)
+		}
+	}
+
+	if o.ClientIdleRehomeTimeout != nil {
+		v := *o.ClientIdleRehomeTimeout
+
+		if err = d.Set("client_idle_rehome_timeout", v); err != nil {
+			return diag.Errorf("error reading client_idle_rehome_timeout: %v", err)
 		}
 	}
 
@@ -362,6 +401,14 @@ func refreshObjectWirelessControllerTimers(d *schema.ResourceData, o *models.Wir
 		}
 	}
 
+	if o.RogueApCleanup != nil {
+		v := *o.RogueApCleanup
+
+		if err = d.Set("rogue_ap_cleanup", v); err != nil {
+			return diag.Errorf("error reading rogue_ap_cleanup: %v", err)
+		}
+	}
+
 	if o.RogueApLog != nil {
 		v := *o.RogueApLog
 
@@ -409,6 +456,16 @@ func getObjectWirelessControllerTimers(d *schema.ResourceData, sv string) (*mode
 	obj := models.WirelessControllerTimers{}
 	diags := diag.Diagnostics{}
 
+	if v1, ok := d.GetOk("auth_timeout"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("auth_timeout", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.AuthTimeout = &tmp
+		}
+	}
 	if v1, ok := d.GetOk("ble_scan_report_intv"); ok {
 		if v2, ok := v1.(int); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -417,6 +474,16 @@ func getObjectWirelessControllerTimers(d *schema.ResourceData, sv string) (*mode
 			}
 			tmp := int64(v2)
 			obj.BleScanReportIntv = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("client_idle_rehome_timeout"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("client_idle_rehome_timeout", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.ClientIdleRehomeTimeout = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("client_idle_timeout"); ok {
@@ -487,6 +554,16 @@ func getObjectWirelessControllerTimers(d *schema.ResourceData, sv string) (*mode
 			}
 			tmp := int64(v2)
 			obj.RadioStatsInterval = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("rogue_ap_cleanup"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("rogue_ap_cleanup", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.RogueApCleanup = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("rogue_ap_log"); ok {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -29,6 +29,26 @@ func dataSourceIcapServer() *schema.Resource {
 				Description: "Specifies the vdom to which the dataSource will be applied when the FortiGate unit is running in VDOM mode. If you want to inherit the VDOM configuration of the provider, do not set this parameter.",
 				Optional:    true,
 				ForceNew:    true,
+			},
+			"addr_type": {
+				Type:        schema.TypeString,
+				Description: "Address type of the remote ICAP server: IPv4, IPv6 or FQDN.",
+				Computed:    true,
+			},
+			"fqdn": {
+				Type:        schema.TypeString,
+				Description: "ICAP remote server Fully Qualified Domain Name (FQDN).",
+				Computed:    true,
+			},
+			"healthcheck": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable ICAP remote server health checking. Attempts to connect to the remote ICAP server to verify that the server is operating normally.",
+				Computed:    true,
+			},
+			"healthcheck_service": {
+				Type:        schema.TypeString,
+				Description: "ICAP Service name to use for health checks.",
+				Computed:    true,
 			},
 			"ip_address": {
 				Type:        schema.TypeString,

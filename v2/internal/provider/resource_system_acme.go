@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -16,6 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"github.com/poroping/forti-sdk-go/v2/models"
+	"github.com/poroping/terraform-provider-fortios/v2/suppressors"
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
@@ -118,6 +119,22 @@ func resourceSystemAcme() *schema.Resource {
 						},
 					},
 				},
+			},
+			"source_ip": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.IsIPv4Address,
+
+				Description: "Source IPv4 address used to connect to the ACME server.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"source_ip6": {
+				Type:             schema.TypeString,
+				ValidateFunc:     validation.IsIPv6Address,
+				DiffSuppressFunc: suppressors.DiffIPEqual,
+				Description:      "Source IPv6 address used to connect to the ACME server.",
+				Optional:         true,
+				Computed:         true,
 			},
 		},
 	}
@@ -351,6 +368,22 @@ func refreshObjectSystemAcme(d *schema.ResourceData, o *models.SystemAcme, sv st
 		}
 	}
 
+	if o.SourceIp != nil {
+		v := *o.SourceIp
+
+		if err = d.Set("source_ip", v); err != nil {
+			return diag.Errorf("error reading source_ip: %v", err)
+		}
+	}
+
+	if o.SourceIp6 != nil {
+		v := *o.SourceIp6
+
+		if err = d.Set("source_ip6", v); err != nil {
+			return diag.Errorf("error reading source_ip6: %v", err)
+		}
+	}
+
 	return nil
 }
 
@@ -473,6 +506,24 @@ func getObjectSystemAcme(d *schema.ResourceData, sv string) (*models.SystemAcme,
 		old, new := d.GetChange("interface")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
 			obj.Interface = &[]models.SystemAcmeInterface{}
+		}
+	}
+	if v1, ok := d.GetOk("source_ip"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("source_ip", sv)
+				diags = append(diags, e)
+			}
+			obj.SourceIp = &v2
+		}
+	}
+	if v1, ok := d.GetOk("source_ip6"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("source_ip6", sv)
+				diags = append(diags, e)
+			}
+			obj.SourceIp6 = &v2
 		}
 	}
 	return &obj, diags

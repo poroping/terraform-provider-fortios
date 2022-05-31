@@ -33,9 +33,10 @@ The `entries` block contains:
 * `id` - Entry ID.
 * `ip4_subnet` - IPv4 network address/subnet mask bits.
 * `ip6_subnet` - IPv6 network address/subnet mask bits.
+* `pattern` - Pattern to match.
 * `pattern_type` - Wildcard pattern or regular expression. Valid values: `wildcard` `regexp` .
 * `status` - Enable/disable status. Valid values: `enable` `disable` .
-* `type` - Entry type. Valid values: `ip` `email` .
+* `type` - Entry type. Valid values: `ip` `email-to` `email-from` `subject` .
 
 ## Attribute Reference
 

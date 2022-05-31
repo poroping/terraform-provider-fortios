@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -187,6 +187,11 @@ func dataSourceSystemGlobal() *schema.Resource {
 			"auth_https_port": {
 				Type:        schema.TypeInt,
 				Description: "User authentication HTTPS port. (1 - 65535, default = 1003).",
+				Computed:    true,
+			},
+			"auth_ike_saml_port": {
+				Type:        schema.TypeInt,
+				Description: "User IKE SAML authentication port (0 - 65535, default = 1001).",
 				Computed:    true,
 			},
 			"auth_keepalive": {
@@ -502,6 +507,11 @@ func dataSourceSystemGlobal() *schema.Resource {
 			"gui_wireless_opensecurity": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable wireless open security option on the GUI.",
+				Computed:    true,
+			},
+			"gui_workflow_management": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable Workflow management features on the GUI.",
 				Computed:    true,
 			},
 			"ha_affinity": {

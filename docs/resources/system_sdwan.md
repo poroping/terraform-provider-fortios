@@ -45,6 +45,7 @@ The `duplication` block contains:
 * `id` - Duplication rule ID (1 - 255).
 * `packet_de_duplication` - Enable/disable discarding of packets that have been duplicated. Valid values: `enable` `disable` .
 * `packet_duplication` - Configure packet duplication method. Valid values: `disable` `force` `on-demand` .
+* `sla_match_service` - Enable/disable packet duplication matching health-check SLAs in service rule. Valid values: `enable` `disable` .
 * `dstaddr` - Destination address or address group names. The structure of `dstaddr` block is documented below.
 
 The `dstaddr` block contains:
@@ -107,6 +108,7 @@ The `health_check` block contains:
 * `http_get` - URL used to communicate with the server if the protocol if the protocol is HTTP.
 * `http_match` - Response string expected from the server if the protocol is HTTP.
 * `interval` - Status check interval in milliseconds, or the time between attempting to connect to the server (500 - 3600*1000 msec, default = 500).
+* `mos_codec` - Codec to use for MOS calculation (default = g711). Valid values: `g711` `g722` `g729` .
 * `name` - Status check or health check name.
 * `packet_size` - Packet size of a TWAMP test session.
 * `password` - TWAMP controller password in authentication mode.
@@ -121,6 +123,7 @@ The `health_check` block contains:
 * `server` - IP address or FQDN name of the server.
 * `sla_fail_log_period` - Time interval in seconds that SLA fail log messages will be generated (0 - 3600, default = 0).
 * `sla_pass_log_period` - Time interval in seconds that SLA pass log messages will be generated (0 - 3600, default = 0).
+* `source` - Source IP address used in the health-check packet to the server.
 * `system_dns` - Enable/disable system DNS as the probe server. Valid values: `disable` `enable` .
 * `threshold_alert_jitter` - Alert threshold for jitter (ms, default = 0).
 * `threshold_alert_latency` - Alert threshold for latency (ms, default = 0).
@@ -131,6 +134,7 @@ The `health_check` block contains:
 * `update_cascade_interface` - Enable/disable update cascade interface. Valid values: `enable` `disable` .
 * `update_static_route` - Enable/disable updating the static route. Valid values: `enable` `disable` .
 * `user` - The user name to access probe server.
+* `vrf` - Virtual Routing Forwarding ID.
 * `members` - Member sequence number list. The structure of `members` block is documented below.
 
 The `members` block contains:
@@ -143,7 +147,8 @@ The `sla` block contains:
 * `id` - SLA ID.
 * `jitter_threshold` - Jitter for SLA to make decision in milliseconds. (0 - 10000000, default = 5).
 * `latency_threshold` - Latency for SLA to make decision in milliseconds. (0 - 10000000, default = 5).
-* `link_cost_factor` - Criteria on which to base link selection. Valid values: `latency` `jitter` `packet-loss` .
+* `link_cost_factor` - Criteria on which to base link selection. Valid values: `latency` `jitter` `packet-loss` `mos` .
+* `mos_threshold` - Minimum Mean Opinion Score for SLA to be marked as pass. (1.0 - 5.0, default = 3.6).
 * `packetloss_threshold` - Packet loss for SLA to make decision in percentage. (0 - 100, default = 0).
 * `members` - FortiGate interfaces added to the SD-WAN. The structure of `members` block is documented below.
 
@@ -171,10 +176,15 @@ The `neighbor` block contains:
 
 * `health_check` - SD-WAN health-check name. This attribute must reference one of the following datasources: `system.sdwan.health-check.name` .
 * `ip` - IP/IPv6 address of neighbor. This attribute must reference one of the following datasources: `router.bgp.neighbor.ip` .
-* `member` - Member sequence number. This attribute must reference one of the following datasources: `system.sdwan.members.seq-num` .
+* `minimum_sla_meet_members` - Minimum number of members which meet SLA when the neighbor is preferred.
 * `mode` - What metric to select the neighbor. Valid values: `sla` `speedtest` .
 * `role` - Role of neighbor. Valid values: `standalone` `primary` `secondary` .
 * `sla_id` - SLA ID.
+* `member` - Member sequence number list. The structure of `member` block is documented below.
+
+The `member` block contains:
+
+* `seq_num` - Member sequence number. This attribute must reference one of the following datasources: `system.sdwan.members.seq-num` .
 * `service` - Create SD-WAN rules (also called services) to control how sessions are distributed to interfaces in the SD-WAN. The structure of `service` block is documented below.
 
 The `service` block contains:
@@ -212,7 +222,7 @@ The `service` block contains:
 * `standalone_action` - Enable/disable service when selected neighbor role is standalone while service role is not standalone. Valid values: `enable` `disable` .
 * `start_port` - Start destination port number.
 * `status` - Enable/disable SD-WAN service. Valid values: `enable` `disable` .
-* `tie_break` - Method of selecting member if more than one meets the SLA. Valid values: `zone` `cfg-order` `fib-best-match` .
+* `tie_break` - Method of selecting member if more than one meets the SLA. Valid values: `zone` `cfg-order` `fib-best-match` `input-device` .
 * `tos` - Type of service bit pattern.
 * `tos_mask` - Type of service evaluated bits.
 * `use_shortcut_sla` - Enable/disable use of ADVPN shortcut for quality comparison. Valid values: `enable` `disable` .
@@ -241,11 +251,21 @@ The `health_check` block contains:
 The `input_device` block contains:
 
 * `name` - Interface name. This attribute must reference one of the following datasources: `system.interface.name` .
+* `input_zone` - Source input-zone name. The structure of `input_zone` block is documented below.
+
+The `input_zone` block contains:
+
+* `name` - Zone. This attribute must reference one of the following datasources: `system.sdwan.zone.name` .
 * `internet_service_app_ctrl` - Application control based Internet Service ID list. The structure of `internet_service_app_ctrl` block is documented below.
 
 The `internet_service_app_ctrl` block contains:
 
 * `id` - Application control based Internet Service ID.
+* `internet_service_app_ctrl_category` - IDs of one or more application control categories. The structure of `internet_service_app_ctrl_category` block is documented below.
+
+The `internet_service_app_ctrl_category` block contains:
+
+* `id` - Application control category ID.
 * `internet_service_app_ctrl_group` - Application control based Internet Service group list. The structure of `internet_service_app_ctrl_group` block is documented below.
 
 The `internet_service_app_ctrl_group` block contains:
@@ -307,7 +327,7 @@ The `users` block contains:
 The `zone` block contains:
 
 * `name` - Zone name.
-* `service_sla_tie_break` - Method of selecting member if more than one meets the SLA. Valid values: `cfg-order` `fib-best-match` .
+* `service_sla_tie_break` - Method of selecting member if more than one meets the SLA. Valid values: `cfg-order` `fib-best-match` `input-device` .
 
 ## Attribute Reference
 

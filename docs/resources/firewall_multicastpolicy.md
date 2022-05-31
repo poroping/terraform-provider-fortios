@@ -35,6 +35,7 @@ Configure multicast NAT policies.
 * `srcintf` - Source interface name. This attribute must reference one of the following datasources: `system.interface.name` `system.zone.name` .
 * `start_port` - Integer value for starting TCP/UDP/SCTP destination port in range (1 - 65535, default = 1).
 * `status` - Enable/disable this policy. Valid values: `enable` `disable` .
+* `traffic_shaper` - Traffic shaper to apply to traffic forwarded by the multicast policy. This attribute must reference one of the following datasources: `firewall.shaper.traffic-shaper.name` .
 * `uuid` - Universally Unique Identifier (UUID; automatically assigned but can be manually reset).
 * `dstaddr` - Destination address objects. The structure of `dstaddr` block is documented below.
 

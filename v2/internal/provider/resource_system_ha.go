@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -113,7 +113,7 @@ func resourceSystemHa() *schema.Resource {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 1023),
 
-				Description: "HA group ID  (0 - 1023). Must be the same for all members.",
+				Description: "HA group ID  (0 - 1023;  or 0 - 7 when vcluster is enabled). Must be the same for all members.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -405,7 +405,7 @@ func resourceSystemHa() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
-				Description: "Enable and increase the priority of the unit that should always be primary.",
+				Description: "Enable and increase the priority of the unit that should always be primary (master).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -761,9 +761,9 @@ func resourceSystemHa() *schema.Resource {
 			},
 			"uninterruptible_primary_wait": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(1, 300),
+				ValidateFunc: validation.IntBetween(15, 300),
 
-				Description: "Number of minutes the primary HA unit waits before the secondary HA unit is considered upgraded and the system is started before starting its own upgrade (1 - 300, default = 30).",
+				Description: "Number of minutes the primary HA unit waits before the secondary HA unit is considered upgraded and the system is started before starting its own upgrade (15 - 300, default = 30).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -775,11 +775,109 @@ func resourceSystemHa() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"vcluster": {
+				Type:        schema.TypeList,
+				Description: "Virtual cluster table.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"monitor": {
+							Type: schema.TypeString,
+
+							DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+							Description:      "Interfaces to check for port monitoring (or link failure).",
+							Optional:         true,
+							Computed:         true,
+						},
+						"override": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+							Description: "Enable and increase the priority of the unit that should always be primary (master).",
+							Optional:    true,
+							Computed:    true,
+						},
+						"override_wait_time": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(0, 3600),
+
+							Description: "Delay negotiating if override is enabled (0 - 3600 sec). Reduces how often the cluster negotiates.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"pingserver_failover_threshold": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(0, 50),
+
+							Description: "Remote IP monitoring failover threshold (0 - 50).",
+							Optional:    true,
+							Computed:    true,
+						},
+						"pingserver_monitor_interface": {
+							Type: schema.TypeString,
+
+							DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+							Description:      "Interfaces to check for remote IP monitoring.",
+							Optional:         true,
+							Computed:         true,
+						},
+						"pingserver_slave_force_reset": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+							Description: "Enable to force the cluster to negotiate after a remote IP monitoring failover.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"priority": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(0, 255),
+
+							Description: "Increase the priority to select the primary unit (0 - 255).",
+							Optional:    true,
+							Computed:    true,
+						},
+						"vcluster_id": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(1, 30),
+
+							Description: "ID.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"vdom": {
+							Type:        schema.TypeList,
+							Description: "Virtual domain(s) in the virtual cluster.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"name": {
+										Type:         schema.TypeString,
+										ValidateFunc: validation.StringLenBetween(0, 79),
+
+										Description: "Virtual domain name.",
+										Optional:    true,
+										Computed:    true,
+									},
+								},
+							},
+						},
+					},
+				},
+			},
 			"vcluster_id": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 255),
 
 				Description: "Cluster ID.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"vcluster_status": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable virtual cluster for virtual clustering.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -801,7 +899,7 @@ func resourceSystemHa() *schema.Resource {
 			"weight": {
 				Type: schema.TypeString,
 
-				Description: "Weighted round robin weight for each cluster unit. Syntax <priority> <weight>.",
+				Description: "Weight-round-robin weight for each cluster unit. Syntax <priority> <weight>.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1074,6 +1172,82 @@ func flattenSystemHaUnicastPeers(d *schema.ResourceData, v *[]models.SystemHaUni
 
 	if sort {
 		utils.SortSubtable(flat, "id")
+	}
+
+	return flat
+}
+
+func flattenSystemHaVcluster(d *schema.ResourceData, v *[]models.SystemHaVcluster, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Monitor; tmp != nil {
+				v["monitor"] = *tmp
+			}
+
+			if tmp := cfg.Override; tmp != nil {
+				v["override"] = *tmp
+			}
+
+			if tmp := cfg.OverrideWaitTime; tmp != nil {
+				v["override_wait_time"] = *tmp
+			}
+
+			if tmp := cfg.PingserverFailoverThreshold; tmp != nil {
+				v["pingserver_failover_threshold"] = *tmp
+			}
+
+			if tmp := cfg.PingserverMonitorInterface; tmp != nil {
+				v["pingserver_monitor_interface"] = *tmp
+			}
+
+			if tmp := cfg.PingserverSlaveForceReset; tmp != nil {
+				v["pingserver_slave_force_reset"] = *tmp
+			}
+
+			if tmp := cfg.Priority; tmp != nil {
+				v["priority"] = *tmp
+			}
+
+			if tmp := cfg.VclusterId; tmp != nil {
+				v["vcluster_id"] = *tmp
+			}
+
+			if tmp := cfg.Vdom; tmp != nil {
+				v["vdom"] = flattenSystemHaVclusterVdom(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "vdom"), sort)
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "vcluster_id")
+	}
+
+	return flat
+}
+
+func flattenSystemHaVclusterVdom(d *schema.ResourceData, v *[]models.SystemHaVclusterVdom, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Name; tmp != nil {
+				v["name"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "name")
 	}
 
 	return flat
@@ -1680,11 +1854,25 @@ func refreshObjectSystemHa(d *schema.ResourceData, o *models.SystemHa, sv string
 		}
 	}
 
+	if o.Vcluster != nil {
+		if err = d.Set("vcluster", flattenSystemHaVcluster(d, o.Vcluster, "vcluster", sort)); err != nil {
+			return diag.Errorf("error reading vcluster: %v", err)
+		}
+	}
+
 	if o.VclusterId != nil {
 		v := *o.VclusterId
 
 		if err = d.Set("vcluster_id", v); err != nil {
 			return diag.Errorf("error reading vcluster_id: %v", err)
+		}
+	}
+
+	if o.VclusterStatus != nil {
+		v := *o.VclusterStatus
+
+		if err = d.Set("vcluster_status", v); err != nil {
+			return diag.Errorf("error reading vcluster_status: %v", err)
 		}
 	}
 
@@ -1883,6 +2071,117 @@ func expandSystemHaUnicastPeers(d *schema.ResourceData, v interface{}, pre strin
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.PeerIp = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandSystemHaVcluster(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemHaVcluster, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.SystemHaVcluster
+
+	for i := range l {
+		tmp := models.SystemHaVcluster{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.monitor", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Monitor = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.override", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Override = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.override_wait_time", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.OverrideWaitTime = &v3
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.pingserver_failover_threshold", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PingserverFailoverThreshold = &v3
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.pingserver_monitor_interface", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.PingserverMonitorInterface = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.pingserver_slave_force_reset", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.PingserverSlaveForceReset = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.priority", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Priority = &v3
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.vcluster_id", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.VclusterId = &v3
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.vdom", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			v2, _ := expandSystemHaVclusterVdom(d, v1, pre_append, sv)
+			// if err != nil {
+			// 	v2 := &[]models.SystemHaVclusterVdom
+			// 	}
+			tmp.Vdom = v2
+
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandSystemHaVclusterVdom(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemHaVclusterVdom, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.SystemHaVclusterVdom
+
+	for i := range l {
+		tmp := models.SystemHaVclusterVdom{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Name = &v2
 			}
 		}
 
@@ -2335,7 +2634,7 @@ func getObjectSystemHa(d *schema.ResourceData, sv string) (*models.SystemHa, dia
 	}
 	if v1, ok := d.GetOk("pingserver_secondary_force_reset"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.3", "") {
+			if !utils.CheckVer(sv, "v6.4.3", "v7.2.0") {
 				e := utils.AttributeVersionWarning("pingserver_secondary_force_reset", sv)
 				diags = append(diags, e)
 			}
@@ -2410,7 +2709,7 @@ func getObjectSystemHa(d *schema.ResourceData, sv string) (*models.SystemHa, dia
 		}
 	}
 	if v, ok := d.GetOk("secondary_vcluster"); ok {
-		if !utils.CheckVer(sv, "", "") {
+		if !utils.CheckVer(sv, "", "v7.2.0") {
 			e := utils.AttributeVersionWarning("secondary_vcluster", sv)
 			diags = append(diags, e)
 		}
@@ -2615,9 +2914,26 @@ func getObjectSystemHa(d *schema.ResourceData, sv string) (*models.SystemHa, dia
 			obj.UninterruptibleUpgrade = &v2
 		}
 	}
+	if v, ok := d.GetOk("vcluster"); ok {
+		if !utils.CheckVer(sv, "v7.2.0", "") {
+			e := utils.AttributeVersionWarning("vcluster", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandSystemHaVcluster(d, v, "vcluster", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.Vcluster = t
+		}
+	} else if d.HasChange("vcluster") {
+		old, new := d.GetChange("vcluster")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.Vcluster = &[]models.SystemHaVcluster{}
+		}
+	}
 	if v1, ok := d.GetOk("vcluster_id"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.0") {
 				e := utils.AttributeVersionWarning("vcluster_id", sv)
 				diags = append(diags, e)
 			}
@@ -2625,9 +2941,18 @@ func getObjectSystemHa(d *schema.ResourceData, sv string) (*models.SystemHa, dia
 			obj.VclusterId = &tmp
 		}
 	}
+	if v1, ok := d.GetOk("vcluster_status"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("vcluster_status", sv)
+				diags = append(diags, e)
+			}
+			obj.VclusterStatus = &v2
+		}
+	}
 	if v1, ok := d.GetOk("vcluster2"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.0") {
 				e := utils.AttributeVersionWarning("vcluster2", sv)
 				diags = append(diags, e)
 			}
@@ -2636,7 +2961,7 @@ func getObjectSystemHa(d *schema.ResourceData, sv string) (*models.SystemHa, dia
 	}
 	if v1, ok := d.GetOk("vdom"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.0") {
 				e := utils.AttributeVersionWarning("vdom", sv)
 				diags = append(diags, e)
 			}
@@ -2663,6 +2988,7 @@ func getEmptyObjectSystemHa(d *schema.ResourceData, sv string) (*models.SystemHa
 	obj.HaMgmtInterfaces = &[]models.SystemHaHaMgmtInterfaces{}
 	obj.SecondaryVcluster = &models.SystemHaSecondaryVcluster{}
 	obj.UnicastPeers = &[]models.SystemHaUnicastPeers{}
+	obj.Vcluster = &[]models.SystemHaVcluster{}
 
 	return &obj, diags
 }

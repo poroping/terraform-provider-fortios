@@ -36,6 +36,8 @@ Configure VDOM settings.
 * `central_nat` - Enable/disable central NAT. Valid values: `enable` `disable` .
 * `comments` - VDOM comments.
 * `consolidated_firewall_mode` - Consolidated firewall mode. Valid values: .
+* `default_app_port_as_service` - Enable/disable policy service enforcement based on application default ports. Valid values: `enable` `disable` .
+* `default_policy_expiry_days` - Default policy expiry in days (0 - 365 days, default = 30).
 * `default_voip_alg_mode` - Configure how the FortiGate handles VoIP traffic when a policy that accepts the traffic doesn't include a VoIP profile. Valid values: `proxy-based` `kernel-helper-based` .
 * `deny_tcp_with_icmp` - Enable/disable denying TCP by sending an ICMP communication prohibited packet. Valid values: `enable` `disable` .
 * `device` - Interface to use for management access for NAT mode. This attribute must reference one of the following datasources: `system.interface.name` .
@@ -66,6 +68,7 @@ Configure VDOM settings.
 * `gui_email_collection` - Enable/disable email collection on the GUI. Valid values: `enable` `disable` .
 * `gui_endpoint_control` - Enable/disable endpoint control on the GUI. Valid values: `enable` `disable` .
 * `gui_endpoint_control_advanced` - Enable/disable advanced endpoint control options on the GUI. Valid values: `enable` `disable` .
+* `gui_enforce_change_summary` - Enforce change summaries for select tables in the GUI. Valid values: `disable` `require` `optional` .
 * `gui_explicit_proxy` - Enable/disable the explicit proxy on the GUI. Valid values: `enable` `disable` .
 * `gui_file_filter` - Enable/disable File-filter on the GUI. Valid values: `enable` `disable` .
 * `gui_fortiap_split_tunneling` - Enable/disable FortiAP split tunneling on the GUI. Valid values: `enable` `disable` .
@@ -81,6 +84,7 @@ Configure VDOM settings.
 * `gui_multiple_utm_profiles` - Enable/disable multiple UTM profiles on the GUI. Valid values: `enable` `disable` .
 * `gui_nat46_64` - Enable/disable NAT46 and NAT64 settings on the GUI. Valid values: `enable` `disable` .
 * `gui_object_colors` - Enable/disable object colors on the GUI. Valid values: `enable` `disable` .
+* `gui_ot` - Enable/disable Show Operational Technology Purdue Model. Valid values: `enable` `disable` .
 * `gui_per_policy_disclaimer` - Enable/disable policy disclaimer on the GUI. Valid values: `enable` `disable` .
 * `gui_policy_based_ipsec` - Enable/disable policy-based IPsec VPN on the GUI. Valid values: `enable` `disable` .
 * `gui_policy_disclaimer` - Enable/disable policy disclaimer on the GUI. Valid values: `enable` `disable` .
@@ -139,6 +143,7 @@ Configure VDOM settings.
 * `tcp_session_without_syn` - Enable/disable allowing TCP session without SYN flags. Valid values: `enable` `disable` .
 * `utf8_spam_tagging` - Enable/disable converting antispam tags to UTF-8 for better non-ASCII character support. Valid values: `enable` `disable` .
 * `v4_ecmp_mode` - IPv4 Equal-cost multi-path (ECMP) routing and load balancing mode. Valid values: `source-ip-based` `weight-based` `usage-based` `source-dest-ip-based` .
+* `vdom_type` - VDOM type (traffic or admin). Valid values: `traffic` `admin` .
 * `vpn_stats_log` - Enable/disable periodic VPN log statistics for one or more types of VPN. Separate names with a space. Valid values: `ipsec` `pptp` `l2tp` `ssl` .
 * `vpn_stats_period` - Period to send VPN log statistics (0 or 60 - 86400 sec).
 * `wccp_cache_engine` - Enable/disable WCCP cache engine. Valid values: `enable` `disable` .

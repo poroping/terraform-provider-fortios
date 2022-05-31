@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -79,9 +79,17 @@ func resourceWirelessControllerVap() *schema.Resource {
 			},
 			"address_group": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
+				ValidateFunc: validation.StringLenBetween(0, 79),
 
-				Description: "Address group ID.",
+				Description: "Firewall Address Group Name.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"address_group_policy": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "allow", "deny"}, false),
+
+				Description: "Configure MAC address filtering policy for MAC addresses that are in the address-group.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -93,11 +101,27 @@ func resourceWirelessControllerVap() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"application_detection_engine": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable application detection engine (default = disable).",
+				Optional:    true,
+				Computed:    true,
+			},
 			"application_list": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 
 				Description: "Application control list name.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"application_report_intv": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(30, 864000),
+
+				Description: "Application report interval (30 - 864000 sec, default = 120).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -506,6 +530,14 @@ func resourceWirelessControllerVap() *schema.Resource {
 				ValidateFunc: validation.IntBetween(1, 4),
 
 				Description: "WEP key index (1 - 4).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"l3_roaming": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable layer 3 roaming (default = disable).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1952,6 +1984,14 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 		}
 	}
 
+	if o.AddressGroupPolicy != nil {
+		v := *o.AddressGroupPolicy
+
+		if err = d.Set("address_group_policy", v); err != nil {
+			return diag.Errorf("error reading address_group_policy: %v", err)
+		}
+	}
+
 	if o.AntivirusProfile != nil {
 		v := *o.AntivirusProfile
 
@@ -1960,11 +2000,27 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 		}
 	}
 
+	if o.ApplicationDetectionEngine != nil {
+		v := *o.ApplicationDetectionEngine
+
+		if err = d.Set("application_detection_engine", v); err != nil {
+			return diag.Errorf("error reading application_detection_engine: %v", err)
+		}
+	}
+
 	if o.ApplicationList != nil {
 		v := *o.ApplicationList
 
 		if err = d.Set("application_list", v); err != nil {
 			return diag.Errorf("error reading application_list: %v", err)
+		}
+	}
+
+	if o.ApplicationReportIntv != nil {
+		v := *o.ApplicationReportIntv
+
+		if err = d.Set("application_report_intv", v); err != nil {
+			return diag.Errorf("error reading application_report_intv: %v", err)
 		}
 	}
 
@@ -2381,6 +2437,14 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 
 		if err = d.Set("keyindex", v); err != nil {
 			return diag.Errorf("error reading keyindex: %v", err)
+		}
+	}
+
+	if o.L3Roaming != nil {
+		v := *o.L3Roaming
+
+		if err = d.Set("l3_roaming", v); err != nil {
+			return diag.Errorf("error reading l3_roaming: %v", err)
 		}
 	}
 
@@ -3553,6 +3617,15 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 			obj.AddressGroup = &v2
 		}
 	}
+	if v1, ok := d.GetOk("address_group_policy"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("address_group_policy", sv)
+				diags = append(diags, e)
+			}
+			obj.AddressGroupPolicy = &v2
+		}
+	}
 	if v1, ok := d.GetOk("antivirus_profile"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "v7.0.1", "") {
@@ -3562,6 +3635,15 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 			obj.AntivirusProfile = &v2
 		}
 	}
+	if v1, ok := d.GetOk("application_detection_engine"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("application_detection_engine", sv)
+				diags = append(diags, e)
+			}
+			obj.ApplicationDetectionEngine = &v2
+		}
+	}
 	if v1, ok := d.GetOk("application_list"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "v7.0.1", "") {
@@ -3569,6 +3651,16 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 				diags = append(diags, e)
 			}
 			obj.ApplicationList = &v2
+		}
+	}
+	if v1, ok := d.GetOk("application_report_intv"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("application_report_intv", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.ApplicationReportIntv = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("atf_weight"); ok {
@@ -4041,6 +4133,15 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 			}
 			tmp := int64(v2)
 			obj.Keyindex = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("l3_roaming"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("l3_roaming", sv)
+				diags = append(diags, e)
+			}
+			obj.L3Roaming = &v2
 		}
 	}
 	if v1, ok := d.GetOk("ldpc"); ok {

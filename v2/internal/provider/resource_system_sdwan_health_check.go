@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -170,6 +170,14 @@ func resourceSystemSdwanHealthCheck() *schema.Resource {
 					},
 				},
 			},
+			"mos_codec": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"g711", "g722", "g729"}, false),
+
+				Description: "Codec to use for MOS calculation (default = g711).",
+				Optional:    true,
+				Computed:    true,
+			},
 			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
@@ -304,6 +312,14 @@ func resourceSystemSdwanHealthCheck() *schema.Resource {
 							Optional:         true,
 							Computed:         true,
 						},
+						"mos_threshold": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 35),
+
+							Description: "Minimum Mean Opinion Score for SLA to be marked as pass. (1.0 - 5.0, default = 3.6).",
+							Optional:    true,
+							Computed:    true,
+						},
 						"packetloss_threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 100),
@@ -328,6 +344,14 @@ func resourceSystemSdwanHealthCheck() *schema.Resource {
 				ValidateFunc: validation.IntBetween(0, 3600),
 
 				Description: "Time interval in seconds that SLA pass log messages will be generated (0 - 3600, default = 0).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"source": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.IsIPv4Address,
+
+				Description: "Source IP address used in the health-check packet to the server.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -404,6 +428,14 @@ func resourceSystemSdwanHealthCheck() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 64),
 
 				Description: "The user name to access probe server.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"vrf": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 63),
+
+				Description: "Virtual Routing Forwarding ID.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -677,6 +709,14 @@ func refreshObjectSystemSdwanHealthCheck(d *schema.ResourceData, o *models.Syste
 		}
 	}
 
+	if o.MosCodec != nil {
+		v := *o.MosCodec
+
+		if err = d.Set("mos_codec", v); err != nil {
+			return diag.Errorf("error reading mos_codec: %v", err)
+		}
+	}
+
 	if o.Name != nil {
 		v := *o.Name
 
@@ -796,6 +836,14 @@ func refreshObjectSystemSdwanHealthCheck(d *schema.ResourceData, o *models.Syste
 		}
 	}
 
+	if o.Source != nil {
+		v := *o.Source
+
+		if err = d.Set("source", v); err != nil {
+			return diag.Errorf("error reading source: %v", err)
+		}
+	}
+
 	if o.SystemDns != nil {
 		v := *o.SystemDns
 
@@ -873,6 +921,14 @@ func refreshObjectSystemSdwanHealthCheck(d *schema.ResourceData, o *models.Syste
 
 		if err = d.Set("user", v); err != nil {
 			return diag.Errorf("error reading user: %v", err)
+		}
+	}
+
+	if o.Vrf != nil {
+		v := *o.Vrf
+
+		if err = d.Set("vrf", v); err != nil {
+			return diag.Errorf("error reading vrf: %v", err)
 		}
 	}
 
@@ -1018,6 +1074,15 @@ func getObjectSystemSdwanHealthCheck(d *schema.ResourceData, sv string) (*models
 		old, new := d.GetChange("members")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
 			obj.Members = &[]models.SystemSdwanHealthCheckMembers{}
+		}
+	}
+	if v1, ok := d.GetOk("mos_codec"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("mos_codec", sv)
+				diags = append(diags, e)
+			}
+			obj.MosCodec = &v2
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {
@@ -1170,6 +1235,15 @@ func getObjectSystemSdwanHealthCheck(d *schema.ResourceData, sv string) (*models
 			obj.SlaPassLogPeriod = &tmp
 		}
 	}
+	if v1, ok := d.GetOk("source"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("source", sv)
+				diags = append(diags, e)
+			}
+			obj.Source = &v2
+		}
+	}
 	if v1, ok := d.GetOk("system_dns"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -1264,6 +1338,16 @@ func getObjectSystemSdwanHealthCheck(d *schema.ResourceData, sv string) (*models
 				diags = append(diags, e)
 			}
 			obj.User = &v2
+		}
+	}
+	if v1, ok := d.GetOk("vrf"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("vrf", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.Vrf = &tmp
 		}
 	}
 	return &obj, diags

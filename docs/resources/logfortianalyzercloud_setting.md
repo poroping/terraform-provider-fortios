@@ -24,7 +24,7 @@ Global FortiAnalyzer Cloud settings.
 * `certificate_verification` - Enable/disable identity verification of FortiAnalyzer by use of certificate. Valid values: `enable` `disable` .
 * `conn_timeout` - FortiAnalyzer connection time-out in seconds (for status and log buffer).
 * `enc_algorithm` - Configure the level of SSL protection for secure communication with FortiAnalyzer. Valid values: `high-medium` `high` `low` .
-* `hmac_algorithm` - FortiAnalyzer IPsec tunnel HMAC algorithm. Valid values: `sha256` `sha1` .
+* `hmac_algorithm` - OFTP login hash algorithm. Valid values: `sha256` `sha1` .
 * `interface` - Specify outgoing interface to reach server. This attribute must reference one of the following datasources: `system.interface.name` .
 * `interface_select_method` - Specify how to select outgoing interface to reach server. Valid values: `auto` `sdwan` `specify` .
 * `ips_archive` - Enable/disable IPS packet archive logging. Valid values: `enable` `disable` .
@@ -34,7 +34,7 @@ Global FortiAnalyzer Cloud settings.
 * `preshared_key` - Preshared-key used for auto-authorization on FortiAnalyzer.
 * `priority` - Set log transmission priority. Valid values: `default` `low` .
 * `source_ip` - Source IPv4 or IPv6 address used to communicate with FortiAnalyzer.
-* `ssl_min_proto_version` - Minimum supported protocol version for SSL/TLS connections (default is to follow system global setting). Valid values: `default` `SSLv3` `TLSv1` `TLSv1-1` `TLSv1-2` .
+* `ssl_min_proto_version` - Minimum supported protocol version for SSL/TLS connections (default is to follow system global setting). Valid values: `default` `SSLv3` `TLSv1` `TLSv1-1` `TLSv1-2` `TLSv1-3` .
 * `status` - Enable/disable logging to FortiAnalyzer. Valid values: `enable` `disable` .
 * `upload_day` - Day of week (month) to upload logs.
 * `upload_interval` - Frequency to upload log files to FortiAnalyzer. Valid values: `daily` `weekly` `monthly` .

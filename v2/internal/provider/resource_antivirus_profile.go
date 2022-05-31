@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -55,7 +55,7 @@ func resourceAntivirusProfile() *schema.Resource {
 			"analytics_accept_filetype": {
 				Type: schema.TypeInt,
 
-				Description: "Only submit files matching this DLP file-pattern to FortiSandbox.",
+				Description: "Only submit files matching this DLP file-pattern to FortiSandbox (post-transfer scan only).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -77,7 +77,7 @@ func resourceAntivirusProfile() *schema.Resource {
 			"analytics_ignore_filetype": {
 				Type: schema.TypeInt,
 
-				Description: "Do not submit files matching this DLP file-pattern to FortiSandbox.",
+				Description: "Do not submit files matching this DLP file-pattern to FortiSandbox (post-transfer scan only).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -163,6 +163,22 @@ func resourceAntivirusProfile() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{"disable", "block", "monitor"}, false),
 
 							Description: "Enable/disable scanning of files by FortiAI.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"fortindr": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "block", "monitor"}, false),
+
+							Description: "Enable scanning of files by FortiNDR.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"fortisandbox": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "block", "monitor"}, false),
+
+							Description: "Enable scanning of files by FortiSandbox.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -435,6 +451,54 @@ func resourceAntivirusProfile() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"fortindr_error_action": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"log-only", "block", "ignore"}, false),
+
+				Description: "Action to take if FortiNDR encounters an error.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"fortindr_timeout_action": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"log-only", "block", "ignore"}, false),
+
+				Description: "Action to take if FortiNDR encounters a scan timeout.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"fortisandbox_error_action": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"log-only", "block", "ignore"}, false),
+
+				Description: "Action to take if FortiSandbox inline scan encounters an error.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"fortisandbox_max_upload": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(1, 26214),
+
+				Description: "Maximum size of files that can be uploaded to FortiSandbox.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"fortisandbox_mode": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"inline", "analytics-suspicious", "analytics-everything"}, false),
+
+				Description: "FortiSandbox scan modes.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"fortisandbox_timeout_action": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"log-only", "block", "ignore"}, false),
+
+				Description: "Action to take if FortiSandbox inline scan encounters a scan timeout.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"ftgd_analytics": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"disable", "suspicious", "everything"}, false),
@@ -494,6 +558,22 @@ func resourceAntivirusProfile() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{"disable", "block", "monitor"}, false),
 
 							Description: "Enable/disable scanning of files by FortiAI.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"fortindr": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "block", "monitor"}, false),
+
+							Description: "Enable scanning of files by FortiNDR.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"fortisandbox": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "block", "monitor"}, false),
+
+							Description: "Enable scanning of files by FortiSandbox.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -583,6 +663,22 @@ func resourceAntivirusProfile() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{"disable", "block", "monitor"}, false),
 
 							Description: "Enable/disable scanning of files by FortiAI.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"fortindr": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "block", "monitor"}, false),
+
+							Description: "Enable scanning of files by FortiNDR.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"fortisandbox": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "block", "monitor"}, false),
+
+							Description: "Enable scanning of files by FortiSandbox.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -683,6 +779,22 @@ func resourceAntivirusProfile() *schema.Resource {
 							Optional:    true,
 							Computed:    true,
 						},
+						"fortindr": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "block", "monitor"}, false),
+
+							Description: "Enable scanning of files by FortiNDR.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"fortisandbox": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "block", "monitor"}, false),
+
+							Description: "Enable scanning of files by FortiSandbox.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"options": {
 							Type: schema.TypeString,
 
@@ -769,6 +881,22 @@ func resourceAntivirusProfile() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{"disable", "block", "monitor"}, false),
 
 							Description: "Enable/disable scanning of files by FortiAI.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"fortindr": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "block", "monitor"}, false),
+
+							Description: "Enable scanning of files by FortiNDR.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"fortisandbox": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "block", "monitor"}, false),
+
+							Description: "Enable scanning of files by FortiSandbox.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -898,6 +1026,22 @@ func resourceAntivirusProfile() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{"disable", "block", "monitor"}, false),
 
 							Description: "Enable/disable scanning of files by FortiAI.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"fortindr": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "block", "monitor"}, false),
+
+							Description: "Enable scanning of files by FortiNDR.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"fortisandbox": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "block", "monitor"}, false),
+
+							Description: "Enable scanning of files by FortiSandbox.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -1031,6 +1175,22 @@ func resourceAntivirusProfile() *schema.Resource {
 							Optional:    true,
 							Computed:    true,
 						},
+						"fortindr": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "block", "monitor"}, false),
+
+							Description: "Enable scanning of files by FortiNDR.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"fortisandbox": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "block", "monitor"}, false),
+
+							Description: "Enable scanning of files by FortiSandbox.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"options": {
 							Type: schema.TypeString,
 
@@ -1144,6 +1304,22 @@ func resourceAntivirusProfile() *schema.Resource {
 							Optional:    true,
 							Computed:    true,
 						},
+						"fortindr": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "block", "monitor"}, false),
+
+							Description: "Enable scanning of files by FortiNDR.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"fortisandbox": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "block", "monitor"}, false),
+
+							Description: "Enable scanning of files by FortiSandbox.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"options": {
 							Type: schema.TypeString,
 
@@ -1222,6 +1398,22 @@ func resourceAntivirusProfile() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{"disable", "block", "monitor"}, false),
 
 							Description: "Enable/disable scanning of files by FortiAI.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"fortindr": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "block", "monitor"}, false),
+
+							Description: "Enable scanning of files by FortiNDR.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"fortisandbox": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "block", "monitor"}, false),
+
+							Description: "Enable scanning of files by FortiSandbox.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -1441,6 +1633,14 @@ func flattenAntivirusProfileCifs(d *schema.ResourceData, v *models.AntivirusProf
 				v["fortiai"] = *tmp
 			}
 
+			if tmp := cfg.Fortindr; tmp != nil {
+				v["fortindr"] = *tmp
+			}
+
+			if tmp := cfg.Fortisandbox; tmp != nil {
+				v["fortisandbox"] = *tmp
+			}
+
 			if tmp := cfg.Options; tmp != nil {
 				v["options"] = *tmp
 			}
@@ -1605,6 +1805,14 @@ func flattenAntivirusProfileFtp(d *schema.ResourceData, v *models.AntivirusProfi
 				v["fortiai"] = *tmp
 			}
 
+			if tmp := cfg.Fortindr; tmp != nil {
+				v["fortindr"] = *tmp
+			}
+
+			if tmp := cfg.Fortisandbox; tmp != nil {
+				v["fortisandbox"] = *tmp
+			}
+
 			if tmp := cfg.Options; tmp != nil {
 				v["options"] = *tmp
 			}
@@ -1658,6 +1866,14 @@ func flattenAntivirusProfileHttp(d *schema.ResourceData, v *models.AntivirusProf
 
 			if tmp := cfg.Fortiai; tmp != nil {
 				v["fortiai"] = *tmp
+			}
+
+			if tmp := cfg.Fortindr; tmp != nil {
+				v["fortindr"] = *tmp
+			}
+
+			if tmp := cfg.Fortisandbox; tmp != nil {
+				v["fortisandbox"] = *tmp
 			}
 
 			if tmp := cfg.Options; tmp != nil {
@@ -1719,6 +1935,14 @@ func flattenAntivirusProfileImap(d *schema.ResourceData, v *models.AntivirusProf
 				v["fortiai"] = *tmp
 			}
 
+			if tmp := cfg.Fortindr; tmp != nil {
+				v["fortindr"] = *tmp
+			}
+
+			if tmp := cfg.Fortisandbox; tmp != nil {
+				v["fortisandbox"] = *tmp
+			}
+
 			if tmp := cfg.Options; tmp != nil {
 				v["options"] = *tmp
 			}
@@ -1772,6 +1996,14 @@ func flattenAntivirusProfileMapi(d *schema.ResourceData, v *models.AntivirusProf
 
 			if tmp := cfg.Fortiai; tmp != nil {
 				v["fortiai"] = *tmp
+			}
+
+			if tmp := cfg.Fortindr; tmp != nil {
+				v["fortindr"] = *tmp
+			}
+
+			if tmp := cfg.Fortisandbox; tmp != nil {
+				v["fortisandbox"] = *tmp
 			}
 
 			if tmp := cfg.Options; tmp != nil {
@@ -1850,6 +2082,14 @@ func flattenAntivirusProfileNntp(d *schema.ResourceData, v *models.AntivirusProf
 
 			if tmp := cfg.Fortiai; tmp != nil {
 				v["fortiai"] = *tmp
+			}
+
+			if tmp := cfg.Fortindr; tmp != nil {
+				v["fortindr"] = *tmp
+			}
+
+			if tmp := cfg.Fortisandbox; tmp != nil {
+				v["fortisandbox"] = *tmp
 			}
 
 			if tmp := cfg.Options; tmp != nil {
@@ -1934,6 +2174,14 @@ func flattenAntivirusProfilePop3(d *schema.ResourceData, v *models.AntivirusProf
 				v["fortiai"] = *tmp
 			}
 
+			if tmp := cfg.Fortindr; tmp != nil {
+				v["fortindr"] = *tmp
+			}
+
+			if tmp := cfg.Fortisandbox; tmp != nil {
+				v["fortisandbox"] = *tmp
+			}
+
 			if tmp := cfg.Options; tmp != nil {
 				v["options"] = *tmp
 			}
@@ -1993,6 +2241,14 @@ func flattenAntivirusProfileSmtp(d *schema.ResourceData, v *models.AntivirusProf
 				v["fortiai"] = *tmp
 			}
 
+			if tmp := cfg.Fortindr; tmp != nil {
+				v["fortindr"] = *tmp
+			}
+
+			if tmp := cfg.Fortisandbox; tmp != nil {
+				v["fortisandbox"] = *tmp
+			}
+
 			if tmp := cfg.Options; tmp != nil {
 				v["options"] = *tmp
 			}
@@ -2042,6 +2298,14 @@ func flattenAntivirusProfileSsh(d *schema.ResourceData, v *models.AntivirusProfi
 
 			if tmp := cfg.Fortiai; tmp != nil {
 				v["fortiai"] = *tmp
+			}
+
+			if tmp := cfg.Fortindr; tmp != nil {
+				v["fortindr"] = *tmp
+			}
+
+			if tmp := cfg.Fortisandbox; tmp != nil {
+				v["fortisandbox"] = *tmp
 			}
 
 			if tmp := cfg.Options; tmp != nil {
@@ -2213,6 +2477,54 @@ func refreshObjectAntivirusProfile(d *schema.ResourceData, o *models.AntivirusPr
 
 		if err = d.Set("fortiai_timeout_action", v); err != nil {
 			return diag.Errorf("error reading fortiai_timeout_action: %v", err)
+		}
+	}
+
+	if o.FortindrErrorAction != nil {
+		v := *o.FortindrErrorAction
+
+		if err = d.Set("fortindr_error_action", v); err != nil {
+			return diag.Errorf("error reading fortindr_error_action: %v", err)
+		}
+	}
+
+	if o.FortindrTimeoutAction != nil {
+		v := *o.FortindrTimeoutAction
+
+		if err = d.Set("fortindr_timeout_action", v); err != nil {
+			return diag.Errorf("error reading fortindr_timeout_action: %v", err)
+		}
+	}
+
+	if o.FortisandboxErrorAction != nil {
+		v := *o.FortisandboxErrorAction
+
+		if err = d.Set("fortisandbox_error_action", v); err != nil {
+			return diag.Errorf("error reading fortisandbox_error_action: %v", err)
+		}
+	}
+
+	if o.FortisandboxMaxUpload != nil {
+		v := *o.FortisandboxMaxUpload
+
+		if err = d.Set("fortisandbox_max_upload", v); err != nil {
+			return diag.Errorf("error reading fortisandbox_max_upload: %v", err)
+		}
+	}
+
+	if o.FortisandboxMode != nil {
+		v := *o.FortisandboxMode
+
+		if err = d.Set("fortisandbox_mode", v); err != nil {
+			return diag.Errorf("error reading fortisandbox_mode: %v", err)
+		}
+	}
+
+	if o.FortisandboxTimeoutAction != nil {
+		v := *o.FortisandboxTimeoutAction
+
+		if err = d.Set("fortisandbox_timeout_action", v); err != nil {
+			return diag.Errorf("error reading fortisandbox_timeout_action: %v", err)
 		}
 	}
 
@@ -2398,6 +2710,20 @@ func expandAntivirusProfileCifs(d *schema.ResourceData, v interface{}, pre strin
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.Fortiai = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.fortindr", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Fortindr = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.fortisandbox", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Fortisandbox = &v2
 			}
 		}
 
@@ -2655,6 +2981,20 @@ func expandAntivirusProfileFtp(d *schema.ResourceData, v interface{}, pre string
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.fortindr", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Fortindr = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.fortisandbox", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Fortisandbox = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.options", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
@@ -2739,6 +3079,20 @@ func expandAntivirusProfileHttp(d *schema.ResourceData, v interface{}, pre strin
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.Fortiai = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.fortindr", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Fortindr = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.fortisandbox", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Fortisandbox = &v2
 			}
 		}
 
@@ -2836,6 +3190,20 @@ func expandAntivirusProfileImap(d *schema.ResourceData, v interface{}, pre strin
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.fortindr", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Fortindr = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.fortisandbox", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Fortisandbox = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.options", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
@@ -2920,6 +3288,20 @@ func expandAntivirusProfileMapi(d *schema.ResourceData, v interface{}, pre strin
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.Fortiai = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.fortindr", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Fortindr = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.fortisandbox", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Fortisandbox = &v2
 			}
 		}
 
@@ -3038,6 +3420,20 @@ func expandAntivirusProfileNntp(d *schema.ResourceData, v interface{}, pre strin
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.Fortiai = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.fortindr", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Fortindr = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.fortisandbox", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Fortisandbox = &v2
 			}
 		}
 
@@ -3166,6 +3562,20 @@ func expandAntivirusProfilePop3(d *schema.ResourceData, v interface{}, pre strin
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.fortindr", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Fortindr = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.fortisandbox", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Fortisandbox = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.options", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
@@ -3260,6 +3670,20 @@ func expandAntivirusProfileSmtp(d *schema.ResourceData, v interface{}, pre strin
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.fortindr", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Fortindr = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.fortisandbox", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Fortisandbox = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.options", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
@@ -3340,6 +3764,20 @@ func expandAntivirusProfileSsh(d *schema.ResourceData, v interface{}, pre string
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.fortindr", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Fortindr = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.fortisandbox", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Fortisandbox = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.options", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
@@ -3411,7 +3849,7 @@ func getObjectAntivirusProfile(d *schema.ResourceData, sv string) (*models.Antiv
 	}
 	if v1, ok := d.GetOk("analytics_max_upload"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.0") {
 				e := utils.AttributeVersionWarning("analytics_max_upload", sv)
 				diags = append(diags, e)
 			}
@@ -3554,7 +3992,7 @@ func getObjectAntivirusProfile(d *schema.ResourceData, sv string) (*models.Antiv
 	}
 	if v1, ok := d.GetOk("fortiai_error_action"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v7.0.1", "") {
+			if !utils.CheckVer(sv, "v7.0.1", "v7.2.0") {
 				e := utils.AttributeVersionWarning("fortiai_error_action", sv)
 				diags = append(diags, e)
 			}
@@ -3563,16 +4001,71 @@ func getObjectAntivirusProfile(d *schema.ResourceData, sv string) (*models.Antiv
 	}
 	if v1, ok := d.GetOk("fortiai_timeout_action"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v7.0.2", "") {
+			if !utils.CheckVer(sv, "v7.0.2", "v7.2.0") {
 				e := utils.AttributeVersionWarning("fortiai_timeout_action", sv)
 				diags = append(diags, e)
 			}
 			obj.FortiaiTimeoutAction = &v2
 		}
 	}
+	if v1, ok := d.GetOk("fortindr_error_action"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("fortindr_error_action", sv)
+				diags = append(diags, e)
+			}
+			obj.FortindrErrorAction = &v2
+		}
+	}
+	if v1, ok := d.GetOk("fortindr_timeout_action"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("fortindr_timeout_action", sv)
+				diags = append(diags, e)
+			}
+			obj.FortindrTimeoutAction = &v2
+		}
+	}
+	if v1, ok := d.GetOk("fortisandbox_error_action"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("fortisandbox_error_action", sv)
+				diags = append(diags, e)
+			}
+			obj.FortisandboxErrorAction = &v2
+		}
+	}
+	if v1, ok := d.GetOk("fortisandbox_max_upload"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("fortisandbox_max_upload", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.FortisandboxMaxUpload = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("fortisandbox_mode"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("fortisandbox_mode", sv)
+				diags = append(diags, e)
+			}
+			obj.FortisandboxMode = &v2
+		}
+	}
+	if v1, ok := d.GetOk("fortisandbox_timeout_action"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("fortisandbox_timeout_action", sv)
+				diags = append(diags, e)
+			}
+			obj.FortisandboxTimeoutAction = &v2
+		}
+	}
 	if v1, ok := d.GetOk("ftgd_analytics"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.0") {
 				e := utils.AttributeVersionWarning("ftgd_analytics", sv)
 				diags = append(diags, e)
 			}

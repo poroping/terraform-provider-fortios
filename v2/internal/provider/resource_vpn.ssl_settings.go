@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -250,6 +250,14 @@ func resourceVpnSslSettings() *schema.Resource {
 				Description:      "Select one or more cipher technologies that cannot be used in SSL-VPN negotiations. Only applies to TLS 1.2 and below.",
 				Optional:         true,
 				Computed:         true,
+			},
+			"browser_language_detection": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable overriding the configured system language based on the preferred language of the browser.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"check_referer": {
 				Type:         schema.TypeString,
@@ -780,6 +788,14 @@ func resourceVpnSslSettings() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"web_mode_snat": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable use of IP pools defined in firewall policy while using web-mode.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"wins_server1": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv4Address,
@@ -1300,6 +1316,14 @@ func refreshObjectVpnSslSettings(d *schema.ResourceData, o *models.VpnSslSetting
 		}
 	}
 
+	if o.BrowserLanguageDetection != nil {
+		v := *o.BrowserLanguageDetection
+
+		if err = d.Set("browser_language_detection", v); err != nil {
+			return diag.Errorf("error reading browser_language_detection: %v", err)
+		}
+	}
+
 	if o.CheckReferer != nil {
 		v := *o.CheckReferer
 
@@ -1778,6 +1802,14 @@ func refreshObjectVpnSslSettings(d *schema.ResourceData, o *models.VpnSslSetting
 		}
 	}
 
+	if o.WebModeSnat != nil {
+		v := *o.WebModeSnat
+
+		if err = d.Set("web_mode_snat", v); err != nil {
+			return diag.Errorf("error reading web_mode_snat: %v", err)
+		}
+	}
+
 	if o.WinsServer1 != nil {
 		v := *o.WinsServer1
 
@@ -2241,6 +2273,15 @@ func getObjectVpnSslSettings(d *schema.ResourceData, sv string) (*models.VpnSslS
 				diags = append(diags, e)
 			}
 			obj.BannedCipher = &v2
+		}
+	}
+	if v1, ok := d.GetOk("browser_language_detection"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("browser_language_detection", sv)
+				diags = append(diags, e)
+			}
+			obj.BrowserLanguageDetection = &v2
 		}
 	}
 	if v1, ok := d.GetOk("check_referer"); ok {
@@ -2842,6 +2883,15 @@ func getObjectVpnSslSettings(d *schema.ResourceData, sv string) (*models.VpnSslS
 				diags = append(diags, e)
 			}
 			obj.UserPeer = &v2
+		}
+	}
+	if v1, ok := d.GetOk("web_mode_snat"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("web_mode_snat", sv)
+				diags = append(diags, e)
+			}
+			obj.WebModeSnat = &v2
 		}
 	}
 	if v1, ok := d.GetOk("wins_server1"); ok {

@@ -29,7 +29,7 @@ The following attributes are exported:
 * `certificate_verification` - Enable/disable identity verification of FortiAnalyzer by use of certificate.
 * `conn_timeout` - FortiAnalyzer connection time-out in seconds (for status and log buffer).
 * `enc_algorithm` - Configure the level of SSL protection for secure communication with FortiAnalyzer.
-* `hmac_algorithm` - FortiAnalyzer IPsec tunnel HMAC algorithm.
+* `hmac_algorithm` - OFTP login hash algorithm.
 * `interface` - Specify outgoing interface to reach server.
 * `interface_select_method` - Specify how to select outgoing interface to reach server.
 * `ips_archive` - Enable/disable IPS packet archive logging.

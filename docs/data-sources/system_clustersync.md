@@ -46,12 +46,12 @@ The `down_intfs_before_sess_sync` block contains:
 
 The `session_sync_filter` block contains:
 
-* `dstaddr` - Only sessions to this IPv4 address are synchronized. You can only enter one address. To synchronize sessions for multiple destination addresses, add multiple filters.
-* `dstaddr6` - Only sessions to this IPv6 address are synchronized. You can only enter one address. To synchronize sessions for multiple destination addresses, add multiple filters.
-* `dstintf` - Only sessions to this interface are synchronized. You can only enter one interface name. To synchronize sessions to multiple destination interfaces, add multiple filters.
-* `srcaddr` - Only sessions from this IPv4 address are synchronized. You can only enter one address. To synchronize sessions from multiple source addresses, add multiple filters.
-* `srcaddr6` - Only sessions from this IPv6 address are synchronized. You can only enter one address. To synchronize sessions from multiple source addresses, add multiple filters.
-* `srcintf` - Only sessions from this interface are synchronized. You can only enter one interface name. To synchronize sessions for multiple source interfaces, add multiple filters.
+* `dstaddr` - Only sessions to this IPv4 address are synchronized.
+* `dstaddr6` - Only sessions to this IPv6 address are synchronized.
+* `dstintf` - Only sessions to this interface are synchronized.
+* `srcaddr` - Only sessions from this IPv4 address are synchronized.
+* `srcaddr6` - Only sessions from this IPv6 address are synchronized.
+* `srcintf` - Only sessions from this interface are synchronized.
 * `custom_service` - Only sessions using these custom services are synchronized. Use source and destination port ranges to define these custom services.The structure of `custom_service` block is documented below.
 
 The `custom_service` block contains:

@@ -63,6 +63,7 @@ The following attributes are exported:
 * `method` - Request method (POST, PUT, GET, PATCH or DELETE).
 * `minimum_interval` - Limit execution to no more than once in this interval (in seconds).
 * `name` - Name.
+* `output_size` - Number of megabytes to limit script output to (1 - 1024, default = 10).
 * `port` - Protocol port.
 * `protocol` - Request protocol.
 * `replacement_message` - Enable/disable replacement message.
@@ -70,6 +71,7 @@ The following attributes are exported:
 * `required` - Required in action chain.
 * `script` - CLI script.
 * `security_tag` - NSX security tag.
+* `timeout` - Maximum running time for this script in seconds (0 = no timeout).
 * `tls_certificate` - Custom TLS certificate for API request.
 * `uri` - Request API URI.
 * `verify_host_cert` - Enable/disable verification of the remote host certificate.

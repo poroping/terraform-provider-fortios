@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -193,7 +193,7 @@ func resourceRouterRouteMap() *schema.Resource {
 						},
 						"match_vrf": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(0, 31),
+							ValidateFunc: validation.IntBetween(0, 63),
 
 							Description: "Match VRF ID.",
 							Optional:    true,
@@ -421,6 +421,14 @@ func resourceRouterRouteMap() *schema.Resource {
 							ValidateFunc: validation.IsIPv4Address,
 
 							Description: "BGP originator ID attribute.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"set_priority": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(1, 65535),
+
+							Description: "Priority for routing table.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -770,6 +778,10 @@ func flattenRouterRouteMapRule(d *schema.ResourceData, v *[]models.RouterRouteMa
 
 			if tmp := cfg.SetOriginatorId; tmp != nil {
 				v["set_originator_id"] = *tmp
+			}
+
+			if tmp := cfg.SetPriority; tmp != nil {
+				v["set_priority"] = *tmp
 			}
 
 			if tmp := cfg.SetRouteTag; tmp != nil {
@@ -1226,6 +1238,14 @@ func expandRouterRouteMapRule(d *schema.ResourceData, v interface{}, pre string,
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.SetOriginatorId = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.set_priority", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SetPriority = &v3
 			}
 		}
 

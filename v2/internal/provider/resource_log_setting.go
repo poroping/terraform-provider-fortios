@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -155,6 +155,14 @@ func resourceLogSetting() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable local-out logging.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"local_out_ioc_detection": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable local-out traffic IoC detection. Requires local-out to be enabled.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -526,6 +534,14 @@ func refreshObjectLogSetting(d *schema.ResourceData, o *models.LogSetting, sv st
 		}
 	}
 
+	if o.LocalOutIocDetection != nil {
+		v := *o.LocalOutIocDetection
+
+		if err = d.Set("local_out_ioc_detection", v); err != nil {
+			return diag.Errorf("error reading local_out_ioc_detection: %v", err)
+		}
+	}
+
 	if o.LogInvalidPacket != nil {
 		v := *o.LogInvalidPacket
 
@@ -768,6 +784,15 @@ func getObjectLogSetting(d *schema.ResourceData, sv string) (*models.LogSetting,
 				diags = append(diags, e)
 			}
 			obj.LocalOut = &v2
+		}
+	}
+	if v1, ok := d.GetOk("local_out_ioc_detection"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("local_out_ioc_detection", sv)
+				diags = append(diags, e)
+			}
+			obj.LocalOutIocDetection = &v2
 		}
 	}
 	if v1, ok := d.GetOk("log_invalid_packet"); ok {

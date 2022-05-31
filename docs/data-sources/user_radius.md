@@ -29,6 +29,7 @@ The following attributes are exported:
 * `acct_interim_interval` - Time in seconds between each accounting interim update message.
 * `all_usergroup` - Enable/disable automatically including this RADIUS server in all user groups.
 * `auth_type` - Authentication methods/protocols permitted for this RADIUS server.
+* `delimiter` - Configure delimiter to be used for separating profile group names in the SSO attribute (default = plus character "+").
 * `group_override_attr_type` - RADIUS attribute type to override user group information.
 * `h3c_compatibility` - Enable/disable compatibility with the H3C, a mechanism that performs security checking for authentication.
 * `interface` - Specify outgoing interface to reach server.

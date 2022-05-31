@@ -40,6 +40,7 @@ The following attributes are exported:
 * `srcintf` - Source interface name.
 * `start_port` - Integer value for starting TCP/UDP/SCTP destination port in range (1 - 65535, default = 1).
 * `status` - Enable/disable this policy.
+* `traffic_shaper` - Traffic shaper to apply to traffic forwarded by the multicast policy.
 * `uuid` - Universally Unique Identifier (UUID; automatically assigned but can be manually reset).
 * `dstaddr` - Destination address objects.The structure of `dstaddr` block is documented below.
 

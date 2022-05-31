@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -708,6 +708,30 @@ func resourceRouterOspf6() *schema.Resource {
 						},
 					},
 				},
+			},
+			"restart_mode": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"none", "graceful-restart"}, false),
+
+				Description: "OSPFv3 restart mode (graceful or none).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"restart_on_topology_change": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable continuing graceful restart upon topology change.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"restart_period": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(1, 3600),
+
+				Description: "Graceful restart period in seconds.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"router_id": {
 				Type:         schema.TypeString,
@@ -1502,6 +1526,30 @@ func refreshObjectRouterOspf6(d *schema.ResourceData, o *models.RouterOspf6, sv 
 	if o.Redistribute != nil {
 		if err = d.Set("redistribute", flattenRouterOspf6Redistribute(d, o.Redistribute, "redistribute", sort)); err != nil {
 			return diag.Errorf("error reading redistribute: %v", err)
+		}
+	}
+
+	if o.RestartMode != nil {
+		v := *o.RestartMode
+
+		if err = d.Set("restart_mode", v); err != nil {
+			return diag.Errorf("error reading restart_mode: %v", err)
+		}
+	}
+
+	if o.RestartOnTopologyChange != nil {
+		v := *o.RestartOnTopologyChange
+
+		if err = d.Set("restart_on_topology_change", v); err != nil {
+			return diag.Errorf("error reading restart_on_topology_change: %v", err)
+		}
+	}
+
+	if o.RestartPeriod != nil {
+		v := *o.RestartPeriod
+
+		if err = d.Set("restart_period", v); err != nil {
+			return diag.Errorf("error reading restart_period: %v", err)
 		}
 	}
 
@@ -2426,6 +2474,34 @@ func getObjectRouterOspf6(d *schema.ResourceData, sv string) (*models.RouterOspf
 		old, new := d.GetChange("redistribute")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
 			obj.Redistribute = &[]models.RouterOspf6Redistribute{}
+		}
+	}
+	if v1, ok := d.GetOk("restart_mode"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("restart_mode", sv)
+				diags = append(diags, e)
+			}
+			obj.RestartMode = &v2
+		}
+	}
+	if v1, ok := d.GetOk("restart_on_topology_change"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("restart_on_topology_change", sv)
+				diags = append(diags, e)
+			}
+			obj.RestartOnTopologyChange = &v2
+		}
+	}
+	if v1, ok := d.GetOk("restart_period"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("restart_period", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.RestartPeriod = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("router_id"); ok {

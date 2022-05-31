@@ -56,6 +56,7 @@ The following attributes are exported:
 * `auth_cert` - Server certificate that the FortiGate uses for HTTPS firewall authentication connections.
 * `auth_http_port` - User authentication HTTP port. (1 - 65535, default = 1000).
 * `auth_https_port` - User authentication HTTPS port. (1 - 65535, default = 1003).
+* `auth_ike_saml_port` - User IKE SAML authentication port (0 - 65535, default = 1001).
 * `auth_keepalive` - Enable to prevent user authentication sessions from timing out when idle.
 * `auth_session_limit` - Action to take when the number of allowed user authenticated sessions is reached.
 * `auto_auth_extension_device` - Enable/disable automatic authorization of dedicated Fortinet extension devices.
@@ -119,6 +120,7 @@ The following attributes are exported:
 * `gui_rest_api_cache` - Enable/disable REST API result caching on FortiGate.
 * `gui_theme` - Color scheme for the administration GUI.
 * `gui_wireless_opensecurity` - Enable/disable wireless open security option on the GUI.
+* `gui_workflow_management` - Enable/disable Workflow management features on the GUI.
 * `ha_affinity` - Affinity setting for HA daemons (hexadecimal value up to 256 bits in the format of xxxxxxxxxxxxxxxx).
 * `honor_df` - Enable/disable honoring of Don't-Fragment (DF) flag.
 * `hostname` - FortiGate unit's hostname. Most models will truncate names longer than 24 characters. Some models support hostnames up to 35 characters.

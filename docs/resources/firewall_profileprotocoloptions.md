@@ -79,11 +79,13 @@ The `ftp` block contains:
 
 The `http` block contains:
 
+* `address_ip_rating` - Enable/disable IP based URL rating. Valid values: `enable` `disable` .
 * `block_page_status_code` - Code number returned for blocked HTTP pages (non-FortiGuard only) (100 - 599, default = 403).
 * `comfort_amount` - Amount of data to send in a transmission for client comforting (1 - 65535 bytes, default = 1).
 * `comfort_interval` - Period of time between start, or last transmission, and the next client comfort transmission of data (1 - 900 sec, default = 10).
 * `fortinet_bar` - Enable/disable Fortinet bar on HTML content. Valid values: `enable` `disable` .
 * `fortinet_bar_port` - Port for use by Fortinet Bar (1 - 65535, default = 8011).
+* `h2c` - Enable/disable h2c HTTP connection upgrade. Valid values: `enable` `disable` .
 * `inspect_all` - Enable/disable the inspection of all ports for the protocol. Valid values: `enable` `disable` .
 * `options` - One or more options that can be applied to the session. Valid values: `clientcomfort` `servercomfort` `oversize` `chunkedbypass` .
 * `oversize_limit` - Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).

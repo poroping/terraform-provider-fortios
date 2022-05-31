@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -155,9 +155,9 @@ func resourceVpnSslWebPortal() *schema.Resource {
 									},
 									"height": {
 										Type:         schema.TypeInt,
-										ValidateFunc: validation.IntBetween(480, 65535),
+										ValidateFunc: validation.IntBetween(0, 65535),
 
-										Description: "Screen height (range from 480 - 65535, default = 768).",
+										Description: "Screen height (range from 0 - 65535, default = 0).",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -171,7 +171,7 @@ func resourceVpnSslWebPortal() *schema.Resource {
 									},
 									"keyboard_layout": {
 										Type:         schema.TypeString,
-										ValidateFunc: validation.StringInSlice([]string{"ar-101", "ar-102", "ar-102-azerty", "can-mul", "cz", "cz-qwerty", "cz-pr", "da", "nl", "de", "de-ch", "de-ibm", "en-uk", "en-uk-ext", "en-us", "en-us-dvorak", "es", "es-var", "fi", "fi-sami", "fr", "fr-ca", "fr-ch", "fr-be", "hr", "hu", "hu-101", "it", "it-142", "ja", "ko", "lt", "lt-ibm", "lt-std", "lav-std", "lav-leg", "mk", "mk-std", "no", "no-sami", "pol-214", "pol-pr", "pt", "pt-br", "pt-br-abnt2", "ru", "ru-mne", "ru-t", "sl", "sv", "sv-sami", "tuk", "tur-f", "tur-q", "zh-sym-sg-us", "zh-sym-us", "zh-tr-hk", "zh-tr-mo", "zh-tr-us"}, false),
+										ValidateFunc: validation.StringInSlice([]string{"ar-101", "ar-102", "ar-102-azerty", "can-mul", "cz", "cz-qwerty", "cz-pr", "da", "nl", "de", "de-ch", "de-ibm", "en-uk", "en-uk-ext", "en-us", "en-us-dvorak", "es", "es-var", "fi", "fi-sami", "fr", "fr-apple", "fr-ca", "fr-ch", "fr-be", "hr", "hu", "hu-101", "it", "it-142", "ja", "ko", "lt", "lt-ibm", "lt-std", "lav-std", "lav-leg", "mk", "mk-std", "no", "no-sami", "pol-214", "pol-pr", "pt", "pt-br", "pt-br-abnt2", "ru", "ru-mne", "ru-t", "sl", "sv", "sv-sami", "tuk", "tur-f", "tur-q", "zh-sym-sg-us", "zh-sym-us", "zh-tr-hk", "zh-tr-mo", "zh-tr-us"}, false),
 
 										Description: "Keyboard layout.",
 										Optional:    true,
@@ -338,9 +338,9 @@ func resourceVpnSslWebPortal() *schema.Resource {
 									},
 									"width": {
 										Type:         schema.TypeInt,
-										ValidateFunc: validation.IntBetween(640, 65535),
+										ValidateFunc: validation.IntBetween(0, 65535),
 
-										Description: "Screen width (range from 640 - 65535, default = 1024).",
+										Description: "Screen width (range from 0 - 65535, default = 0).",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -379,6 +379,22 @@ func resourceVpnSslWebPortal() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable support of customized download URL for FortiClient.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"default_window_height": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 65535),
+
+				Description: "Screen height (range from 0 - 65535, default = 768).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"default_window_width": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 65535),
+
+				Description: "Screen width (range from 0 - 65535, default = 1024).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1674,6 +1690,22 @@ func refreshObjectVpnSslWebPortal(d *schema.ResourceData, o *models.VpnSslWebPor
 		}
 	}
 
+	if o.DefaultWindowHeight != nil {
+		v := *o.DefaultWindowHeight
+
+		if err = d.Set("default_window_height", v); err != nil {
+			return diag.Errorf("error reading default_window_height: %v", err)
+		}
+	}
+
+	if o.DefaultWindowWidth != nil {
+		v := *o.DefaultWindowWidth
+
+		if err = d.Set("default_window_width", v); err != nil {
+			return diag.Errorf("error reading default_window_width: %v", err)
+		}
+	}
+
 	if o.DisplayBookmark != nil {
 		v := *o.DisplayBookmark
 
@@ -2821,6 +2853,26 @@ func getObjectVpnSslWebPortal(d *schema.ResourceData, sv string) (*models.VpnSsl
 				diags = append(diags, e)
 			}
 			obj.CustomizeForticlientDownloadUrl = &v2
+		}
+	}
+	if v1, ok := d.GetOk("default_window_height"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("default_window_height", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.DefaultWindowHeight = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("default_window_width"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("default_window_width", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.DefaultWindowWidth = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("display_bookmark"); ok {

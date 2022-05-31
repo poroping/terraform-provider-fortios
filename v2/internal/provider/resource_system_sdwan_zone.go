@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -54,7 +54,7 @@ func resourceSystemSdwanZone() *schema.Resource {
 			},
 			"service_sla_tie_break": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"cfg-order", "fib-best-match"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"cfg-order", "fib-best-match", "input-device"}, false),
 
 				Description: "Method of selecting member if more than one meets the SLA.",
 				Optional:    true,

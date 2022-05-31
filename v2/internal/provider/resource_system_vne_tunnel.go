@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -15,7 +15,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"github.com/poroping/forti-sdk-go/v2/models"
-	"github.com/poroping/terraform-provider-fortios/v2/suppressors"
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 	"github.com/poroping/terraform-provider-fortios/v2/validators"
 )
@@ -49,12 +48,28 @@ func resourceSystemVneTunnel() *schema.Resource {
 				Sensitive:   true,
 			},
 			"br": {
-				Type:             schema.TypeString,
-				ValidateFunc:     validation.IsIPv6Address,
-				DiffSuppressFunc: suppressors.DiffIPEqual,
-				Description:      "Border relay IPv6 address.",
-				Optional:         true,
-				Computed:         true,
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 255),
+
+				Description: "IPv6 address or FQDN of the border relay.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"http_password": {
+				Type: schema.TypeString,
+
+				Description: "HTTP authentication password.",
+				Optional:    true,
+				Computed:    true,
+				Sensitive:   true,
+			},
+			"http_username": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 64),
+
+				Description: "HTTP authentication user name.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"interface": {
 				Type:         schema.TypeString,
@@ -74,7 +89,7 @@ func resourceSystemVneTunnel() *schema.Resource {
 			},
 			"mode": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"map-e", "fixed-ip"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"map-e", "fixed-ip", "ds-lite"}, false),
 
 				Description: "VNE tunnel mode.",
 				Optional:    true,
@@ -277,6 +292,23 @@ func refreshObjectSystemVneTunnel(d *schema.ResourceData, o *models.SystemVneTun
 		}
 	}
 
+	if o.HttpPassword != nil {
+		v := *o.HttpPassword
+
+		if v == "ENC XXXX" {
+		} else if err = d.Set("http_password", v); err != nil {
+			return diag.Errorf("error reading http_password: %v", err)
+		}
+	}
+
+	if o.HttpUsername != nil {
+		v := *o.HttpUsername
+
+		if err = d.Set("http_username", v); err != nil {
+			return diag.Errorf("error reading http_username: %v", err)
+		}
+	}
+
 	if o.Interface != nil {
 		v := *o.Interface
 
@@ -353,6 +385,24 @@ func getObjectSystemVneTunnel(d *schema.ResourceData, sv string) (*models.System
 				diags = append(diags, e)
 			}
 			obj.Br = &v2
+		}
+	}
+	if v1, ok := d.GetOk("http_password"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("http_password", sv)
+				diags = append(diags, e)
+			}
+			obj.HttpPassword = &v2
+		}
+	}
+	if v1, ok := d.GetOk("http_username"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("http_username", sv)
+				diags = append(diags, e)
+			}
+			obj.HttpUsername = &v2
 		}
 	}
 	if v1, ok := d.GetOk("interface"); ok {

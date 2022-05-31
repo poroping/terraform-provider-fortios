@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -176,6 +176,11 @@ func dataSourceVpnSslSettings() *schema.Resource {
 			"banned_cipher": {
 				Type:        schema.TypeString,
 				Description: "Select one or more cipher technologies that cannot be used in SSL-VPN negotiations. Only applies to TLS 1.2 and below.",
+				Computed:    true,
+			},
+			"browser_language_detection": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable overriding the configured system language based on the preferred language of the browser.",
 				Computed:    true,
 			},
 			"check_referer": {
@@ -526,6 +531,11 @@ func dataSourceVpnSslSettings() *schema.Resource {
 			"user_peer": {
 				Type:        schema.TypeString,
 				Description: "Name of user peer.",
+				Computed:    true,
+			},
+			"web_mode_snat": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable use of IP pools defined in firewall policy while using web-mode.",
 				Computed:    true,
 			},
 			"wins_server1": {

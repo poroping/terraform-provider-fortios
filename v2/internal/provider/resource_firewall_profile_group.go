@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -65,6 +65,14 @@ func resourceFirewallProfileGroup() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 35),
 
 				Description: "Name of an existing CIFS profile.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"dlp_profile": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "Name of an existing DLP profile.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -372,6 +380,14 @@ func refreshObjectFirewallProfileGroup(d *schema.ResourceData, o *models.Firewal
 		}
 	}
 
+	if o.DlpProfile != nil {
+		v := *o.DlpProfile
+
+		if err = d.Set("dlp_profile", v); err != nil {
+			return diag.Errorf("error reading dlp_profile: %v", err)
+		}
+	}
+
 	if o.DlpSensor != nil {
 		v := *o.DlpSensor
 
@@ -526,9 +542,18 @@ func getObjectFirewallProfileGroup(d *schema.ResourceData, sv string) (*models.F
 			obj.CifsProfile = &v2
 		}
 	}
+	if v1, ok := d.GetOk("dlp_profile"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("dlp_profile", sv)
+				diags = append(diags, e)
+			}
+			obj.DlpProfile = &v2
+		}
+	}
 	if v1, ok := d.GetOk("dlp_sensor"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.0") {
 				e := utils.AttributeVersionWarning("dlp_sensor", sv)
 				diags = append(diags, e)
 			}

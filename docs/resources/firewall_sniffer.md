@@ -24,6 +24,8 @@ Configure sniffer.
 * `application_list_status` - Enable/disable application control profile. Valid values: `enable` `disable` .
 * `av_profile` - Name of an existing antivirus profile. This attribute must reference one of the following datasources: `antivirus.profile.name` .
 * `av_profile_status` - Enable/disable antivirus profile. Valid values: `enable` `disable` .
+* `dlp_profile` - Name of an existing DLP profile. This attribute must reference one of the following datasources: `dlp.profile.name` .
+* `dlp_profile_status` - Enable/disable DLP profile. Valid values: `enable` `disable` .
 * `dlp_sensor` - Name of an existing DLP sensor. This attribute must reference one of the following datasources: `dlp.sensor.name` .
 * `dlp_sensor_status` - Enable/disable DLP sensor. Valid values: `enable` `disable` .
 * `dsri` - Enable/disable DSRI. Valid values: `enable` `disable` .

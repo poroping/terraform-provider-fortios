@@ -30,6 +30,8 @@ The following attributes are exported:
 * `av_profile` - Antivirus profile.
 * `av_profile_status` - Enable/disable antivirus.
 * `comments` - Comments.
+* `dlp_profile` - DLP profile name.
+* `dlp_profile_status` - Enable/disable DLP.
 * `dlp_sensor` - DLP sensor name.
 * `dlp_sensor_status` - Enable/disable DLP.
 * `dsri` - Enable/disable DSRI.

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -30,6 +30,16 @@ func dataSourceIcapProfile() *schema.Resource {
 				Optional:    true,
 				ForceNew:    true,
 			},
+			"204_response": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable allowance of 204 response from ICAP server.",
+				Computed:    true,
+			},
+			"204_size_limit": {
+				Type:        schema.TypeInt,
+				Description: "204 response size limit to be saved by ICAP client in megabytes (1 - 10, default = 1 MB).",
+				Computed:    true,
+			},
 			"chunk_encap": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable chunked encapsulation (default = disable).",
@@ -38,6 +48,26 @@ func dataSourceIcapProfile() *schema.Resource {
 			"extension_feature": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable ICAP extension features.",
+				Computed:    true,
+			},
+			"file_transfer": {
+				Type:        schema.TypeString,
+				Description: "Configure the file transfer protocols to pass transferred files to an ICAP server as REQMOD.",
+				Computed:    true,
+			},
+			"file_transfer_failure": {
+				Type:        schema.TypeString,
+				Description: "Action to take if the ICAP server cannot be contacted when processing a file transfer.",
+				Computed:    true,
+			},
+			"file_transfer_path": {
+				Type:        schema.TypeString,
+				Description: "Path component of the ICAP URI that identifies the file transfer processing service.",
+				Computed:    true,
+			},
+			"file_transfer_server": {
+				Type:        schema.TypeString,
+				Description: "ICAP server to use for a file transfer.",
 				Computed:    true,
 			},
 			"icap_block_log": {
@@ -224,6 +254,11 @@ func dataSourceIcapProfile() *schema.Resource {
 			"streaming_content_bypass": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable bypassing of ICAP server for streaming content.",
+				Computed:    true,
+			},
+			"timeout": {
+				Type:        schema.TypeInt,
+				Description: "Time (in seconds) that ICAP client waits for the response from ICAP server.",
 				Computed:    true,
 			},
 		},

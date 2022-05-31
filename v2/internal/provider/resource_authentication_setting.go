@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -150,6 +150,22 @@ func resourceAuthenticationSetting() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"cookie_max_age": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(30, 10080),
+
+				Description: "Persistent web portal cookie maximum age in minutes (30 - 10080 (1 week), default = 480 (8 hours)).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"cookie_refresh_div": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(2, 4),
+
+				Description: "Refresh rate divider of persistent web portal cookie (default = 2). Refresh value = cookie-max-age/cookie-refresh-div.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"dev_range": {
 				Type:        schema.TypeList,
 				Description: "Address range for the IP based device query.",
@@ -167,11 +183,34 @@ func resourceAuthenticationSetting() *schema.Resource {
 					},
 				},
 			},
+			"ip_auth_cookie": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable persistent cookie on IP based web portal authentication (default = disable).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"persistent_cookie": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable persistent cookie on web portal authentication (default = enable).",
+				Optional:    true,
+				Computed:    true,
+			},
 			"sso_auth_scheme": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 
 				Description: "Single-Sign-On authentication method (scheme name).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"update_time": {
+				Type: schema.TypeString,
+
+				Description: "Time of the last update.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -496,9 +535,41 @@ func refreshObjectAuthenticationSetting(d *schema.ResourceData, o *models.Authen
 		}
 	}
 
+	if o.CookieMaxAge != nil {
+		v := *o.CookieMaxAge
+
+		if err = d.Set("cookie_max_age", v); err != nil {
+			return diag.Errorf("error reading cookie_max_age: %v", err)
+		}
+	}
+
+	if o.CookieRefreshDiv != nil {
+		v := *o.CookieRefreshDiv
+
+		if err = d.Set("cookie_refresh_div", v); err != nil {
+			return diag.Errorf("error reading cookie_refresh_div: %v", err)
+		}
+	}
+
 	if o.DevRange != nil {
 		if err = d.Set("dev_range", flattenAuthenticationSettingDevRange(d, o.DevRange, "dev_range", sort)); err != nil {
 			return diag.Errorf("error reading dev_range: %v", err)
+		}
+	}
+
+	if o.IpAuthCookie != nil {
+		v := *o.IpAuthCookie
+
+		if err = d.Set("ip_auth_cookie", v); err != nil {
+			return diag.Errorf("error reading ip_auth_cookie: %v", err)
+		}
+	}
+
+	if o.PersistentCookie != nil {
+		v := *o.PersistentCookie
+
+		if err = d.Set("persistent_cookie", v); err != nil {
+			return diag.Errorf("error reading persistent_cookie: %v", err)
 		}
 	}
 
@@ -507,6 +578,14 @@ func refreshObjectAuthenticationSetting(d *schema.ResourceData, o *models.Authen
 
 		if err = d.Set("sso_auth_scheme", v); err != nil {
 			return diag.Errorf("error reading sso_auth_scheme: %v", err)
+		}
+	}
+
+	if o.UpdateTime != nil {
+		v := *o.UpdateTime
+
+		if err = d.Set("update_time", v); err != nil {
+			return diag.Errorf("error reading update_time: %v", err)
 		}
 	}
 
@@ -691,6 +770,26 @@ func getObjectAuthenticationSetting(d *schema.ResourceData, sv string) (*models.
 			obj.CertCaptivePortalPort = &tmp
 		}
 	}
+	if v1, ok := d.GetOk("cookie_max_age"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("cookie_max_age", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.CookieMaxAge = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("cookie_refresh_div"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("cookie_refresh_div", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.CookieRefreshDiv = &tmp
+		}
+	}
 	if v, ok := d.GetOk("dev_range"); ok {
 		if !utils.CheckVer(sv, "v7.0.0", "") {
 			e := utils.AttributeVersionWarning("dev_range", sv)
@@ -708,6 +807,24 @@ func getObjectAuthenticationSetting(d *schema.ResourceData, sv string) (*models.
 			obj.DevRange = &[]models.AuthenticationSettingDevRange{}
 		}
 	}
+	if v1, ok := d.GetOk("ip_auth_cookie"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("ip_auth_cookie", sv)
+				diags = append(diags, e)
+			}
+			obj.IpAuthCookie = &v2
+		}
+	}
+	if v1, ok := d.GetOk("persistent_cookie"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("persistent_cookie", sv)
+				diags = append(diags, e)
+			}
+			obj.PersistentCookie = &v2
+		}
+	}
 	if v1, ok := d.GetOk("sso_auth_scheme"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -715,6 +832,15 @@ func getObjectAuthenticationSetting(d *schema.ResourceData, sv string) (*models.
 				diags = append(diags, e)
 			}
 			obj.SsoAuthScheme = &v2
+		}
+	}
+	if v1, ok := d.GetOk("update_time"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("update_time", sv)
+				diags = append(diags, e)
+			}
+			obj.UpdateTime = &v2
 		}
 	}
 	if v, ok := d.GetOk("user_cert_ca"); ok {

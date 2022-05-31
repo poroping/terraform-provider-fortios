@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -184,6 +184,11 @@ func dataSourceFirewallPolicy() *schema.Resource {
 			"disclaimer": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable user authentication disclaimer.",
+				Computed:    true,
+			},
+			"dlp_profile": {
+				Type:        schema.TypeString,
+				Description: "Name of an existing DLP profile.",
 				Computed:    true,
 			},
 			"dlp_sensor": {
@@ -633,6 +638,16 @@ func dataSourceFirewallPolicy() *schema.Resource {
 			"permit_stun_host": {
 				Type:        schema.TypeString,
 				Description: "Accept UDP packets from any Session Traversal Utilities for NAT (STUN) host.",
+				Computed:    true,
+			},
+			"policy_expiry": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable policy expiry.",
+				Computed:    true,
+			},
+			"policy_expiry_date": {
+				Type:        schema.TypeString,
+				Description: "Policy expiry date (YYYY-MM-DD HH:MM:SS).",
 				Computed:    true,
 			},
 			"policyid": {

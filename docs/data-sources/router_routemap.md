@@ -67,6 +67,7 @@ The `rule` block contains:
 * `set_metric_type` - Metric type.
 * `set_origin` - BGP origin code.
 * `set_originator_id` - BGP originator ID attribute.
+* `set_priority` - Priority for routing table.
 * `set_route_tag` - Route tag for routing table.
 * `set_tag` - Tag value.
 * `set_weight` - BGP weight for routing table.

@@ -30,7 +30,8 @@ Configure SSL/SSH protocol options.
 * `rpc_over_https` - Enable/disable inspection of RPC over HTTPS. Valid values: `enable` `disable` .
 * `server_cert_mode` - Re-sign or replace the server's certificate. Valid values: `re-sign` `replace` .
 * `ssl_anomalies_log` - Enable/disable logging SSL anomalies. Valid values: `disable` `enable` .
-* `ssl_anomaly_log` - Enable/disable logging SSL anomalies. Valid values: `disable` `enable` .
+* `ssl_anomaly_log` - Enable/disable logging of SSL anomalies. Valid values: `disable` `enable` .
+* `ssl_exemption_ip_rating` - Enable/disable IP based URL rating. Valid values: `enable` `disable` .
 * `ssl_exemption_log` - Enable/disable logging SSL exemptions. Valid values: `disable` `enable` .
 * `ssl_exemptions_log` - Enable/disable logging SSL exemptions. Valid values: `disable` `enable` .
 * `ssl_handshake_log` - Enable/disable logging of TLS handshakes. Valid values: `disable` `enable` .

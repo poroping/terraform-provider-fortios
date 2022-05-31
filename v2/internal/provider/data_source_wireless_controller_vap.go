@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -47,7 +47,12 @@ func dataSourceWirelessControllerVap() *schema.Resource {
 			},
 			"address_group": {
 				Type:        schema.TypeString,
-				Description: "Address group ID.",
+				Description: "Firewall Address Group Name.",
+				Computed:    true,
+			},
+			"address_group_policy": {
+				Type:        schema.TypeString,
+				Description: "Configure MAC address filtering policy for MAC addresses that are in the address-group.",
 				Computed:    true,
 			},
 			"antivirus_profile": {
@@ -55,9 +60,19 @@ func dataSourceWirelessControllerVap() *schema.Resource {
 				Description: "AntiVirus profile name.",
 				Computed:    true,
 			},
+			"application_detection_engine": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable application detection engine (default = disable).",
+				Computed:    true,
+			},
 			"application_list": {
 				Type:        schema.TypeString,
 				Description: "Application control list name.",
+				Computed:    true,
+			},
+			"application_report_intv": {
+				Type:        schema.TypeInt,
+				Description: "Application report interval (30 - 864000 sec, default = 120).",
 				Computed:    true,
 			},
 			"atf_weight": {
@@ -316,6 +331,11 @@ func dataSourceWirelessControllerVap() *schema.Resource {
 			"keyindex": {
 				Type:        schema.TypeInt,
 				Description: "WEP key index (1 - 4).",
+				Computed:    true,
+			},
+			"l3_roaming": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable layer 3 roaming (default = disable).",
 				Computed:    true,
 			},
 			"ldpc": {

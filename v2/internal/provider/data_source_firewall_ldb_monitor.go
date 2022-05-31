@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -62,7 +62,7 @@ func dataSourceFirewallLdbMonitor() *schema.Resource {
 			},
 			"interval": {
 				Type:        schema.TypeInt,
-				Description: "Time between health checks (5 - 65635 sec, default = 10).",
+				Description: "Time between health checks (5 - 65535 sec, default = 10).",
 				Computed:    true,
 			},
 			"name": {
@@ -72,7 +72,7 @@ func dataSourceFirewallLdbMonitor() *schema.Resource {
 			},
 			"port": {
 				Type:        schema.TypeInt,
-				Description: "Service port used to perform the health check. If 0, health check monitor inherits port configured for the server (0 - 65635, default = 0).",
+				Description: "Service port used to perform the health check. If 0, health check monitor inherits port configured for the server (0 - 65535, default = 0).",
 				Computed:    true,
 			},
 			"retry": {

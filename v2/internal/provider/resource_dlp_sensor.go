@@ -1,9 +1,9 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
-// Description: Configure DLP sensors.
+// Description: Configure sensors used by DLP blocking.
 
 package provider
 
@@ -22,7 +22,7 @@ import (
 
 func resourceDlpSensor() *schema.Resource {
 	return &schema.Resource{
-		Description: "Configure DLP sensors.",
+		Description: "Configure sensors used by DLP blocking.",
 
 		CreateContext: resourceDlpSensorCreate,
 		ReadContext:   resourceDlpSensorRead,
@@ -56,7 +56,7 @@ func resourceDlpSensor() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
 
-				Description: "Comment.",
+				Description: "Optional comments.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -65,6 +65,55 @@ func resourceDlpSensor() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable DLP logging.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"entries": {
+				Type:        schema.TypeList,
+				Description: "DLP sensor entries.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"count": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(1, 255),
+
+							Description: "Count of dictionary matches to trigger sensor entry match (Dictionary might not be able to trigger more than once based on its 'repeat' option, 1 - 255, default = 1).",
+							Optional:    true,
+							Computed:    true,
+						},
+						"dictionary": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 35),
+
+							Description: "Select a DLP dictionary.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"id": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(1, 32),
+
+							Description: "ID.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"status": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+							Description: "Enable/disable this entry.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"eval": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 255),
+
+				Description: "Expression to evaluate.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -226,6 +275,14 @@ func resourceDlpSensor() *schema.Resource {
 				Optional:         true,
 				Computed:         true,
 			},
+			"match_type": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"match-all", "match-any", "match-eval"}, false),
+
+				Description: "Logical relation between entries (default = match-any).",
+				Optional:    true,
+				Computed:    true,
+			},
 			"nac_quar_log": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -238,7 +295,7 @@ func resourceDlpSensor() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 
-				Description: "Name of the DLP sensor.",
+				Description: "Name of table containing the sensor.",
 				ForceNew:    true,
 				Required:    true,
 			},
@@ -423,6 +480,40 @@ func resourceDlpSensorRead(ctx context.Context, d *schema.ResourceData, meta int
 	return nil
 }
 
+func flattenDlpSensorEntries(d *schema.ResourceData, v *[]models.DlpSensorEntries, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Count; tmp != nil {
+				v["count"] = *tmp
+			}
+
+			if tmp := cfg.Dictionary; tmp != nil {
+				v["dictionary"] = *tmp
+			}
+
+			if tmp := cfg.Id; tmp != nil {
+				v["id"] = *tmp
+			}
+
+			if tmp := cfg.Status; tmp != nil {
+				v["status"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "id")
+	}
+
+	return flat
+}
+
 func flattenDlpSensorFilter(d *schema.ResourceData, v *[]models.DlpSensorFilter, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
@@ -542,6 +633,20 @@ func refreshObjectDlpSensor(d *schema.ResourceData, o *models.DlpSensor, sv stri
 		}
 	}
 
+	if o.Entries != nil {
+		if err = d.Set("entries", flattenDlpSensorEntries(d, o.Entries, "entries", sort)); err != nil {
+			return diag.Errorf("error reading entries: %v", err)
+		}
+	}
+
+	if o.Eval != nil {
+		v := *o.Eval
+
+		if err = d.Set("eval", v); err != nil {
+			return diag.Errorf("error reading eval: %v", err)
+		}
+	}
+
 	if o.ExtendedLog != nil {
 		v := *o.ExtendedLog
 
@@ -569,6 +674,14 @@ func refreshObjectDlpSensor(d *schema.ResourceData, o *models.DlpSensor, sv stri
 
 		if err = d.Set("full_archive_proto", v); err != nil {
 			return diag.Errorf("error reading full_archive_proto: %v", err)
+		}
+	}
+
+	if o.MatchType != nil {
+		v := *o.MatchType
+
+		if err = d.Set("match_type", v); err != nil {
+			return diag.Errorf("error reading match_type: %v", err)
 		}
 	}
 
@@ -613,6 +726,53 @@ func refreshObjectDlpSensor(d *schema.ResourceData, o *models.DlpSensor, sv stri
 	}
 
 	return nil
+}
+
+func expandDlpSensorEntries(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.DlpSensorEntries, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.DlpSensorEntries
+
+	for i := range l {
+		tmp := models.DlpSensorEntries{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.count", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Count = &v3
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.dictionary", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Dictionary = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.status", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Status = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
 }
 
 func expandDlpSensorFilter(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.DlpSensorFilter, error) {
@@ -783,16 +943,42 @@ func getObjectDlpSensor(d *schema.ResourceData, sv string) (*models.DlpSensor, d
 	}
 	if v1, ok := d.GetOk("dlp_log"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.0") {
 				e := utils.AttributeVersionWarning("dlp_log", sv)
 				diags = append(diags, e)
 			}
 			obj.DlpLog = &v2
 		}
 	}
+	if v, ok := d.GetOk("entries"); ok {
+		if !utils.CheckVer(sv, "v7.2.0", "") {
+			e := utils.AttributeVersionWarning("entries", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandDlpSensorEntries(d, v, "entries", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.Entries = t
+		}
+	} else if d.HasChange("entries") {
+		old, new := d.GetChange("entries")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.Entries = &[]models.DlpSensorEntries{}
+		}
+	}
+	if v1, ok := d.GetOk("eval"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("eval", sv)
+				diags = append(diags, e)
+			}
+			obj.Eval = &v2
+		}
+	}
 	if v1, ok := d.GetOk("extended_log"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.0") {
 				e := utils.AttributeVersionWarning("extended_log", sv)
 				diags = append(diags, e)
 			}
@@ -801,7 +987,7 @@ func getObjectDlpSensor(d *schema.ResourceData, sv string) (*models.DlpSensor, d
 	}
 	if v1, ok := d.GetOk("feature_set"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.0", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "v7.2.0") {
 				e := utils.AttributeVersionWarning("feature_set", sv)
 				diags = append(diags, e)
 			}
@@ -809,7 +995,7 @@ func getObjectDlpSensor(d *schema.ResourceData, sv string) (*models.DlpSensor, d
 		}
 	}
 	if v, ok := d.GetOk("filter"); ok {
-		if !utils.CheckVer(sv, "", "") {
+		if !utils.CheckVer(sv, "", "v7.2.0") {
 			e := utils.AttributeVersionWarning("filter", sv)
 			diags = append(diags, e)
 		}
@@ -827,16 +1013,25 @@ func getObjectDlpSensor(d *schema.ResourceData, sv string) (*models.DlpSensor, d
 	}
 	if v1, ok := d.GetOk("full_archive_proto"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.0") {
 				e := utils.AttributeVersionWarning("full_archive_proto", sv)
 				diags = append(diags, e)
 			}
 			obj.FullArchiveProto = &v2
 		}
 	}
+	if v1, ok := d.GetOk("match_type"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("match_type", sv)
+				diags = append(diags, e)
+			}
+			obj.MatchType = &v2
+		}
+	}
 	if v1, ok := d.GetOk("nac_quar_log"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.0") {
 				e := utils.AttributeVersionWarning("nac_quar_log", sv)
 				diags = append(diags, e)
 			}
@@ -863,7 +1058,7 @@ func getObjectDlpSensor(d *schema.ResourceData, sv string) (*models.DlpSensor, d
 	}
 	if v1, ok := d.GetOk("replacemsg_group"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.0") {
 				e := utils.AttributeVersionWarning("replacemsg_group", sv)
 				diags = append(diags, e)
 			}
@@ -872,7 +1067,7 @@ func getObjectDlpSensor(d *schema.ResourceData, sv string) (*models.DlpSensor, d
 	}
 	if v1, ok := d.GetOk("summary_proto"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.0") {
 				e := utils.AttributeVersionWarning("summary_proto", sv)
 				diags = append(diags, e)
 			}

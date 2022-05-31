@@ -3,11 +3,11 @@ subcategory: "FortiGate Dlp"
 layout: "fortios"
 page_title: "FortiOS: fortios_dlp_sensor"
 description: |-
-  Configure DLP sensors.
+  Configure sensors used by DLP blocking.
 ---
 
 ## fortios_dlp_sensor
-Configure DLP sensors.
+Configure sensors used by DLP blocking.
 
 ## Example Usage
 
@@ -20,16 +20,26 @@ Configure DLP sensors.
 * `allow_append` - If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution! Requires `name` to be defined.
 * `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
-* `comment` - Comment.
+* `comment` - Optional comments.
 * `dlp_log` - Enable/disable DLP logging. Valid values: `enable` `disable` .
+* `eval` - Expression to evaluate.
 * `extended_log` - Enable/disable extended logging for data leak prevention. Valid values: `enable` `disable` .
 * `feature_set` - Flow/proxy feature set. Valid values: `flow` `proxy` .
 * `full_archive_proto` - Protocols to always content archive. Valid values: `smtp` `pop3` `imap` `http-get` `http-post` `ftp` `nntp` `mapi` `ssh` `cifs` .
+* `match_type` - Logical relation between entries (default = match-any). Valid values: `match-all` `match-any` `match-eval` .
 * `nac_quar_log` - Enable/disable NAC quarantine logging. Valid values: `enable` `disable` .
-* `name` - Name of the DLP sensor.
+* `name` - Name of table containing the sensor.
 * `options` - Configure DLP options. Valid values: .
 * `replacemsg_group` - Replacement message group used by this DLP sensor. This attribute must reference one of the following datasources: `system.replacemsg-group.name` .
 * `summary_proto` - Protocols to always log summary. Valid values: `smtp` `pop3` `imap` `http-get` `http-post` `ftp` `nntp` `mapi` `ssh` `cifs` .
+* `entries` - DLP sensor entries. The structure of `entries` block is documented below.
+
+The `entries` block contains:
+
+* `count` - Count of dictionary matches to trigger sensor entry match (Dictionary might not be able to trigger more than once based on its 'repeat' option, 1 - 255, default = 1).
+* `dictionary` - Select a DLP dictionary. This attribute must reference one of the following datasources: `dlp.dictionary.name` .
+* `id` - ID.
+* `status` - Enable/disable this entry. Valid values: `enable` `disable` .
 * `filter` - Set up DLP filters for this sensor. The structure of `filter` block is documented below.
 
 The `filter` block contains:

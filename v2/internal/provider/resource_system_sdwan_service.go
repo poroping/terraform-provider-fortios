@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -247,6 +247,23 @@ func resourceSystemSdwanService() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"input_zone": {
+				Type:        schema.TypeList,
+				Description: "Source input-zone name.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 79),
+
+							Description: "Zone.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
+			},
 			"internet_service": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -265,6 +282,22 @@ func resourceSystemSdwanService() *schema.Resource {
 							Type: schema.TypeInt,
 
 							Description: "Application control based Internet Service ID.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service_app_ctrl_category": {
+				Type:        schema.TypeList,
+				Description: "IDs of one or more application control categories.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"id": {
+							Type: schema.TypeInt,
+
+							Description: "Application control category ID.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -592,7 +625,7 @@ func resourceSystemSdwanService() *schema.Resource {
 			},
 			"tie_break": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"zone", "cfg-order", "fib-best-match"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"zone", "cfg-order", "fib-best-match", "input-device"}, false),
 
 				Description: "Method of selecting member if more than one meets the SLA.",
 				Optional:    true,
@@ -939,6 +972,12 @@ func refreshObjectSystemSdwanService(d *schema.ResourceData, o *models.SystemSdw
 		}
 	}
 
+	if o.InputZone != nil {
+		if err = d.Set("input_zone", flattenSystemSdwanServiceInputZone(d, o.InputZone, "input_zone", sort)); err != nil {
+			return diag.Errorf("error reading input_zone: %v", err)
+		}
+	}
+
 	if o.InternetService != nil {
 		v := *o.InternetService
 
@@ -950,6 +989,12 @@ func refreshObjectSystemSdwanService(d *schema.ResourceData, o *models.SystemSdw
 	if o.InternetServiceAppCtrl != nil {
 		if err = d.Set("internet_service_app_ctrl", flattenSystemSdwanServiceInternetServiceAppCtrl(d, o.InternetServiceAppCtrl, "internet_service_app_ctrl", sort)); err != nil {
 			return diag.Errorf("error reading internet_service_app_ctrl: %v", err)
+		}
+	}
+
+	if o.InternetServiceAppCtrlCategory != nil {
+		if err = d.Set("internet_service_app_ctrl_category", flattenSystemSdwanServiceInternetServiceAppCtrlCategory(d, o.InternetServiceAppCtrlCategory, "internet_service_app_ctrl_category", sort)); err != nil {
+			return diag.Errorf("error reading internet_service_app_ctrl_category: %v", err)
 		}
 	}
 
@@ -1417,6 +1462,23 @@ func getObjectSystemSdwanService(d *schema.ResourceData, sv string) (*models.Sys
 			obj.InputDeviceNegate = &v2
 		}
 	}
+	if v, ok := d.GetOk("input_zone"); ok {
+		if !utils.CheckVer(sv, "v7.2.0", "") {
+			e := utils.AttributeVersionWarning("input_zone", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandSystemSdwanServiceInputZone(d, v, "input_zone", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.InputZone = t
+		}
+	} else if d.HasChange("input_zone") {
+		old, new := d.GetChange("input_zone")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.InputZone = &[]models.SystemSdwanServiceInputZone{}
+		}
+	}
 	if v1, ok := d.GetOk("internet_service"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -1441,6 +1503,23 @@ func getObjectSystemSdwanService(d *schema.ResourceData, sv string) (*models.Sys
 		old, new := d.GetChange("internet_service_app_ctrl")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
 			obj.InternetServiceAppCtrl = &[]models.SystemSdwanServiceInternetServiceAppCtrl{}
+		}
+	}
+	if v, ok := d.GetOk("internet_service_app_ctrl_category"); ok {
+		if !utils.CheckVer(sv, "v7.2.0", "") {
+			e := utils.AttributeVersionWarning("internet_service_app_ctrl_category", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandSystemSdwanServiceInternetServiceAppCtrlCategory(d, v, "internet_service_app_ctrl_category", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.InternetServiceAppCtrlCategory = t
+		}
+	} else if d.HasChange("internet_service_app_ctrl_category") {
+		old, new := d.GetChange("internet_service_app_ctrl_category")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.InternetServiceAppCtrlCategory = &[]models.SystemSdwanServiceInternetServiceAppCtrlCategory{}
 		}
 	}
 	if v, ok := d.GetOk("internet_service_app_ctrl_group"); ok {

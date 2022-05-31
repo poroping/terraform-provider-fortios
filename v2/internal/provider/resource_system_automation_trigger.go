@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -61,7 +61,7 @@ func resourceSystemAutomationTrigger() *schema.Resource {
 			},
 			"event_type": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"ioc", "event-log", "reboot", "low-memory", "high-cpu", "license-near-expiry", "ha-failover", "config-change", "security-rating-summary", "virus-ips-db-updated", "faz-event", "incoming-webhook", "fabric-event"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"ioc", "event-log", "reboot", "low-memory", "high-cpu", "license-near-expiry", "ha-failover", "config-change", "security-rating-summary", "virus-ips-db-updated", "faz-event", "incoming-webhook", "fabric-event", "ips-logs", "anomaly-logs", "virus-logs", "ssh-logs", "webfilter-violation", "traffic-violation"}, false),
 
 				Description: "Event type.",
 				Optional:    true,
@@ -243,6 +243,23 @@ func resourceSystemAutomationTrigger() *schema.Resource {
 				Description: "Day of week for trigger.",
 				Optional:    true,
 				Computed:    true,
+			},
+			"vdom": {
+				Type:        schema.TypeList,
+				Description: "Virtual domain(s) that this trigger is valid for.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 79),
+
+							Description: "Virtual domain name.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
 			},
 		},
 	}
@@ -453,6 +470,28 @@ func flattenSystemAutomationTriggerLogid(d *schema.ResourceData, v *[]models.Sys
 	return flat
 }
 
+func flattenSystemAutomationTriggerVdom(d *schema.ResourceData, v *[]models.SystemAutomationTriggerVdom, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Name; tmp != nil {
+				v["name"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "name")
+	}
+
+	return flat
+}
+
 func refreshObjectSystemAutomationTrigger(d *schema.ResourceData, o *models.SystemAutomationTrigger, sv string, sort bool) diag.Diagnostics {
 	var err error
 
@@ -612,6 +651,12 @@ func refreshObjectSystemAutomationTrigger(d *schema.ResourceData, o *models.Syst
 		}
 	}
 
+	if o.Vdom != nil {
+		if err = d.Set("vdom", flattenSystemAutomationTriggerVdom(d, o.Vdom, "vdom", sort)); err != nil {
+			return diag.Errorf("error reading vdom: %v", err)
+		}
+	}
+
 	return nil
 }
 
@@ -671,6 +716,30 @@ func expandSystemAutomationTriggerLogid(d *schema.ResourceData, v interface{}, p
 			if v2, ok := v1.(int); ok {
 				v3 := int64(v2)
 				tmp.Id = &v3
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandSystemAutomationTriggerVdom(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemAutomationTriggerVdom, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.SystemAutomationTriggerVdom
+
+	for i := range l {
+		tmp := models.SystemAutomationTriggerVdom{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Name = &v2
 			}
 		}
 
@@ -880,6 +949,23 @@ func getObjectSystemAutomationTrigger(d *schema.ResourceData, sv string) (*model
 				diags = append(diags, e)
 			}
 			obj.TriggerWeekday = &v2
+		}
+	}
+	if v, ok := d.GetOk("vdom"); ok {
+		if !utils.CheckVer(sv, "v7.2.0", "") {
+			e := utils.AttributeVersionWarning("vdom", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandSystemAutomationTriggerVdom(d, v, "vdom", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.Vdom = t
+		}
+	} else if d.HasChange("vdom") {
+		old, new := d.GetChange("vdom")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.Vdom = &[]models.SystemAutomationTriggerVdom{}
 		}
 	}
 	return &obj, diags

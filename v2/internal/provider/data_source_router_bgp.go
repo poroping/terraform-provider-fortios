@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -39,9 +39,19 @@ func dataSourceRouterBgp() *schema.Resource {
 				Description: "Number of additional paths to be selected for each IPv4 NLRI.",
 				Computed:    true,
 			},
+			"additional_path_select_vpnv4": {
+				Type:        schema.TypeInt,
+				Description: "Number of additional paths to be selected for each VPNv4 NLRI.",
+				Computed:    true,
+			},
 			"additional_path_select6": {
 				Type:        schema.TypeInt,
 				Description: "Number of additional paths to be selected for each IPv6 NLRI.",
+				Computed:    true,
+			},
+			"additional_path_vpnv4": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable selection of BGP VPNv4 additional paths.",
 				Computed:    true,
 			},
 			"additional_path6": {
@@ -341,6 +351,11 @@ func dataSourceRouterBgp() *schema.Resource {
 							Description: "Enable/disable address family IPv4 for this neighbor.",
 							Computed:    true,
 						},
+						"activate_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable address family VPNv4 for this neighbor.",
+							Computed:    true,
+						},
 						"activate6": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable address family IPv6 for this neighbor.",
@@ -351,6 +366,11 @@ func dataSourceRouterBgp() *schema.Resource {
 							Description: "Enable/disable IPv4 additional-path capability.",
 							Computed:    true,
 						},
+						"additional_path_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable VPNv4 additional-path capability.",
+							Computed:    true,
+						},
 						"additional_path6": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable IPv6 additional-path capability.",
@@ -359,6 +379,11 @@ func dataSourceRouterBgp() *schema.Resource {
 						"adv_additional_path": {
 							Type:        schema.TypeInt,
 							Description: "Number of IPv4 additional paths that can be advertised to this neighbor.",
+							Computed:    true,
+						},
+						"adv_additional_path_vpnv4": {
+							Type:        schema.TypeInt,
+							Description: "Number of VPNv4 additional paths that can be advertised to this neighbor.",
 							Computed:    true,
 						},
 						"adv_additional_path6": {
@@ -386,6 +411,11 @@ func dataSourceRouterBgp() *schema.Resource {
 							Description: "Enable/disable IPv6 Enable to allow my AS in AS path.",
 							Computed:    true,
 						},
+						"allowas_in_vpnv4": {
+							Type:        schema.TypeInt,
+							Description: "The maximum number of occurrence of my AS number allowed for VPNv4 route.",
+							Computed:    true,
+						},
 						"allowas_in6": {
 							Type:        schema.TypeInt,
 							Description: "IPv6 The maximum number of occurrence of my AS number allowed.",
@@ -404,6 +434,11 @@ func dataSourceRouterBgp() *schema.Resource {
 						"attribute_unchanged": {
 							Type:        schema.TypeString,
 							Description: "IPv4 List of attributes that should be unchanged.",
+							Computed:    true,
+						},
+						"attribute_unchanged_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "List of attributes that should be unchanged for VPNv4 route.",
 							Computed:    true,
 						},
 						"attribute_unchanged6": {
@@ -434,6 +469,11 @@ func dataSourceRouterBgp() *schema.Resource {
 						"capability_graceful_restart": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable advertise IPv4 graceful restart capability to this neighbor.",
+							Computed:    true,
+						},
+						"capability_graceful_restart_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable advertise VPNv4 graceful restart capability to this neighbor.",
 							Computed:    true,
 						},
 						"capability_graceful_restart6": {
@@ -547,6 +587,11 @@ func dataSourceRouterBgp() *schema.Resource {
 							Description: "Filter for IPv4 updates from this neighbor.",
 							Computed:    true,
 						},
+						"distribute_list_in_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Filter for VPNv4 updates from this neighbor.",
+							Computed:    true,
+						},
 						"distribute_list_in6": {
 							Type:        schema.TypeString,
 							Description: "Filter for IPv6 updates from this neighbor.",
@@ -555,6 +600,11 @@ func dataSourceRouterBgp() *schema.Resource {
 						"distribute_list_out": {
 							Type:        schema.TypeString,
 							Description: "Filter for IPv4 updates to this neighbor.",
+							Computed:    true,
+						},
+						"distribute_list_out_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Filter for VPNv4 updates to this neighbor.",
 							Computed:    true,
 						},
 						"distribute_list_out6": {
@@ -647,14 +697,29 @@ func dataSourceRouterBgp() *schema.Resource {
 							Description: "Maximum IPv4 prefix threshold value (1 - 100 percent).",
 							Computed:    true,
 						},
+						"maximum_prefix_threshold_vpnv4": {
+							Type:        schema.TypeInt,
+							Description: "Maximum VPNv4 prefix threshold value (1 - 100 percent).",
+							Computed:    true,
+						},
 						"maximum_prefix_threshold6": {
 							Type:        schema.TypeInt,
 							Description: "Maximum IPv6 prefix threshold value (1 - 100 percent).",
 							Computed:    true,
 						},
+						"maximum_prefix_vpnv4": {
+							Type:        schema.TypeInt,
+							Description: "Maximum number of VPNv4 prefixes to accept from this peer.",
+							Computed:    true,
+						},
 						"maximum_prefix_warning_only": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable IPv4 Only give warning message when limit is exceeded.",
+							Computed:    true,
+						},
+						"maximum_prefix_warning_only_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable only giving warning message when limit is exceeded for VPNv4 routes.",
 							Computed:    true,
 						},
 						"maximum_prefix_warning_only6": {
@@ -680,6 +745,11 @@ func dataSourceRouterBgp() *schema.Resource {
 						"next_hop_self_rr6": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable setting nexthop's address to interface's IPv6 address for route-reflector routes.",
+							Computed:    true,
+						},
+						"next_hop_self_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable setting VPNv4 next-hop to interface's IP address for this neighbor.",
 							Computed:    true,
 						},
 						"next_hop_self6": {
@@ -708,6 +778,11 @@ func dataSourceRouterBgp() *schema.Resource {
 							Description: "IPv4 Inbound filter for updates from this neighbor.",
 							Computed:    true,
 						},
+						"prefix_list_in_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Inbound filter for VPNv4 updates from this neighbor.",
+							Computed:    true,
+						},
 						"prefix_list_in6": {
 							Type:        schema.TypeString,
 							Description: "IPv6 Inbound filter for updates from this neighbor.",
@@ -716,6 +791,11 @@ func dataSourceRouterBgp() *schema.Resource {
 						"prefix_list_out": {
 							Type:        schema.TypeString,
 							Description: "IPv4 Outbound filter for updates to this neighbor.",
+							Computed:    true,
+						},
+						"prefix_list_out_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Outbound filter for VPNv4 updates to this neighbor.",
 							Computed:    true,
 						},
 						"prefix_list_out6": {
@@ -731,6 +811,11 @@ func dataSourceRouterBgp() *schema.Resource {
 						"remove_private_as": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable remove private AS number from IPv4 outbound updates.",
+							Computed:    true,
+						},
+						"remove_private_as_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable remove private AS number from VPNv4 outbound updates.",
 							Computed:    true,
 						},
 						"remove_private_as6": {
@@ -753,6 +838,11 @@ func dataSourceRouterBgp() *schema.Resource {
 							Description: "IPv4 Inbound route map filter.",
 							Computed:    true,
 						},
+						"route_map_in_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "VPNv4 inbound route map filter.",
+							Computed:    true,
+						},
 						"route_map_in6": {
 							Type:        schema.TypeString,
 							Description: "IPv6 Inbound route map filter.",
@@ -766,6 +856,16 @@ func dataSourceRouterBgp() *schema.Resource {
 						"route_map_out_preferable": {
 							Type:        schema.TypeString,
 							Description: "IPv4 outbound route map filter if the peer is preferred.",
+							Computed:    true,
+						},
+						"route_map_out_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "VPNv4 outbound route map filter.",
+							Computed:    true,
+						},
+						"route_map_out_vpnv4_preferable": {
+							Type:        schema.TypeString,
+							Description: "VPNv4 outbound route map filter if the peer is preferred.",
 							Computed:    true,
 						},
 						"route_map_out6": {
@@ -783,6 +883,11 @@ func dataSourceRouterBgp() *schema.Resource {
 							Description: "Enable/disable IPv4 AS route reflector client.",
 							Computed:    true,
 						},
+						"route_reflector_client_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable VPNv4 AS route reflector client for this neighbor.",
+							Computed:    true,
+						},
 						"route_reflector_client6": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable IPv6 AS route reflector client.",
@@ -793,6 +898,11 @@ func dataSourceRouterBgp() *schema.Resource {
 							Description: "Enable/disable IPv4 AS route server client.",
 							Computed:    true,
 						},
+						"route_server_client_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable VPNv4 AS route server client for this neighbor.",
+							Computed:    true,
+						},
 						"route_server_client6": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable IPv6 AS route server client.",
@@ -801,6 +911,11 @@ func dataSourceRouterBgp() *schema.Resource {
 						"send_community": {
 							Type:        schema.TypeString,
 							Description: "IPv4 Send community attribute to neighbor.",
+							Computed:    true,
+						},
+						"send_community_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Send community attribute to neighbor for VPNv4 address family.",
 							Computed:    true,
 						},
 						"send_community6": {
@@ -816,6 +931,11 @@ func dataSourceRouterBgp() *schema.Resource {
 						"soft_reconfiguration": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable allow IPv4 inbound soft reconfiguration.",
+							Computed:    true,
+						},
+						"soft_reconfiguration_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable allow VPNv4 inbound soft reconfiguration.",
 							Computed:    true,
 						},
 						"soft_reconfiguration6": {
@@ -867,6 +987,11 @@ func dataSourceRouterBgp() *schema.Resource {
 							Description: "Enable/disable address family IPv4 for this neighbor.",
 							Computed:    true,
 						},
+						"activate_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable address family VPNv4 for this neighbor.",
+							Computed:    true,
+						},
 						"activate6": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable address family IPv6 for this neighbor.",
@@ -877,6 +1002,11 @@ func dataSourceRouterBgp() *schema.Resource {
 							Description: "Enable/disable IPv4 additional-path capability.",
 							Computed:    true,
 						},
+						"additional_path_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable VPNv4 additional-path capability.",
+							Computed:    true,
+						},
 						"additional_path6": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable IPv6 additional-path capability.",
@@ -885,6 +1015,11 @@ func dataSourceRouterBgp() *schema.Resource {
 						"adv_additional_path": {
 							Type:        schema.TypeInt,
 							Description: "Number of IPv4 additional paths that can be advertised to this neighbor.",
+							Computed:    true,
+						},
+						"adv_additional_path_vpnv4": {
+							Type:        schema.TypeInt,
+							Description: "Number of VPNv4 additional paths that can be advertised to this neighbor.",
 							Computed:    true,
 						},
 						"adv_additional_path6": {
@@ -912,6 +1047,11 @@ func dataSourceRouterBgp() *schema.Resource {
 							Description: "Enable/disable IPv6 Enable to allow my AS in AS path.",
 							Computed:    true,
 						},
+						"allowas_in_vpnv4": {
+							Type:        schema.TypeInt,
+							Description: "The maximum number of occurrence of my AS number allowed for VPNv4 route.",
+							Computed:    true,
+						},
 						"allowas_in6": {
 							Type:        schema.TypeInt,
 							Description: "IPv6 The maximum number of occurrence of my AS number allowed.",
@@ -930,6 +1070,11 @@ func dataSourceRouterBgp() *schema.Resource {
 						"attribute_unchanged": {
 							Type:        schema.TypeString,
 							Description: "IPv4 List of attributes that should be unchanged.",
+							Computed:    true,
+						},
+						"attribute_unchanged_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "List of attributes that should be unchanged for VPNv4 route.",
 							Computed:    true,
 						},
 						"attribute_unchanged6": {
@@ -960,6 +1105,11 @@ func dataSourceRouterBgp() *schema.Resource {
 						"capability_graceful_restart": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable advertise IPv4 graceful restart capability to this neighbor.",
+							Computed:    true,
+						},
+						"capability_graceful_restart_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable advertise VPNv4 graceful restart capability to this neighbor.",
 							Computed:    true,
 						},
 						"capability_graceful_restart6": {
@@ -1007,6 +1157,11 @@ func dataSourceRouterBgp() *schema.Resource {
 							Description: "Filter for IPv4 updates from this neighbor.",
 							Computed:    true,
 						},
+						"distribute_list_in_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Filter for VPNv4 updates from this neighbor.",
+							Computed:    true,
+						},
 						"distribute_list_in6": {
 							Type:        schema.TypeString,
 							Description: "Filter for IPv6 updates from this neighbor.",
@@ -1015,6 +1170,11 @@ func dataSourceRouterBgp() *schema.Resource {
 						"distribute_list_out": {
 							Type:        schema.TypeString,
 							Description: "Filter for IPv4 updates to this neighbor.",
+							Computed:    true,
+						},
+						"distribute_list_out_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Filter for VPNv4 updates to this neighbor.",
 							Computed:    true,
 						},
 						"distribute_list_out6": {
@@ -1102,14 +1262,29 @@ func dataSourceRouterBgp() *schema.Resource {
 							Description: "Maximum IPv4 prefix threshold value (1 - 100 percent).",
 							Computed:    true,
 						},
+						"maximum_prefix_threshold_vpnv4": {
+							Type:        schema.TypeInt,
+							Description: "Maximum VPNv4 prefix threshold value (1 - 100 percent).",
+							Computed:    true,
+						},
 						"maximum_prefix_threshold6": {
 							Type:        schema.TypeInt,
 							Description: "Maximum IPv6 prefix threshold value (1 - 100 percent).",
 							Computed:    true,
 						},
+						"maximum_prefix_vpnv4": {
+							Type:        schema.TypeInt,
+							Description: "Maximum number of VPNv4 prefixes to accept from this peer.",
+							Computed:    true,
+						},
 						"maximum_prefix_warning_only": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable IPv4 Only give warning message when limit is exceeded.",
+							Computed:    true,
+						},
+						"maximum_prefix_warning_only_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable only giving warning message when limit is exceeded for VPNv4 routes.",
 							Computed:    true,
 						},
 						"maximum_prefix_warning_only6": {
@@ -1142,6 +1317,11 @@ func dataSourceRouterBgp() *schema.Resource {
 							Description: "Enable/disable setting nexthop's address to interface's IPv6 address for route-reflector routes.",
 							Computed:    true,
 						},
+						"next_hop_self_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable setting VPNv4 next-hop to interface's IP address for this neighbor.",
+							Computed:    true,
+						},
 						"next_hop_self6": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable IPv6 next-hop calculation for this neighbor.",
@@ -1162,6 +1342,11 @@ func dataSourceRouterBgp() *schema.Resource {
 							Description: "IPv4 Inbound filter for updates from this neighbor.",
 							Computed:    true,
 						},
+						"prefix_list_in_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Inbound filter for VPNv4 updates from this neighbor.",
+							Computed:    true,
+						},
 						"prefix_list_in6": {
 							Type:        schema.TypeString,
 							Description: "IPv6 Inbound filter for updates from this neighbor.",
@@ -1170,6 +1355,11 @@ func dataSourceRouterBgp() *schema.Resource {
 						"prefix_list_out": {
 							Type:        schema.TypeString,
 							Description: "IPv4 Outbound filter for updates to this neighbor.",
+							Computed:    true,
+						},
+						"prefix_list_out_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Outbound filter for VPNv4 updates to this neighbor.",
 							Computed:    true,
 						},
 						"prefix_list_out6": {
@@ -1185,6 +1375,11 @@ func dataSourceRouterBgp() *schema.Resource {
 						"remove_private_as": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable remove private AS number from IPv4 outbound updates.",
+							Computed:    true,
+						},
+						"remove_private_as_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable remove private AS number from VPNv4 outbound updates.",
 							Computed:    true,
 						},
 						"remove_private_as6": {
@@ -1207,6 +1402,11 @@ func dataSourceRouterBgp() *schema.Resource {
 							Description: "IPv4 Inbound route map filter.",
 							Computed:    true,
 						},
+						"route_map_in_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "VPNv4 inbound route map filter.",
+							Computed:    true,
+						},
 						"route_map_in6": {
 							Type:        schema.TypeString,
 							Description: "IPv6 Inbound route map filter.",
@@ -1220,6 +1420,16 @@ func dataSourceRouterBgp() *schema.Resource {
 						"route_map_out_preferable": {
 							Type:        schema.TypeString,
 							Description: "IPv4 outbound route map filter if the peer is preferred.",
+							Computed:    true,
+						},
+						"route_map_out_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "VPNv4 outbound route map filter.",
+							Computed:    true,
+						},
+						"route_map_out_vpnv4_preferable": {
+							Type:        schema.TypeString,
+							Description: "VPNv4 outbound route map filter if the peer is preferred.",
 							Computed:    true,
 						},
 						"route_map_out6": {
@@ -1237,6 +1447,11 @@ func dataSourceRouterBgp() *schema.Resource {
 							Description: "Enable/disable IPv4 AS route reflector client.",
 							Computed:    true,
 						},
+						"route_reflector_client_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable VPNv4 AS route reflector client for this neighbor.",
+							Computed:    true,
+						},
 						"route_reflector_client6": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable IPv6 AS route reflector client.",
@@ -1247,6 +1462,11 @@ func dataSourceRouterBgp() *schema.Resource {
 							Description: "Enable/disable IPv4 AS route server client.",
 							Computed:    true,
 						},
+						"route_server_client_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable VPNv4 AS route server client for this neighbor.",
+							Computed:    true,
+						},
 						"route_server_client6": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable IPv6 AS route server client.",
@@ -1255,6 +1475,11 @@ func dataSourceRouterBgp() *schema.Resource {
 						"send_community": {
 							Type:        schema.TypeString,
 							Description: "IPv4 Send community attribute to neighbor.",
+							Computed:    true,
+						},
+						"send_community_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Send community attribute to neighbor for VPNv4 address family.",
 							Computed:    true,
 						},
 						"send_community6": {
@@ -1270,6 +1495,11 @@ func dataSourceRouterBgp() *schema.Resource {
 						"soft_reconfiguration": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable allow IPv4 inbound soft reconfiguration.",
+							Computed:    true,
+						},
+						"soft_reconfiguration_vpnv4": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable allow VPNv4 inbound soft reconfiguration.",
 							Computed:    true,
 						},
 						"soft_reconfiguration6": {
@@ -1514,6 +1744,87 @@ func dataSourceRouterBgp() *schema.Resource {
 				Description: "Configure tag-match mode. Resolves BGP routes with other routes containing the same tag.",
 				Computed:    true,
 			},
+			"vrf": {
+				Type:        schema.TypeList,
+				Description: "BGP VRF leaking table.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"export_rt": {
+							Type:        schema.TypeList,
+							Description: "List of export route target.",
+							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"route_target": {
+										Type:        schema.TypeString,
+										Description: "Attribute: AA|AA:NN.",
+										Computed:    true,
+									},
+								},
+							},
+						},
+						"import_route_map": {
+							Type:        schema.TypeString,
+							Description: "Import route map.",
+							Computed:    true,
+						},
+						"import_rt": {
+							Type:        schema.TypeList,
+							Description: "List of import route target.",
+							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"route_target": {
+										Type:        schema.TypeString,
+										Description: "Attribute: AA|AA:NN.",
+										Computed:    true,
+									},
+								},
+							},
+						},
+						"leak_target": {
+							Type:        schema.TypeList,
+							Description: "Target VRF table.",
+							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"interface": {
+										Type:        schema.TypeString,
+										Description: "Interface which is used to leak routes to target VRF.",
+										Computed:    true,
+									},
+									"route_map": {
+										Type:        schema.TypeString,
+										Description: "Route map of VRF leaking.",
+										Computed:    true,
+									},
+									"vrf": {
+										Type:        schema.TypeString,
+										Description: "Target VRF ID (0 - 63).",
+										Computed:    true,
+									},
+								},
+							},
+						},
+						"rd": {
+							Type:        schema.TypeString,
+							Description: "Route Distinguisher: AA|AA:NN.",
+							Computed:    true,
+						},
+						"role": {
+							Type:        schema.TypeString,
+							Description: "VRF role.",
+							Computed:    true,
+						},
+						"vrf": {
+							Type:        schema.TypeString,
+							Description: "Origin VRF ID (0 - 63).",
+							Computed:    true,
+						},
+					},
+				},
+			},
 			"vrf_leak": {
 				Type:        schema.TypeList,
 				Description: "BGP VRF leaking table.",
@@ -1585,6 +1896,44 @@ func dataSourceRouterBgp() *schema.Resource {
 						"vrf": {
 							Type:        schema.TypeString,
 							Description: "Origin VRF ID (0 - 31).",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"vrf6": {
+				Type:        schema.TypeList,
+				Description: "BGP IPv6 VRF leaking table.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"leak_target": {
+							Type:        schema.TypeList,
+							Description: "Target VRF table.",
+							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"interface": {
+										Type:        schema.TypeString,
+										Description: "Interface which is used to leak routes to target VRF.",
+										Computed:    true,
+									},
+									"route_map": {
+										Type:        schema.TypeString,
+										Description: "Route map of VRF leaking.",
+										Computed:    true,
+									},
+									"vrf": {
+										Type:        schema.TypeString,
+										Description: "Target VRF ID (0 - 63).",
+										Computed:    true,
+									},
+								},
+							},
+						},
+						"vrf": {
+							Type:        schema.TypeString,
+							Description: "Origin VRF ID (0 - 63).",
 							Computed:    true,
 						},
 					},

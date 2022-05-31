@@ -87,6 +87,7 @@ The `utmgrp_permission` block contains:
 * `file_filter` - File-filter profiles and settings.
 * `icap` - ICAP profiles and settings.
 * `ips` - IPS profiles and settings.
+* `videofilter` - Video filter profiles and settings.
 * `voip` - VoIP profiles and settings.
 * `waf` - Web Application Firewall profiles and settings.
 * `webfilter` - Web Filter profiles and settings.

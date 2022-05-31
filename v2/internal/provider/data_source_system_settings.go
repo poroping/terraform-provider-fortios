@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -112,6 +112,16 @@ func dataSourceSystemSettings() *schema.Resource {
 			"consolidated_firewall_mode": {
 				Type:        schema.TypeString,
 				Description: "Consolidated firewall mode.",
+				Computed:    true,
+			},
+			"default_app_port_as_service": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable policy service enforcement based on application default ports.",
+				Computed:    true,
+			},
+			"default_policy_expiry_days": {
+				Type:        schema.TypeInt,
+				Description: "Default policy expiry in days (0 - 365 days, default = 30).",
 				Computed:    true,
 			},
 			"default_voip_alg_mode": {
@@ -278,6 +288,11 @@ func dataSourceSystemSettings() *schema.Resource {
 				Description: "Enable/disable advanced endpoint control options on the GUI.",
 				Computed:    true,
 			},
+			"gui_enforce_change_summary": {
+				Type:        schema.TypeString,
+				Description: "Enforce change summaries for select tables in the GUI.",
+				Computed:    true,
+			},
 			"gui_explicit_proxy": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable the explicit proxy on the GUI.",
@@ -351,6 +366,11 @@ func dataSourceSystemSettings() *schema.Resource {
 			"gui_object_colors": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable object colors on the GUI.",
+				Computed:    true,
+			},
+			"gui_ot": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable Show Operational Technology Purdue Model.",
 				Computed:    true,
 			},
 			"gui_per_policy_disclaimer": {
@@ -641,6 +661,11 @@ func dataSourceSystemSettings() *schema.Resource {
 			"v4_ecmp_mode": {
 				Type:        schema.TypeString,
 				Description: "IPv4 Equal-cost multi-path (ECMP) routing and load balancing mode.",
+				Computed:    true,
+			},
+			"vdom_type": {
+				Type:        schema.TypeString,
+				Description: "VDOM type (traffic or admin).",
 				Computed:    true,
 			},
 			"vpn_stats_log": {

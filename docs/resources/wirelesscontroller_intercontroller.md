@@ -24,6 +24,7 @@ Configure inter wireless controller operation.
 * `inter_controller_key` - Secret key for inter-controller communications.
 * `inter_controller_mode` - Configure inter-controller mode (disable, l2-roaming, 1+1, default = disable). Valid values: `disable` `l2-roaming` `1+1` .
 * `inter_controller_pri` - Configure inter-controller's priority (primary or secondary, default = primary). Valid values: `primary` `secondary` .
+* `l3_roaming` - Enable/disable layer 3 roaming (default = disable). Valid values: `enable` `disable` .
 * `inter_controller_peer` - Fast failover peer wireless controller list. The structure of `inter_controller_peer` block is documented below.
 
 The `inter_controller_peer` block contains:

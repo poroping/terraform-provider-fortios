@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -94,6 +94,16 @@ func dataSourceAuthenticationSetting() *schema.Resource {
 				Description: "Certificate captive portal port number (1 - 65535, default = 7832).",
 				Computed:    true,
 			},
+			"cookie_max_age": {
+				Type:        schema.TypeInt,
+				Description: "Persistent web portal cookie maximum age in minutes (30 - 10080 (1 week), default = 480 (8 hours)).",
+				Computed:    true,
+			},
+			"cookie_refresh_div": {
+				Type:        schema.TypeInt,
+				Description: "Refresh rate divider of persistent web portal cookie (default = 2). Refresh value = cookie-max-age/cookie-refresh-div.",
+				Computed:    true,
+			},
 			"dev_range": {
 				Type:        schema.TypeList,
 				Description: "Address range for the IP based device query.",
@@ -108,9 +118,24 @@ func dataSourceAuthenticationSetting() *schema.Resource {
 					},
 				},
 			},
+			"ip_auth_cookie": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable persistent cookie on IP based web portal authentication (default = disable).",
+				Computed:    true,
+			},
+			"persistent_cookie": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable persistent cookie on web portal authentication (default = enable).",
+				Computed:    true,
+			},
 			"sso_auth_scheme": {
 				Type:        schema.TypeString,
 				Description: "Single-Sign-On authentication method (scheme name).",
+				Computed:    true,
+			},
+			"update_time": {
+				Type:        schema.TypeString,
+				Description: "Time of the last update.",
 				Computed:    true,
 			},
 			"user_cert_ca": {

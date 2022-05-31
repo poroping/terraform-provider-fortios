@@ -36,6 +36,7 @@ The following attributes are exported:
 * `local_in_deny_broadcast` - Enable/disable local-in-deny-broadcast logging.
 * `local_in_deny_unicast` - Enable/disable local-in-deny-unicast logging.
 * `local_out` - Enable/disable local-out logging.
+* `local_out_ioc_detection` - Enable/disable local-out traffic IoC detection. Requires local-out to be enabled.
 * `log_invalid_packet` - Enable/disable invalid packet traffic logging.
 * `log_policy_comment` - Enable/disable inserting policy comments into traffic logs.
 * `log_policy_name` - Enable/disable inserting policy name into traffic logs.

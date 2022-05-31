@@ -21,6 +21,7 @@ Configure FortiSandbox.
 * `email` - Notifier email address.
 * `enc_algorithm` - Configure the level of SSL protection for secure communication with FortiSandbox. Valid values: `default` `high` `low` .
 * `forticloud` - Enable/disable FortiSandbox Cloud. Valid values: `enable` `disable` .
+* `inline_scan` - Enable/disable FortiSandbox inline scan. Valid values: `enable` `disable` .
 * `interface` - Specify outgoing interface to reach server. This attribute must reference one of the following datasources: `system.interface.name` .
 * `interface_select_method` - Specify how to select outgoing interface to reach server. Valid values: `auto` `sdwan` `specify` .
 * `server` - Server address of the remote FortiSandbox.

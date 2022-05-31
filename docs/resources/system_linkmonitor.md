@@ -24,7 +24,7 @@ Configure Link Health Monitor.
 * `class_id` - Traffic class ID. This attribute must reference one of the following datasources: `firewall.traffic-class.class-id` .
 * `diffservcode` - Differentiated services code point (DSCP) in the IP header of the probe packet.
 * `fail_weight` - Threshold weight to trigger link failure alert.
-* `failtime` - Number of retry attempts before the server is considered down (1 - 10, default = 5).
+* `failtime` - Number of retry attempts before the server is considered down (1 - 3600, default = 5).
 * `gateway_ip` - Gateway IP address used to probe the server.
 * `gateway_ip6` - Gateway IPv6 address used to probe the server.
 * `ha_priority` - HA election priority (1 - 50).
@@ -39,9 +39,10 @@ Configure Link Health Monitor.
 * `probe_count` - Number of most recent probes that should be used to calculate latency and jitter (5 - 30, default = 30).
 * `probe_timeout` - Time to wait before a probe packet is considered lost (500 - 5000 msec, default = 500).
 * `protocol` - Protocols used to monitor the server. Valid values: `ping` `tcp-echo` `udp-echo` `http` `twamp` .
-* `recoverytime` - Number of successful responses received before server is considered recovered (1 - 10, default = 5).
+* `recoverytime` - Number of successful responses received before server is considered recovered (1 - 3600, default = 5).
 * `security_mode` - Twamp controller security mode. Valid values: `none` `authentication` .
 * `server_config` - Mode of server configuration. Valid values: `default` `individual` .
+* `server_type` - Server type (static or dynamic). Valid values: `static` `dynamic` .
 * `service_detection` - Only use monitor to read quality values. If enabled, static routes and cascade interfaces will not be updated. Valid values: `enable` `disable` .
 * `source_ip` - Source IP address used in packet to the server.
 * `source_ip6` - Source IPv6 address used in packet to the server.

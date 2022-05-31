@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -94,6 +94,11 @@ func dataSourceVpnIpsecPhase1Interface() *schema.Resource {
 			"auto_discovery_forwarder": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable forwarding auto-discovery short-cut messages.",
+				Computed:    true,
+			},
+			"auto_discovery_offer_interval": {
+				Type:        schema.TypeInt,
+				Description: "Interval between shortcut offer messages in seconds (1 - 300, default = 5).",
 				Computed:    true,
 			},
 			"auto_discovery_psk": {
@@ -276,7 +281,7 @@ func dataSourceVpnIpsecPhase1Interface() *schema.Resource {
 			},
 			"encapsulation": {
 				Type:        schema.TypeString,
-				Description: "Enable/disable GRE/VXLAN encapsulation.",
+				Description: "Enable/disable GRE/VXLAN/VPNID encapsulation.",
 				Computed:    true,
 			},
 			"encapsulation_address": {
@@ -621,6 +626,11 @@ func dataSourceVpnIpsecPhase1Interface() *schema.Resource {
 			"mode_cfg": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable configuration method.",
+				Computed:    true,
+			},
+			"mode_cfg_allow_client_selector": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable mode-cfg client to use custom phase2 selectors.",
 				Computed:    true,
 			},
 			"monitor": {

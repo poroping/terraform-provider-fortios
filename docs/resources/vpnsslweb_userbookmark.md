@@ -32,9 +32,9 @@ The `bookmarks` block contains:
 * `description` - Description.
 * `domain` - Login domain.
 * `folder` - Network shared file folder parameter.
-* `height` - Screen height (range from 480 - 65535, default = 768).
+* `height` - Screen height (range from 0 - 65535, default = 0).
 * `host` - Host name/IP parameter.
-* `keyboard_layout` - Keyboard layout. Valid values: `ar-101` `ar-102` `ar-102-azerty` `can-mul` `cz` `cz-qwerty` `cz-pr` `da` `nl` `de` `de-ch` `de-ibm` `en-uk` `en-uk-ext` `en-us` `en-us-dvorak` `es` `es-var` `fi` `fi-sami` `fr` `fr-ca` `fr-ch` `fr-be` `hr` `hu` `hu-101` `it` `it-142` `ja` `ko` `lt` `lt-ibm` `lt-std` `lav-std` `lav-leg` `mk` `mk-std` `no` `no-sami` `pol-214` `pol-pr` `pt` `pt-br` `pt-br-abnt2` `ru` `ru-mne` `ru-t` `sl` `sv` `sv-sami` `tuk` `tur-f` `tur-q` `zh-sym-sg-us` `zh-sym-us` `zh-tr-hk` `zh-tr-mo` `zh-tr-us` .
+* `keyboard_layout` - Keyboard layout. Valid values: `ar-101` `ar-102` `ar-102-azerty` `can-mul` `cz` `cz-qwerty` `cz-pr` `da` `nl` `de` `de-ch` `de-ibm` `en-uk` `en-uk-ext` `en-us` `en-us-dvorak` `es` `es-var` `fi` `fi-sami` `fr` `fr-apple` `fr-ca` `fr-ch` `fr-be` `hr` `hu` `hu-101` `it` `it-142` `ja` `ko` `lt` `lt-ibm` `lt-std` `lav-std` `lav-leg` `mk` `mk-std` `no` `no-sami` `pol-214` `pol-pr` `pt` `pt-br` `pt-br-abnt2` `ru` `ru-mne` `ru-t` `sl` `sv` `sv-sami` `tuk` `tur-f` `tur-q` `zh-sym-sg-us` `zh-sym-us` `zh-tr-hk` `zh-tr-mo` `zh-tr-us` .
 * `listening_port` - Listening port (0 - 65535).
 * `load_balancing_info` - The load balancing information or cookie which should be provided to the connection broker.
 * `logon_password` - Logon password.
@@ -55,7 +55,7 @@ The `bookmarks` block contains:
 * `sso_password` - SSO password.
 * `sso_username` - SSO user name.
 * `url` - URL parameter.
-* `width` - Screen width (range from 640 - 65535, default = 1024).
+* `width` - Screen width (range from 0 - 65535, default = 0).
 * `form_data` - Form data. The structure of `form_data` block is documented below.
 
 The `form_data` block contains:

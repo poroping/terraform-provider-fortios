@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -247,6 +247,11 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 				Computed:    true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"address_ip_rating": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable IP based URL rating.",
+							Computed:    true,
+						},
 						"block_page_status_code": {
 							Type:        schema.TypeInt,
 							Description: "Code number returned for blocked HTTP pages (non-FortiGuard only) (100 - 599, default = 403).",
@@ -270,6 +275,11 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 						"fortinet_bar_port": {
 							Type:        schema.TypeInt,
 							Description: "Port for use by Fortinet Bar (1 - 65535, default = 8011).",
+							Computed:    true,
+						},
+						"h2c": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable h2c HTTP connection upgrade.",
 							Computed:    true,
 						},
 						"inspect_all": {

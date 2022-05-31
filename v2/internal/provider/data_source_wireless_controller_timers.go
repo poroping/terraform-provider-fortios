@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -29,9 +29,19 @@ func dataSourceWirelessControllerTimers() *schema.Resource {
 				Optional:    true,
 				ForceNew:    true,
 			},
+			"auth_timeout": {
+				Type:        schema.TypeInt,
+				Description: "Time after which a client is considered failed in RADIUS authentication and times out (5 - 30 sec, default = 5).",
+				Computed:    true,
+			},
 			"ble_scan_report_intv": {
 				Type:        schema.TypeInt,
 				Description: "Time between running Bluetooth Low Energy (BLE) reports (10 - 3600 sec, default = 30).",
+				Computed:    true,
+			},
+			"client_idle_rehome_timeout": {
+				Type:        schema.TypeInt,
+				Description: "Time after which a client is considered idle and disconnected from the home controller (2 - 3600 sec, default = 20, 0 for no timeout).",
 				Computed:    true,
 			},
 			"client_idle_timeout": {
@@ -67,6 +77,11 @@ func dataSourceWirelessControllerTimers() *schema.Resource {
 			"radio_stats_interval": {
 				Type:        schema.TypeInt,
 				Description: "Time between running radio reports (1 - 255 sec, default = 15).",
+				Computed:    true,
+			},
+			"rogue_ap_cleanup": {
+				Type:        schema.TypeInt,
+				Description: "Time period in minutes to keep rogue AP after it is gone (default = 0).",
 				Computed:    true,
 			},
 			"rogue_ap_log": {

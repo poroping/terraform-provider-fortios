@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -115,6 +115,14 @@ func resourceEmailfilterBlockAllowList() *schema.Resource {
 							Optional:         true,
 							Computed:         true,
 						},
+						"pattern": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 127),
+
+							Description: "Pattern to match.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"pattern_type": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"wildcard", "regexp"}, false),
@@ -133,7 +141,7 @@ func resourceEmailfilterBlockAllowList() *schema.Resource {
 						},
 						"type": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"ip", "email"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"ip", "email-to", "email-from", "subject"}, false),
 
 							Description: "Entry type.",
 							Optional:    true,
@@ -348,6 +356,10 @@ func flattenEmailfilterBlockAllowListEntries(d *schema.ResourceData, v *[]models
 				v["ip6_subnet"] = *tmp
 			}
 
+			if tmp := cfg.Pattern; tmp != nil {
+				v["pattern"] = *tmp
+			}
+
 			if tmp := cfg.PatternType; tmp != nil {
 				v["pattern_type"] = *tmp
 			}
@@ -459,6 +471,13 @@ func expandEmailfilterBlockAllowListEntries(d *schema.ResourceData, v interface{
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.Ip6Subnet = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.pattern", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Pattern = &v2
 			}
 		}
 

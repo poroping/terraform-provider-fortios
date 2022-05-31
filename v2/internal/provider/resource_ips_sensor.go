@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -108,6 +108,22 @@ func resourceIpsSensor() *schema.Resource {
 								},
 							},
 						},
+						"default_action": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"all", "pass", "block"}, false),
+
+							Description: "Signature default action filter.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"default_status": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"all", "enable", "disable"}, false),
+
+							Description: "Signature default status filter.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"exempt_ip": {
 							Type:        schema.TypeList,
 							Description: "Traffic from selected source or destination IP addresses is exempt from this signature.",
@@ -144,6 +160,13 @@ func resourceIpsSensor() *schema.Resource {
 							Type: schema.TypeInt,
 
 							Description: "Rule ID in IPS database (0 - 4294967295).",
+							Optional:    true,
+							Computed:    true,
+						},
+						"last_modified": {
+							Type: schema.TypeString,
+
+							Description: "Filter by signature last modified date. Formats: before <date>, after <date>, between <start-date> <end-date>.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -281,6 +304,22 @@ func resourceIpsSensor() *schema.Resource {
 							Description: "Status of the signatures included in filter. Only those filters with a status to enable are used.",
 							Optional:    true,
 							Computed:    true,
+						},
+						"vuln_type": {
+							Type:        schema.TypeList,
+							Description: "List of signature vulnerability types to filter by.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"id": {
+										Type: schema.TypeInt,
+
+										Description: "Vulnerability type ID.",
+										Optional:    true,
+										Computed:    true,
+									},
+								},
+							},
 						},
 					},
 				},
@@ -705,12 +744,24 @@ func flattenIpsSensorEntries(d *schema.ResourceData, v *[]models.IpsSensorEntrie
 				v["cve"] = flattenIpsSensorEntriesCve(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "cve"), sort)
 			}
 
+			if tmp := cfg.DefaultAction; tmp != nil {
+				v["default_action"] = *tmp
+			}
+
+			if tmp := cfg.DefaultStatus; tmp != nil {
+				v["default_status"] = *tmp
+			}
+
 			if tmp := cfg.ExemptIp; tmp != nil {
 				v["exempt_ip"] = flattenIpsSensorEntriesExemptIp(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "exempt_ip"), sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
+			}
+
+			if tmp := cfg.LastModified; tmp != nil {
+				v["last_modified"] = *tmp
 			}
 
 			if tmp := cfg.Location; tmp != nil {
@@ -775,6 +826,10 @@ func flattenIpsSensorEntries(d *schema.ResourceData, v *[]models.IpsSensorEntrie
 
 			if tmp := cfg.Status; tmp != nil {
 				v["status"] = *tmp
+			}
+
+			if tmp := cfg.VulnType; tmp != nil {
+				v["vuln_type"] = flattenIpsSensorEntriesVulnType(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "vuln_type"), sort)
 			}
 
 			flat = append(flat, v)
@@ -845,6 +900,28 @@ func flattenIpsSensorEntriesExemptIp(d *schema.ResourceData, v *[]models.IpsSens
 }
 
 func flattenIpsSensorEntriesRule(d *schema.ResourceData, v *[]models.IpsSensorEntriesRule, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Id; tmp != nil {
+				v["id"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "id")
+	}
+
+	return flat
+}
+
+func flattenIpsSensorEntriesVulnType(d *schema.ResourceData, v *[]models.IpsSensorEntriesVulnType, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -1132,6 +1209,20 @@ func expandIpsSensorEntries(d *schema.ResourceData, v interface{}, pre string, s
 
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.default_action", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.DefaultAction = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.default_status", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.DefaultStatus = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.exempt_ip", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			v2, _ := expandIpsSensorEntriesExemptIp(d, v1, pre_append, sv)
@@ -1147,6 +1238,13 @@ func expandIpsSensorEntries(d *schema.ResourceData, v interface{}, pre string, s
 			if v2, ok := v1.(int); ok {
 				v3 := int64(v2)
 				tmp.Id = &v3
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.last_modified", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.LastModified = &v2
 			}
 		}
 
@@ -1267,6 +1365,16 @@ func expandIpsSensorEntries(d *schema.ResourceData, v interface{}, pre string, s
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.vuln_type", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			v2, _ := expandIpsSensorEntriesVulnType(d, v1, pre_append, sv)
+			// if err != nil {
+			// 	v2 := &[]models.IpsSensorEntriesVulnType
+			// 	}
+			tmp.VulnType = v2
+
+		}
+
 		result = append(result, tmp)
 	}
 	return &result, nil
@@ -1345,6 +1453,31 @@ func expandIpsSensorEntriesRule(d *schema.ResourceData, v interface{}, pre strin
 
 	for i := range l {
 		tmp := models.IpsSensorEntriesRule{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandIpsSensorEntriesVulnType(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.IpsSensorEntriesVulnType, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.IpsSensorEntriesVulnType
+
+	for i := range l {
+		tmp := models.IpsSensorEntriesVulnType{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)

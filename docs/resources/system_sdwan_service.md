@@ -56,7 +56,7 @@ Create SD-WAN rules (also called services) to control how sessions are distribut
 * `standalone_action` - Enable/disable service when selected neighbor role is standalone while service role is not standalone. Valid values: `enable` `disable` .
 * `start_port` - Start destination port number.
 * `status` - Enable/disable SD-WAN service. Valid values: `enable` `disable` .
-* `tie_break` - Method of selecting member if more than one meets the SLA. Valid values: `zone` `cfg-order` `fib-best-match` .
+* `tie_break` - Method of selecting member if more than one meets the SLA. Valid values: `zone` `cfg-order` `fib-best-match` `input-device` .
 * `tos` - Type of service bit pattern.
 * `tos_mask` - Type of service evaluated bits.
 * `use_shortcut_sla` - Enable/disable use of ADVPN shortcut for quality comparison. Valid values: `enable` `disable` .
@@ -85,11 +85,21 @@ The `health_check` block contains:
 The `input_device` block contains:
 
 * `name` - Interface name. This attribute must reference one of the following datasources: `system.interface.name` .
+* `input_zone` - Source input-zone name. The structure of `input_zone` block is documented below.
+
+The `input_zone` block contains:
+
+* `name` - Zone. This attribute must reference one of the following datasources: `system.sdwan.zone.name` .
 * `internet_service_app_ctrl` - Application control based Internet Service ID list. The structure of `internet_service_app_ctrl` block is documented below.
 
 The `internet_service_app_ctrl` block contains:
 
 * `id` - Application control based Internet Service ID.
+* `internet_service_app_ctrl_category` - IDs of one or more application control categories. The structure of `internet_service_app_ctrl_category` block is documented below.
+
+The `internet_service_app_ctrl_category` block contains:
+
+* `id` - Application control category ID.
 * `internet_service_app_ctrl_group` - Application control based Internet Service group list. The structure of `internet_service_app_ctrl_group` block is documented below.
 
 The `internet_service_app_ctrl_group` block contains:

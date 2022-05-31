@@ -24,6 +24,7 @@ Configure RADIUS server entries.
 * `acct_interim_interval` - Time in seconds between each accounting interim update message.
 * `all_usergroup` - Enable/disable automatically including this RADIUS server in all user groups. Valid values: `disable` `enable` .
 * `auth_type` - Authentication methods/protocols permitted for this RADIUS server. Valid values: `auto` `ms_chap_v2` `ms_chap` `chap` `pap` .
+* `delimiter` - Configure delimiter to be used for separating profile group names in the SSO attribute (default = plus character "+"). Valid values: `plus` `comma` .
 * `group_override_attr_type` - RADIUS attribute type to override user group information. Valid values: `filter-Id` `class` .
 * `h3c_compatibility` - Enable/disable compatibility with the H3C, a mechanism that performs security checking for authentication. Valid values: `enable` `disable` .
 * `interface` - Specify outgoing interface to reach server. This attribute must reference one of the following datasources: `system.interface.name` .

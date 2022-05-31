@@ -43,6 +43,7 @@ The following attributes are exported:
 * `distribute_route_map_in` - Filter incoming external routes by route-map.
 * `log_neighbour_changes` - Log of OSPF neighbor changes.
 * `restart_mode` - OSPF restart mode (graceful or LLS).
+* `restart_on_topology_change` - Enable/disable continuing graceful restart upon topology change.
 * `restart_period` - Graceful restart period.
 * `rfc1583_compatible` - Enable/disable RFC1583 compatibility.
 * `router_id` - Router ID.

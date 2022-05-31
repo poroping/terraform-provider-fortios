@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -903,6 +903,14 @@ func resourceRouterOspf() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"none", "lls", "graceful-restart"}, false),
 
 				Description: "OSPF restart mode (graceful or LLS).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"restart_on_topology_change": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable continuing graceful restart upon topology change.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1905,6 +1913,14 @@ func refreshObjectRouterOspf(d *schema.ResourceData, o *models.RouterOspf, sv st
 
 		if err = d.Set("restart_mode", v); err != nil {
 			return diag.Errorf("error reading restart_mode: %v", err)
+		}
+	}
+
+	if o.RestartOnTopologyChange != nil {
+		v := *o.RestartOnTopologyChange
+
+		if err = d.Set("restart_on_topology_change", v); err != nil {
+			return diag.Errorf("error reading restart_on_topology_change: %v", err)
 		}
 	}
 
@@ -3111,6 +3127,15 @@ func getObjectRouterOspf(d *schema.ResourceData, sv string) (*models.RouterOspf,
 				diags = append(diags, e)
 			}
 			obj.RestartMode = &v2
+		}
+	}
+	if v1, ok := d.GetOk("restart_on_topology_change"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("restart_on_topology_change", sv)
+				diags = append(diags, e)
+			}
+			obj.RestartOnTopologyChange = &v2
 		}
 	}
 	if v1, ok := d.GetOk("restart_period"); ok {

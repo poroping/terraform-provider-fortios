@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -86,9 +86,9 @@ func resourceWebfilterSearchEngine() *schema.Resource {
 			},
 			"safesearch_str": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 79),
+				ValidateFunc: validation.StringLenBetween(0, 255),
 
-				Description: "Safe search parameter used in the URL.",
+				Description: "In URL mode, it is the safe search parameter used in the URL. In translate mode, it provides either the regex to translate the URL, or the special case to translate the URL",
 				Optional:    true,
 				Computed:    true,
 			},

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -74,6 +74,22 @@ func resourceUserLdap() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 79),
 
 				Description: "CA certificate name.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"client_cert": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 79),
+
+				Description: "Client certificate name.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"client_cert_auth": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable using client certificate for TLS authentication.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -517,6 +533,22 @@ func refreshObjectUserLdap(d *schema.ResourceData, o *models.UserLdap, sv string
 		}
 	}
 
+	if o.ClientCert != nil {
+		v := *o.ClientCert
+
+		if err = d.Set("client_cert", v); err != nil {
+			return diag.Errorf("error reading client_cert: %v", err)
+		}
+	}
+
+	if o.ClientCertAuth != nil {
+		v := *o.ClientCertAuth
+
+		if err = d.Set("client_cert_auth", v); err != nil {
+			return diag.Errorf("error reading client_cert_auth: %v", err)
+		}
+	}
+
 	if o.Cnid != nil {
 		v := *o.Cnid
 
@@ -807,6 +839,24 @@ func getObjectUserLdap(d *schema.ResourceData, sv string) (*models.UserLdap, dia
 				diags = append(diags, e)
 			}
 			obj.CaCert = &v2
+		}
+	}
+	if v1, ok := d.GetOk("client_cert"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("client_cert", sv)
+				diags = append(diags, e)
+			}
+			obj.ClientCert = &v2
+		}
+	}
+	if v1, ok := d.GetOk("client_cert_auth"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("client_cert_auth", sv)
+				diags = append(diags, e)
+			}
+			obj.ClientCertAuth = &v2
 		}
 	}
 	if v1, ok := d.GetOk("cnid"); ok {

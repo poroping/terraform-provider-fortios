@@ -94,6 +94,12 @@ resource "fortios_system_interface" "example2" {
 * `dns_server_protocol` - DNS transport protocols. Valid values: `cleartext` `dot` `doh` .
 * `drop_fragment` - Enable/disable drop fragment packets. Valid values: `enable` `disable` .
 * `drop_overlapped_fragment` - Enable/disable drop overlapped fragment packets. Valid values: `enable` `disable` .
+* `eap_ca_cert` - EAP CA certificate name. This attribute must reference one of the following datasources: `certificate.ca.name` .
+* `eap_identity` - EAP identity.
+* `eap_method` - EAP method. Valid values: `tls` `peap` .
+* `eap_password` - EAP password.
+* `eap_supplicant` - Enable/disable EAP-Supplicant. Valid values: `enable` `disable` .
+* `eap_user_cert` - EAP user certificate name. This attribute must reference one of the following datasources: `certificate.local.name` .
 * `egress_cos` - Override outgoing CoS in user VLAN tag. Valid values: `disable` `cos0` `cos1` `cos2` `cos3` `cos4` `cos5` `cos6` `cos7` .
 * `egress_shaping_profile` - Outgoing traffic shaping profile. This attribute must reference one of the following datasources: `firewall.shaping-profile.profile-name` .
 * `eip` - External IP.
@@ -118,6 +124,7 @@ resource "fortios_system_interface" "example2" {
 * `icmp_send_redirect` - Enable/disable sending of ICMP redirects. Valid values: `enable` `disable` .
 * `ident_accept` - Enable/disable authentication for this interface. Valid values: `enable` `disable` .
 * `idle_timeout` - PPPoE auto disconnect after idle timeout seconds, 0 means no timeout.
+* `ike_saml_server` - Configure IKE authentication SAML server. This attribute must reference one of the following datasources: `user.saml.name` .
 * `inbandwidth` - Bandwidth limit for incoming traffic (0 - 16776000 kbps), 0 means unlimited.
 * `ingress_cos` - Override incoming CoS in user VLAN tag on VLAN interface or assign a priority VLAN tag on physical interface. Valid values: `disable` `cos0` `cos1` `cos2` `cos3` `cos4` `cos5` `cos6` `cos7` .
 * `ingress_shaping_profile` - Incoming traffic shaping profile. This attribute must reference one of the following datasources: `firewall.shaping-profile.profile-name` .

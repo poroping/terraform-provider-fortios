@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -44,6 +44,11 @@ func dataSourceSwitchControllerManagedSwitch() *schema.Resource {
 						"local_override": {
 							Type:        schema.TypeString,
 							Description: "Enable to override global 802.1X settings on individual FortiSwitches.",
+							Computed:    true,
+						},
+						"mab_reauth": {
+							Type:        schema.TypeString,
+							Description: "Enable or disable MAB reauthentication settings.",
 							Computed:    true,
 						},
 						"max_reauth_attempt": {
@@ -488,6 +493,26 @@ func dataSourceSwitchControllerManagedSwitch() *schema.Resource {
 						"flags": {
 							Type:        schema.TypeInt,
 							Description: "Port properties flags.",
+							Computed:    true,
+						},
+						"flap_duration": {
+							Type:        schema.TypeInt,
+							Description: "Period over which flap events are calculated (seconds).",
+							Computed:    true,
+						},
+						"flap_rate": {
+							Type:        schema.TypeInt,
+							Description: "Number of stage change events needed within flap-duration.",
+							Computed:    true,
+						},
+						"flap_timeout": {
+							Type:        schema.TypeInt,
+							Description: "Flap guard disabling protection (min).",
+							Computed:    true,
+						},
+						"flapguard": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable flap guard.",
 							Computed:    true,
 						},
 						"flow_control": {

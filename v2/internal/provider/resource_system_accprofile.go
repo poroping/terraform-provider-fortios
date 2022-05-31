@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -399,6 +399,14 @@ func resourceSystemAccprofile() *schema.Resource {
 							Optional:    true,
 							Computed:    true,
 						},
+						"videofilter": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"none", "read", "read-write"}, false),
+
+							Description: "Video filter profiles and settings.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"voip": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"none", "read", "read-write"}, false),
@@ -773,6 +781,10 @@ func flattenSystemAccprofileUtmgrpPermission(d *schema.ResourceData, v *models.S
 
 			if tmp := cfg.Ips; tmp != nil {
 				v["ips"] = *tmp
+			}
+
+			if tmp := cfg.Videofilter; tmp != nil {
+				v["videofilter"] = *tmp
 			}
 
 			if tmp := cfg.Voip; tmp != nil {
@@ -1228,6 +1240,13 @@ func expandSystemAccprofileUtmgrpPermission(d *schema.ResourceData, v interface{
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.Ips = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.videofilter", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Videofilter = &v2
 			}
 		}
 

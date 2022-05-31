@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -86,7 +86,7 @@ func resourceSystemLinkMonitor() *schema.Resource {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 3600),
 
-				Description: "Number of retry attempts before the server is considered down (1 - 10, default = 5).",
+				Description: "Number of retry attempts before the server is considered down (1 - 3600, default = 5).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -206,7 +206,7 @@ func resourceSystemLinkMonitor() *schema.Resource {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 3600),
 
-				Description: "Number of successful responses received before server is considered recovered (1 - 10, default = 5).",
+				Description: "Number of successful responses received before server is considered recovered (1 - 3600, default = 5).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -308,6 +308,14 @@ func resourceSystemLinkMonitor() *schema.Resource {
 						},
 					},
 				},
+			},
+			"server_type": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"static", "dynamic"}, false),
+
+				Description: "Server type (static or dynamic).",
+				Optional:    true,
+				Computed:    true,
 			},
 			"service_detection": {
 				Type:         schema.TypeString,
@@ -810,6 +818,14 @@ func refreshObjectSystemLinkMonitor(d *schema.ResourceData, o *models.SystemLink
 		}
 	}
 
+	if o.ServerType != nil {
+		v := *o.ServerType
+
+		if err = d.Set("server_type", v); err != nil {
+			return diag.Errorf("error reading server_type: %v", err)
+		}
+	}
+
 	if o.ServiceDetection != nil {
 		v := *o.ServiceDetection
 
@@ -1241,6 +1257,15 @@ func getObjectSystemLinkMonitor(d *schema.ResourceData, sv string) (*models.Syst
 		old, new := d.GetChange("server_list")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
 			obj.ServerList = &[]models.SystemLinkMonitorServerList{}
+		}
+	}
+	if v1, ok := d.GetOk("server_type"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("server_type", sv)
+				diags = append(diags, e)
+			}
+			obj.ServerType = &v2
 		}
 	}
 	if v1, ok := d.GetOk("service_detection"); ok {

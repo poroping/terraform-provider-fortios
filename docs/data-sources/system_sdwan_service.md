@@ -87,11 +87,21 @@ The `health_check` block contains:
 The `input_device` block contains:
 
 * `name` - Interface name.
+* `input_zone` - Source input-zone name.The structure of `input_zone` block is documented below.
+
+The `input_zone` block contains:
+
+* `name` - Zone.
 * `internet_service_app_ctrl` - Application control based Internet Service ID list.The structure of `internet_service_app_ctrl` block is documented below.
 
 The `internet_service_app_ctrl` block contains:
 
 * `id` - Application control based Internet Service ID.
+* `internet_service_app_ctrl_category` - IDs of one or more application control categories.The structure of `internet_service_app_ctrl_category` block is documented below.
+
+The `internet_service_app_ctrl_category` block contains:
+
+* `id` - Application control category ID.
 * `internet_service_app_ctrl_group` - Application control based Internet Service group list.The structure of `internet_service_app_ctrl_group` block is documented below.
 
 The `internet_service_app_ctrl_group` block contains:

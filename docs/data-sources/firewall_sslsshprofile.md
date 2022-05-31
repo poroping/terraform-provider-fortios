@@ -35,7 +35,8 @@ The following attributes are exported:
 * `rpc_over_https` - Enable/disable inspection of RPC over HTTPS.
 * `server_cert_mode` - Re-sign or replace the server's certificate.
 * `ssl_anomalies_log` - Enable/disable logging SSL anomalies.
-* `ssl_anomaly_log` - Enable/disable logging SSL anomalies.
+* `ssl_anomaly_log` - Enable/disable logging of SSL anomalies.
+* `ssl_exemption_ip_rating` - Enable/disable IP based URL rating.
 * `ssl_exemption_log` - Enable/disable logging SSL exemptions.
 * `ssl_exemptions_log` - Enable/disable logging SSL exemptions.
 * `ssl_handshake_log` - Enable/disable logging of TLS handshakes.

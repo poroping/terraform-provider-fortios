@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -234,6 +234,14 @@ func resourceUserFsso() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 63),
 
 				Description: "Domain name or IP address of the fifth FSSO collector agent.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"sni": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 255),
+
+				Description: "Server Name Indication.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -650,6 +658,14 @@ func refreshObjectUserFsso(d *schema.ResourceData, o *models.UserFsso, sv string
 		}
 	}
 
+	if o.Sni != nil {
+		v := *o.Sni
+
+		if err = d.Set("sni", v); err != nil {
+			return diag.Errorf("error reading sni: %v", err)
+		}
+	}
+
 	if o.SourceIp != nil {
 		v := *o.SourceIp
 
@@ -935,6 +951,15 @@ func getObjectUserFsso(d *schema.ResourceData, sv string) (*models.UserFsso, dia
 				diags = append(diags, e)
 			}
 			obj.Server5 = &v2
+		}
+	}
+	if v1, ok := d.GetOk("sni"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.0", "") {
+				e := utils.AttributeVersionWarning("sni", sv)
+				diags = append(diags, e)
+			}
+			obj.Sni = &v2
 		}
 	}
 	if v1, ok := d.GetOk("source_ip"); ok {
