@@ -28,6 +28,8 @@ The following attributes are exported:
 * `admin` - Configure how the FortiGate operating as a wireless controller discovers and manages this WTP, AP or FortiAP.
 * `allowaccess` - Control management access to the managed WTP, FortiAP, or AP. Separate entries with a space.
 * `apcfg_profile` - AP local configuration profile name.
+* `ble_major_id` - Override BLE Major ID.
+* `ble_minor_id` - Override BLE Minor ID.
 * `bonjour_profile` - Bonjour profile name.
 * `coordinate_latitude` - WTP latitude coordinate.
 * `coordinate_longitude` - WTP longitude coordinate.

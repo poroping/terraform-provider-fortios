@@ -20,10 +20,12 @@ Override FortiAnalyzer settings.
 * `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
 * `access_config` - Enable/disable FortiAnalyzer access to configuration and data. Valid values: `enable` `disable` .
+* `alt_server` - Alternate FortiAnalyzer.
 * `certificate` - Certificate used to communicate with FortiAnalyzer. This attribute must reference one of the following datasources: `certificate.local.name` .
 * `certificate_verification` - Enable/disable identity verification of FortiAnalyzer by use of certificate. Valid values: `enable` `disable` .
 * `conn_timeout` - FortiAnalyzer connection time-out in seconds (for status and log buffer).
 * `enc_algorithm` - Configure the level of SSL protection for secure communication with FortiAnalyzer. Valid values: `high-medium` `high` `low` .
+* `fallback_to_primary` - Enable/disable this FortiGate unit to fallback to the primary FortiAnalyzer when it is available. Valid values: `enable` `disable` .
 * `hmac_algorithm` - OFTP login hash algorithm. Valid values: `sha256` `sha1` .
 * `interface` - Specify outgoing interface to reach server. This attribute must reference one of the following datasources: `system.interface.name` .
 * `interface_select_method` - Specify how to select outgoing interface to reach server. Valid values: `auto` `sdwan` `specify` .
@@ -35,6 +37,7 @@ Override FortiAnalyzer settings.
 * `priority` - Set log transmission priority. Valid values: `default` `low` .
 * `reliable` - Enable/disable reliable logging to FortiAnalyzer. Valid values: `enable` `disable` .
 * `server` - The remote FortiAnalyzer.
+* `server_cert_ca` - Mandatory CA on FortiGate in certificate chain of server. This attribute must reference one of the following datasources: `certificate.ca.name` `vpn.certificate.ca.name` .
 * `source_ip` - Source IPv4 or IPv6 address used to communicate with FortiAnalyzer.
 * `ssl_min_proto_version` - Minimum supported protocol version for SSL/TLS connections (default is to follow system global setting). Valid values: `default` `SSLv3` `TLSv1` `TLSv1-1` `TLSv1-2` `TLSv1-3` .
 * `status` - Enable/disable logging to FortiAnalyzer. Valid values: `enable` `disable` .

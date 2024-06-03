@@ -18,7 +18,7 @@ Use this data source to get information on a fortios BGP VRF leaking table.
 
 ## Argument Reference
 
-* `vrf` - (Required) Origin VRF ID (0 - 63).
+* `vrf` - (Required) Origin VRF ID (0 - 251).
 * `vdomparam` - Specifies the vdom to which the data source will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.
 
 ## Attribute Reference
@@ -28,7 +28,7 @@ The following attributes are exported:
 * `import_route_map` - Import route map.
 * `rd` - Route Distinguisher: AA|AA:NN.
 * `role` - VRF role.
-* `vrf` - Origin VRF ID (0 - 63).
+* `vrf` - Origin VRF ID (0 - 251).
 * `export_rt` - List of export route target.The structure of `export_rt` block is documented below.
 
 The `export_rt` block contains:
@@ -45,4 +45,4 @@ The `leak_target` block contains:
 
 * `interface` - Interface which is used to leak routes to target VRF.
 * `route_map` - Route map of VRF leaking.
-* `vrf` - Target VRF ID (0 - 63).
+* `vrf` - Target VRF ID (0 - 251).

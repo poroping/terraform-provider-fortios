@@ -122,6 +122,7 @@ The `http` block contains:
 * `options` - Enable/disable HTTP AntiVirus scanning, monitoring, and quarantine. Valid values: `scan` `avmonitor` `quarantine` .
 * `outbreak_prevention` - Enable virus outbreak prevention service. Valid values: `disable` `block` `monitor` .
 * `quarantine` - Enable/disable quarantine for infected files. Valid values: `disable` `enable` .
+* `unknown_content_encoding` - Configure the action the FortiGate unit will take on unknown content-encoding. Valid values: `block` `inspect` `bypass` .
 * `imap` - Configure IMAP AntiVirus options. The structure of `imap` block is documented below.
 
 The `imap` block contains:

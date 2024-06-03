@@ -147,7 +147,7 @@ The `conditional_advertise` block contains:
 
 The `condition_routemap` block contains:
 
-* `name` - route map
+* `name` - Route map.
 * `conditional_advertise6` - IPv6 conditional advertisement.The structure of `conditional_advertise6` block is documented below.
 
 The `conditional_advertise6` block contains:
@@ -158,4 +158,4 @@ The `conditional_advertise6` block contains:
 
 The `condition_routemap` block contains:
 
-* `name` - route map
+* `name` - Route map.

@@ -30,6 +30,8 @@ The following attributes are exported:
 * `comment` - Comment.
 * `distance` - Distance for routes added by SSL-VPN (1 - 255).
 * `interface` - SSL interface to send/receive traffic over.
+* `ipv4_subnets` - IPv4 subnets that the client is protecting.
+* `ipv6_subnets` - IPv6 subnets that the client is protecting.
 * `name` - SSL-VPN tunnel name.
 * `peer` - Authenticate peer's certificate with the peer/peergrp.
 * `port` - SSL-VPN server port.

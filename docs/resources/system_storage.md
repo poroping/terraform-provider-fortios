@@ -26,7 +26,7 @@ Configure logical storage.
 * `partition` - Label of underlying partition.
 * `size` - Partition size.
 * `status` - Enable/disable storage. Valid values: `enable` `disable` .
-* `usage` - Use hard disk for logging or WAN Optimization (default = log). Valid values: `log` `wanopt` .
+* `usage` - Use hard disk for logging and WAN Optimization. Valid values: `log` .
 * `wanopt_mode` - WAN Optimization mode (default = mix). Valid values: `mix` `wanopt` `webcache` .
 
 ## Attribute Reference

@@ -28,6 +28,7 @@ The following attributes are exported:
 * `comment` - Optional comments.
 * `id` - ID.
 * `ip_addr_block` - Enable/disable blocking URLs when the hostname appears as an IP address.
+* `ip4_mapped_ip6` - Enable/disable matching of IPv4 mapped IPv6 URLs.
 * `name` - Name of URL filter list.
 * `one_arm_ips_urlfilter` - Enable/disable DNS resolver for one-arm IPS URL filter operation.
 * `entries` - URL filter entries.The structure of `entries` block is documented below.

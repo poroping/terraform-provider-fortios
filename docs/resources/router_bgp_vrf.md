@@ -26,7 +26,7 @@ BGP VRF leaking table.
 * `import_route_map` - Import route map. This attribute must reference one of the following datasources: `router.route-map.name` .
 * `rd` - Route Distinguisher: AA|AA:NN.
 * `role` - VRF role. Valid values: `standalone` `ce` `pe` .
-* `vrf` - Origin VRF ID (0 - 63).
+* `vrf` - Origin VRF ID (0 - 251).
 * `export_rt` - List of export route target. The structure of `export_rt` block is documented below.
 
 The `export_rt` block contains:
@@ -43,7 +43,7 @@ The `leak_target` block contains:
 
 * `interface` - Interface which is used to leak routes to target VRF. This attribute must reference one of the following datasources: `system.interface.name` .
 * `route_map` - Route map of VRF leaking. This attribute must reference one of the following datasources: `router.route-map.name` .
-* `vrf` - Target VRF ID (0 - 63).
+* `vrf` - Target VRF ID (0 - 251).
 
 ## Attribute Reference
 

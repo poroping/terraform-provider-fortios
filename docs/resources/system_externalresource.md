@@ -27,9 +27,11 @@ Configure external resource.
 * `password` - HTTP basic authentication password.
 * `refresh_rate` - Time interval to refresh external resource (1 - 43200 min, default = 5 min).
 * `resource` - URI of external resource.
+* `server_identity_check` - Certificate verification option. Valid values: `none` `basic` `full` .
 * `source_ip` - Source IPv4 address used to communicate with server.
 * `status` - Enable/disable user resource. Valid values: `enable` `disable` .
 * `type` - User resource type. Valid values: `category` `address` `domain` `malware` .
+* `update_method` - External resource update method. Valid values: `feed` `push` .
 * `user_agent` - HTTP User-Agent header (default = 'curl/7.58.0').
 * `username` - HTTP basic authentication user name.
 * `uuid` - Universally Unique Identifier (UUID; automatically assigned but can be manually reset).

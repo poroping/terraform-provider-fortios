@@ -24,6 +24,7 @@ Use this data source to get information on a fortios VPN certificate setting.
 
 The following attributes are exported:
 
+* `cert_expire_warning` - Number of days before a certificate expires to send a warning. Set to 0 to disable sending of the warning (0 - 100, default = 14).
 * `certname_dsa1024` - 1024 bit DSA key certificate for re-signing server certificates for SSL inspection.
 * `certname_dsa2048` - 2048 bit DSA key certificate for re-signing server certificates for SSL inspection.
 * `certname_ecdsa256` - 256 bit ECDSA key certificate for re-signing server certificates for SSL inspection.
@@ -45,6 +46,11 @@ The following attributes are exported:
 * `ocsp_default_server` - Default OCSP server.
 * `ocsp_option` - Specify whether the OCSP URL is from certificate or configured OCSP server.
 * `ocsp_status` - Enable/disable receiving certificates using the OCSP.
+* `proxy` - Proxy server FQDN or IP for OCSP/CA queries during certificate verification.
+* `proxy_password` - Proxy server password.
+* `proxy_port` - Proxy server port (1 - 65535, default = 8080).
+* `proxy_username` - Proxy server user name.
+* `source_ip` - Source IP address for dynamic AIA and OCSP queries.
 * `ssl_min_proto_version` - Minimum supported protocol version for SSL/TLS connections (default is to follow system global setting).
 * `ssl_ocsp_source_ip` - Source IP address to use to communicate with the OCSP server.
 * `strict_crl_check` - Enable/disable strict mode CRL checking.

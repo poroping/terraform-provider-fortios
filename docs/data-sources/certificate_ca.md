@@ -30,6 +30,7 @@ The following attributes are exported:
 * `ca` - CA certificate as a PEM file.
 * `ca_identifier` - CA identifier of the SCEP server.
 * `name` - Name.
+* `obsolete` - Enable/disable this CA as obsoleted.
 * `range` - Either global or VDOM IP address range for the CA certificate.
 * `scep_url` - URL of the SCEP server.
 * `source` - CA certificate source type.

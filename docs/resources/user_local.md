@@ -29,7 +29,7 @@ resource "fortios_user_local" "example" {
 * `fortitoken` - Two-factor recipient's FortiToken serial number. This attribute must reference one of the following datasources: `user.fortitoken.serial-number` .
 * `id` - User ID.
 * `ldap_server` - Name of LDAP server with which the user must authenticate. This attribute must reference one of the following datasources: `user.ldap.name` .
-* `name` - User name.
+* `name` - Local user name.
 * `passwd` - User's password.
 * `passwd_policy` - Password policy to apply to this user, as defined in config user password-policy. This attribute must reference one of the following datasources: `user.password-policy.name` .
 * `passwd_time` - Time of the last password update.

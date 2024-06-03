@@ -35,6 +35,7 @@ Configure FortiSwitch global settings.
 * `sn_dns_resolution` - Enable/disable DNS resolution of the FortiSwitch unit's IP address by use of its serial number. Valid values: `enable` `disable` .
 * `update_user_device` - Control which sources update the device user list. Valid values: `mac-cache` `lldp` `dhcp-snooping` `l2-db` `l3-db` .
 * `vlan_all_mode` - VLAN configuration mode, user-defined-vlans or all-possible-vlans. Valid values: `all` `defined` .
+* `vlan_identity` - Identity of the VLAN. Commonly used for RADIUS Tunnel-Private-Group-Id. Valid values: `description` `name` .
 * `vlan_optimization` - FortiLink VLAN optimization. Valid values: `enable` `disable` .
 * `custom_command` - List of custom commands to be pushed to all FortiSwitches in the VDOM. The structure of `custom_command` block is documented below.
 

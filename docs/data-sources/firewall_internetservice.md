@@ -27,11 +27,13 @@ The following attributes are exported:
 
 * `database` - Database name this Internet Service belongs to.
 * `direction` - How this service may be used in a firewall policy (source, destination or both).
-* `extra_ip_range_number` - Extra number of IP ranges.
+* `extra_ip_range_number` - Extra number of IPv4 ranges.
+* `extra_ip6_range_number` - Extra number of IPv6 ranges.
 * `icon_id` - Icon ID of Internet Service.
 * `id` - Internet Service ID.
-* `ip_number` - Total number of IP addresses.
-* `ip_range_number` - Number of IP ranges.
+* `ip_number` - Total number of IPv4 addresses.
+* `ip_range_number` - Number of IPv4 ranges.
+* `ip6_range_number` - Number of IPv6 ranges.
 * `name` - Internet Service name.
 * `obsolete` - Indicates whether the Internet Service can be used.
 * `reputation` - Reputation level of the Internet Service.

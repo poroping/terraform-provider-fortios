@@ -24,7 +24,7 @@ Use this data source to get information on a fortios Configure alert email setti
 
 The following attributes are exported:
 
-* `fds_license_expiring_days` - Number of days to send alert email prior to FortiGuard license expiration (1 - 100 days, default = 100).
+* `fds_license_expiring_days` - Number of days to send alert email prior to FortiGuard license expiration (1 - 100 days, default = 15).
 * `fds_license_expiring_warning` - Enable/disable FortiGuard license expiration warnings in alert email.
 * `fds_update_logs` - Enable/disable FortiGuard update logs in alert email.
 * `fips_cc_errors` - Enable/disable FIPS and Common Criteria error logs in alert email.

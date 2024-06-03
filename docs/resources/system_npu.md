@@ -20,9 +20,9 @@ Configure NPU attributes.
 * `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
 * `capwap_offload` - Enable/disable offloading managed FortiAP and FortiLink CAPWAP sessions. Valid values: `enable` `disable` .
-* `dedicated_management_affinity` - Affinity setting for management deamons (hexadecimal value up to 256 bits in the format of xxxxxxxxxxxxxxxx).
+* `dedicated_management_affinity` - Affinity setting for management daemons (hexadecimal value up to 256 bits in the format of xxxxxxxxxxxxxxxx).
 * `dedicated_management_cpu` - Enable to dedicate one CPU for GUI and CLI connections when NPs are busy. Valid values: `enable` `disable` .
-* `default_qos_type` - Set default QoS type. Valid values: `policing` `shaping` .
+* `default_qos_type` - Set default QoS type. Valid values: `policing` `shaping` `policing-enhanced` .
 * `double_level_mcast_offload` - Enable double level mcast offload. Valid values: `enable` `disable` .
 * `dse_timeout` -  DSE timeout in seconds (0-3600, default = 10).
 * `fastpath` - Enable/disable NP6 offloading (also called fast path). Valid values: `disable` `enable` .
@@ -30,25 +30,31 @@ Configure NPU attributes.
 * `hash_tbl_spread` - Enable/disable hash table entry spread (default enabled). Valid values: `enable` `disable` .
 * `htab_dedi_queue_nr` - Set the number of dedicate queue for hash table messages.
 * `htab_msg_queue` - Set hash table message queue mode. Valid values: `data` `idle` `dedicated` .
+* `htx_icmp_csum_chk` - Set HTX icmp csum checking mode. Valid values: `drop` `pass` .
+* `ip_fragment_offload` - Enable/disable NP7 NPU IP fragment offload. Valid values: `disable` `enable` .
 * `ippool_overload_high` -  High threshold for overload ippool port reuse (100%-2000%, default = 200).
 * `ippool_overload_low` -  Low threshold for overload ippool port reuse (100%-2000%, default = 150).
 * `ipsec_dec_subengine_mask` - IPsec decryption subengine mask (0x1 - 0xff, default 0xff).
 * `ipsec_enc_subengine_mask` - IPsec encryption subengine mask (0x1 - 0xff, default 0xff).
 * `ipsec_inbound_cache` - Enable/disable IPsec inbound cache for anti-replay. Valid values: `enable` `disable` .
 * `ipsec_mtu_override` - Enable/disable NP6 IPsec MTU override. Valid values: `disable` `enable` .
-* `ipsec_ob_np_sel` - IPsec NP selection for OB SA offloading. Valid values: `RR` `Packet` `Hash` .
+* `ipsec_ob_np_sel` - IPsec NP selection for OB SA offloading. Valid values: `rr` `Packet` `Hash` .
 * `ipsec_over_vlink` - Enable/disable IPSEC over vlink. Valid values: `enable` `disable` .
 * `max_session_timeout` - Maximum time interval for refreshing NPU-offloaded sessions (10 - 1000 sec, default 40 sec).
 * `mcast_session_accounting` - Enable/disable traffic accounting for each multicast session through TAE counter. Valid values: `tpe-based` `session-based` `disable` .
 * `napi_break_interval` -  NAPI break interval (default 0).
 * `np6_cps_optimization_mode` - Enable/disable NP6 connection per second (CPS) optimization mode. Valid values: `enable` `disable` .
+* `npu_group_effective_scope` - npu-group-effective-scope defines under which npu-group cmds such as list/purge will be excecuted. Default scope is for all four HS-ok groups. (0-3, default = 255).
 * `pba_eim` - Configure option for PBA(non-overload)/EIM combination. Valid values: `disallow` `allow` .
+* `per_policy_accounting` - Set per-policy accounting. Valid values: `disable` `enable` .
 * `per_session_accounting` - Set per-session accounting. Valid values: `traffic-log-only` `disable` `enable` .
-* `policy_offload_level` - Firewall Policy Offload Level(DISABLE/DOS/FULL). Valid values: `disable` `dos-offload` .
+* `policy_offload_level` - Configure firewall policy offload level. Valid values: `disable` `dos-offload` .
 * `qos_mode` - QoS mode on switch and NP. Valid values: `disable` `priority` `round-robin` .
+* `qtm_buf_mode` - QTM channel configuration for packet buffer. Valid values: `6ch` `4ch` .
 * `rdp_offload` - Enable/disable rdp offload. Valid values: `enable` `disable` .
 * `recover_np6_link` - Enable/disable internal link failure check and recovery after boot up. Valid values: `enable` `disable` .
 * `session_acct_interval` - Session accounting update interval (1 - 10 sec, default 5 sec).
+* `shaping_stats` - Enable/disable NP7 traffic shaping statistics (default = disable). Valid values: `disable` `enable` .
 * `sse_backpressure` - Enable/disable sse backpressure. Valid values: `enable` `disable` .
 * `strip_clear_text_padding` - Enable/disable stripping clear text padding. Valid values: `enable` `disable` .
 * `strip_esp_padding` - Enable/disable stripping ESP padding. Valid values: `enable` `disable` .
@@ -59,8 +65,8 @@ Configure NPU attributes.
 
 The `dos_options` block contains:
 
-* `npu_dos_meter_mode` - Set DoS meter npu offloading mode. Valid values: `global` `local` .
-* `npu_dos_tpe_mode` - Enable/Disable inserting DoS meter id to session table. Valid values: `enable` `disable` .
+* `npu_dos_meter_mode` - Set DoS meter NPU offloading mode. Valid values: `global` `local` .
+* `npu_dos_tpe_mode` - Enable/disable insertion of DoS meter ID to session table. Valid values: `enable` `disable` .
 * `dsw_dts_profile` - Configure NPU DSW DTS profile. The structure of `dsw_dts_profile` block is documented below.
 
 The `dsw_dts_profile` block contains:
@@ -73,11 +79,11 @@ The `dsw_dts_profile` block contains:
 
 The `dsw_queue_dts_profile` block contains:
 
-* `iport` - Set NPU DSW DTS in port. Valid values: `EIF0` `EIF1` `EIF2` `EIF3` `EIF4` `EIF5` `EIF6` `EIF7` `HTX0` `HTX1` `SSE0` `SSE1` `SSE2` `SSE3` `RLT` `DFR` `IPSECI` `IPSECO` `IPTI` `IPTO` `VEP0` `VEP2` `VEP4` `VEP6` `IVS` `L2TI1` `L2TO` `L2TI0` `PLE` `SPATH` `QTM` .
+* `iport` - Set NPU DSW DTS in port. Valid values: `eif0` `eif1` `eif2` `eif3` `eif4` `eif5` `eif6` `eif7` `htx0` `htx1` `sse0` `sse1` `sse2` `sse3` `rlt` `dfr` `ipseci` `ipseco` `ipti` `ipto` `vep0` `vep2` `vep4` `vep6` `ivs` `l2ti1` `l2to` `l2ti0` `ple` `spath` `qtm` .
 * `name` - Name.
-* `oport` - Set NPU DSW DTS out port. Valid values: `EIF0` `EIF1` `EIF2` `EIF3` `EIF4` `EIF5` `EIF6` `EIF7` `HRX` `SSE0` `SSE1` `SSE2` `SSE3` `RLT` `DFR` `IPSECI` `IPSECO` `IPTI` `IPTO` `VEP0` `VEP2` `VEP4` `VEP6` `IVS` `L2TI1` `L2TO` `L2TI0` `PLE` `SYNK` `NSS` `TSK` `QTM` .
-* `profile_id` - Set NPU DSW DTS profile id.
-* `queue_select` - Set NPU DSW DTS queue id select(0 - reset to default).
+* `oport` - Set NPU DSW DTS out port. Valid values: `eif0` `eif1` `eif2` `eif3` `eif4` `eif5` `eif6` `eif7` `hrx` `sse0` `sse1` `sse2` `sse3` `rlt` `dfr` `ipseci` `ipseco` `ipti` `ipto` `vep0` `vep2` `vep4` `vep6` `ivs` `l2ti1` `l2to` `l2ti0` `ple` `sync` `nss` `tsk` `qtm` .
+* `profile_id` - Set NPU DSW DTS profile ID.
+* `queue_select` - Set NPU DSW DTS queue ID select (0 - reset to default).
 * `fp_anomaly` - IPv4/IPv6 anomaly protection. The structure of `fp_anomaly` block is documented below.
 
 The `fp_anomaly` block contains:
@@ -107,6 +113,7 @@ The `fp_anomaly` block contains:
 * `ipv6_proto_err` - Layer 4 invalid protocol anomalies. Valid values: `allow` `drop` `trap-to-host` .
 * `ipv6_saddr_err` - Source address as multicast anomalies. Valid values: `allow` `drop` `trap-to-host` .
 * `ipv6_unknopt` - Unknown option anomalies. Valid values: `allow` `drop` `trap-to-host` .
+* `sctp_csum_err` - Invalid IPv4 SCTP checksum anomalies. Valid values: `allow` `drop` `trap-to-host` .
 * `tcp_csum_err` - Invalid IPv4 TCP checksum anomalies. Valid values: `drop` `trap-to-host` .
 * `tcp_fin_noack` - TCP SYN flood with FIN flag set without ACK setting anomalies. Valid values: `allow` `drop` `trap-to-host` .
 * `tcp_fin_only` - TCP SYN flood with only FIN flag set anomalies. Valid values: `allow` `drop` `trap-to-host` .
@@ -121,21 +128,21 @@ The `fp_anomaly` block contains:
 
 The `hpe` block contains:
 
-* `all_protocol` - Maximum packet rate of each host queue except high priority traffic(1K - 40M pps, default = 400K pps), set 0 to disable.
-* `arp_max` - Maximum ARP packet rate (1K - 40M pps, default = 20K pps).
+* `all_protocol` - Maximum packet rate of each host queue except high priority traffic(1K - 32M pps, default = 400K pps), set 0 to disable.
+* `arp_max` - Maximum ARP packet rate (1K - 32M pps, default = 5K pps). Entry is valid when ARP is removed from high-priority traffic.
 * `enable_shaper` - Enable/Disable NPU Host Protection Engine (HPE) for packet type shaper. Valid values: `disable` `enable` .
-* `esp_max` - Maximum ESP packet rate (1K - 40M pps, default = 20K pps).
-* `high_priority` - Maximum packet rate for high priority traffic packets (1K - 40M pps, default = 400K pps).
-* `icmp_max` - Maximum ICMP packet rate (1K - 40M pps, default = 20K pps).
-* `ip_frag_max` - Maximum fragmented IP packet rate (1K - 40M pps, default = 20K pps).
-* `ip_others_max` - Maximum IP packet rate for other packets (packet types that cannot be set with other options) (1K - 1G pps, default = 20K pps).
-* `l2_others_max` - Maximum L2 packet rate for L2 packets that are not ARP packets (1K - 40M pps, default = 20K pps).
-* `sctp_max` - Maximum SCTP packet rate (1K - 40M pps, default = 20K pps).
-* `tcp_max` - Maximum TCP packet rate (1K - 40M pps, default = 40K pps).
-* `tcpfin_rst_max` - Maximum TCP carries FIN or RST flags packet rate (1K - 40M pps, default = 40K pps).
-* `tcpsyn_ack_max` - Maximum TCP carries SYN and ACK flags packet rate (1K - 40M pps, default = 40K pps).
-* `tcpsyn_max` - Maximum TCP SYN packet rate (1K - 40M pps, default = 40K pps).
-* `udp_max` - Maximum UDP packet rate (1K - 40M pps, default = 40K pps).
+* `esp_max` - Maximum ESP packet rate (1K - 32M pps, default = 5K pps).
+* `high_priority` - Maximum packet rate for high priority traffic packets (1K - 32M pps, default = 400K pps).
+* `icmp_max` - Maximum ICMP packet rate (1K - 32M pps, default = 5K pps).
+* `ip_frag_max` - Maximum fragmented IP packet rate (1K - 32M pps, default = 5K pps).
+* `ip_others_max` - Maximum IP packet rate for other packets (packet types that cannot be set with other options) (1K - 32G pps, default = 5K pps).
+* `l2_others_max` - Maximum L2 packet rate for L2 packets that are not ARP packets (1K - 32M pps, default = 5K pps).
+* `sctp_max` - Maximum SCTP packet rate (1K - 32M pps, default = 5K pps).
+* `tcp_max` - Maximum TCP packet rate (1K - 32M pps, default = 40K pps).
+* `tcpfin_rst_max` - Maximum TCP carries FIN or RST flags packet rate (1K - 32M pps, default = 40K pps).
+* `tcpsyn_ack_max` - Maximum TCP carries SYN and ACK flags packet rate (1K - 32M pps, default = 40K pps).
+* `tcpsyn_max` - Maximum TCP SYN packet rate (1K - 40M pps, default = 32K pps).
+* `udp_max` - Maximum UDP packet rate (1K - 32M pps, default = 40K pps).
 * `inbound_dscp_copy_port` - Physical interfaces that support inbound-dscp-copy. The structure of `inbound_dscp_copy_port` block is documented below.
 
 The `inbound_dscp_copy_port` block contains:
@@ -184,12 +191,12 @@ The `ip_protocol` block contains:
 
 The `ip_service` block contains:
 
-* `dport` - Destination Port.
-* `name` - IP Service Name.
-* `protocol` - IP Protocol.
-* `queue` - Queue Number.
-* `sport` - Source Port.
-* `weight` - Class Weight.
+* `dport` - Destination port.
+* `name` - IP service name.
+* `protocol` - IP protocol.
+* `queue` - Queue number.
+* `sport` - Source port.
+* `weight` - Class weight.
 * `profile` - Configure a NP7 class profile. The structure of `profile` block is documented below.
 
 The `profile` block contains:
@@ -273,8 +280,8 @@ The `profile` block contains:
 
 The `scheduler` block contains:
 
-* `mode` - Scheduler Mode. Valid values: `none` `priority` `round-robin` .
-* `name` - Scheduler Name.
+* `mode` - Scheduler mode. Valid values: `none` `priority` `round-robin` .
+* `name` - Scheduler name.
 * `port_cpu_map` - Configure NPU interface to CPU core mapping. The structure of `port_cpu_map` block is documented below.
 
 The `port_cpu_map` block contains:
@@ -285,7 +292,7 @@ The `port_cpu_map` block contains:
 
 The `port_npu_map` block contains:
 
-* `interface` - Set npu interface port to NPU group map.
+* `interface` - Set NPU interface port for NPU group mapping.
 * `npu_group_index` - Mapping NPU group index.
 * `priority_protocol` - Configure NPU priority protocol. The structure of `priority_protocol` block is documented below.
 

@@ -71,6 +71,7 @@ The following attributes are exported:
 * `required` - Required in action chain.
 * `script` - CLI script.
 * `security_tag` - NSX security tag.
+* `system_action` - System action type.
 * `timeout` - Maximum running time for this script in seconds (0 = no timeout).
 * `tls_certificate` - Custom TLS certificate for API request.
 * `uri` - Request API URI.
@@ -85,6 +86,13 @@ The `email_to` block contains:
 The `headers` block contains:
 
 * `header` - Request header.
+* `http_headers` - Request headers.The structure of `http_headers` block is documented below.
+
+The `http_headers` block contains:
+
+* `id` - Entry ID.
+* `key` - Request header key.
+* `value` - Request header value.
 * `sdn_connector` - NSX SDN connector names.The structure of `sdn_connector` block is documented below.
 
 The `sdn_connector` block contains:

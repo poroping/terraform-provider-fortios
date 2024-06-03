@@ -32,6 +32,7 @@ The following attributes are exported:
 * `devindex` - Device index (0 - 4294967295).
 * `distance` - Administrative distance (1 - 255).
 * `dst` - Destination IPv6 prefix.
+* `dstaddr` - Name of firewall address or address group.
 * `dynamic_gateway` - Enable use of dynamic gateway retrieved from Router Advertisement (RA).
 * `gateway` - IPv6 address of the gateway.
 * `link_monitor_exempt` - Enable/disable withdrawal of this static route when link monitor or health check is down.
@@ -41,6 +42,7 @@ The following attributes are exported:
 * `status` - Enable/disable this static route.
 * `virtual_wan_link` - Enable/disable egress through the virtual-wan-link.
 * `vrf` - Virtual Routing Forwarding ID.
+* `weight` - Administrative weight (0 - 255).
 * `sdwan_zone` - Choose SD-WAN Zone.The structure of `sdwan_zone` block is documented below.
 
 The `sdwan_zone` block contains:

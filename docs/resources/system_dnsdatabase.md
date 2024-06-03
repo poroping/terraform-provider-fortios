@@ -34,7 +34,7 @@ Configure DNS databases.
 * `status` - Enable/disable this DNS zone. Valid values: `enable` `disable` .
 * `ttl` - Default time-to-live value for the entries of this DNS zone (0 - 2147483647 sec, default = 86400).
 * `type` - Zone type (primary to manage entries directly, secondary to import entries from other zones). Valid values: `primary` `secondary` .
-* `view` - Zone view (public to serve public clients, shadow to serve internal clients). Valid values: `shadow` `public` .
+* `view` - Zone view (public to serve public clients, shadow to serve internal clients). Valid values: `shadow` `public` `shadow-ztna` .
 * `dns_entry` - DNS entry. The structure of `dns_entry` block is documented below.
 
 The `dns_entry` block contains:

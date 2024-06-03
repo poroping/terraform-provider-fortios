@@ -39,4 +39,5 @@ The following attributes are exported:
 * `user` - Enable/disable user authentication event logging.
 * `vpn` - Enable/disable VPN event logging.
 * `wan_opt` - Enable/disable WAN optimization event logging.
+* `webproxy` - Enable/disable web proxy event logging.
 * `wireless_activity` - Enable/disable wireless event logging.

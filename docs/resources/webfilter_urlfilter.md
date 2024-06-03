@@ -23,6 +23,7 @@ Configure URL filter lists.
 * `comment` - Optional comments.
 * `id` - ID.
 * `ip_addr_block` - Enable/disable blocking URLs when the hostname appears as an IP address. Valid values: `enable` `disable` .
+* `ip4_mapped_ip6` - Enable/disable matching of IPv4 mapped IPv6 URLs. Valid values: `enable` `disable` .
 * `name` - Name of URL filter list.
 * `one_arm_ips_urlfilter` - Enable/disable DNS resolver for one-arm IPS URL filter operation. Valid values: `enable` `disable` .
 * `entries` - URL filter entries. The structure of `entries` block is documented below.

@@ -27,11 +27,15 @@ The following attributes are exported:
 
 * `allow_user_access` - Allow user access to SSL-VPN applications.
 * `auto_connect` - Enable/disable automatic connect by client when system is up.
+* `client_src_range` - Allow client to add source range for the tunnel traffic.
 * `clipboard` - Enable to support RDP/VPC clipboard functionality.
 * `custom_lang` - Change the web portal display language. Overrides config system global set language. You can use config system custom-language and execute system custom-language to add custom language files.
 * `customize_forticlient_download_url` - Enable support of customized download URL for FortiClient.
 * `default_window_height` - Screen height (range from 0 - 65535, default = 768).
 * `default_window_width` - Screen width (range from 0 - 65535, default = 1024).
+* `dhcp_ip_overlap` - Configure overlapping DHCP IP allocation assignment.
+* `dhcp_ra_giaddr` - Relay agent gateway IP address to use in the giaddr field of DHCP requests.
+* `dhcp6_ra_linkaddr` - Relay agent IPv6 link address to use in DHCP6 requests.
 * `display_bookmark` - Enable to display the web portal bookmark widget.
 * `display_connection_tools` - Enable to display the web portal connection tools widget.
 * `display_history` - Enable to display the web portal user login history widget.
@@ -124,6 +128,7 @@ The `bookmarks` block contains:
 * `sso_password` - SSO password.
 * `sso_username` - SSO user name.
 * `url` - URL parameter.
+* `vnc_keyboard_layout` - Keyboard layout.
 * `width` - Screen width (range from 0 - 65535, default = 0).
 * `form_data` - Form data.The structure of `form_data` block is documented below.
 

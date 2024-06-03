@@ -38,6 +38,8 @@ The following attributes are exported:
 * `secfabgrp` - Security Fabric.
 * `sysgrp` - System Configuration.
 * `system_diagnostics` - Enable/disable permission to run system diagnostic commands.
+* `system_execute_ssh` - Enable/disable permission to execute SSH commands.
+* `system_execute_telnet` - Enable/disable permission to execute TELNET commands.
 * `utmgrp` - Administrator access to Security Profiles.
 * `vpngrp` - Administrator access to IPsec, SSL, PPTP, and L2TP VPN.
 * `wanoptgrp` - Administrator access to WAN Opt & Cache.
@@ -80,6 +82,7 @@ The `utmgrp_permission` block contains:
 
 * `antivirus` - Antivirus profiles and settings.
 * `application_control` - Application Control profiles and settings.
+* `data_leak_prevention` - DLP profiles and settings.
 * `data_loss_prevention` - DLP profiles and settings.
 * `dnsfilter` - DNS Filter profiles and settings.
 * `emailfilter` - Email Filter and settings.

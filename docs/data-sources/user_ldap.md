@@ -27,6 +27,7 @@ The following attributes are exported:
 
 * `account_key_filter` - Account key filter, using the UPN as the search filter.
 * `account_key_processing` - Account key processing operation, either keep or strip domain string of UPN in the token.
+* `account_key_upn_san` - Define SAN in certificate for user principle name matching.
 * `antiphish` - Enable/disable AntiPhishing credential backend.
 * `ca_cert` - CA certificate name.
 * `client_cert` - Client certificate name.
@@ -58,6 +59,7 @@ The following attributes are exported:
 * `tertiary_server` - Tertiary LDAP server CN domain name or IP.
 * `two_factor` - Enable/disable two-factor authentication.
 * `two_factor_authentication` - Authentication method by FortiToken Cloud.
+* `two_factor_filter` - Filter used to synchronize users to FortiToken Cloud.
 * `two_factor_notification` - Notification method for user activation by FortiToken Cloud.
 * `type` - Authentication type for LDAP searches.
 * `user_info_exchange_server` - MS Exchange server from which to fetch user information.

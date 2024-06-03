@@ -31,6 +31,8 @@ The `rule` block contains:
 * `match_as_path` - Match BGP AS path list. This attribute must reference one of the following datasources: `router.aspath-list.name` .
 * `match_community` - Match BGP community list. This attribute must reference one of the following datasources: `router.community-list.name` .
 * `match_community_exact` - Enable/disable exact matching of communities. Valid values: `enable` `disable` .
+* `match_extcommunity` - Match BGP extended community list. This attribute must reference one of the following datasources: `router.extcommunity-list.name` .
+* `match_extcommunity_exact` - Enable/disable exact matching of extended communities. Valid values: `enable` `disable` .
 * `match_flags` - BGP flag value to match (0 - 65535)
 * `match_interface` - Match interface configuration. This attribute must reference one of the following datasources: `system.interface.name` .
 * `match_ip_address` - Match IP address permitted by access-list or prefix-list. This attribute must reference one of the following datasources: `router.access-list.name` `router.prefix-list.name` .

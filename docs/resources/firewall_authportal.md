@@ -22,6 +22,7 @@ Configure firewall authentication portals.
 * `identity_based_route` - Name of the identity-based route that applies to this portal. This attribute must reference one of the following datasources: `firewall.identity-based-route.name` .
 * `portal_addr` - Address (or FQDN) of the authentication portal.
 * `portal_addr6` - IPv6 address (or FQDN) of authentication portal.
+* `proxy_auth` - Enable/disable authentication by proxy daemon (default = disable). Valid values: `enable` `disable` .
 * `groups` - Firewall user groups permitted to authenticate through this portal. Separate group names with spaces. The structure of `groups` block is documented below.
 
 The `groups` block contains:

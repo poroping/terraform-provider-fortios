@@ -24,6 +24,7 @@ Use this data source to get information on a fortios SNMP system info configurat
 
 The following attributes are exported:
 
+* `append_index` - Enable/disable allowance of appending VDOM or interface index in some RFC tables.
 * `contact_info` - Contact information.
 * `description` - System description.
 * `engine_id` - Local SNMP engineID string (maximum 27 characters).

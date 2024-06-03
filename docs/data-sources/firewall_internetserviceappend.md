@@ -24,5 +24,6 @@ Use this data source to get information on a fortios Configure additional port m
 
 The following attributes are exported:
 
+* `addr_mode` - Address mode (IPv4 or IPv6).
 * `append_port` - Appending TCP/UDP/SCTP destination port (1 to 65535).
 * `match_port` - Matching TCP/UDP/SCTP destination port (0 to 65535, 0 means any port).

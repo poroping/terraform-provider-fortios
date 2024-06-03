@@ -32,9 +32,9 @@ The following attributes are exported:
 * `failover_hold_time` - Time to wait before failover (0 - 300 sec, default = 0), to avoid flip.
 * `ftp_proxy_threshold` - Dynamic weighted load balancing weight and high and low number of FTP proxy sessions.
 * `gratuitous_arps` - Enable/disable gratuitous ARPs. Disable if link-failed-signal enabled.
-* `group_id` - HA group ID  (0 - 1023;  or 0 - 7 when vcluster is enabled). Must be the same for all members.
+* `group_id` - HA group ID  (0 - 1023;  or 0 - 7 when there are more than 2 vclusters). Must be the same for all members.
 * `group_name` - Cluster group name. Must be the same for all members.
-* `ha_direct` - Enable/disable using ha-mgmt interface for syslog, SNMP, remote authentication (RADIUS), FortiAnalyzer, FortiSandbox, sFlow, and Netflow.
+* `ha_direct` - Enable/disable using ha-mgmt interface for syslog, remote authentication (RADIUS), FortiAnalyzer, FortiSandbox, sFlow, and Netflow.
 * `ha_eth_type` - HA heartbeat packet Ethertype (4-digit hex).
 * `ha_mgmt_status` - Enable to reserve interfaces to manage individual cluster units.
 * `ha_uptime_diff_margin` - Normally you would only reduce this value for failover testing.
@@ -139,6 +139,7 @@ The `vcluster` block contains:
 * `override_wait_time` - Delay negotiating if override is enabled (0 - 3600 sec). Reduces how often the cluster negotiates.
 * `pingserver_failover_threshold` - Remote IP monitoring failover threshold (0 - 50).
 * `pingserver_monitor_interface` - Interfaces to check for remote IP monitoring.
+* `pingserver_secondary_force_reset` - Enable to force the cluster to negotiate after a remote IP monitoring failover.
 * `pingserver_slave_force_reset` - Enable to force the cluster to negotiate after a remote IP monitoring failover.
 * `priority` - Increase the priority to select the primary unit (0 - 255).
 * `vcluster_id` - ID.

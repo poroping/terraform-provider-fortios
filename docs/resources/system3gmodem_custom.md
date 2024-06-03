@@ -23,7 +23,7 @@ description: |-
 * `id` - ID.
 * `init_string` - Init string in hexadecimal format (even length).
 * `model` - MODEM model name.
-* `modeswitch_string` - USB modeswitch arguments. e.g: '-v 1410 -p 9030 -V 1410 -P 9032 -u 3'
+* `modeswitch_string` - USB modeswitch arguments. For example: '-v 1410 -p 9030 -V 1410 -P 9032 -u 3'.
 * `product_id` - USB product ID in hexadecimal format (0000-ffff).
 * `vendor` - MODEM vendor name.
 * `vendor_id` - USB vendor ID in hexadecimal format (0000-ffff).

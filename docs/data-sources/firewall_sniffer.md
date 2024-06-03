@@ -52,6 +52,7 @@ The following attributes are exported:
 * `port` - Ports to sniff (Format examples: 10, :20, 30:40, 50-, 100-200).
 * `protocol` - Integer value for the protocol type as defined by IANA (0 - 255).
 * `status` - Enable/disable the active status of the sniffer.
+* `uuid` - Universally Unique Identifier (UUID; automatically assigned but can be manually reset).
 * `vlan` - List of VLANs to sniff.
 * `webfilter_profile` - Name of an existing web filter profile.
 * `webfilter_profile_status` - Enable/disable web filter profile.
@@ -66,8 +67,15 @@ The `anomaly` block contains:
 * `quarantine_expiry` - Duration of quarantine. (Format ###d##h##m, minimum 1m, maximum 364d23h59m, default = 5m). Requires quarantine set to attacker.
 * `quarantine_log` - Enable/disable quarantine logging.
 * `status` - Enable/disable this anomaly.
-* `threshold` - Anomaly threshold. Number of detected instances per minute that triggers the anomaly action.
-* `thresholddefault` - Number of detected instances per minute which triggers action (1 - 2147483647, default = 1000). Note that each anomaly has a different threshold value assigned to it.
+* `synproxy_tcp_mss` - Determine TCP maximum segment size (MSS) value for packets replied by syn proxy module.
+* `synproxy_tcp_sack` - enable/disable TCP selective acknowledage (SACK) for packets replied by syn proxy module.
+* `synproxy_tcp_timestamp` - enable/disable TCP timestamp option for packets replied by syn proxy module.
+* `synproxy_tcp_window` - Determine TCP Window size for packets replied by syn proxy module.
+* `synproxy_tcp_windowscale` - Determine TCP window scale option value for packets replied by syn proxy module.
+* `synproxy_tos` - Determine TCP differentiated services code point value (type of service).
+* `synproxy_ttl` - Determine Time to live (TTL) value for packets replied by syn proxy module.
+* `threshold` - Anomaly threshold. Number of detected instances (packets per second or concurrent session number) that triggers the anomaly action.
+* `thresholddefault` - Number of detected instances (packets per second or concurrent session number) which triggers action (1 - 2147483647, default = 1000). Note that each anomaly has a different threshold value assigned to it.
 * `ip_threatfeed` - Name of an existing IP threat feed.The structure of `ip_threatfeed` block is documented below.
 
 The `ip_threatfeed` block contains:

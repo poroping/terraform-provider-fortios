@@ -29,6 +29,6 @@ The following attributes are exported:
 * `name` - OCSP server entry name.
 * `secondary_cert` - Secondary OCSP server certificate.
 * `secondary_url` - Secondary OCSP server URL.
-* `source_ip` - Source IP address for communications to the OCSP server.
+* `source_ip` - Source IP address for dynamic AIA and OCSP queries.
 * `unavail_action` - Action when server is unavailable (revoke the certificate or ignore the result of the check).
 * `url` - OCSP server URL.

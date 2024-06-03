@@ -26,7 +26,7 @@ Use this data source to get information on a fortios Configure VoIP profiles.
 The following attributes are exported:
 
 * `comment` - Comment.
-* `feature_set` - Flow or proxy inspection feature set.
+* `feature_set` - IPS or voipd (SIP-ALG) inspection feature set.
 * `name` - Profile name.
 * `msrp` - MSRP.The structure of `msrp` block is documented below.
 
@@ -71,10 +71,12 @@ The `sip` block contains:
 * `block_update` - Enable/disable block UPDATE requests.
 * `bye_rate` - BYE request rate limit (per second, per policy).
 * `bye_rate_track` - Track the packet protocol field.
+* `call_id_regex` - Validate PCRE regular expression for Call-Id header value.
 * `call_keepalive` - Continue tracking calls with no RTP for this many minutes.
 * `cancel_rate` - CANCEL request rate limit (per second, per policy).
 * `cancel_rate_track` - Track the packet protocol field.
 * `contact_fixup` - Fixup contact anyway even if contact's IP:port doesn't match session's IP:port.
+* `content_type_regex` - Validate PCRE regular expression for Content-Type header value.
 * `hnt_restrict_source_ip` - Enable/disable restrict RTP source IP to be the same as SIP source IP when HNT is enabled.
 * `hosted_nat_traversal` - Hosted NAT Traversal (HNT).
 * `info_rate` - INFO request rate limit (per second, per policy).
@@ -134,7 +136,7 @@ The `sip` block contains:
 * `options_rate_track` - Track the packet protocol field.
 * `prack_rate` - PRACK request rate limit (per second, per policy).
 * `prack_rate_track` - Track the packet protocol field.
-* `preserve_override` - Override i line to preserve original IPS (default: append).
+* `preserve_override` - Override i line to preserve original IPs (default: append).
 * `provisional_invite_expiry_time` - Expiry time (10-3600, in seconds) for provisional INVITE.
 * `publish_rate` - PUBLISH request rate limit (per second, per policy).
 * `publish_rate_track` - Track the packet protocol field.

@@ -23,13 +23,13 @@ Configure service groups.
 * `color` - Color of icon on the GUI.
 * `comment` - Comment.
 * `fabric_object` - Security Fabric global object setting. Valid values: `enable` `disable` .
-* `name` - Address group name.
+* `name` - Service group name.
 * `proxy` - Enable/disable web proxy service group. Valid values: `enable` `disable` .
 * `member` - Service objects contained within the group. The structure of `member` block is documented below.
 
 The `member` block contains:
 
-* `name` - Address name. This attribute must reference one of the following datasources: `firewall.service.custom.name` `firewall.service.group.name` .
+* `name` - Service or service group name. This attribute must reference one of the following datasources: `firewall.service.custom.name` `firewall.service.group.name` .
 
 ## Attribute Reference
 

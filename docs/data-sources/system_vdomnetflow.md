@@ -30,3 +30,13 @@ The following attributes are exported:
 * `interface_select_method` - Specify how to select outgoing interface to reach server.
 * `source_ip` - Source IP address for communication with the NetFlow agent.
 * `vdom_netflow` - Enable/disable NetFlow per VDOM.
+* `collectors` - Netflow collectors.The structure of `collectors` block is documented below.
+
+The `collectors` block contains:
+
+* `collector_ip` - Collector IP.
+* `collector_port` - NetFlow collector port number.
+* `id` - ID.
+* `interface` - Specify outgoing interface to reach server.
+* `interface_select_method` - Specify how to select outgoing interface to reach server.
+* `source_ip` - Source IP address for communication with the NetFlow agent.

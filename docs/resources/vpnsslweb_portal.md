@@ -22,11 +22,15 @@ Portal.
 
 * `allow_user_access` - Allow user access to SSL-VPN applications. Valid values: `web` `ftp` `smb` `sftp` `telnet` `ssh` `vnc` `rdp` `ping` .
 * `auto_connect` - Enable/disable automatic connect by client when system is up. Valid values: `enable` `disable` .
+* `client_src_range` - Allow client to add source range for the tunnel traffic. Valid values: `enable` `disable` .
 * `clipboard` - Enable to support RDP/VPC clipboard functionality. Valid values: `enable` `disable` .
 * `custom_lang` - Change the web portal display language. Overrides config system global set language. You can use config system custom-language and execute system custom-language to add custom language files. This attribute must reference one of the following datasources: `system.custom-language.name` .
 * `customize_forticlient_download_url` - Enable support of customized download URL for FortiClient. Valid values: `enable` `disable` .
 * `default_window_height` - Screen height (range from 0 - 65535, default = 768).
 * `default_window_width` - Screen width (range from 0 - 65535, default = 1024).
+* `dhcp_ip_overlap` - Configure overlapping DHCP IP allocation assignment. Valid values: `use-new` `use-old` .
+* `dhcp_ra_giaddr` - Relay agent gateway IP address to use in the giaddr field of DHCP requests.
+* `dhcp6_ra_linkaddr` - Relay agent IPv6 link address to use in DHCP6 requests.
 * `display_bookmark` - Enable to display the web portal bookmark widget. Valid values: `enable` `disable` .
 * `display_connection_tools` - Enable to display the web portal connection tools widget. Valid values: `enable` `disable` .
 * `display_history` - Enable to display the web portal user login history widget. Valid values: `enable` `disable` .
@@ -41,7 +45,7 @@ Portal.
 * `hide_sso_credential` - Enable to prevent SSO credential being sent to client. Valid values: `enable` `disable` .
 * `host_check` - Type of host checking performed on endpoints. Valid values: `none` `av` `fw` `av-fw` `custom` .
 * `host_check_interval` - Periodic host check interval. Value of 0 means disabled and host checking only happens when the endpoint connects.
-* `ip_mode` - Method by which users of this SSL-VPN tunnel obtain IP addresses. Valid values: `range` `user-group` .
+* `ip_mode` - Method by which users of this SSL-VPN tunnel obtain IP addresses. Valid values: `range` `user-group` `dhcp` `no-ip` .
 * `ipv6_dns_server1` - IPv6 DNS server 1.
 * `ipv6_dns_server2` - IPv6 DNS server 2.
 * `ipv6_exclusive_routing` - Enable/disable all IPv6 traffic go through tunnel only. Valid values: `enable` `disable` .
@@ -98,7 +102,7 @@ The `bookmarks` block contains:
 * `folder` - Network shared file folder parameter.
 * `height` - Screen height (range from 0 - 65535, default = 0).
 * `host` - Host name/IP parameter.
-* `keyboard_layout` - Keyboard layout. Valid values: `ar-101` `ar-102` `ar-102-azerty` `can-mul` `cz` `cz-qwerty` `cz-pr` `da` `nl` `de` `de-ch` `de-ibm` `en-uk` `en-uk-ext` `en-us` `en-us-dvorak` `es` `es-var` `fi` `fi-sami` `fr` `fr-apple` `fr-ca` `fr-ch` `fr-be` `hr` `hu` `hu-101` `it` `it-142` `ja` `ko` `lt` `lt-ibm` `lt-std` `lav-std` `lav-leg` `mk` `mk-std` `no` `no-sami` `pol-214` `pol-pr` `pt` `pt-br` `pt-br-abnt2` `ru` `ru-mne` `ru-t` `sl` `sv` `sv-sami` `tuk` `tur-f` `tur-q` `zh-sym-sg-us` `zh-sym-us` `zh-tr-hk` `zh-tr-mo` `zh-tr-us` .
+* `keyboard_layout` - Keyboard layout. Valid values: `ar-101` `ar-102` `ar-102-azerty` `can-mul` `cz` `cz-qwerty` `cz-pr` `da` `nl` `de` `de-ch` `de-ibm` `en-uk` `en-uk-ext` `en-us` `en-us-dvorak` `es` `es-var` `fi` `fi-sami` `fr` `fr-apple` `fr-ca` `fr-ch` `fr-be` `hr` `hu` `hu-101` `it` `it-142` `ja` `ko` `la-am` `lt` `lt-ibm` `lt-std` `lav-std` `lav-leg` `mk` `mk-std` `no` `no-sami` `pol-214` `pol-pr` `pt` `pt-br` `pt-br-abnt2` `ru` `ru-mne` `ru-t` `sl` `sv` `sv-sami` `tuk` `tur-f` `tur-q` `zh-sym-sg-us` `zh-sym-us` `zh-tr-hk` `zh-tr-mo` `zh-tr-us` .
 * `listening_port` - Listening port (0 - 65535).
 * `load_balancing_info` - The load balancing information or cookie which should be provided to the connection broker.
 * `logon_password` - Logon password.
@@ -109,7 +113,7 @@ The `bookmarks` block contains:
 * `preconnection_id` - The numeric ID of the RDP source (0-4294967295).
 * `remote_port` - Remote port (0 - 65535).
 * `restricted_admin` - Enable/disable restricted admin mode for RDP. Valid values: `enable` `disable` .
-* `security` - Security mode for RDP connection. Valid values: `rdp` `nla` `tls` `any` .
+* `security` - Security mode for RDP connection. Valid values: `any` `rdp` `nla` `tls` .
 * `send_preconnection_id` - Enable/disable sending of preconnection ID. Valid values: `enable` `disable` .
 * `server_layout` - Server side keyboard layout. Valid values: `de-de-qwertz` `en-gb-qwerty` `en-us-qwerty` `es-es-qwerty` `fr-ca-qwerty` `fr-fr-azerty` `fr-ch-qwertz` `it-it-qwerty` `ja-jp-qwerty` `pt-br-qwerty` `sv-se-qwerty` `tr-tr-qwerty` `failsafe` .
 * `show_status_window` - Enable/disable showing of status window. Valid values: `enable` `disable` .
@@ -119,6 +123,7 @@ The `bookmarks` block contains:
 * `sso_password` - SSO password.
 * `sso_username` - SSO user name.
 * `url` - URL parameter.
+* `vnc_keyboard_layout` - Keyboard layout. Valid values: `default` `da` `nl` `en-uk` `en-uk-ext` `fi` `fr` `fr-be` `fr-ca-mul` `de` `de-ch` `it` `it-142` `pt` `pt-br-abnt2` `no` `gd` `es` `sv` `us-intl` .
 * `width` - Screen width (range from 0 - 65535, default = 0).
 * `form_data` - Form data. The structure of `form_data` block is documented below.
 

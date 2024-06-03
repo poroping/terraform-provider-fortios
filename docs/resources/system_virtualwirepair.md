@@ -21,13 +21,18 @@ Configure virtual wire pairs.
 * `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
 * `name` - Virtual-wire-pair name. Must be a unique interface name.
-* `vlan_filter` - Set VLAN filters.
+* `vlan_filter` - VLAN ranges to allow
 * `wildcard_vlan` - Enable/disable wildcard VLAN. Valid values: `enable` `disable` .
 * `member` - Interfaces belong to the virtual-wire-pair. The structure of `member` block is documented below.
 
 The `member` block contains:
 
 * `interface_name` - Interface name. This attribute must reference one of the following datasources: `system.interface.name` .
+* `outer_vlan_id` - Outer VLAN ID. The structure of `outer_vlan_id` block is documented below.
+
+The `outer_vlan_id` block contains:
+
+* `vlanid` - VLAN ID (1 - 4094).
 
 ## Attribute Reference
 

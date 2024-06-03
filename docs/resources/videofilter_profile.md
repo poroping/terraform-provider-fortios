@@ -21,6 +21,8 @@ Configure VideoFilter profile.
 
 * `comment` - Comment.
 * `dailymotion` - Enable/disable Dailymotion video source. Valid values: `enable` `disable` .
+* `default_action` - Video filter default action. Valid values: `allow` `monitor` `block` .
+* `log` - Enable/disable logging. Valid values: `enable` `disable` .
 * `name` - Name.
 * `replacemsg_group` - Replacement message group. This attribute must reference one of the following datasources: `system.replacemsg-group.name` .
 * `vimeo` - Enable/disable Vimeo video source. Valid values: `enable` `disable` .

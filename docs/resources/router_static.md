@@ -40,6 +40,7 @@ resource "fortios_router_static" "example" {
 * `seq_num` - Sequence number.
 * `src` - Source prefix for this route.
 * `status` - Enable/disable this static route. Valid values: `enable` `disable` .
+* `tag` - Route tag.
 * `virtual_wan_link` - Enable/disable egress through the virtual-wan-link. Valid values: `enable` `disable` .
 * `vrf` - Virtual Routing Forwarding ID.
 * `weight` - Administrative weight (0 - 255).

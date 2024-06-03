@@ -36,6 +36,8 @@ The `rule` block contains:
 * `match_as_path` - Match BGP AS path list.
 * `match_community` - Match BGP community list.
 * `match_community_exact` - Enable/disable exact matching of communities.
+* `match_extcommunity` - Match BGP extended community list.
+* `match_extcommunity_exact` - Enable/disable exact matching of extended communities.
 * `match_flags` - BGP flag value to match (0 - 65535)
 * `match_interface` - Match interface configuration.
 * `match_ip_address` - Match IP address permitted by access-list or prefix-list.

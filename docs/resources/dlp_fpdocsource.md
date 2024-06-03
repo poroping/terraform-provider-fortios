@@ -29,7 +29,7 @@ Create a DLP fingerprint database by allowing the FortiGate to access a file ser
 * `remove_deleted` - Enable to keep the fingerprint database up to date when a file is deleted from the server. Valid values: `enable` `disable` .
 * `scan_on_creation` - Enable to keep the fingerprint database up to date when a file is added or changed on the server. Valid values: `enable` `disable` .
 * `scan_subdirectories` - Enable/disable scanning subdirectories to find files to create fingerprints from. Valid values: `enable` `disable` .
-* `sensitivity` - Select a sensitivity or threat level for matches with this fingerprint database. Add sensitivities using sensitivity. This attribute must reference one of the following datasources: `dlp.sensitivity.name` .
+* `sensitivity` - Select a sensitivity or threat level for matches with this fingerprint database. Add sensitivities using sensitivity.
 * `server` - IPv4 or IPv6 address of the server.
 * `server_type` - Protocol used to communicate with the file server. Currently only Samba (SMB) servers are supported. Valid values: `samba` .
 * `tod_hour` - Hour of the day on which to scan the server (0 - 23, default = 1).

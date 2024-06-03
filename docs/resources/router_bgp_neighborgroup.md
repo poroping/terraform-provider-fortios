@@ -93,6 +93,7 @@ BGP neighbor group table.
 * `next_hop_self6` - Enable/disable IPv6 next-hop calculation for this neighbor. Valid values: `enable` `disable` .
 * `override_capability` - Enable/disable override result of capability negotiation. Valid values: `enable` `disable` .
 * `passive` - Enable/disable sending of open messages to this neighbor. Valid values: `enable` `disable` .
+* `password` - Password used in MD5 authentication.
 * `prefix_list_in` - IPv4 Inbound filter for updates from this neighbor. This attribute must reference one of the following datasources: `router.prefix-list.name` .
 * `prefix_list_in_vpnv4` - Inbound filter for VPNv4 updates from this neighbor. This attribute must reference one of the following datasources: `router.prefix-list.name` .
 * `prefix_list_in6` - IPv6 Inbound filter for updates from this neighbor. This attribute must reference one of the following datasources: `router.prefix-list6.name` .

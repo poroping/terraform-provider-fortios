@@ -54,6 +54,7 @@ The following attributes are exported:
 * `nat_source_vip` - Enable to perform SNAT on traffic from mappedip to the extip for all egress interfaces.
 * `nat64` - Enable/disable DNAT64.
 * `nat66` - Enable/disable DNAT66.
+* `ndp_reply` - Enable/disable this FortiGate unit's ability to respond to NDP requests for this virtual IP address (default = enable).
 * `outlook_web_access` - Enable to add the Front-End-Https header for Microsoft Outlook Web Access.
 * `persistence` - Configure how to make sure that clients connect to the same server every time they make a request that is part of the same session.
 * `portforward` - Enable port forwarding.
@@ -88,6 +89,7 @@ The following attributes are exported:
 * `ssl_server_algorithm` - Permitted encryption algorithms for the server side of SSL full mode sessions according to encryption strength.
 * `ssl_server_max_version` - Highest SSL/TLS version acceptable from a server. Use the client setting by default.
 * `ssl_server_min_version` - Lowest SSL/TLS version acceptable from a server. Use the client setting by default.
+* `ssl_server_renegotiation` - Enable/disable secure renegotiation to comply with RFC 5746.
 * `ssl_server_session_state_max` - Maximum number of FortiGate to Server SSL session states to keep.
 * `ssl_server_session_state_timeout` - Number of minutes to keep FortiGate to Server SSL session state.
 * `ssl_server_session_state_type` - How to expire SSL sessions for the segment of the SSL connection between the server and the FortiGate.
@@ -113,6 +115,7 @@ The `realservers` block contains:
 * `max_connections` - Max number of active connections that can directed to the real server. When reached, sessions are sent to other real servers.
 * `port` - Port for communicating with the real server. Required if port forwarding is enabled.
 * `status` - Set the status of the real server to active so that it can accept traffic, or on standby or disabled so no traffic is sent.
+* `translate_host` - Enable/disable translation of hostname/IP from virtual server to real server.
 * `weight` - Weight of the real server. If weighted load balancing is enabled, the server with the highest weight gets more connections.
 * `monitor` - Name of the health check monitor to use when polling to determine a virtual server's connectivity status.The structure of `monitor` block is documented below.
 

@@ -30,11 +30,12 @@ Configure user defined IPv6 local-in policies.
 * `srcaddr_negate` - When enabled srcaddr specifies what the source address must NOT be. Valid values: `enable` `disable` .
 * `status` - Enable/disable this local-in policy. Valid values: `enable` `disable` .
 * `uuid` - Universally Unique Identifier (UUID; automatically assigned but can be manually reset).
+* `virtual_patch` - Enable/disable the virtual patching feature. Valid values: `enable` `disable` .
 * `dstaddr` - Destination address object from available options. The structure of `dstaddr` block is documented below.
 
 The `dstaddr` block contains:
 
-* `name` - Address name. This attribute must reference one of the following datasources: `firewall.address6.name` `firewall.addrgrp6.name` .
+* `name` - Address name. This attribute must reference one of the following datasources: `firewall.address6.name` `firewall.addrgrp6.name` `system.external-resource.name` .
 * `service` - Service object from available options. Separate names with a space. The structure of `service` block is documented below.
 
 The `service` block contains:
@@ -44,7 +45,7 @@ The `service` block contains:
 
 The `srcaddr` block contains:
 
-* `name` - Address name. This attribute must reference one of the following datasources: `firewall.address6.name` `firewall.addrgrp6.name` .
+* `name` - Address name. This attribute must reference one of the following datasources: `firewall.address6.name` `firewall.addrgrp6.name` `system.external-resource.name` .
 
 ## Attribute Reference
 

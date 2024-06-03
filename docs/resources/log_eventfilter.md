@@ -33,6 +33,7 @@ Configure log event filters.
 * `user` - Enable/disable user authentication event logging. Valid values: `enable` `disable` .
 * `vpn` - Enable/disable VPN event logging. Valid values: `enable` `disable` .
 * `wan_opt` - Enable/disable WAN optimization event logging. Valid values: `enable` `disable` .
+* `webproxy` - Enable/disable web proxy event logging. Valid values: `enable` `disable` .
 * `wireless_activity` - Enable/disable wireless event logging. Valid values: `enable` `disable` .
 
 ## Attribute Reference

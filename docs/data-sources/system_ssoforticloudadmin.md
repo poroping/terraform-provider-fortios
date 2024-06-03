@@ -25,6 +25,7 @@ Use this data source to get information on a fortios Configure FortiCloud SSO ad
 
 The following attributes are exported:
 
+* `accprofile` - FortiCloud SSO admin user access profile.
 * `name` - FortiCloud SSO admin name.
 * `vdom` - Virtual domain(s) that the administrator can access.The structure of `vdom` block is documented below.
 

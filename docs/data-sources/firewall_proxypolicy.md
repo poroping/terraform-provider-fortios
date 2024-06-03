@@ -43,7 +43,10 @@ The following attributes are exported:
 * `icap_profile` - Name of an existing ICAP profile.
 * `internet_service` - Enable/disable use of Internet Services for this policy. If enabled, destination address and service are not used.
 * `internet_service_negate` - When enabled, Internet Services match against any internet service EXCEPT the selected Internet Service.
+* `internet_service6` - Enable/disable use of Internet Services IPv6 for this policy. If enabled, destination IPv6 address and service are not used.
+* `internet_service6_negate` - When enabled, Internet Services match against any internet service IPv6 EXCEPT the selected Internet Service IPv6.
 * `ips_sensor` - Name of an existing IPS sensor.
+* `ips_voip_filter` - Name of an existing VoIP (ips) profile.
 * `logtraffic` - Enable/disable logging traffic through the policy.
 * `logtraffic_start` - Enable/disable policy log traffic start.
 * `name` - Policy name.
@@ -130,6 +133,26 @@ The `internet_service_id` block contains:
 The `internet_service_name` block contains:
 
 * `name` - Internet Service name.
+* `internet_service6_custom` - Custom Internet Service IPv6 name.The structure of `internet_service6_custom` block is documented below.
+
+The `internet_service6_custom` block contains:
+
+* `name` - Custom Internet Service IPv6 name.
+* `internet_service6_custom_group` - Custom Internet Service IPv6 group name.The structure of `internet_service6_custom_group` block is documented below.
+
+The `internet_service6_custom_group` block contains:
+
+* `name` - Custom Internet Service IPv6 group name.
+* `internet_service6_group` - Internet Service IPv6 group name.The structure of `internet_service6_group` block is documented below.
+
+The `internet_service6_group` block contains:
+
+* `name` - Internet Service IPv6 group name.
+* `internet_service6_name` - Internet Service IPv6 name.The structure of `internet_service6_name` block is documented below.
+
+The `internet_service6_name` block contains:
+
+* `name` - Internet Service IPv6 name.
 * `poolname` - Name of IP pool object.The structure of `poolname` block is documented below.
 
 The `poolname` block contains:

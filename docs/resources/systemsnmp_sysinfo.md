@@ -18,6 +18,7 @@ SNMP system info configuration.
 ## Argument Reference
 * `vdomparam` - Specifies the vdom to which the data source will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.
 
+* `append_index` - Enable/disable allowance of appending VDOM or interface index in some RFC tables. Valid values: `enable` `disable` .
 * `contact_info` - Contact information.
 * `description` - System description.
 * `engine_id` - Local SNMP engineID string (maximum 27 characters).

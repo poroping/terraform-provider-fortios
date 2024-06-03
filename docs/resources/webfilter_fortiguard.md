@@ -22,6 +22,7 @@ Configure FortiGuard Web Filter service.
 * `cache_mode` - Cache entry expiration mode. Valid values: `ttl` `db-ver` .
 * `cache_prefix_match` - Enable/disable prefix matching in the cache. Valid values: `enable` `disable` .
 * `close_ports` - Close ports used for HTTP/HTTPS override authentication and disable user overrides. Valid values: `enable` `disable` .
+* `embed_image` - Enable/disable embedding images into replacement messages (default = enable). Valid values: `enable` `disable` .
 * `ovrd_auth_https` - Enable/disable use of HTTPS for override authentication. Valid values: `enable` `disable` .
 * `ovrd_auth_port_http` - Port to use for FortiGuard Web Filter HTTP override authentication.
 * `ovrd_auth_port_https` - Port to use for FortiGuard Web Filter HTTPS override authentication in proxy mode.

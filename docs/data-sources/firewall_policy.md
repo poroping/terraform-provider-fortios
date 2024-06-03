@@ -40,6 +40,7 @@ The following attributes are exported:
 * `comments` - Comment.
 * `decrypted_traffic_mirror` - Decrypted traffic mirror.
 * `delay_tcp_npu_session` - Enable TCP NPU session delay to guarantee packet order of 3-way handshake.
+* `diffserv_copy` - Enable to copy packet's DiffServ values from session's original direction to its reply direction.
 * `diffserv_forward` - Enable to change packet's DiffServ values to the specified diffservcode-forward value.
 * `diffserv_reverse` - Enable to change packet's reverse (reply) DiffServ values to the specified diffservcode-rev value.
 * `diffservcode_forward` - Change packet's DiffServ to this value.
@@ -49,7 +50,8 @@ The following attributes are exported:
 * `dlp_sensor` - Name of an existing DLP sensor.
 * `dnsfilter_profile` - Name of an existing DNS filter profile.
 * `dsri` - Enable DSRI to ignore HTTP server responses.
-* `dstaddr_negate` - When enabled dstaddr/dstaddr6 specifies what the destination address must NOT be.
+* `dstaddr_negate` - When enabled dstaddr specifies what the destination address must NOT be.
+* `dstaddr6_negate` - When enabled dstaddr6 specifies what the destination address must NOT be.
 * `dynamic_shaping` - Enable/disable dynamic RADIUS defined traffic shaping.
 * `email_collect` - Enable/disable email collection.
 * `emailfilter_profile` - Name of an existing email filter profile.
@@ -70,8 +72,13 @@ The following attributes are exported:
 * `internet_service_negate` - When enabled internet-service specifies what the service must NOT be.
 * `internet_service_src` - Enable/disable use of Internet Services in source for this policy. If enabled, source address is not used.
 * `internet_service_src_negate` - When enabled internet-service-src specifies what the service must NOT be.
+* `internet_service6` - Enable/disable use of IPv6 Internet Services for this policy. If enabled, destination address and service are not used.
+* `internet_service6_negate` - When enabled internet-service6 specifies what the service must NOT be.
+* `internet_service6_src` - Enable/disable use of IPv6 Internet Services in source for this policy. If enabled, source address is not used.
+* `internet_service6_src_negate` - When enabled internet-service6-src specifies what the service must NOT be.
 * `ippool` - Enable to use IP Pools for source NAT.
 * `ips_sensor` - Name of an existing IPS sensor.
+* `ips_voip_filter` - Name of an existing VoIP (ips) profile.
 * `logtraffic` - Enable or disable logging. Log all sessions or security profile sessions.
 * `logtraffic_start` - Record logs when a session starts.
 * `match_vip` - Enable to match packets that have had their destination addresses changed by a VIP.
@@ -93,6 +100,7 @@ The following attributes are exported:
 * `permit_stun_host` - Accept UDP packets from any Session Traversal Utilities for NAT (STUN) host.
 * `policy_expiry` - Enable/disable policy expiry.
 * `policy_expiry_date` - Policy expiry date (YYYY-MM-DD HH:MM:SS).
+* `policy_expiry_date_utc` - Policy expiry date and time, in epoch format.
 * `policyid` - Policy ID (0 - 4294967294).
 * `profile_group` - Name of profile group.
 * `profile_protocol_options` - Name of an existing Protocol options profile.
@@ -101,7 +109,9 @@ The following attributes are exported:
 * `redirect_url` - URL users are directed to after seeing and accepting the disclaimer or authenticating.
 * `replacemsg_override_group` - Override the default replacement message group for this policy.
 * `reputation_direction` - Direction of the initial traffic for reputation to take effect.
+* `reputation_direction6` - Direction of the initial traffic for IPv6 reputation to take effect.
 * `reputation_minimum` - Minimum Reputation to take action.
+* `reputation_minimum6` - IPv6 Minimum Reputation to take action.
 * `rsso` - Enable/disable RADIUS single sign-on (RSSO).
 * `rtp_nat` - Enable Real Time Protocol (RTP) NAT.
 * `schedule` - Schedule name.
@@ -111,7 +121,8 @@ The following attributes are exported:
 * `service_negate` - When enabled service specifies what the service must NOT be.
 * `session_ttl` - TTL in seconds for sessions accepted by this policy (0 means use the system default session TTL).
 * `sgt_check` - Enable/disable security group tags (SGT) check.
-* `srcaddr_negate` - When enabled srcaddr/srcaddr6 specifies what the source address must NOT be.
+* `srcaddr_negate` - When enabled srcaddr specifies what the source address must NOT be.
+* `srcaddr6_negate` - When enabled srcaddr6 specifies what the source address must NOT be.
 * `ssh_filter_profile` - Name of an existing SSH filter profile.
 * `ssh_policy_redirect` - Redirect SSH traffic to matching transparent proxy policy.
 * `ssl_mirror` - Enable to copy decrypted SSL traffic to a FortiGate interface (called SSL mirroring).
@@ -131,8 +142,8 @@ The following attributes are exported:
 * `videofilter_profile` - Name of an existing VideoFilter profile.
 * `vlan_cos_fwd` - VLAN forward direction user priority: 255 passthrough, 0 lowest, 7 highest.
 * `vlan_cos_rev` - VLAN reverse direction user priority: 255 passthrough, 0 lowest, 7 highest.
-* `vlan_filter` - Set VLAN filters.
-* `voip_profile` - Name of an existing VoIP profile.
+* `vlan_filter` - VLAN ranges to allow
+* `voip_profile` - Name of an existing VoIP (voipd) profile.
 * `vpntunnel` - Policy-based IPsec VPN: name of the IPsec VPN Phase 1.
 * `waf_profile` - Name of an existing Web application firewall profile.
 * `wanopt` - Enable/disable WAN optimization.
@@ -147,7 +158,10 @@ The following attributes are exported:
 * `webproxy_forward_server` - Webproxy forward server name.
 * `webproxy_profile` - Webproxy profile name.
 * `wsso` - Enable/disable WiFi Single Sign On (WSSO).
+* `ztna_device_ownership` - Enable/disable zero trust device ownership.
+* `ztna_policy_redirect` - Redirect ZTNA traffic to matching Access-Proxy proxy-policy.
 * `ztna_status` - Enable/disable zero trust access.
+* `ztna_tags_match_logic` - ZTNA tag matching logic.
 * `app_category` - Application category ID list.The structure of `app_category` block is documented below.
 
 The `app_category` block contains:
@@ -243,6 +257,56 @@ The `internet_service_src_id` block contains:
 The `internet_service_src_name` block contains:
 
 * `name` - Internet Service name.
+* `internet_service6_custom` - Custom IPv6 Internet Service name.The structure of `internet_service6_custom` block is documented below.
+
+The `internet_service6_custom` block contains:
+
+* `name` - Custom Internet Service name.
+* `internet_service6_custom_group` - Custom Internet Service6 group name.The structure of `internet_service6_custom_group` block is documented below.
+
+The `internet_service6_custom_group` block contains:
+
+* `name` - Custom Internet Service6 group name.
+* `internet_service6_group` - Internet Service group name.The structure of `internet_service6_group` block is documented below.
+
+The `internet_service6_group` block contains:
+
+* `name` - Internet Service group name.
+* `internet_service6_name` - IPv6 Internet Service name.The structure of `internet_service6_name` block is documented below.
+
+The `internet_service6_name` block contains:
+
+* `name` - IPv6 Internet Service name.
+* `internet_service6_src_custom` - Custom IPv6 Internet Service source name.The structure of `internet_service6_src_custom` block is documented below.
+
+The `internet_service6_src_custom` block contains:
+
+* `name` - Custom Internet Service name.
+* `internet_service6_src_custom_group` - Custom Internet Service6 source group name.The structure of `internet_service6_src_custom_group` block is documented below.
+
+The `internet_service6_src_custom_group` block contains:
+
+* `name` - Custom Internet Service6 group name.
+* `internet_service6_src_group` - Internet Service6 source group name.The structure of `internet_service6_src_group` block is documented below.
+
+The `internet_service6_src_group` block contains:
+
+* `name` - Internet Service group name.
+* `internet_service6_src_name` - IPv6 Internet Service source name.The structure of `internet_service6_src_name` block is documented below.
+
+The `internet_service6_src_name` block contains:
+
+* `name` - Internet Service name.
+* `network_service_dynamic` - Dynamic Network Service name.The structure of `network_service_dynamic` block is documented below.
+
+The `network_service_dynamic` block contains:
+
+* `name` - Dynamic Network Service name.
+* `network_service_src_dynamic` - Dynamic Network Service source name.The structure of `network_service_src_dynamic` block is documented below.
+
+The `network_service_src_dynamic` block contains:
+
+* `name` - Dynamic Network Service name.
 * `ntlm_enabled_browsers` - HTTP-User-Agent value of supported browsers.The structure of `ntlm_enabled_browsers` block is documented below.
 
 The `ntlm_enabled_browsers` block contains:

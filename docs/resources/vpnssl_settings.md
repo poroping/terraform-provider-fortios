@@ -62,6 +62,7 @@ Configure SSL-VPN.
 * `reqclientcert` - Enable/disable to require client certificates for all SSL-VPN users. Valid values: `enable` `disable` .
 * `route_source_interface` - Enable to allow SSL-VPN sessions to bypass routing and bind to the incoming interface. Valid values: `enable` `disable` .
 * `saml_redirect_port` - SAML local redirect port in the machine running FortiClient (0 - 65535). 0 is to disable redirection on FGT side.
+* `server_hostname` - Server hostname for HTTPS. When set, will be used for SSL VPN web proxy host header for any redirection.
 * `servercert` - Name of the server certificate to be used for SSL-VPNs. This attribute must reference one of the following datasources: `vpn.certificate.local.name` .
 * `source_address_negate` - Enable/disable negated source address match. Valid values: `enable` `disable` .
 * `source_address6_negate` - Enable/disable negated source IPv6 address match. Valid values: `enable` `disable` .
@@ -85,6 +86,7 @@ Configure SSL-VPN.
 * `wins_server1` - WINS server 1.
 * `wins_server2` - WINS server 2.
 * `x_content_type_options` - Add HTTP X-Content-Type-Options header. Valid values: `enable` `disable` .
+* `ztna_trusted_client` - Enable/disable verification of device certificate for SSLVPN ZTNA session. Valid values: `enable` `disable` .
 * `authentication_rule` - Authentication rule for SSL-VPN. The structure of `authentication_rule` block is documented below.
 
 The `authentication_rule` block contains:

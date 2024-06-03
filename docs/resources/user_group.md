@@ -63,12 +63,12 @@ The `match` block contains:
 
 * `group_name` - Name of matching user or group on remote authentication server.
 * `id` - ID.
-* `server_name` - Name of remote auth server. This attribute must reference one of the following datasources: `user.radius.name` `user.ldap.name` `user.tacacs+.name` `user.saml.name` .
-* `member` - Names of users, peers, LDAP severs, or RADIUS servers to add to the user group. The structure of `member` block is documented below.
+* `server_name` - Name of remote auth server. This attribute must reference one of the following datasources: `user.radius.name` `user.ldap.name` `user.tacacs+.name` `user.saml.name` `user.external-identity-provider.name` .
+* `member` - Names of users, peers, LDAP severs, RADIUS servers or external idp servers to add to the user group. The structure of `member` block is documented below.
 
 The `member` block contains:
 
-* `name` - Group member name. This attribute must reference one of the following datasources: `user.peer.name` `user.local.name` `user.radius.name` `user.tacacs+.name` `user.ldap.name` `user.saml.name` `user.adgrp.name` `user.pop3.name` `user.certificate.name` .
+* `name` - Group member name. This attribute must reference one of the following datasources: `user.peer.name` `user.local.name` `user.radius.name` `user.tacacs+.name` `user.ldap.name` `user.saml.name` `user.external-identity-provider.name` `user.adgrp.name` `user.pop3.name` `user.certificate.name` .
 
 ## Attribute Reference
 

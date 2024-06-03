@@ -153,7 +153,7 @@ The `conditional_advertise` block contains:
 
 The `condition_routemap` block contains:
 
-* `name` - route map This attribute must reference one of the following datasources: `router.route-map.name` .
+* `name` - Route map. This attribute must reference one of the following datasources: `router.route-map.name` .
 * `conditional_advertise6` - IPv6 conditional advertisement. The structure of `conditional_advertise6` block is documented below.
 
 The `conditional_advertise6` block contains:
@@ -164,7 +164,7 @@ The `conditional_advertise6` block contains:
 
 The `condition_routemap` block contains:
 
-* `name` - route map This attribute must reference one of the following datasources: `router.route-map.name` .
+* `name` - Route map. This attribute must reference one of the following datasources: `router.route-map.name` .
 
 ## Attribute Reference
 

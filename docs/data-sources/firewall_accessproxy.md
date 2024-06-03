@@ -25,15 +25,21 @@ Use this data source to get information on a fortios Configure IPv4 access proxy
 
 The following attributes are exported:
 
+* `add_vhost_domain_to_dnsdb` - Enable/disable adding vhost/domain to dnsdb for ztna dox tunnel.
 * `auth_portal` - Enable/disable authentication portal.
 * `auth_virtual_host` - Virtual host for authentication portal.
 * `client_cert` - Enable/disable to request client certificate.
 * `decrypted_traffic_mirror` - Decrypted traffic mirror.
 * `empty_cert_action` - Action of an empty client certificate.
+* `http_supported_max_version` - Maximum supported HTTP versions. default = HTTP2
 * `ldb_method` - Method used to distribute sessions to SSL real servers.
 * `log_blocked_traffic` - Enable/disable logging of blocked traffic.
 * `name` - Access Proxy name.
 * `server_pubkey_auth` - Enable/disable SSH real server public key authentication.
+* `svr_pool_multiplex` - Enable/disable server pool multiplexing. Share connected server in HTTP, HTTPS, and web-portal api-gateway.
+* `svr_pool_server_max_request` - Maximum number of requests that servers in server pool handle before disconnecting (default = unlimited).
+* `svr_pool_ttl` - Time-to-live in the server pool for idle connections to servers.
+* `user_agent_detect` - Enable/disable to detect device type by HTTP user-agent if no client certificate provided.
 * `vip` - Virtual IP name.
 * `api_gateway` - Set IPv4 API Gateway.The structure of `api_gateway` block is documented below.
 
@@ -56,10 +62,16 @@ The `api_gateway` block contains:
 * `ssl_dh_bits` - Number of bits to use in the Diffie-Hellman exchange for RSA encryption of SSL sessions.
 * `ssl_max_version` - Highest SSL/TLS version acceptable from a server.
 * `ssl_min_version` - Lowest SSL/TLS version acceptable from a server.
+* `ssl_renegotiation` - Enable/disable secure renegotiation to comply with RFC 5746.
 * `ssl_vpn_web_portal` - SSL-VPN web portal.
 * `url_map` - URL pattern to match.
 * `url_map_type` - Type of url-map.
 * `virtual_host` - Virtual host.
+* `application` - SaaS application controlled by this Access Proxy.The structure of `application` block is documented below.
+
+The `application` block contains:
+
+* `name` - SaaS application name.
 * `realservers` - Select the real servers that this Access Proxy will distribute traffic to.The structure of `realservers` block is documented below.
 
 The `realservers` block contains:
@@ -78,6 +90,7 @@ The `realservers` block contains:
 * `ssh_client_cert` - Set access-proxy SSH client certificate profile.
 * `ssh_host_key_validation` - Enable/disable SSH real server host key validation.
 * `status` - Set the status of the real server to active so that it can accept traffic, or on standby or disabled so no traffic is sent.
+* `translate_host` - Enable/disable translation of hostname/IP from virtual server to real server.
 * `type` - TCP forwarding server type.
 * `weight` - Weight of the real server. If weighted load balancing is enabled, the server with the highest weight gets more connections.
 * `ssh_host_key` - One or more server host key.The structure of `ssh_host_key` block is documented below.
@@ -113,10 +126,16 @@ The `api_gateway6` block contains:
 * `ssl_dh_bits` - Number of bits to use in the Diffie-Hellman exchange for RSA encryption of SSL sessions.
 * `ssl_max_version` - Highest SSL/TLS version acceptable from a server.
 * `ssl_min_version` - Lowest SSL/TLS version acceptable from a server.
+* `ssl_renegotiation` - Enable/disable secure renegotiation to comply with RFC 5746.
 * `ssl_vpn_web_portal` - SSL-VPN web portal.
 * `url_map` - URL pattern to match.
 * `url_map_type` - Type of url-map.
 * `virtual_host` - Virtual host.
+* `application` - SaaS application controlled by this Access Proxy.The structure of `application` block is documented below.
+
+The `application` block contains:
+
+* `name` - SaaS application name.
 * `realservers` - Select the real servers that this Access Proxy will distribute traffic to.The structure of `realservers` block is documented below.
 
 The `realservers` block contains:
@@ -135,6 +154,7 @@ The `realservers` block contains:
 * `ssh_client_cert` - Set access-proxy SSH client certificate profile.
 * `ssh_host_key_validation` - Enable/disable SSH real server host key validation.
 * `status` - Set the status of the real server to active so that it can accept traffic, or on standby or disabled so no traffic is sent.
+* `translate_host` - Enable/disable translation of hostname/IP from virtual server to real server.
 * `type` - TCP forwarding server type.
 * `weight` - Weight of the real server. If weighted load balancing is enabled, the server with the highest weight gets more connections.
 * `ssh_host_key` - One or more server host key.The structure of `ssh_host_key` block is documented below.

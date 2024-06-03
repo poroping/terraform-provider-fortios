@@ -27,12 +27,18 @@ Configure FortiGuard services.
 * `antispam_timeout` - Antispam query time out (1 - 30 sec, default = 7).
 * `anycast_sdns_server_ip` - IP address of the FortiGuard anycast DNS rating server.
 * `anycast_sdns_server_port` - Port to connect to on the FortiGuard anycast DNS rating server.
+* `auto_firmware_upgrade` - Enable/disable automatic patch-level firmware upgrade from FortiGuard. The FortiGate unit searches for new patches only in the same major and minor version. Valid values: `enable` `disable` .
+* `auto_firmware_upgrade_day` - Allowed day(s) of the week to install an automatic patch-level firmware upgrade from FortiGuard (default is none). Disallow any day of the week to use auto-firmware-upgrade-delay instead, which waits for designated days before installing an automatic patch-level firmware upgrade. Valid values: `sunday` `monday` `tuesday` `wednesday` `thursday` `friday` `saturday` .
+* `auto_firmware_upgrade_delay` - Delay of day(s) before installing an automatic patch-level firmware upgrade from FortiGuard (default = 3). Set it 0 to use auto-firmware-upgrade-day instead, which selects allowed day(s) of the week for installing an automatic patch-level firmware upgrade.
+* `auto_firmware_upgrade_end_hour` - End time in the designated time window for automatic patch-level firmware upgrade from FortiGuard in 24 hour time (0 ~ 23, default = 4). When the end time is smaller than the start time, the end time is interpreted as the next day. The actual upgrade time is selected randomly within the time window.
+* `auto_firmware_upgrade_start_hour` - Start time in the designated time window for automatic patch-level firmware upgrade from FortiGuard in 24 hour time (0 ~ 23, default = 2). The actual upgrade time is selected randomly within the time window.
 * `auto_join_forticloud` - Automatically connect to and login to FortiCloud. Valid values: `enable` `disable` .
 * `ddns_server_ip` - IP address of the FortiDDNS server.
 * `ddns_server_ip6` - IPv6 address of the FortiDDNS server.
 * `ddns_server_port` - Port used to communicate with FortiDDNS servers.
 * `fortiguard_anycast` - Enable/disable use of FortiGuard's Anycast network. Valid values: `enable` `disable` .
 * `fortiguard_anycast_source` - Configure which of Fortinet's servers to provide FortiGuard services in FortiGuard's anycast network. Default is Fortinet. Valid values: `fortinet` `aws` `debug` .
+* `gui_prompt_auto_upgrade` - Enable/disable prompting of automatic patch-level firmware upgrade recommendation. Valid values: `enable` `disable` .
 * `interface` - Specify outgoing interface to reach server. This attribute must reference one of the following datasources: `system.interface.name` .
 * `interface_select_method` - Specify how to select outgoing interface to reach server. Valid values: `auto` `sdwan` `specify` .
 * `load_balance_servers` - Number of servers to alternate between as first FortiGuard option.
@@ -47,10 +53,11 @@ Configure FortiGuard services.
 * `port` - Port used to communicate with the FortiGuard servers. Valid values: `8888` `53` `80` `443` .
 * `protocol` - Protocol used to communicate with the FortiGuard servers. Valid values: `udp` `http` `https` .
 * `proxy_password` - Proxy user password.
-* `proxy_server_ip` - IP address of the proxy server.
+* `proxy_server_ip` - Hostname or IP address of the proxy server.
 * `proxy_server_port` - Port used to communicate with the proxy server.
 * `proxy_username` - Proxy user name.
-* `sandbox_region` - Cloud sandbox region.
+* `sandbox_inline_scan` - Enable/disable FortiCloud Sandbox inline-scan. Valid values: `enable` `disable` .
+* `sandbox_region` - FortiCloud Sandbox region.
 * `sdns_options` - Customization options for the FortiGuard DNS service. Valid values: `include-question-section` .
 * `sdns_server_ip` - IP address of the FortiGuard DNS rating server.
 * `sdns_server_port` - Port to connect to on the FortiGuard DNS rating server.

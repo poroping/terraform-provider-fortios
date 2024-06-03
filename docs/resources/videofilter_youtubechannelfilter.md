@@ -25,6 +25,7 @@ Configure YouTube channel filter.
 * `id` - ID.
 * `log` - Enable/disable logging. Valid values: `enable` `disable` .
 * `name` - Name.
+* `override_category` - Enable/disable overriding category filtering result. Valid values: `enable` `disable` .
 * `entries` - YouTube filter entries. The structure of `entries` block is documented below.
 
 The `entries` block contains:

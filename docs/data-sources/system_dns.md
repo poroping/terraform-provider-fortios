@@ -30,6 +30,8 @@ The following attributes are exported:
 * `dns_cache_limit` - Maximum number of records in the DNS cache.
 * `dns_cache_ttl` - Duration in seconds that the DNS cache retains information.
 * `dns_over_tls` - Enable/disable/enforce DNS over TLS.
+* `fqdn_cache_ttl` - FQDN cache time to live in seconds (0 - 86400, default = 0).
+* `fqdn_min_refresh` - FQDN cache minimum refresh time in seconds (10 - 3600, default = 60).
 * `interface` - Specify outgoing interface to reach server.
 * `interface_select_method` - Specify how to select outgoing interface to reach server.
 * `ip6_primary` - Primary DNS server IPv6 address.

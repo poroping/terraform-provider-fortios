@@ -37,6 +37,7 @@ The following attributes are exported:
 * `name` - Name.
 * `report_type` - Security Rating report.
 * `serial` - Fabric connector serial number.
+* `trigger_datetime` - Trigger date and time (YYYY-MM-DD HH:MM:SS).
 * `trigger_day` - Day within a month to trigger.
 * `trigger_frequency` - Scheduled trigger frequency (default = daily).
 * `trigger_hour` - Hour of the day on which to trigger (0 - 23, default = 1).

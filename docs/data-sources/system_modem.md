@@ -69,4 +69,4 @@ The following attributes are exported:
 * `username1` - User name to access the specified dialup account.
 * `username2` - User name to access the specified dialup account.
 * `username3` - User name to access the specified dialup account.
-* `wireless_port` - Enter wireless port number, 0 for default, 1 for first port, ... (0 - 4294967295, default = 0)
+* `wireless_port` - Enter wireless port number: 0 for default, 1 for first port, and so on (0 - 4294967295).

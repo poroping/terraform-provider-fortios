@@ -43,6 +43,7 @@ The following attributes are exported:
 * `logtraffic` - Logging type to be used in this policy (Options: all | utm | disable, Default: utm).
 * `policyid` - Policy ID (0 - 4294967295).
 * `status` - Enable/disable this policy.
+* `uuid` - Universally Unique Identifier (UUID; automatically assigned but can be manually reset).
 * `webfilter_profile` - Web filter profile.
 * `webfilter_profile_status` - Enable/disable web filtering.
 * `dstaddr6` - IPv6 address object to limit traffic monitoring to network traffic sent to the specified address or range.The structure of `dstaddr6` block is documented below.
@@ -54,7 +55,7 @@ The `dstaddr6` block contains:
 
 The `service6` block contains:
 
-* `name` - Address name.
+* `name` - Service name.
 * `srcaddr6` - IPv6 address object to limit traffic monitoring to network traffic sent from the specified address or range.The structure of `srcaddr6` block is documented below.
 
 The `srcaddr6` block contains:

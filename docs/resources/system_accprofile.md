@@ -32,6 +32,8 @@ Configure access profiles for system administrators.
 * `secfabgrp` - Security Fabric. Valid values: `none` `read` `read-write` .
 * `sysgrp` - System Configuration. Valid values: `none` `read` `read-write` `custom` .
 * `system_diagnostics` - Enable/disable permission to run system diagnostic commands. Valid values: `enable` `disable` .
+* `system_execute_ssh` - Enable/disable permission to execute SSH commands. Valid values: `enable` `disable` .
+* `system_execute_telnet` - Enable/disable permission to execute TELNET commands. Valid values: `enable` `disable` .
 * `utmgrp` - Administrator access to Security Profiles. Valid values: `none` `read` `read-write` `custom` .
 * `vpngrp` - Administrator access to IPsec, SSL, PPTP, and L2TP VPN. Valid values: `none` `read` `read-write` .
 * `wanoptgrp` - Administrator access to WAN Opt & Cache. Valid values: `none` `read` `read-write` .
@@ -74,6 +76,7 @@ The `utmgrp_permission` block contains:
 
 * `antivirus` - Antivirus profiles and settings. Valid values: `none` `read` `read-write` .
 * `application_control` - Application Control profiles and settings. Valid values: `none` `read` `read-write` .
+* `data_leak_prevention` - DLP profiles and settings. Valid values: `none` `read` `read-write` .
 * `data_loss_prevention` - DLP profiles and settings. Valid values: `none` `read` `read-write` .
 * `dnsfilter` - DNS Filter profiles and settings. Valid values: `none` `read` `read-write` .
 * `emailfilter` - Email Filter and settings. Valid values: `none` `read` `read-write` .

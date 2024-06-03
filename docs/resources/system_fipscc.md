@@ -21,7 +21,7 @@ Configure FIPS-CC mode.
 * `entropy_token` - Enable/disable/dynamic entropy token. Valid values: `disable` .
 * `key_generation_self_test` - Enable/disable self tests after key generation. Valid values: `enable` `disable` .
 * `self_test_period` - Self test period.
-* `status` - Enable/disable ciphers for FIPS mode of operation. Valid values: `enable` `disable` `fips-ciphers` .
+* `status` - Enable/disable ciphers for FIPS mode of operation. Valid values: `enable` `disable` .
 
 ## Attribute Reference
 

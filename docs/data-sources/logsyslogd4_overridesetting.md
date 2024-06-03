@@ -42,6 +42,6 @@ The following attributes are exported:
 
 The `custom_field_name` block contains:
 
-* `custom` - Field custom name.
+* `custom` - Field custom name [A-Za-z0-9_].
 * `id` - Entry ID.
-* `name` - Field name.
+* `name` - Field name [A-Za-z0-9_].

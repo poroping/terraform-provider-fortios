@@ -27,6 +27,7 @@ Configure Virtual Access Points (VAPs).
 * `address_group_policy` - Configure MAC address filtering policy for MAC addresses that are in the address-group. Valid values: `disable` `allow` `deny` .
 * `antivirus_profile` - AntiVirus profile name. This attribute must reference one of the following datasources: `antivirus.profile.name` .
 * `application_detection_engine` - Enable/disable application detection engine (default = disable). Valid values: `enable` `disable` .
+* `application_dscp_marking` - Enable/disable application attribute based DSCP marking (default = disable). Valid values: `enable` `disable` .
 * `application_list` - Application control list name. This attribute must reference one of the following datasources: `application.list.name` .
 * `application_report_intv` - Application report interval (30 - 864000 sec, default = 120).
 * `atf_weight` - Airtime weight in percentage (default = 20).
@@ -42,6 +43,7 @@ Configure Virtual Access Points (VAPs).
 * `bstm_rssi_disassoc_timer` - Time interval for client to voluntarily leave AP before forcing a disassociation due to low RSSI (0 to 2000, default = 200).
 * `captive_portal_ac_name` - Local-bridging captive portal ac-name.
 * `captive_portal_auth_timeout` - Hard timeout - AP will always clear the session after timeout regardless of traffic (0 - 864000 sec, default = 0).
+* `captive_portal_fw_accounting` - Enable/disable RADIUS accounting for captive portal firewall authentication session. Valid values: `enable` `disable` .
 * `captive_portal_macauth_radius_secret` - Secret key to access the macauth RADIUS server.
 * `captive_portal_macauth_radius_server` - Captive portal external RADIUS server domain name or IP address.
 * `captive_portal_radius_secret` - Secret key to access the RADIUS server.
@@ -81,6 +83,7 @@ Configure Virtual Access Points (VAPs).
 * `key` - WEP Key.
 * `keyindex` - WEP key index (1 - 4).
 * `l3_roaming` - Enable/disable layer 3 roaming (default = disable). Valid values: `enable` `disable` .
+* `l3_roaming_mode` - Select the way that layer 3 roaming traffic is passed (default = direct). Valid values: `direct` `indirect` .
 * `ldpc` - VAP low-density parity-check (LDPC) coding configuration. Valid values: `disable` `rx` `tx` `rxtx` .
 * `local_authentication` - Enable/disable AP local authentication. Valid values: `enable` `disable` .
 * `local_bridging` - Enable/disable bridging of wireless and Ethernet interfaces on the FortiAP (default = disable). Valid values: `enable` `disable` .
@@ -138,20 +141,26 @@ Configure Virtual Access Points (VAPs).
 * `radio_5g_threshold` - Minimum signal level/threshold in dBm required for the AP response to receive a packet in 5G band(-95 to -20, default = -76).
 * `radio_sensitivity` - Enable/disable software radio sensitivity (to ignore weak signals) (default = disable). Valid values: `enable` `disable` .
 * `radius_mac_auth` - Enable/disable RADIUS-based MAC authentication of clients (default = disable). Valid values: `enable` `disable` .
+* `radius_mac_auth_block_interval` - Don't send RADIUS MAC auth request again if the client has been rejected within specific interval (0 or 30 - 864000 seconds, default = 0, 0 to disable blocking).
 * `radius_mac_auth_server` - RADIUS-based MAC authentication server. This attribute must reference one of the following datasources: `user.radius.name` .
 * `radius_mac_mpsk_auth` - Enable/disable RADIUS-based MAC authentication of clients for MPSK authentication (default = disable). Valid values: `enable` `disable` .
-* `radius_mac_mpsk_timeout` - RADIUS MAC MPSK cache timeout interval (1800 - 864000, default = 86400).
+* `radius_mac_mpsk_timeout` - RADIUS MAC MPSK cache timeout interval (0 or 300 - 864000, default = 86400, 0 to disable caching).
 * `radius_server` - RADIUS server to be used to authenticate WiFi users. This attribute must reference one of the following datasources: `user.radius.name` .
 * `rates_11a` - Allowed data rates for 802.11a. Valid values: `1` `1-basic` `2` `2-basic` `5.5` `5.5-basic` `11` `11-basic` `6` `6-basic` `9` `9-basic` `12` `12-basic` `18` `18-basic` `24` `24-basic` `36` `36-basic` `48` `48-basic` `54` `54-basic` .
+* `rates_11ac_mcs_map` - Comma separated list of max supported VHT MCS for spatial streams 1 through 8.
 * `rates_11ac_ss12` - Allowed data rates for 802.11ac with 1 or 2 spatial streams. Valid values: `mcs0/1` `mcs1/1` `mcs2/1` `mcs3/1` `mcs4/1` `mcs5/1` `mcs6/1` `mcs7/1` `mcs8/1` `mcs9/1` `mcs10/1` `mcs11/1` `mcs0/2` `mcs1/2` `mcs2/2` `mcs3/2` `mcs4/2` `mcs5/2` `mcs6/2` `mcs7/2` `mcs8/2` `mcs9/2` `mcs10/2` `mcs11/2` .
 * `rates_11ac_ss34` - Allowed data rates for 802.11ac with 3 or 4 spatial streams. Valid values: `mcs0/3` `mcs1/3` `mcs2/3` `mcs3/3` `mcs4/3` `mcs5/3` `mcs6/3` `mcs7/3` `mcs8/3` `mcs9/3` `mcs10/3` `mcs11/3` `mcs0/4` `mcs1/4` `mcs2/4` `mcs3/4` `mcs4/4` `mcs5/4` `mcs6/4` `mcs7/4` `mcs8/4` `mcs9/4` `mcs10/4` `mcs11/4` .
+* `rates_11ax_mcs_map` - Comma separated list of max supported HE MCS for spatial streams 1 through 8.
 * `rates_11ax_ss12` - Allowed data rates for 802.11ax with 1 or 2 spatial streams. Valid values: `mcs0/1` `mcs1/1` `mcs2/1` `mcs3/1` `mcs4/1` `mcs5/1` `mcs6/1` `mcs7/1` `mcs8/1` `mcs9/1` `mcs10/1` `mcs11/1` `mcs0/2` `mcs1/2` `mcs2/2` `mcs3/2` `mcs4/2` `mcs5/2` `mcs6/2` `mcs7/2` `mcs8/2` `mcs9/2` `mcs10/2` `mcs11/2` .
 * `rates_11ax_ss34` - Allowed data rates for 802.11ax with 3 or 4 spatial streams. Valid values: `mcs0/3` `mcs1/3` `mcs2/3` `mcs3/3` `mcs4/3` `mcs5/3` `mcs6/3` `mcs7/3` `mcs8/3` `mcs9/3` `mcs10/3` `mcs11/3` `mcs0/4` `mcs1/4` `mcs2/4` `mcs3/4` `mcs4/4` `mcs5/4` `mcs6/4` `mcs7/4` `mcs8/4` `mcs9/4` `mcs10/4` `mcs11/4` .
 * `rates_11bg` - Allowed data rates for 802.11b/g. Valid values: `1` `1-basic` `2` `2-basic` `5.5` `5.5-basic` `11` `11-basic` `6` `6-basic` `9` `9-basic` `12` `12-basic` `18` `18-basic` `24` `24-basic` `36` `36-basic` `48` `48-basic` `54` `54-basic` .
 * `rates_11n_ss12` - Allowed data rates for 802.11n with 1 or 2 spatial streams. Valid values: `mcs0/1` `mcs1/1` `mcs2/1` `mcs3/1` `mcs4/1` `mcs5/1` `mcs6/1` `mcs7/1` `mcs8/2` `mcs9/2` `mcs10/2` `mcs11/2` `mcs12/2` `mcs13/2` `mcs14/2` `mcs15/2` .
 * `rates_11n_ss34` - Allowed data rates for 802.11n with 3 or 4 spatial streams. Valid values: `mcs16/3` `mcs17/3` `mcs18/3` `mcs19/3` `mcs20/3` `mcs21/3` `mcs22/3` `mcs23/3` `mcs24/4` `mcs25/4` `mcs26/4` `mcs27/4` `mcs28/4` `mcs29/4` `mcs30/4` `mcs31/4` .
 * `sae_groups` - SAE-Groups. Valid values: `19` `20` `21` .
+* `sae_h2e_only` - Use hash-to-element-only mechanism for PWE derivation (default = disable). Valid values: `enable` `disable` .
 * `sae_password` - WPA3 SAE password to be used to authenticate WiFi users.
+* `sae_pk` - Enable/disable WPA3 SAE-PK (default = disable). Valid values: `enable` `disable` .
+* `sae_private_key` - Private key used for WPA3 SAE-PK authentication.
 * `scan_botnet_connections` - Block or monitor connections to Botnet servers or disable Botnet scanning. Valid values: `disable` `monitor` `block` .
 * `secondary_wag_profile` - Secondary wireless access gateway profile name. This attribute must reference one of the following datasources: `wireless-controller.wag-profile.name` .
 * `security` - Security mode for the wireless interface (default = wpa2-only-personal). Valid values: `open` `captive-portal` `wep64` `wep128` `wpa-personal` `wpa-personal+captive-portal` `wpa-enterprise` `wpa-only-personal` `wpa-only-personal+captive-portal` `wpa-only-enterprise` `wpa2-only-personal` `wpa2-only-personal+captive-portal` `wpa2-only-enterprise` `wpa3-enterprise` `wpa3-only-enterprise` `wpa3-enterprise-transition` `wpa3-sae` `wpa3-sae-transition` `owe` `osen` .
@@ -162,6 +171,7 @@ Configure Virtual Access Points (VAPs).
 * `sticky_client_remove` - Enable/disable sticky client remove to maintain good signal level clients in SSID (default = disable). Valid values: `enable` `disable` .
 * `sticky_client_threshold_2g` - Minimum signal level/threshold in dBm required for the 2G client to be serviced by the AP (-95 to -20, default = -79).
 * `sticky_client_threshold_5g` - Minimum signal level/threshold in dBm required for the 5G client to be serviced by the AP (-95 to -20, default = -76).
+* `sticky_client_threshold_6g` - Minimum signal level/threshold in dBm required for the 6G client to be serviced by the AP (-95 to -20, default = -76).
 * `target_wake_time` - Enable/disable 802.11ax target wake time (default = enable). Valid values: `enable` `disable` .
 * `tkip_counter_measure` - Enable/disable TKIP counter measure. Valid values: `enable` `disable` .
 * `tunnel_echo_interval` - The time interval to send echo to both primary and secondary tunnel peers (1 - 65535 sec, default = 300).

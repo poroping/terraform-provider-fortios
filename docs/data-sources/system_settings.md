@@ -45,6 +45,7 @@ The following attributes are exported:
 * `default_policy_expiry_days` - Default policy expiry in days (0 - 365 days, default = 30).
 * `default_voip_alg_mode` - Configure how the FortiGate handles VoIP traffic when a policy that accepts the traffic doesn't include a VoIP profile.
 * `deny_tcp_with_icmp` - Enable/disable denying TCP by sending an ICMP communication prohibited packet.
+* `detect_unknown_esp` - Enable/disable detection of unknown ESP packets (default = enable).
 * `device` - Interface to use for management access for NAT mode.
 * `dhcp_proxy` - Enable/disable the DHCP Proxy.
 * `dhcp_proxy_interface` - Specify outgoing interface to reach server.
@@ -52,18 +53,23 @@ The following attributes are exported:
 * `dhcp_server_ip` - DHCP Server IPv4 address.
 * `dhcp6_server_ip` - DHCPv6 server IPv6 address.
 * `discovered_device_timeout` - Timeout for discovered devices (1 - 365 days, default = 28).
+* `dyn_addr_session_check` - Enable/disable dirty session check caused by dynamic address updates.
 * `ecmp_max_paths` - Maximum number of Equal Cost Multi-Path (ECMP) next-hops. Set to 1 to disable ECMP routing (1 - 255, default = 255).
 * `email_portal_check_dns` - Enable/disable using DNS to validate email addresses collected by a captive portal.
+* `ext_resource_session_check` - Enable/disable dirty session check caused by external resource updates.
 * `firewall_session_dirty` - Select how to manage sessions affected by firewall policy configuration changes.
+* `fqdn_session_check` - Enable/disable dirty session check caused by FQDN updates.
 * `fw_session_hairpin` - Enable/disable checking for a matching policy each time hairpin traffic goes through the FortiGate.
 * `gateway` - Transparent mode IPv4 default gateway IP address.
 * `gateway6` - Transparent mode IPv4 default gateway IP address.
 * `gui_advanced_policy` - Enable/disable advanced policy configuration on the GUI.
+* `gui_advanced_wireless_features` - Enable/disable advanced wireless features in GUI.
 * `gui_allow_unnamed_policy` - Enable/disable the requirement for policy naming on the GUI.
 * `gui_antivirus` - Enable/disable AntiVirus on the GUI.
 * `gui_ap_profile` - Enable/disable FortiAP profiles on the GUI.
 * `gui_application_control` - Enable/disable application control on the GUI.
 * `gui_dhcp_advanced` - Enable/disable advanced DHCP options on the GUI.
+* `gui_dlp_profile` - Enable/disable Data Leak Prevention on the GUI.
 * `gui_dns_database` - Enable/disable DNS database settings on the GUI.
 * `gui_dnsfilter` - Enable/disable DNS Filtering on the GUI.
 * `gui_domain_ip_reputation` - Enable/disable Domain and IP Reputation on the GUI.
@@ -89,10 +95,11 @@ The following attributes are exported:
 * `gui_multiple_utm_profiles` - Enable/disable multiple UTM profiles on the GUI.
 * `gui_nat46_64` - Enable/disable NAT46 and NAT64 settings on the GUI.
 * `gui_object_colors` - Enable/disable object colors on the GUI.
-* `gui_ot` - Enable/disable Show Operational Technology Purdue Model.
+* `gui_ot` - Enable/disable Operational technology features on the GUI.
 * `gui_per_policy_disclaimer` - Enable/disable policy disclaimer on the GUI.
 * `gui_policy_based_ipsec` - Enable/disable policy-based IPsec VPN on the GUI.
 * `gui_policy_disclaimer` - Enable/disable policy disclaimer on the GUI.
+* `gui_proxy_inspection` - Enable/disable the proxy features on the GUI.
 * `gui_replacement_message_groups` - Enable/disable replacement message groups on the GUI.
 * `gui_security_profile_group` - Enable/disable Security Profile Groups on the GUI.
 * `gui_spamfilter` - Enable/disable Antispam on the GUI.
@@ -119,8 +126,10 @@ The following attributes are exported:
 * `ike_quick_crash_detect` - Enable/disable IKE quick crash detection (RFC 6290).
 * `ike_session_resume` - Enable/disable IKEv2 session resumption (RFC 5723).
 * `implicit_allow_dns` - Enable/disable implicitly allowing DNS traffic.
+* `internet_service_database_cache` - Enable/disable Internet Service database caching.
 * `ip` - IP address and netmask.
 * `ip6` - IPv6 address prefix for NAT mode.
+* `lan_extension_controller_addr` - Controller IP address or FQDN to connect.
 * `link_down_access` - Enable/disable link down access traffic.
 * `lldp_reception` - Enable/disable Link Layer Discovery Protocol (LLDP) reception for this VDOM or apply global settings to this VDOM.
 * `lldp_transmission` - Enable/disable Link Layer Discovery Protocol (LLDP) transmission for this VDOM or apply global settings to this VDOM.
@@ -131,8 +140,12 @@ The following attributes are exported:
 * `multicast_forward` - Enable/disable multicast forwarding.
 * `multicast_skip_policy` - Enable/disable allowing multicast traffic through the FortiGate without a policy check.
 * `multicast_ttl_notchange` - Enable/disable preventing the FortiGate from changing the TTL for forwarded multicast packets.
+* `nat46_force_ipv4_packet_forwarding` - Enable/disable mandatory IPv4 packet forwarding in NAT46.
+* `nat46_generate_ipv6_fragment_header` - Enable/disable NAT46 IPv6 fragment header generation.
+* `nat64_force_ipv6_packet_forwarding` - Enable/disable mandatory IPv6 packet forwarding in NAT64.
 * `ngfw_mode` - Next Generation Firewall (NGFW) mode.
 * `opmode` - Firewall operation mode (NAT or Transparent).
+* `policy_offload_level` - Configure firewall policy offload level.
 * `prp_trailer_action` - Enable/disable action to take on PRP trailer.
 * `sccp_port` - TCP port the SCCP proxy monitors for SCCP traffic (0 - 65535, default = 2000).
 * `sctp_session_without_init` - Enable/disable SCTP session creation without SCTP INIT.
@@ -148,7 +161,7 @@ The following attributes are exported:
 * `tcp_session_without_syn` - Enable/disable allowing TCP session without SYN flags.
 * `utf8_spam_tagging` - Enable/disable converting antispam tags to UTF-8 for better non-ASCII character support.
 * `v4_ecmp_mode` - IPv4 Equal-cost multi-path (ECMP) routing and load balancing mode.
-* `vdom_type` - VDOM type (traffic or admin).
+* `vdom_type` - Vdom type (traffic, lan-extension or admin).
 * `vpn_stats_log` - Enable/disable periodic VPN log statistics for one or more types of VPN. Separate names with a space.
 * `vpn_stats_period` - Period to send VPN log statistics (0 or 60 - 86400 sec).
 * `wccp_cache_engine` - Enable/disable WCCP cache engine.

@@ -20,7 +20,7 @@ Configure VoIP profiles.
 * `allow_append` - If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution! Requires `name` to be defined.
 
 * `comment` - Comment.
-* `feature_set` - Flow or proxy inspection feature set. Valid values: `flow` `proxy` .
+* `feature_set` - IPS or voipd (SIP-ALG) inspection feature set. Valid values: `ips` `voipd` .
 * `name` - Profile name.
 * `msrp` - MSRP. The structure of `msrp` block is documented below.
 
@@ -65,10 +65,12 @@ The `sip` block contains:
 * `block_update` - Enable/disable block UPDATE requests. Valid values: `disable` `enable` .
 * `bye_rate` - BYE request rate limit (per second, per policy).
 * `bye_rate_track` - Track the packet protocol field. Valid values: `none` `src-ip` `dest-ip` .
+* `call_id_regex` - Validate PCRE regular expression for Call-Id header value.
 * `call_keepalive` - Continue tracking calls with no RTP for this many minutes.
 * `cancel_rate` - CANCEL request rate limit (per second, per policy).
 * `cancel_rate_track` - Track the packet protocol field. Valid values: `none` `src-ip` `dest-ip` .
 * `contact_fixup` - Fixup contact anyway even if contact's IP:port doesn't match session's IP:port. Valid values: `disable` `enable` .
+* `content_type_regex` - Validate PCRE regular expression for Content-Type header value.
 * `hnt_restrict_source_ip` - Enable/disable restrict RTP source IP to be the same as SIP source IP when HNT is enabled. Valid values: `disable` `enable` .
 * `hosted_nat_traversal` - Hosted NAT Traversal (HNT). Valid values: `disable` `enable` .
 * `info_rate` - INFO request rate limit (per second, per policy).
@@ -128,7 +130,7 @@ The `sip` block contains:
 * `options_rate_track` - Track the packet protocol field. Valid values: `none` `src-ip` `dest-ip` .
 * `prack_rate` - PRACK request rate limit (per second, per policy).
 * `prack_rate_track` - Track the packet protocol field. Valid values: `none` `src-ip` `dest-ip` .
-* `preserve_override` - Override i line to preserve original IPS (default: append). Valid values: `disable` `enable` .
+* `preserve_override` - Override i line to preserve original IPs (default: append). Valid values: `disable` `enable` .
 * `provisional_invite_expiry_time` - Expiry time (10-3600, in seconds) for provisional INVITE.
 * `publish_rate` - PUBLISH request rate limit (per second, per policy).
 * `publish_rate_track` - Track the packet protocol field. Valid values: `none` `src-ip` `dest-ip` .

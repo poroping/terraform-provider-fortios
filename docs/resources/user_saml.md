@@ -20,6 +20,7 @@ SAML server entry configuration.
 * `allow_append` - If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution! Requires `name` to be defined.
 
 * `adfs_claim` - Enable/disable ADFS Claim for user/group attribute in assertion statement (default = disable). Valid values: `enable` `disable` .
+* `auth_url` - URL to verify authentication.
 * `cert` - Certificate to sign SAML messages. This attribute must reference one of the following datasources: `vpn.certificate.local.name` .
 * `clock_tolerance` - Clock skew tolerance in seconds (0 - 300, default = 15, 0 = no tolerance).
 * `digest_method` - Digest method algorithm (default = sha1). Valid values: `sha1` `sha256` .

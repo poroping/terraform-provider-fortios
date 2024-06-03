@@ -24,6 +24,7 @@ Use this data source to get information on a fortios Configure virtual network e
 
 The following attributes are exported:
 
+* `auto_asic_offload` - Enable/disable tunnel ASIC offloading.
 * `bmr_hostname` - BMR hostname.
 * `br` - IPv6 address or FQDN of the border relay.
 * `http_password` - HTTP authentication password.

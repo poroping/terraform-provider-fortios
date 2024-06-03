@@ -67,7 +67,7 @@ The `match` block contains:
 * `group_name` - Name of matching user or group on remote authentication server.
 * `id` - ID.
 * `server_name` - Name of remote auth server.
-* `member` - Names of users, peers, LDAP severs, or RADIUS servers to add to the user group.The structure of `member` block is documented below.
+* `member` - Names of users, peers, LDAP severs, RADIUS servers or external idp servers to add to the user group.The structure of `member` block is documented below.
 
 The `member` block contains:
 

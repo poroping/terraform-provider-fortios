@@ -22,6 +22,7 @@ Configure Access Proxy virtual hosts.
 * `host` - The host name.
 * `host_type` - Type of host pattern. Valid values: `sub-string` `wildcard` .
 * `name` - Virtual host name.
+* `replacemsg_group` - Access-proxy-virtual-host replacement message override group. This attribute must reference one of the following datasources: `system.replacemsg-group.name` .
 * `ssl_certificate` - SSL certificate for this host. This attribute must reference one of the following datasources: `vpn.certificate.local.name` .
 
 ## Attribute Reference

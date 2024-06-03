@@ -26,6 +26,7 @@ Use this data source to get information on a fortios SAML server entry configura
 The following attributes are exported:
 
 * `adfs_claim` - Enable/disable ADFS Claim for user/group attribute in assertion statement (default = disable).
+* `auth_url` - URL to verify authentication.
 * `cert` - Certificate to sign SAML messages.
 * `clock_tolerance` - Clock skew tolerance in seconds (0 - 300, default = 15, 0 = no tolerance).
 * `digest_method` - Digest method algorithm (default = sha1).

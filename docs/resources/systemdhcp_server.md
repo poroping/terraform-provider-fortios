@@ -55,7 +55,7 @@ Configure DHCP servers.
 * `ntp_service` - Options for assigning Network Time Protocol (NTP) servers to DHCP clients. Valid values: `local` `default` `specify` .
 * `server_type` - DHCP server can be a normal DHCP server or an IPsec DHCP server. Valid values: `regular` `ipsec` .
 * `status` - Enable/disable this DHCP configuration. Valid values: `disable` `enable` .
-* `timezone` - Select the time zone to be assigned to DHCP clients. Valid values: `01` `02` `03` `04` `05` `81` `06` `07` `08` `09` `10` `11` `12` `13` `74` `14` `77` `15` `87` `16` `17` `18` `19` `20` `75` `21` `22` `23` `24` `80` `79` `25` `26` `27` `28` `78` `29` `30` `31` `32` `33` `34` `35` `36` `37` `38` `83` `84` `40` `85` `41` `42` `43` `39` `44` `46` `47` `51` `48` `45` `49` `50` `52` `53` `54` `55` `56` `57` `58` `59` `60` `62` `63` `61` `64` `65` `66` `67` `68` `69` `70` `71` `72` `00` `82` `73` `86` `76` .
+* `timezone` - Select the time zone to be assigned to DHCP clients. Valid values: `01` `02` `03` `04` `05` `81` `06` `07` `08` `09` `10` `11` `12` `13` `74` `14` `77` `15` `87` `16` `17` `18` `19` `20` `75` `21` `22` `23` `24` `80` `79` `25` `26` `27` `28` `78` `29` `30` `31` `32` `33` `34` `35` `36` `37` `38` `83` `84` `40` `85` `39` `41` `42` `43` `44` `45` `46` `47` `51` `48` `49` `50` `52` `53` `54` `55` `56` `57` `58` `59` `60` `61` `62` `63` `64` `65` `66` `67` `68` `69` `70` `71` `72` `00` `82` `73` `86` `76` .
 * `timezone_option` - Options for the DHCP server to set the client's time zone. Valid values: `disable` `default` `specify` .
 * `vci_match` - Enable/disable vendor class identifier (VCI) matching. When enabled only DHCP requests with a matching VCI are served. Valid values: `disable` `enable` .
 * `wifi_ac_service` - Options for assigning WiFi access controllers to DHCP clients. Valid values: `specify` `local` .
@@ -70,14 +70,40 @@ The `exclude_range` block contains:
 
 * `end_ip` - End of IP range.
 * `id` - ID.
+* `lease_time` - Lease time in seconds, 0 means default lease time.
 * `start_ip` - Start of IP range.
+* `uci_match` - Enable/disable user class identifier (UCI) matching. When enabled only DHCP requests with a matching UCI are served with this range. Valid values: `disable` `enable` .
+* `vci_match` - Enable/disable vendor class identifier (VCI) matching. When enabled only DHCP requests with a matching VCI are served with this range. Valid values: `disable` `enable` .
+* `uci_string` - One or more UCI strings in quotes separated by spaces. The structure of `uci_string` block is documented below.
+
+The `uci_string` block contains:
+
+* `uci_string` - UCI strings.
+* `vci_string` - One or more VCI strings in quotes separated by spaces. The structure of `vci_string` block is documented below.
+
+The `vci_string` block contains:
+
+* `vci_string` - VCI strings.
 * `ip_range` - DHCP IP range configuration. The structure of `ip_range` block is documented below.
 
 The `ip_range` block contains:
 
 * `end_ip` - End of IP range.
 * `id` - ID.
+* `lease_time` - Lease time in seconds, 0 means default lease time.
 * `start_ip` - Start of IP range.
+* `uci_match` - Enable/disable user class identifier (UCI) matching. When enabled only DHCP requests with a matching UCI are served with this range. Valid values: `disable` `enable` .
+* `vci_match` - Enable/disable vendor class identifier (VCI) matching. When enabled only DHCP requests with a matching VCI are served with this range. Valid values: `disable` `enable` .
+* `uci_string` - One or more UCI strings in quotes separated by spaces. The structure of `uci_string` block is documented below.
+
+The `uci_string` block contains:
+
+* `uci_string` - UCI strings.
+* `vci_string` - One or more VCI strings in quotes separated by spaces. The structure of `vci_string` block is documented below.
+
+The `vci_string` block contains:
+
+* `vci_string` - VCI strings.
 * `options` - DHCP options. The structure of `options` block is documented below.
 
 The `options` block contains:
@@ -86,7 +112,19 @@ The `options` block contains:
 * `id` - ID.
 * `ip` - DHCP option IPs.
 * `type` - DHCP option type. Valid values: `hex` `string` `ip` `fqdn` .
+* `uci_match` - Enable/disable user class identifier (UCI) matching. When enabled only DHCP requests with a matching UCI are served with this option. Valid values: `disable` `enable` .
 * `value` - DHCP option value.
+* `vci_match` - Enable/disable vendor class identifier (VCI) matching. When enabled only DHCP requests with a matching VCI are served with this option. Valid values: `disable` `enable` .
+* `uci_string` - One or more UCI strings in quotes separated by spaces. The structure of `uci_string` block is documented below.
+
+The `uci_string` block contains:
+
+* `uci_string` - UCI strings.
+* `vci_string` - One or more VCI strings in quotes separated by spaces. The structure of `vci_string` block is documented below.
+
+The `vci_string` block contains:
+
+* `vci_string` - VCI strings.
 * `reserved_address` - Options for the DHCP server to assign IP settings to specific MAC addresses. The structure of `reserved_address` block is documented below.
 
 The `reserved_address` block contains:

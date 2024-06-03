@@ -21,6 +21,7 @@ Configure connection to SDN Connector.
 * `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
 * `access_key` - AWS / ACS access key ID.
+* `alt_resource_ip` - Enable/disable AWS alternative resource IP. Valid values: `disable` `enable` .
 * `api_key` - IBM cloud API key or service ID API key.
 * `azure_region` - Azure server region. Valid values: `global` `china` `germany` `usgov` `local` .
 * `client_id` - Azure client ID (application ID).
@@ -29,7 +30,7 @@ Configure connection to SDN Connector.
 * `compute_generation` - Compute generation for IBM cloud infrastructure.
 * `domain` - Domain name.
 * `gcp_project` - GCP project name.
-* `group_name` - Group name of computers.
+* `group_name` - Full path group name of computers.
 * `ha_status` - Enable/disable use for FortiGate HA service. Valid values: `disable` `enable` .
 * `ibm_region` - IBM cloud region name. Valid values: `dallas` `washington-dc` `london` `frankfurt` `sydney` `tokyo` `osaka` `toronto` `sao-paulo` .
 * `login_endpoint` - Azure Stack login endpoint.
@@ -46,12 +47,14 @@ Configure connection to SDN Connector.
 * `secret_key` - AWS / ACS secret access key.
 * `secret_token` - Secret token of Kubernetes service account.
 * `server` - Server address of the remote SDN connector.
+* `server_ca_cert` - Trust only those servers whose certificate is directly/indirectly signed by this certificate. This attribute must reference one of the following datasources: `certificate.remote.name` `certificate.ca.name` .
+* `server_cert` - Trust servers that contain this certificate only. This attribute must reference one of the following datasources: `certificate.remote.name` .
 * `server_port` - Port number of the remote SDN connector.
 * `service_account` - GCP service account email.
 * `status` - Enable/disable connection to the remote SDN connector. Valid values: `disable` `enable` .
 * `subscription_id` - Azure subscription ID.
 * `tenant_id` - Tenant ID (directory ID).
-* `type` - Type of SDN connector. Valid values: `aci` `alicloud` `aws` `azure` `gcp` `nsx` `nuage` `oci` `openstack` `kubernetes` `vmware` `sepm` `aci-direct` `ibm` `nutanix` .
+* `type` - Type of SDN connector. Valid values: `aci` `alicloud` `aws` `azure` `gcp` `nsx` `nuage` `oci` `openstack` `kubernetes` `vmware` `sepm` `aci-direct` `ibm` `nutanix` `sap` .
 * `update_interval` - Dynamic object update interval (30 - 3600 sec, default = 60, 0 = disabled).
 * `use_metadata_iam` - Enable/disable use of IAM role from metadata to call API. Valid values: `disable` `enable` .
 * `user_id` - User ID.
@@ -65,6 +68,7 @@ Configure connection to SDN Connector.
 
 The `external_account_list` block contains:
 
+* `external_id` - AWS external ID.
 * `role_arn` - AWS role ARN to assume.
 * `region_list` - AWS region name list. The structure of `region_list` block is documented below.
 

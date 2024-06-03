@@ -47,6 +47,7 @@ The following attributes are exported:
 * `name_encoding` - Name encoding method for auto-regeneration.
 * `password` - Password as a PEM file.
 * `private_key` - PEM format key encrypted with a password.
+* `private_key_retain` - Enable/disable retention of private key during SCEP renewal (default = disable).
 * `range` - Either a global or VDOM IP address range for the certificate.
 * `scep_password` - SCEP server challenge password for auto-regeneration.
 * `scep_url` - SCEP server URL.

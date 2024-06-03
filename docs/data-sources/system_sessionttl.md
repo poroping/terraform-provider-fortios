@@ -32,5 +32,6 @@ The `port` block contains:
 * `end_port` - End port number.
 * `id` - Table entry ID.
 * `protocol` - Protocol (0 - 255).
+* `refresh_direction` - Refresh direction: Both, outgoing, incoming
 * `start_port` - Start port number.
 * `timeout` - Session timeout (TTL).

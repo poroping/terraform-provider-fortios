@@ -60,6 +60,7 @@ The `bookmarks` block contains:
 * `sso_password` - SSO password.
 * `sso_username` - SSO user name.
 * `url` - URL parameter.
+* `vnc_keyboard_layout` - Keyboard layout.
 * `width` - Screen width (range from 0 - 65535, default = 0).
 * `form_data` - Form data.The structure of `form_data` block is documented below.
 

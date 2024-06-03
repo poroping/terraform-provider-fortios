@@ -21,6 +21,7 @@ Configure LDAP server entries.
 
 * `account_key_filter` - Account key filter, using the UPN as the search filter.
 * `account_key_processing` - Account key processing operation, either keep or strip domain string of UPN in the token. Valid values: `same` `strip` .
+* `account_key_upn_san` - Define SAN in certificate for user principle name matching. Valid values: `othername` `rfc822name` `dnsname` .
 * `antiphish` - Enable/disable AntiPhishing credential backend. Valid values: `enable` `disable` .
 * `ca_cert` - CA certificate name. This attribute must reference one of the following datasources: `vpn.certificate.ca.name` .
 * `client_cert` - Client certificate name. This attribute must reference one of the following datasources: `vpn.certificate.local.name` .
@@ -52,6 +53,7 @@ Configure LDAP server entries.
 * `tertiary_server` - Tertiary LDAP server CN domain name or IP.
 * `two_factor` - Enable/disable two-factor authentication. Valid values: `disable` `fortitoken-cloud` .
 * `two_factor_authentication` - Authentication method by FortiToken Cloud. Valid values: `fortitoken` `email` `sms` .
+* `two_factor_filter` - Filter used to synchronize users to FortiToken Cloud.
 * `two_factor_notification` - Notification method for user activation by FortiToken Cloud. Valid values: `email` `sms` .
 * `type` - Authentication type for LDAP searches. Valid values: `simple` `anonymous` `regular` .
 * `user_info_exchange_server` - MS Exchange server from which to fetch user information. This attribute must reference one of the following datasources: `user.exchange.name` .

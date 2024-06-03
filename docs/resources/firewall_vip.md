@@ -60,7 +60,10 @@ resource "fortios_firewall_vip" "example2" {
 * `http_ip_header` - For HTTP multiplexing, enable to add the original client IP address in the XForwarded-For HTTP header. Valid values: `enable` `disable` .
 * `http_ip_header_name` - For HTTP multiplexing, enter a custom HTTPS header name. The original client IP address is added to this header. If empty, X-Forwarded-For is used.
 * `http_multiplex` - Enable/disable HTTP multiplexing. Valid values: `enable` `disable` .
+* `http_multiplex_max_request` - Maximum number of requests that a multiplex server can handle before disconnecting sessions (default = unlimited).
+* `http_multiplex_ttl` - Time-to-live for idle connections to servers.
 * `http_redirect` - Enable/disable redirection of HTTP to HTTPS. Valid values: `enable` `disable` .
+* `http_supported_max_version` - Maximum supported HTTP versions. default = HTTP2 Valid values: `http1` `http2` .
 * `https_cookie_secure` - Enable/disable verification that inserted HTTPS cookies are secure. Valid values: `disable` `enable` .
 * `id` - Custom defined ID.
 * `ipv6_mappedip` - Range of mapped IPv6 addresses. Specify the start IPv6 address followed by a space and the end IPv6 address.
@@ -108,6 +111,7 @@ resource "fortios_firewall_vip" "example2" {
 * `ssl_server_algorithm` - Permitted encryption algorithms for the server side of SSL full mode sessions according to encryption strength. Valid values: `high` `medium` `low` `custom` `client` .
 * `ssl_server_max_version` - Highest SSL/TLS version acceptable from a server. Use the client setting by default. Valid values: `ssl-3.0` `tls-1.0` `tls-1.1` `tls-1.2` `tls-1.3` `client` .
 * `ssl_server_min_version` - Lowest SSL/TLS version acceptable from a server. Use the client setting by default. Valid values: `ssl-3.0` `tls-1.0` `tls-1.1` `tls-1.2` `tls-1.3` `client` .
+* `ssl_server_renegotiation` - Enable/disable secure renegotiation to comply with RFC 5746. Valid values: `enable` `disable` .
 * `ssl_server_session_state_max` - Maximum number of FortiGate to Server SSL session states to keep.
 * `ssl_server_session_state_timeout` - Number of minutes to keep FortiGate to Server SSL session state.
 * `ssl_server_session_state_type` - How to expire SSL sessions for the segment of the SSL connection between the server and the FortiGate. Valid values: `disable` `time` `count` `both` .
@@ -145,6 +149,7 @@ The `realservers` block contains:
 * `max_connections` - Max number of active connections that can be directed to the real server. When reached, sessions are sent to other real servers.
 * `port` - Port for communicating with the real server. Required if port forwarding is enabled.
 * `status` - Set the status of the real server to active so that it can accept traffic, or on standby or disabled so no traffic is sent. Valid values: `active` `standby` `disable` .
+* `translate_host` - Enable/disable translation of hostname/IP from virtual server to real server. Valid values: `enable` `disable` .
 * `type` - Type of address. Valid values: `ip` `address` .
 * `weight` - Weight of the real server. If weighted load balancing is enabled, the server with the highest weight gets more connections.
 * `monitor` - Name of the health check monitor to use when polling to determine a virtual server's connectivity status. The structure of `monitor` block is documented below.

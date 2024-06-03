@@ -38,7 +38,7 @@ The `cifs` block contains:
 
 * `domain_controller` - Domain for which to decrypt CIFS traffic.
 * `options` - One or more options that can be applied to the session.
-* `oversize_limit` - Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).
+* `oversize_limit` - Maximum in-memory file size that can be scanned (MB).
 * `ports` - Ports to scan for content (1 - 65535, default = 445).
 * `scan_bzip2` - Enable/disable scanning of BZip2 compressed files.
 * `server_credential_type` - CIFS server credential type.
@@ -48,7 +48,7 @@ The `cifs` block contains:
 * `tcp_window_size` - Set TCP static window size.
 * `tcp_window_type` - TCP window type to use for this protocol.
 * `uncompressed_nest_limit` - Maximum nested levels of compression that can be uncompressed and scanned (2 - 100, default = 12).
-* `uncompressed_oversize_limit` - Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).
+* `uncompressed_oversize_limit` - Maximum in-memory uncompressed file size that can be scanned.
 * `server_keytab` - Server keytab.The structure of `server_keytab` block is documented below.
 
 The `server_keytab` block contains:
@@ -65,11 +65,12 @@ The `dns` block contains:
 
 The `ftp` block contains:
 
-* `comfort_amount` - Amount of data to send in a transmission for client comforting (1 - 65535 bytes, default = 1).
-* `comfort_interval` - Period of time between start, or last transmission, and the next client comfort transmission of data (1 - 900 sec, default = 10).
+* `comfort_amount` - Number of bytes to send in each transmission for client comforting (bytes).
+* `comfort_interval` - Interval between successive transmissions of data for client comforting (seconds).
+* `explicit_ftp_tls` - Enable/disable FTP redirection for explicit FTPS.
 * `inspect_all` - Enable/disable the inspection of all ports for the protocol.
 * `options` - One or more options that can be applied to the session.
-* `oversize_limit` - Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).
+* `oversize_limit` - Maximum in-memory file size that can be scanned (MB).
 * `ports` - Ports to scan for content (1 - 65535, default = 21).
 * `scan_bzip2` - Enable/disable scanning of BZip2 compressed files.
 * `ssl_offloaded` - SSL decryption and encryption performed by an external device.
@@ -80,21 +81,21 @@ The `ftp` block contains:
 * `tcp_window_size` - Set TCP static window size.
 * `tcp_window_type` - TCP window type to use for this protocol.
 * `uncompressed_nest_limit` - Maximum nested levels of compression that can be uncompressed and scanned (2 - 100, default = 12).
-* `uncompressed_oversize_limit` - Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).
+* `uncompressed_oversize_limit` - Maximum in-memory uncompressed file size that can be scanned.
 * `http` - Configure HTTP protocol options.The structure of `http` block is documented below.
 
 The `http` block contains:
 
 * `address_ip_rating` - Enable/disable IP based URL rating.
 * `block_page_status_code` - Code number returned for blocked HTTP pages (non-FortiGuard only) (100 - 599, default = 403).
-* `comfort_amount` - Amount of data to send in a transmission for client comforting (1 - 65535 bytes, default = 1).
-* `comfort_interval` - Period of time between start, or last transmission, and the next client comfort transmission of data (1 - 900 sec, default = 10).
+* `comfort_amount` - Number of bytes to send in each transmission for client comforting (bytes).
+* `comfort_interval` - Interval between successive transmissions of data for client comforting (seconds).
 * `fortinet_bar` - Enable/disable Fortinet bar on HTML content.
 * `fortinet_bar_port` - Port for use by Fortinet Bar (1 - 65535, default = 8011).
 * `h2c` - Enable/disable h2c HTTP connection upgrade.
 * `inspect_all` - Enable/disable the inspection of all ports for the protocol.
 * `options` - One or more options that can be applied to the session.
-* `oversize_limit` - Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).
+* `oversize_limit` - Maximum in-memory file size that can be scanned (MB).
 * `ports` - Ports to scan for content (1 - 65535, default = 80).
 * `post_lang` - ID codes for character sets to be used to convert to UTF-8 for banned words and DLP on HTTP posts (maximum of 5 character sets).
 * `proxy_after_tcp_handshake` - Proxy traffic after the TCP 3-way handshake has been established (not before).
@@ -113,22 +114,24 @@ The `http` block contains:
 * `tcp_window_type` - TCP window type to use for this protocol.
 * `tunnel_non_http` - Configure how to process non-HTTP traffic when a profile configured for HTTP traffic accepts a non-HTTP session. Can occur if an application sends non-HTTP traffic using an HTTP destination port.
 * `uncompressed_nest_limit` - Maximum nested levels of compression that can be uncompressed and scanned (2 - 100, default = 12).
-* `uncompressed_oversize_limit` - Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).
+* `uncompressed_oversize_limit` - Maximum in-memory uncompressed file size that can be scanned.
+* `unknown_content_encoding` - Configure the action the FortiGate unit will take on unknown content-encoding.
 * `unknown_http_version` - How to handle HTTP sessions that do not comply with HTTP 0.9, 1.0, or 1.1.
+* `verify_dns_for_policy_matching` - Enable/disable verification of DNS for policy matching.
 * `imap` - Configure IMAP protocol options.The structure of `imap` block is documented below.
 
 The `imap` block contains:
 
 * `inspect_all` - Enable/disable the inspection of all ports for the protocol.
 * `options` - One or more options that can be applied to the session.
-* `oversize_limit` - Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).
+* `oversize_limit` - Maximum in-memory file size that can be scanned (MB).
 * `ports` - Ports to scan for content (1 - 65535, default = 143).
 * `proxy_after_tcp_handshake` - Proxy traffic after the TCP 3-way handshake has been established (not before).
 * `scan_bzip2` - Enable/disable scanning of BZip2 compressed files.
 * `ssl_offloaded` - SSL decryption and encryption performed by an external device.
 * `status` - Enable/disable the active status of scanning for this protocol.
 * `uncompressed_nest_limit` - Maximum nested levels of compression that can be uncompressed and scanned (2 - 100, default = 12).
-* `uncompressed_oversize_limit` - Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).
+* `uncompressed_oversize_limit` - Maximum in-memory uncompressed file size that can be scanned.
 * `mail_signature` - Configure Mail signature.The structure of `mail_signature` block is documented below.
 
 The `mail_signature` block contains:
@@ -140,46 +143,46 @@ The `mail_signature` block contains:
 The `mapi` block contains:
 
 * `options` - One or more options that can be applied to the session.
-* `oversize_limit` - Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).
+* `oversize_limit` - Maximum in-memory file size that can be scanned (MB).
 * `ports` - Ports to scan for content (1 - 65535, default = 135).
 * `scan_bzip2` - Enable/disable scanning of BZip2 compressed files.
 * `status` - Enable/disable the active status of scanning for this protocol.
 * `uncompressed_nest_limit` - Maximum nested levels of compression that can be uncompressed and scanned (2 - 100, default = 12).
-* `uncompressed_oversize_limit` - Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).
+* `uncompressed_oversize_limit` - Maximum in-memory uncompressed file size that can be scanned.
 * `nntp` - Configure NNTP protocol options.The structure of `nntp` block is documented below.
 
 The `nntp` block contains:
 
 * `inspect_all` - Enable/disable the inspection of all ports for the protocol.
 * `options` - One or more options that can be applied to the session.
-* `oversize_limit` - Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).
+* `oversize_limit` - Maximum in-memory file size that can be scanned (MB).
 * `ports` - Ports to scan for content (1 - 65535, default = 119).
 * `proxy_after_tcp_handshake` - Proxy traffic after the TCP 3-way handshake has been established (not before).
 * `scan_bzip2` - Enable/disable scanning of BZip2 compressed files.
 * `status` - Enable/disable the active status of scanning for this protocol.
 * `uncompressed_nest_limit` - Maximum nested levels of compression that can be uncompressed and scanned (2 - 100, default = 12).
-* `uncompressed_oversize_limit` - Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).
+* `uncompressed_oversize_limit` - Maximum in-memory uncompressed file size that can be scanned.
 * `pop3` - Configure POP3 protocol options.The structure of `pop3` block is documented below.
 
 The `pop3` block contains:
 
 * `inspect_all` - Enable/disable the inspection of all ports for the protocol.
 * `options` - One or more options that can be applied to the session.
-* `oversize_limit` - Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).
+* `oversize_limit` - Maximum in-memory file size that can be scanned (MB).
 * `ports` - Ports to scan for content (1 - 65535, default = 110).
 * `proxy_after_tcp_handshake` - Proxy traffic after the TCP 3-way handshake has been established (not before).
 * `scan_bzip2` - Enable/disable scanning of BZip2 compressed files.
 * `ssl_offloaded` - SSL decryption and encryption performed by an external device.
 * `status` - Enable/disable the active status of scanning for this protocol.
 * `uncompressed_nest_limit` - Maximum nested levels of compression that can be uncompressed and scanned (2 - 100, default = 12).
-* `uncompressed_oversize_limit` - Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).
+* `uncompressed_oversize_limit` - Maximum in-memory uncompressed file size that can be scanned.
 * `smtp` - Configure SMTP protocol options.The structure of `smtp` block is documented below.
 
 The `smtp` block contains:
 
 * `inspect_all` - Enable/disable the inspection of all ports for the protocol.
 * `options` - One or more options that can be applied to the session.
-* `oversize_limit` - Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).
+* `oversize_limit` - Maximum in-memory file size that can be scanned (MB).
 * `ports` - Ports to scan for content (1 - 65535, default = 25).
 * `proxy_after_tcp_handshake` - Proxy traffic after the TCP 3-way handshake has been established (not before).
 * `scan_bzip2` - Enable/disable scanning of BZip2 compressed files.
@@ -187,15 +190,15 @@ The `smtp` block contains:
 * `ssl_offloaded` - SSL decryption and encryption performed by an external device.
 * `status` - Enable/disable the active status of scanning for this protocol.
 * `uncompressed_nest_limit` - Maximum nested levels of compression that can be uncompressed and scanned (2 - 100, default = 12).
-* `uncompressed_oversize_limit` - Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).
+* `uncompressed_oversize_limit` - Maximum in-memory uncompressed file size that can be scanned.
 * `ssh` - Configure SFTP and SCP protocol options.The structure of `ssh` block is documented below.
 
 The `ssh` block contains:
 
-* `comfort_amount` - Amount of data to send in a transmission for client comforting (1 - 65535 bytes, default = 1).
-* `comfort_interval` - Period of time between start, or last transmission, and the next client comfort transmission of data (1 - 900 sec, default = 10).
+* `comfort_amount` - Number of bytes to send in each transmission for client comforting (bytes).
+* `comfort_interval` - Interval between successive transmissions of data for client comforting (seconds).
 * `options` - One or more options that can be applied to the session.
-* `oversize_limit` - Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).
+* `oversize_limit` - Maximum in-memory file size that can be scanned (MB).
 * `scan_bzip2` - Enable/disable scanning of BZip2 compressed files.
 * `ssl_offloaded` - SSL decryption and encryption performed by an external device.
 * `stream_based_uncompressed_limit` - Maximum stream-based uncompressed data size that will be scanned in megabytes. Stream-based uncompression used only under certain conditions (unlimited = 0, default = 0).
@@ -204,4 +207,4 @@ The `ssh` block contains:
 * `tcp_window_size` - Set TCP static window size.
 * `tcp_window_type` - TCP window type to use for this protocol.
 * `uncompressed_nest_limit` - Maximum nested levels of compression that can be uncompressed and scanned (2 - 100, default = 12).
-* `uncompressed_oversize_limit` - Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).
+* `uncompressed_oversize_limit` - Maximum in-memory uncompressed file size that can be scanned.

@@ -32,7 +32,7 @@ The following attributes are exported:
 * `ip_address` - IPv4 address of the ICAP server.
 * `ip_version` - IP version.
 * `ip6_address` - IPv6 address of the ICAP server.
-* `max_connections` - Maximum number of concurrent connections to ICAP server. Must not be less than wad-worker-count.
+* `max_connections` - Maximum number of concurrent connections to ICAP server (unlimited = 0, default = 100). Must not be less than wad-worker-count.
 * `name` - Server name.
 * `port` - ICAP server port.
 * `secure` - Enable/disable secure connection to ICAP server.

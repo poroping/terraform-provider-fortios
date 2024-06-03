@@ -49,7 +49,8 @@ resource "fortios_system_interface" "example2" {
 
 * `ac_name` - PPPoE server name.
 * `aggregate` - Aggregate interface.
-* `algorithm` - Frame distribution algorithm. Valid values: `L2` `L3` `L4` .
+* `aggregate_type` - Type of aggregation. Valid values: `physical` `vxlan` .
+* `algorithm` - Frame distribution algorithm. Valid values: `L2` `L3` `L4` `Source-MAC` .
 * `alias` - Alias will be displayed with the interface name to make it easier to distinguish.
 * `allowaccess` - Permitted types of management access to this interface. Valid values: `ping` `https` `ssh` `snmp` `http` `telnet` `fgfm` `radius-acct` `probe-response` `fabric` `ftm` `speed-test` .
 * `ap_discover` - Enable/disable automatic registration of unknown FortiAP devices. Valid values: `enable` `disable` .
@@ -118,6 +119,7 @@ resource "fortios_system_interface" "example2" {
 * `fortilink_split_interface` - Enable/disable FortiLink split interface to connect member link to different FortiSwitch in stack for uplink redundancy. Valid values: `enable` `disable` .
 * `fortilink_stacking` - Enable/disable FortiLink switch-stacking on this interface. Valid values: `enable` `disable` .
 * `forward_domain` - Transparent mode forward domain.
+* `forward_error_correction` - Configure forward error correction (FEC). Valid values: `none` `disable` `cl91-rs-fec` `cl74-fc-fec` `auto` .
 * `gwdetect` - Enable/disable detect gateway alive for first. Valid values: `enable` `disable` .
 * `ha_priority` - HA election priority for the PING server.
 * `icmp_accept_redirect` - Enable/disable ICMP accept redirect. Valid values: `enable` `disable` .
@@ -125,7 +127,7 @@ resource "fortios_system_interface" "example2" {
 * `ident_accept` - Enable/disable authentication for this interface. Valid values: `enable` `disable` .
 * `idle_timeout` - PPPoE auto disconnect after idle timeout seconds, 0 means no timeout.
 * `ike_saml_server` - Configure IKE authentication SAML server. This attribute must reference one of the following datasources: `user.saml.name` .
-* `inbandwidth` - Bandwidth limit for incoming traffic (0 - 16776000 kbps), 0 means unlimited.
+* `inbandwidth` - Bandwidth limit for incoming traffic (0 - 100000000 kbps), 0 means unlimited.
 * `ingress_cos` - Override incoming CoS in user VLAN tag on VLAN interface or assign a priority VLAN tag on physical interface. Valid values: `disable` `cos0` `cos1` `cos2` `cos3` `cos4` `cos5` `cos6` `cos7` .
 * `ingress_shaping_profile` - Incoming traffic shaping profile. This attribute must reference one of the following datasources: `firewall.shaping-profile.profile-name` .
 * `ingress_spillover_threshold` - Ingress Spillover threshold (0 - 16776000 kbps), 0 means unlimited.
@@ -137,6 +139,7 @@ resource "fortios_system_interface" "example2" {
 * `ips_sniffer_mode` - Enable/disable the use of this interface as a one-armed sniffer. Valid values: `enable` `disable` .
 * `ipunnumbered` - Unnumbered IP used for PPPoE interfaces for which no unique local address is provided.
 * `l2forward` - Enable/disable l2 forwarding. Valid values: `enable` `disable` .
+* `lacp_ha_secondary` - LACP HA secondary member. Valid values: `enable` `disable` .
 * `lacp_ha_slave` - LACP HA slave. Valid values: `enable` `disable` .
 * `lacp_mode` - LACP mode. Valid values: `static` `passive` `active` .
 * `lacp_speed` - How often the interface sends LACP messages. Valid values: `slow` `fast` .
@@ -151,7 +154,7 @@ resource "fortios_system_interface" "example2" {
 * `management_ip` - High Availability in-band management IP address of this interface.
 * `measured_downstream_bandwidth` - Measured downstream bandwidth (kbps).
 * `measured_upstream_bandwidth` - Measured upstream bandwidth (kbps).
-* `mediatype` - Select SFP media interface type Valid values: `serdes-sfp` `sgmii-sfp` `serdes-copper-sfp` .
+* `mediatype` - Select SFP media interface type Valid values: `none` `gmii` `sgmii` `sr` `lr` `cr` `sr2` `lr2` `cr2` `sr4` `lr4` `cr4` `sr8` `lr8` `cr8` .
 * `min_links` - Minimum number of aggregated ports that must be up.
 * `min_links_down` - Action to take when less than the configured minimum number of links are active. Valid values: `operational` `administrative` .
 * `mode` - Addressing mode (static, DHCP, PPPoE). Valid values: `static` `dhcp` `pppoe` .
@@ -162,7 +165,8 @@ resource "fortios_system_interface" "example2" {
 * `ndiscforward` - Enable/disable NDISC forwarding. Valid values: `enable` `disable` .
 * `netbios_forward` - Enable/disable NETBIOS forwarding. Valid values: `disable` `enable` .
 * `netflow_sampler` - Enable/disable NetFlow on this interface and set the data that NetFlow collects (rx, tx, or both). Valid values: `disable` `tx` `rx` `both` .
-* `outbandwidth` - Bandwidth limit for outgoing traffic (0 - 16776000 kbps), 0 means unlimited.
+* `np_qos_profile` - NP QoS profile ID.
+* `outbandwidth` - Bandwidth limit for outgoing traffic (0 - 100000000 kbps).
 * `padt_retry_timeout` - PPPoE Active Discovery Terminate (PADT) used to terminate sessions after an idle time.
 * `password` - PPPoE account's password.
 * `ping_serv_status` - PING server status.
@@ -188,6 +192,9 @@ resource "fortios_system_interface" "example2" {
 * `sample_direction` - Data that NetFlow collects (rx, tx, or both). Valid values: `tx` `rx` `both` .
 * `sample_rate` - sFlow sample rate (10 - 99999).
 * `secondary_ip` - Enable/disable adding a secondary IP to this interface. Valid values: `enable` `disable` .
+* `security_8021x_dynamic_vlan_id` - VLAN ID for virtual switch.
+* `security_8021x_master` - 802.1X master virtual-switch.
+* `security_8021x_mode` - 802.1X mode. Valid values: `default` `dynamic-vlan` `fallback` `slave` .
 * `security_exempt_list` - Name of security-exempt-list.
 * `security_external_logout` - URL of external authentication logout server.
 * `security_external_web` - URL of external authentication web server.
@@ -197,10 +204,12 @@ resource "fortios_system_interface" "example2" {
 * `service_name` - PPPoE service name.
 * `sflow_sampler` - Enable/disable sFlow on this interface. Valid values: `enable` `disable` .
 * `snmp_index` - Permanent SNMP Index of the interface.
-* `speed` - Interface speed. The default setting and the options available depend on the interface hardware. Valid values: `auto` `10full` `10half` `100full` `100half` `1000full` `1000auto` .
+* `speed` - Interface speed. The default setting and the options available depend on the interface hardware. Valid values: `auto` `10full` `10half` `100full` `100half` `100auto` `1000full` `1000auto` `2500auto` `5000auto` `10000full` `10000auto` `25000full` `25000auto` `40000full` `40000auto` `50000full` `50000auto` `100Gfull` `100Gauto` `200Gfull` `200Gauto` `400Gfull` `400Gauto` .
 * `spillover_threshold` - Egress Spillover threshold (0 - 16776000 kbps), 0 means unlimited.
 * `src_check` - Enable/disable source IP check. Valid values: `enable` `disable` .
 * `status` - Bring the interface up or shut the interface down. Valid values: `up` `down` .
+* `stp` - Enable/disable STP. Valid values: `disable` `enable` .
+* `stp_ha_secondary` - Control STP behavior on HA secondary. Valid values: `disable` `enable` `priority-adjust` .
 * `stpforward` - Enable/disable STP forwarding. Valid values: `enable` `disable` .
 * `stpforward_mode` - Configure STP forwarding mode. Valid values: `rpl-all-ext-id` `rpl-bridge-ext-id` `rpl-nothing` .
 * `subst` - Enable to always send packets from this interface to a destination MAC address. Valid values: `enable` `disable` .
@@ -222,19 +231,21 @@ resource "fortios_system_interface" "example2" {
 * `switch_controller_learning_limit` - Limit the number of dynamic MAC addresses on this VLAN (1 - 128, 0 = no limit, default).
 * `switch_controller_mgmt_vlan` - VLAN to use for FortiLink management purposes.
 * `switch_controller_nac` - Integrated FortiLink settings for managed FortiSwitch. This attribute must reference one of the following datasources: `switch-controller.fortilink-settings.name` .
+* `switch_controller_netflow_collect` - NetFlow collection and processing. Valid values: `disable` `enable` .
 * `switch_controller_rspan_mode` - Stop Layer2 MAC learning and interception of BPDUs and other packets on this interface. Valid values: `disable` `enable` .
 * `switch_controller_source_ip` - Source IP address used in FortiLink over L3 connections. Valid values: `outbound` `fixed` .
 * `switch_controller_traffic_policy` - Switch controller traffic policy for the VLAN. This attribute must reference one of the following datasources: `switch-controller.traffic-policy.name` .
 * `system_id` - Define a system ID for the aggregate interface.
 * `system_id_type` - Method in which system ID is generated. Valid values: `auto` `user` .
 * `tcp_mss` - TCP maximum segment size. 0 means do not change segment size.
+* `trunk` - Enable/disable VLAN trunk. Valid values: `enable` `disable` .
 * `trust_ip_1` - Trusted host for dedicated management traffic (0.0.0.0/24 for all hosts).
 * `trust_ip_2` - Trusted host for dedicated management traffic (0.0.0.0/24 for all hosts).
 * `trust_ip_3` - Trusted host for dedicated management traffic (0.0.0.0/24 for all hosts).
 * `trust_ip6_1` - Trusted IPv6 host for dedicated management traffic (::/0 for all hosts).
 * `trust_ip6_2` - Trusted IPv6 host for dedicated management traffic (::/0 for all hosts).
 * `trust_ip6_3` - Trusted IPv6 host for dedicated management traffic (::/0 for all hosts).
-* `type` - Interface type. Valid values: `physical` `vlan` `aggregate` `redundant` `tunnel` `vdom-link` `loopback` `switch` `vap-switch` `wl-mesh` `fext-wan` `vxlan` `geneve` `hdlc` `switch-vlan` `emac-vlan` `ssl` `lan-extension` .
+* `type` - Interface type. Valid values: `physical` `vlan` `aggregate` `redundant` `tunnel` `vdom-link` `loopback` `switch` `hard-switch` `vap-switch` `wl-mesh` `fext-wan` `vxlan` `geneve` `hdlc` `switch-vlan` `emac-vlan` `ssl` `lan-extension` .
 * `username` - Username of the PPPoE account, provided by your ISP.
 * `vdom` - Interface is in this virtual domain (VDOM). This attribute must reference one of the following datasources: `system.vdom.name` .
 * `vindex` - Switch control interface VLAN ID.
@@ -292,6 +303,7 @@ The `ipv6` block contains:
 * `dhcp6_prefix_hint_vlt` - DHCPv6 prefix hint valid life time (sec).
 * `dhcp6_relay_ip` - DHCPv6 relay IP address.
 * `dhcp6_relay_service` - Enable/disable DHCPv6 relay. Valid values: `disable` `enable` .
+* `dhcp6_relay_source_interface` - Enable/disable use of address on this interface as the source address of the relay message. Valid values: `disable` `enable` .
 * `dhcp6_relay_type` - DHCPv6 relay type. Valid values: `regular` .
 * `icmp6_send_redirect` - Enable/disable sending of ICMPv6 redirects. Valid values: `enable` `disable` .
 * `interface_identifier` - IPv6 interface identifier.

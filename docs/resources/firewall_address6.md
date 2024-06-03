@@ -30,6 +30,7 @@ resource "fortios_firewall_address6" "example" {
 * `country` - IPv6 addresses associated to a specific country.
 * `end_ip` - Final IP address (inclusive) in the range for the address (format: xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx).
 * `end_mac` - Last MAC address in the range.
+* `epg_name` - Endpoint group name.
 * `fabric_object` - Security Fabric global object setting. Valid values: `enable` `disable` .
 * `fqdn` - Fully qualified domain name.
 * `host` - Host Address.
@@ -38,9 +39,11 @@ resource "fortios_firewall_address6" "example" {
 * `name` - Address name.
 * `obj_id` - Object ID for NSX.
 * `sdn` - SDN. This attribute must reference one of the following datasources: `system.sdn-connector.name` .
+* `sdn_tag` - SDN Tag.
 * `start_ip` - First IP address (inclusive) in the range for the address (format: xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx).
 * `start_mac` - First MAC address in the range.
 * `template` - IPv6 address template. This attribute must reference one of the following datasources: `firewall.address6-template.name` .
+* `tenant` - Tenant.
 * `type` - Type of IPv6 address object (default = ipprefix). Valid values: `ipprefix` `iprange` `fqdn` `geography` `dynamic` `template` `mac` .
 * `uuid` - Universally Unique Identifier (UUID; automatically assigned but can be manually reset).
 * `visibility` - Enable/disable the visibility of the object in the GUI. Valid values: `enable` `disable` .

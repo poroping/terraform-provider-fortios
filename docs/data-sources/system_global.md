@@ -26,7 +26,9 @@ The following attributes are exported:
 
 * `admin_concurrent` - Enable/disable concurrent administrator logins. Use policy-auth-concurrent for firewall authenticated users.
 * `admin_console_timeout` - Console login timeout that overrides the admin timeout value (15 - 300 seconds, default = 0, which disables the timeout).
+* `admin_forticloud_sso_default_profile` - Override access profile.
 * `admin_forticloud_sso_login` - Enable/disable FortiCloud admin login via SSO.
+* `admin_host` - Administrative host for HTTP and HTTPS. When set, will be used in lieu of the client's Host header for any redirection.
 * `admin_hsts_max_age` - HTTPS Strict-Transport-Security header max-age in seconds. A value of 0 will reset any HSTS records in the browser.When admin-https-redirect is disabled the header max-age will be 0.
 * `admin_https_pki_required` - Enable/disable admin login method. Enable to force administrators to provide a valid certificate to log in if PKI is enabled. Disable to allow administrators to log in with a certificate or password.
 * `admin_https_redirect` - Enable/disable redirection of HTTP administration access to HTTPS.
@@ -85,6 +87,8 @@ The following attributes are exported:
 * `dh_params` - Number of bits to use in the Diffie-Hellman exchange for HTTPS/SSH protocols.
 * `dnsproxy_worker_count` - DNS proxy worker count. For a FortiGate with multiple logical CPUs, you can set the DNS process number from 1 to the number of logical CPUs.
 * `dst` - Enable/disable daylight saving time.
+* `early_tcp_npu_session` - Enable/disable early TCP NPU session.
+* `edit_vdom_prompt` - Enable/disable edit new VDOM prompt.
 * `extender_controller_reserved_network` - Configure reserved network subnet for managed LAN extension FortiExtender units. This is available when the FortiExtender daemon is running.
 * `failtime` - Fail-time for server lost.
 * `faz_disk_buffer_size` - Maximum disk buffer size to temporarily store logs destined for FortiAnalyzer. To be used in the event that FortiAnalyzer is unavailable.
@@ -95,11 +99,14 @@ The following attributes are exported:
 * `fortiextender` - Enable/disable FortiExtender.
 * `fortiextender_data_port` - FortiExtender data port (1024 - 49150, default = 25246).
 * `fortiextender_discovery_lockdown` - Enable/disable FortiExtender CAPWAP lockdown.
+* `fortiextender_provision_on_authorization` - Enable/disable automatic provisioning of latest FortiExtender firmware on authorization.
 * `fortiextender_vlan_mode` - Enable/disable FortiExtender VLAN mode.
 * `fortiipam_integration` - Enable/disable integration with the FortiIPAM cloud service.
 * `fortiservice_port` - FortiService port (1 - 65535, default = 8013). Used by FortiClient endpoint compliance. Older versions of FortiClient used a different port.
 * `fortitoken_cloud` - Enable/disable FortiToken Cloud service.
 * `gui_allow_default_hostname` - Enable/disable the factory default hostname warning on the GUI setup wizard.
+* `gui_app_detection_sdwan` - Enable/disable Allow app-detection based SD-WAN.
+* `gui_auto_upgrade_setup_warning` - Enable/disable the automatic patch upgrade setup prompt on the GUI.
 * `gui_cdn_usage` - Enable/disable Load GUI static files from a CDN.
 * `gui_certificates` - Enable/disable the System > Certificate GUI page, allowing you to add and configure certificates from the GUI.
 * `gui_custom_language` - Enable/disable custom languages in GUI.
@@ -112,6 +119,7 @@ The following attributes are exported:
 * `gui_firmware_upgrade_warning` - Enable/disable the firmware upgrade warning on the GUI.
 * `gui_forticare_registration_setup_warning` - Enable/disable the FortiCare registration setup warning on the GUI.
 * `gui_fortigate_cloud_sandbox` - Enable/disable displaying FortiGate Cloud Sandbox on the GUI.
+* `gui_fortiguard_resource_fetch` - Enable/disable retrieving static GUI resources from FortiGuard. Disabling it will improve GUI load time for air-gapped environments.
 * `gui_fortisandbox_cloud` - Enable/disable displaying FortiSandbox Cloud on the GUI.
 * `gui_ipv6` - Enable/disable IPv6 settings on the GUI.
 * `gui_lines_per_page` - Number of lines to display per page for web administration.
@@ -124,23 +132,31 @@ The following attributes are exported:
 * `ha_affinity` - Affinity setting for HA daemons (hexadecimal value up to 256 bits in the format of xxxxxxxxxxxxxxxx).
 * `honor_df` - Enable/disable honoring of Don't-Fragment (DF) flag.
 * `hostname` - FortiGate unit's hostname. Most models will truncate names longer than 24 characters. Some models support hostnames up to 35 characters.
+* `hyper_scale_vdom_num` - Number of VDOMs for hyper scale license.
 * `igmp_state_limit` - Maximum number of IGMP memberships (96 - 64000, default = 3200).
+* `interface_subnet_usage` - Enable/disable allowing use of interface-subnet setting in firewall addresses (default = enable).
 * `internet_service_database` - Configure which Internet Service database size to download from FortiGuard and use.
 * `interval` - Dead gateway detection interval.
+* `ip_fragment_mem_thresholds` - Maximum memory (MB) used to reassemble IPv4/IPv6 fragments.
 * `ip_src_port_range` - IP source port range used for traffic originating from the FortiGate unit.
 * `ips_affinity` - Affinity setting for IPS (hexadecimal value up to 256 bits in the format of xxxxxxxxxxxxxxxx; allowed CPUs must be less than total number of IPS engine daemons).
 * `ipsec_asic_offload` - Enable/disable ASIC offloading (hardware acceleration) for IPsec VPN traffic. Hardware acceleration can offload IPsec VPN sessions and accelerate encryption and decryption.
 * `ipsec_ha_seqjump_rate` - ESP jump ahead rate (1G - 10G pps equivalent).
 * `ipsec_hmac_offload` - Enable/disable offloading (hardware acceleration) of HMAC processing for IPsec VPN.
+* `ipsec_round_robin` - Enable/disable round-robin redistribution to multiple CPUs for IPsec VPN traffic.
 * `ipsec_soft_dec_async` - Enable/disable software decryption asynchronization (using multiple CPUs to do decryption) for IPsec VPN traffic.
 * `ipv6_accept_dad` - Enable/disable acceptance of IPv6 Duplicate Address Detection (DAD).
 * `ipv6_allow_anycast_probe` - Enable/disable IPv6 address probe through Anycast.
+* `ipv6_allow_local_in_silent_drop` - Enable/disable silent drop of IPv6 local-in traffic.
+* `ipv6_allow_local_in_slient_drop` - Enable/disable silent drop of IPv6 local-in traffic.
+* `ipv6_allow_multicast_probe` - Enable/disable IPv6 address probe through Multicast.
 * `ipv6_allow_traffic_redirect` - Disable to prevent IPv6 traffic with same local ingress and egress interface from being forwarded without policy check.
 * `irq_time_accounting` - Configure CPU IRQ time accounting mode.
 * `language` - GUI display language.
 * `ldapconntimeout` - Global timeout for connections with remote LDAP servers in milliseconds (1 - 300000, default 500).
 * `lldp_reception` - Enable/disable Link Layer Discovery Protocol (LLDP) reception.
 * `lldp_transmission` - Enable/disable Link Layer Discovery Protocol (LLDP) transmission.
+* `log_single_cpu_high` - Enable/disable logging the event of a single CPU core reaching CPU usage threshold.
 * `log_ssl_connection` - Enable/disable logging of SSL connection events.
 * `log_uuid_address` - Enable/disable insertion of address UUIDs to traffic logs.
 * `log_uuid_policy` - Enable/disable insertion of policy UUIDs to traffic logs.
@@ -155,10 +171,11 @@ The following attributes are exported:
 * `memory_use_threshold_extreme` - Threshold at which memory usage is considered extreme (new sessions are dropped) (% of total RAM, default = 95).
 * `memory_use_threshold_green` - Threshold at which memory usage forces the FortiGate to exit conserve mode (% of total RAM, default = 82).
 * `memory_use_threshold_red` - Threshold at which memory usage forces the FortiGate to enter conserve mode (% of total RAM, default = 88).
-* `miglog_affinity` - Affinity setting for logging (64-bit hexadecimal value in the format of xxxxxxxxxxxxxxxx).
+* `miglog_affinity` - Affinity setting for logging (hexadecimal value up to 256 bits in the format of xxxxxxxxxxxxxxxx).
 * `miglogd_children` - Number of logging (miglogd) processes to be allowed to run. Higher number can reduce performance; lower number can slow log processing time. No logs will be dropped or lost if the number is changed.
 * `multi_factor_authentication` - Enforce all login methods to require an additional authentication factor (default = optional).
 * `ndp_max_entry` - Maximum number of NDP table entries (set to 65,536 or higher; if set to 0, kernel holds 65,536 entries).
+* `npu_neighbor_update` - Enable/disable sending of ARP/ICMP6 probing packets to update neighbors for offloaded sessions.
 * `per_user_bal` - Enable/disable per-user block/allow list filter.
 * `per_user_bwl` - Enable/disable per-user black/white list filter.
 * `pmtu_discovery` - Enable/disable path MTU discovery.
@@ -171,8 +188,11 @@ The following attributes are exported:
 * `proxy_auth_timeout` - Authentication timeout in minutes for authenticated users (1 - 300 min, default = 10).
 * `proxy_cert_use_mgmt_vdom` - Enable/disable using management VDOM to send requests.
 * `proxy_cipher_hardware_acceleration` - Enable/disable using content processor (CP8 or CP9) hardware acceleration to encrypt and decrypt IPsec and SSL traffic.
+* `proxy_hardware_acceleration` - Enable/disable email proxy hardware acceleration.
+* `proxy_keep_alive_mode` - Control if users must re-authenticate after a session is closed, traffic has been idle, or from the point at which the user was authenticated.
 * `proxy_kxp_hardware_acceleration` - Enable/disable using the content processor to accelerate KXP traffic.
 * `proxy_re_authentication_mode` - Control if users must re-authenticate after a session is closed, traffic has been idle, or from the point at which the user was first created.
+* `proxy_re_authentication_time` - The time limit that users must re-authenticate if proxy-keep-alive-mode is set to re-authenticate (1  - 86400 sec, default=30s.
 * `proxy_resource_mode` - Enable/disable use of the maximum memory usage on the FortiGate unit's proxy processing of resources, such as block lists, allow lists, and external resources.
 * `proxy_worker_count` - Proxy worker count.
 * `radius_port` - RADIUS service port number.
@@ -187,9 +207,11 @@ The following attributes are exported:
 * `security_rating_result_submission` - Enable/disable the submission of Security Rating results to FortiGuard.
 * `security_rating_run_on_schedule` - Enable/disable scheduled runs of Security Rating.
 * `send_pmtu_icmp` - Enable/disable sending of path maximum transmission unit (PMTU) - ICMP destination unreachable packet and to support PMTUD protocol on your network to reduce fragmentation of packets.
-* `snat_route_change` - Enable/disable the ability to change the static NAT route.
-* `special_file_23_support` - Enable/disable detection of those special format files when using Data Leak Protection.
+* `sflowd_max_children_num` - Maximum number of sflowd child processes allowed to run.
+* `snat_route_change` - Enable/disable the ability to change the source NAT route.
+* `special_file_23_support` - Enable/disable detection of those special format files when using Data Leak Prevention.
 * `speedtest_server` - Enable/disable speed test server.
+* `split_port` - Split port(s) to multiple 10Gbps ports.
 * `ssd_trim_date` - Date within a month to run ssd trim.
 * `ssd_trim_freq` - How often to run SSD Trim (default = weekly). SSD Trim prevents SSD drive data loss by finding and isolating errors.
 * `ssd_trim_hour` - Hour of the day on which to run SSD Trim (0 - 23, default = 1).
@@ -208,12 +230,13 @@ The following attributes are exported:
 * `sslvpn_ems_sn_check` - Enable/disable verification of EMS serial number in SSL-VPN connection.
 * `sslvpn_kxp_hardware_acceleration` - Enable/disable SSL VPN KXP hardware acceleration.
 * `sslvpn_max_worker_count` - Maximum number of SSL-VPN processes. Upper limit for this value is the number of CPUs and depends on the model. Default value of zero means the SSLVPN daemon decides the number of worker processes.
-* `sslvpn_plugin_version_check` - Enable/disable checking browser's plugin version by SSL-VPN.
+* `sslvpn_plugin_version_check` - sslvpn-plugin-version-check
 * `strict_dirty_session_check` - Enable to check the session against the original policy when revalidating. This can prevent dropping of redirected sessions when web-filtering and authentication are enabled together. If this option is enabled, the FortiGate unit deletes a session if a routing or policy change causes the session to no longer match the policy that originally allowed the session.
 * `strong_crypto` - Enable to use strong encryption and only allow strong ciphers and digest for HTTPS/SSH/TLS/SSL functions.
 * `switch_controller` - Enable/disable switch controller feature. Switch controller allows you to manage FortiSwitch from the FortiGate itself.
 * `switch_controller_reserved_network` - Configure reserved network subnet for managed switches. This is available when the switch controller is enabled.
 * `sys_perf_log_interval` - Time in minutes between updates of performance statistics logging. (1 - 15 min, default = 5, 0 = disabled).
+* `syslog_affinity` - Affinity setting for syslog (hexadecimal value up to 256 bits in the format of xxxxxxxxxxxxxxxx).
 * `tcp_halfclose_timer` - Number of seconds the FortiGate unit should wait to close a session after one peer has sent a FIN packet but the other has not responded (1 - 86400 sec (1 day), default = 120).
 * `tcp_halfopen_timer` - Number of seconds the FortiGate unit should wait to close a session after one peer has sent an open session packet but the other has not responded (1 - 86400 sec (1 day), default = 10).
 * `tcp_option` - Enable SACK, timestamp and MSS TCP options.
@@ -235,12 +258,16 @@ The following attributes are exported:
 * `user_device_store_max_unified_mem` - Maximum unified memory allowed in user device store.
 * `user_device_store_max_users` - Maximum number of users allowed in user device store.
 * `user_server_cert` - Certificate to use for https user authentication.
-* `vdom_mode` - Enable/disable support for split/multiple virtual domains (VDOMs).
+* `vdom_mode` - Enable/disable support for multiple virtual domains (VDOMs).
 * `vip_arp_range` - Controls the number of ARPs that the FortiGate sends for a Virtual IP (VIP) address range.
+* `virtual_switch_vlan` - Enable/disable virtual switch VLAN.
 * `wad_affinity` - Affinity setting for wad (hexadecimal value up to 256 bits in the format of xxxxxxxxxxxxxxxx).
 * `wad_csvc_cs_count` - Number of concurrent WAD-cache-service object-cache processes.
 * `wad_csvc_db_count` - Number of concurrent WAD-cache-service byte-cache processes.
 * `wad_memory_change_granularity` - Minimum percentage change in system memory usage detected by the wad daemon prior to adjusting TCP window size for any active connection.
+* `wad_restart_end_time` - WAD workers daily restart end time (hh:mm).
+* `wad_restart_mode` - WAD worker restart mode (default = none).
+* `wad_restart_start_time` - WAD workers daily restart time (hh:mm).
 * `wad_source_affinity` - Enable/disable dispatching traffic to WAD workers based on source affinity.
 * `wad_worker_count` - Number of explicit proxy WAN optimization daemon (WAD) processes. By default WAN optimization, explicit proxy, and web caching is handled by all of the CPU cores in a FortiGate unit.
 * `wifi_ca_certificate` - CA certificate that verifies the WiFi certificate.

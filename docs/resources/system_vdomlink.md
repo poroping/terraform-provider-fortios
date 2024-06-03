@@ -20,7 +20,7 @@ Configure VDOM links.
 * `allow_append` - If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution! Requires `name` to be defined.
 
 * `name` - VDOM link name (maximum = 11 characters).
-* `type` - VDOM link type: PPP or Ethernet. Valid values: `ppp` `ethernet` .
+* `type` - VDOM link type: PPP or Ethernet. Valid values: `ppp` `ethernet` `npupair` .
 * `vcluster` - Virtual cluster. Valid values: `vcluster1` `vcluster2` .
 
 ## Attribute Reference

@@ -34,6 +34,7 @@ The following attributes are exported:
 * `fmg_source_ip` - IPv4 source address that this FortiGate uses when communicating with FortiManager.
 * `fmg_source_ip6` - IPv6 source address that this FortiGate uses when communicating with FortiManager.
 * `fmg_update_port` - Port used to communicate with FortiManager that is acting as a FortiGuard update server.
+* `fortigate_cloud_sso_default_profile` - Override access profile.
 * `include_default_servers` - Enable/disable inclusion of public FortiGuard servers in the override server list.
 * `interface` - Specify outgoing interface to reach server.
 * `interface_select_method` - Specify how to select outgoing interface to reach server.

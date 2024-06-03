@@ -62,4 +62,4 @@ The `hosts6` block contains:
 
 The `vdoms` block contains:
 
-* `name` - VDOM name
+* `name` - VDOM name.

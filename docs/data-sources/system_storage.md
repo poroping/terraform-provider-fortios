@@ -32,5 +32,5 @@ The following attributes are exported:
 * `partition` - Label of underlying partition.
 * `size` - Partition size.
 * `status` - Enable/disable storage.
-* `usage` - Use hard disk for logging or WAN Optimization (default = log).
+* `usage` - Use hard disk for logging and WAN Optimization.
 * `wanopt_mode` - WAN Optimization mode (default = mix).

@@ -39,6 +39,7 @@ Configure shaping policies.
 * `tos_negate` - Enable negated TOS match. Valid values: `enable` `disable` .
 * `traffic_shaper` - Traffic shaper to apply to traffic forwarded by the firewall policy. This attribute must reference one of the following datasources: `firewall.shaper.traffic-shaper.name` .
 * `traffic_shaper_reverse` - Traffic shaper to apply to response traffic received by the firewall policy. This attribute must reference one of the following datasources: `firewall.shaper.traffic-shaper.name` .
+* `uuid` - Universally Unique Identifier (UUID; automatically assigned but can be manually reset).
 * `app_category` - IDs of one or more application categories that this shaper applies application control traffic shaping to. The structure of `app_category` block is documented below.
 
 The `app_category` block contains:

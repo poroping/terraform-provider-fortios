@@ -31,6 +31,7 @@ Configure VPN remote gateway.
 * `authusr` - XAuth user name.
 * `authusrgrp` - Authentication user group. This attribute must reference one of the following datasources: `user.group.name` .
 * `auto_negotiate` - Enable/disable automatic initiation of IKE SA negotiation. Valid values: `enable` `disable` .
+* `azure_ad_autoconnect` - Enable/disable Azure AD Auto-Connect for FortiClient. Valid values: `enable` `disable` .
 * `banner` - Message that unity client should display after connecting.
 * `cert_id_validation` - Enable/disable cross validation of peer ID and the identity in the peer's certificate as specified in RFC 4945. Valid values: `enable` `disable` .
 * `childless_ike` - Enable/disable childless IKEv2 initiation (RFC 6023). Valid values: `enable` `disable` .
@@ -61,6 +62,7 @@ Configure VPN remote gateway.
 * `fec_receive_timeout` - Timeout in milliseconds before dropping Forward Error Correction packets (1 - 1000).
 * `fec_redundant` - Number of redundant Forward Error Correction packets (1 - 5 for reed-solomon, 1 for xor).
 * `fec_send_timeout` - Timeout in milliseconds before sending Forward Error Correction packets (1 - 1000).
+* `fgsp_sync` - Enable/disable IPsec syncing of tunnels for FGSP IPsec. Valid values: `enable` `disable` .
 * `forticlient_enforcement` - Enable/disable FortiClient enforcement. Valid values: `enable` `disable` .
 * `fragmentation` - Enable/disable fragment IKE message on re-transmission. Valid values: `enable` `disable` .
 * `fragmentation_mtu` - IKE fragmentation MTU (500 - 16000).
@@ -70,6 +72,7 @@ Configure VPN remote gateway.
 * `idle_timeout` - Enable/disable IPsec tunnel idle timeout. Valid values: `enable` `disable` .
 * `idle_timeoutinterval` - IPsec tunnel idle timeout in minutes (5 - 43200).
 * `ike_version` - IKE protocol version. Valid values: `1` `2` .
+* `inbound_dscp_copy` - Enable/disable copy the dscp in the ESP header to the inner IP Header. Valid values: `enable` `disable` .
 * `include_local_lan` - Enable/disable allow local LAN access on unity clients. Valid values: `disable` `enable` .
 * `interface` - Local physical, aggregate, or VLAN outgoing interface. This attribute must reference one of the following datasources: `system.interface.name` .
 * `ip_delay_interval` - IP address reuse delay interval in seconds (0 - 28800).
@@ -125,6 +128,7 @@ Configure VPN remote gateway.
 * `remote_gw` - Remote VPN gateway.
 * `remotegw_ddns` - Domain name of remote gateway. For example, name.ddns.com.
 * `rsa_signature_format` - Digital Signature Authentication RSA signature format. Valid values: `pkcs1` `pss` .
+* `rsa_signature_hash_override` - Enable/disable IKEv2 RSA signature hash algorithm override. Valid values: `enable` `disable` .
 * `save_password` - Enable/disable saving XAuth username and password on VPN clients. Valid values: `disable` `enable` .
 * `send_cert_chain` - Enable/disable sending certificate chain. Valid values: `enable` `disable` .
 * `signature_hash_alg` - Digital Signature Authentication hash algorithms. Valid values: `sha1` `sha2-256` `sha2-384` `sha2-512` .
@@ -145,6 +149,11 @@ The `backup_gateway` block contains:
 The `certificate` block contains:
 
 * `name` - Certificate name. This attribute must reference one of the following datasources: `vpn.certificate.local.name` .
+* `internal_domain_list` - List of domains for which the client directs DNS queries to the internal DNS servers for resolution.  DNS servers are configured in the mode-cfg settings.  One or more internal domain names in quotes separated by spaces, like "abc.com xyz.com 123.com" The structure of `internal_domain_list` block is documented below.
+
+The `internal_domain_list` block contains:
+
+* `domain_name` - Domain name.
 * `ipv4_exclude_range` - Configuration Method IPv4 exclude ranges. The structure of `ipv4_exclude_range` block is documented below.
 
 The `ipv4_exclude_range` block contains:

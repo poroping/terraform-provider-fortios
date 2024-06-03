@@ -28,6 +28,7 @@ The following attributes are exported:
 * `diffserv` - DSCP used for speed test.
 * `dynamic_server` - Enable/disable dynamic server option.
 * `interface` - Interface name.
+* `mode` - Protocol Auto(default), TCP or UDP used for speed test.
 * `server_name` - Speed test server name.
 * `status` - Enable/disable scheduled speed test.
 * `update_inbandwidth` - Enable/disable bypassing interface's inbound bandwidth setting.

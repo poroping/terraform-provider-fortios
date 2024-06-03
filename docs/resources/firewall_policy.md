@@ -35,6 +35,7 @@ Configure IPv4/IPv6 policies.
 * `comments` - Comment.
 * `decrypted_traffic_mirror` - Decrypted traffic mirror. This attribute must reference one of the following datasources: `firewall.decrypted-traffic-mirror.name` .
 * `delay_tcp_npu_session` - Enable TCP NPU session delay to guarantee packet order of 3-way handshake. Valid values: `enable` `disable` .
+* `diffserv_copy` - Enable to copy packet's DiffServ values from session's original direction to its reply direction. Valid values: `enable` `disable` .
 * `diffserv_forward` - Enable to change packet's DiffServ values to the specified diffservcode-forward value. Valid values: `enable` `disable` .
 * `diffserv_reverse` - Enable to change packet's reverse (reply) DiffServ values to the specified diffservcode-rev value. Valid values: `enable` `disable` .
 * `diffservcode_forward` - Change packet's DiffServ to this value.
@@ -44,7 +45,8 @@ Configure IPv4/IPv6 policies.
 * `dlp_sensor` - Name of an existing DLP sensor. This attribute must reference one of the following datasources: `dlp.sensor.name` .
 * `dnsfilter_profile` - Name of an existing DNS filter profile. This attribute must reference one of the following datasources: `dnsfilter.profile.name` .
 * `dsri` - Enable DSRI to ignore HTTP server responses. Valid values: `enable` `disable` .
-* `dstaddr_negate` - When enabled dstaddr/dstaddr6 specifies what the destination address must NOT be. Valid values: `enable` `disable` .
+* `dstaddr_negate` - When enabled dstaddr specifies what the destination address must NOT be. Valid values: `enable` `disable` .
+* `dstaddr6_negate` - When enabled dstaddr6 specifies what the destination address must NOT be. Valid values: `enable` `disable` .
 * `dynamic_shaping` - Enable/disable dynamic RADIUS defined traffic shaping. Valid values: `enable` `disable` .
 * `email_collect` - Enable/disable email collection. Valid values: `enable` `disable` .
 * `emailfilter_profile` - Name of an existing email filter profile. This attribute must reference one of the following datasources: `emailfilter.profile.name` .
@@ -65,8 +67,13 @@ Configure IPv4/IPv6 policies.
 * `internet_service_negate` - When enabled internet-service specifies what the service must NOT be. Valid values: `enable` `disable` .
 * `internet_service_src` - Enable/disable use of Internet Services in source for this policy. If enabled, source address is not used. Valid values: `enable` `disable` .
 * `internet_service_src_negate` - When enabled internet-service-src specifies what the service must NOT be. Valid values: `enable` `disable` .
+* `internet_service6` - Enable/disable use of IPv6 Internet Services for this policy. If enabled, destination address and service are not used. Valid values: `enable` `disable` .
+* `internet_service6_negate` - When enabled internet-service6 specifies what the service must NOT be. Valid values: `enable` `disable` .
+* `internet_service6_src` - Enable/disable use of IPv6 Internet Services in source for this policy. If enabled, source address is not used. Valid values: `enable` `disable` .
+* `internet_service6_src_negate` - When enabled internet-service6-src specifies what the service must NOT be. Valid values: `enable` `disable` .
 * `ippool` - Enable to use IP Pools for source NAT. Valid values: `enable` `disable` .
 * `ips_sensor` - Name of an existing IPS sensor. This attribute must reference one of the following datasources: `ips.sensor.name` .
+* `ips_voip_filter` - Name of an existing VoIP (ips) profile. This attribute must reference one of the following datasources: `voip.profile.name` .
 * `logtraffic` - Enable or disable logging. Log all sessions or security profile sessions. Valid values: `all` `utm` `disable` .
 * `logtraffic_start` - Record logs when a session starts. Valid values: `enable` `disable` .
 * `match_vip` - Enable to match packets that have had their destination addresses changed by a VIP. Valid values: `enable` `disable` .
@@ -88,6 +95,7 @@ Configure IPv4/IPv6 policies.
 * `permit_stun_host` - Accept UDP packets from any Session Traversal Utilities for NAT (STUN) host. Valid values: `enable` `disable` .
 * `policy_expiry` - Enable/disable policy expiry. Valid values: `enable` `disable` .
 * `policy_expiry_date` - Policy expiry date (YYYY-MM-DD HH:MM:SS).
+* `policy_expiry_date_utc` - Policy expiry date and time, in epoch format.
 * `policyid` - Policy ID (0 - 4294967294).
 * `profile_group` - Name of profile group. This attribute must reference one of the following datasources: `firewall.profile-group.name` .
 * `profile_protocol_options` - Name of an existing Protocol options profile. This attribute must reference one of the following datasources: `firewall.profile-protocol-options.name` .
@@ -96,7 +104,9 @@ Configure IPv4/IPv6 policies.
 * `redirect_url` - URL users are directed to after seeing and accepting the disclaimer or authenticating.
 * `replacemsg_override_group` - Override the default replacement message group for this policy. This attribute must reference one of the following datasources: `system.replacemsg-group.name` .
 * `reputation_direction` - Direction of the initial traffic for reputation to take effect. Valid values: `source` `destination` .
+* `reputation_direction6` - Direction of the initial traffic for IPv6 reputation to take effect. Valid values: `source` `destination` .
 * `reputation_minimum` - Minimum Reputation to take action. This attribute must reference one of the following datasources: `firewall.internet-service-reputation.id` .
+* `reputation_minimum6` - IPv6 Minimum Reputation to take action. This attribute must reference one of the following datasources: `firewall.internet-service-reputation.id` .
 * `rsso` - Enable/disable RADIUS single sign-on (RSSO). Valid values: `enable` `disable` .
 * `rtp_nat` - Enable Real Time Protocol (RTP) NAT. Valid values: `disable` `enable` .
 * `schedule` - Schedule name. This attribute must reference one of the following datasources: `firewall.schedule.onetime.name` `firewall.schedule.recurring.name` `firewall.schedule.group.name` .
@@ -106,7 +116,8 @@ Configure IPv4/IPv6 policies.
 * `service_negate` - When enabled service specifies what the service must NOT be. Valid values: `enable` `disable` .
 * `session_ttl` - TTL in seconds for sessions accepted by this policy (0 means use the system default session TTL).
 * `sgt_check` - Enable/disable security group tags (SGT) check. Valid values: `enable` `disable` .
-* `srcaddr_negate` - When enabled srcaddr/srcaddr6 specifies what the source address must NOT be. Valid values: `enable` `disable` .
+* `srcaddr_negate` - When enabled srcaddr specifies what the source address must NOT be. Valid values: `enable` `disable` .
+* `srcaddr6_negate` - When enabled srcaddr6 specifies what the source address must NOT be. Valid values: `enable` `disable` .
 * `ssh_filter_profile` - Name of an existing SSH filter profile. This attribute must reference one of the following datasources: `ssh-filter.profile.name` .
 * `ssh_policy_redirect` - Redirect SSH traffic to matching transparent proxy policy. Valid values: `enable` `disable` .
 * `ssl_mirror` - Enable to copy decrypted SSL traffic to a FortiGate interface (called SSL mirroring). Valid values: `enable` `disable` .
@@ -126,15 +137,15 @@ Configure IPv4/IPv6 policies.
 * `videofilter_profile` - Name of an existing VideoFilter profile. This attribute must reference one of the following datasources: `videofilter.profile.name` .
 * `vlan_cos_fwd` - VLAN forward direction user priority: 255 passthrough, 0 lowest, 7 highest.
 * `vlan_cos_rev` - VLAN reverse direction user priority: 255 passthrough, 0 lowest, 7 highest.
-* `vlan_filter` - Set VLAN filters.
-* `voip_profile` - Name of an existing VoIP profile. This attribute must reference one of the following datasources: `voip.profile.name` .
+* `vlan_filter` - VLAN ranges to allow
+* `voip_profile` - Name of an existing VoIP (voipd) profile. This attribute must reference one of the following datasources: `voip.profile.name` .
 * `vpntunnel` - Policy-based IPsec VPN: name of the IPsec VPN Phase 1. This attribute must reference one of the following datasources: `vpn.ipsec.phase1.name` `vpn.ipsec.manualkey.name` .
 * `waf_profile` - Name of an existing Web application firewall profile. This attribute must reference one of the following datasources: `waf.profile.name` .
 * `wanopt` - Enable/disable WAN optimization. Valid values: `enable` `disable` .
 * `wanopt_detection` - WAN optimization auto-detection mode. Valid values: `active` `passive` `off` .
 * `wanopt_passive_opt` - WAN optimization passive mode options. This option decides what IP address will be used to connect server. Valid values: `default` `transparent` `non-transparent` .
-* `wanopt_peer` - WAN optimization peer. This attribute must reference one of the following datasources: `wanopt.peer.peer-host-id` .
-* `wanopt_profile` - WAN optimization profile. This attribute must reference one of the following datasources: `wanopt.profile.name` .
+* `wanopt_peer` - WAN optimization peer.
+* `wanopt_profile` - WAN optimization profile.
 * `wccp` - Enable/disable forwarding traffic matching this policy to a configured WCCP server. Valid values: `enable` `disable` .
 * `webcache` - Enable/disable web cache. Valid values: `enable` `disable` .
 * `webcache_https` - Enable/disable web cache for HTTPS. Valid values: `disable` `enable` .
@@ -142,7 +153,10 @@ Configure IPv4/IPv6 policies.
 * `webproxy_forward_server` - Webproxy forward server name. This attribute must reference one of the following datasources: `web-proxy.forward-server.name` `web-proxy.forward-server-group.name` .
 * `webproxy_profile` - Webproxy profile name. This attribute must reference one of the following datasources: `web-proxy.profile.name` .
 * `wsso` - Enable/disable WiFi Single Sign On (WSSO). Valid values: `enable` `disable` .
+* `ztna_device_ownership` - Enable/disable zero trust device ownership. Valid values: `enable` `disable` .
+* `ztna_policy_redirect` - Redirect ZTNA traffic to matching Access-Proxy proxy-policy. Valid values: `enable` `disable` .
 * `ztna_status` - Enable/disable zero trust access. Valid values: `enable` `disable` .
+* `ztna_tags_match_logic` - ZTNA tag matching logic. Valid values: `or` `and` .
 * `app_category` - Application category ID list. The structure of `app_category` block is documented below.
 
 The `app_category` block contains:
@@ -238,6 +252,56 @@ The `internet_service_src_id` block contains:
 The `internet_service_src_name` block contains:
 
 * `name` - Internet Service name. This attribute must reference one of the following datasources: `firewall.internet-service-name.name` .
+* `internet_service6_custom` - Custom IPv6 Internet Service name. The structure of `internet_service6_custom` block is documented below.
+
+The `internet_service6_custom` block contains:
+
+* `name` - Custom Internet Service name. This attribute must reference one of the following datasources: `firewall.internet-service-custom.name` .
+* `internet_service6_custom_group` - Custom Internet Service6 group name. The structure of `internet_service6_custom_group` block is documented below.
+
+The `internet_service6_custom_group` block contains:
+
+* `name` - Custom Internet Service6 group name. This attribute must reference one of the following datasources: `firewall.internet-service-custom-group.name` .
+* `internet_service6_group` - Internet Service group name. The structure of `internet_service6_group` block is documented below.
+
+The `internet_service6_group` block contains:
+
+* `name` - Internet Service group name. This attribute must reference one of the following datasources: `firewall.internet-service-group.name` .
+* `internet_service6_name` - IPv6 Internet Service name. The structure of `internet_service6_name` block is documented below.
+
+The `internet_service6_name` block contains:
+
+* `name` - IPv6 Internet Service name. This attribute must reference one of the following datasources: `firewall.internet-service-name.name` .
+* `internet_service6_src_custom` - Custom IPv6 Internet Service source name. The structure of `internet_service6_src_custom` block is documented below.
+
+The `internet_service6_src_custom` block contains:
+
+* `name` - Custom Internet Service name. This attribute must reference one of the following datasources: `firewall.internet-service-custom.name` .
+* `internet_service6_src_custom_group` - Custom Internet Service6 source group name. The structure of `internet_service6_src_custom_group` block is documented below.
+
+The `internet_service6_src_custom_group` block contains:
+
+* `name` - Custom Internet Service6 group name. This attribute must reference one of the following datasources: `firewall.internet-service-custom-group.name` .
+* `internet_service6_src_group` - Internet Service6 source group name. The structure of `internet_service6_src_group` block is documented below.
+
+The `internet_service6_src_group` block contains:
+
+* `name` - Internet Service group name. This attribute must reference one of the following datasources: `firewall.internet-service-group.name` .
+* `internet_service6_src_name` - IPv6 Internet Service source name. The structure of `internet_service6_src_name` block is documented below.
+
+The `internet_service6_src_name` block contains:
+
+* `name` - Internet Service name. This attribute must reference one of the following datasources: `firewall.internet-service-name.name` .
+* `network_service_dynamic` - Dynamic Network Service name. The structure of `network_service_dynamic` block is documented below.
+
+The `network_service_dynamic` block contains:
+
+* `name` - Dynamic Network Service name. This attribute must reference one of the following datasources: `firewall.network-service-dynamic.name` .
+* `network_service_src_dynamic` - Dynamic Network Service source name. The structure of `network_service_src_dynamic` block is documented below.
+
+The `network_service_src_dynamic` block contains:
+
+* `name` - Dynamic Network Service name. This attribute must reference one of the following datasources: `firewall.network-service-dynamic.name` .
 * `ntlm_enabled_browsers` - HTTP-User-Agent value of supported browsers. The structure of `ntlm_enabled_browsers` block is documented below.
 
 The `ntlm_enabled_browsers` block contains:
@@ -302,7 +366,7 @@ The `url_category` block contains:
 
 The `users` block contains:
 
-* `name` - Names of individual users that can authenticate with this policy. This attribute must reference one of the following datasources: `user.local.name` .
+* `name` - Names of individual users that can authenticate with this policy. This attribute must reference one of the following datasources: `user.local.name` `user.certificate.name` .
 * `ztna_ems_tag` - Source ztna-ems-tag names. The structure of `ztna_ems_tag` block is documented below.
 
 The `ztna_ems_tag` block contains:

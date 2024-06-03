@@ -43,6 +43,7 @@ The following attributes are exported:
 * `logtraffic` - Logging type to be used in this policy (Options: all | utm | disable, Default: utm).
 * `policyid` - Policy ID (0 - 4294967295).
 * `status` - Enable/disable this policy.
+* `uuid` - Universally Unique Identifier (UUID; automatically assigned but can be manually reset).
 * `webfilter_profile` - Web filter profile.
 * `webfilter_profile_status` - Enable/disable web filtering.
 * `dstaddr` - Address object to limit traffic monitoring to network traffic sent to the specified address or range.The structure of `dstaddr` block is documented below.

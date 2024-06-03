@@ -21,7 +21,7 @@ Configure WTP profiles or FortiAP profiles that define radio settings for manage
 * `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
 * `allowaccess` - Control management access to the managed WTP, FortiAP, or AP. Separate entries with a space. Valid values: `https` `ssh` `snmp` .
-* `ap_country` - Country in which this WTP, FortiAP, or AP will operate (default = NA, automatically use the country configured for the current VDOM). Valid values: `--` `AF` `AL` `DZ` `AS` `AO` `AR` `AM` `AU` `AT` `AZ` `BS` `BH` `BD` `BB` `BY` `BE` `BZ` `BJ` `BM` `BT` `BO` `BA` `BW` `BR` `BN` `BG` `BF` `KH` `CM` `KY` `CF` `TD` `CL` `CN` `CX` `CO` `CG` `CD` `CR` `HR` `CY` `CZ` `DK` `DM` `DO` `EC` `EG` `SV` `ET` `EE` `GF` `PF` `FO` `FJ` `FI` `FR` `GE` `DE` `GH` `GI` `GR` `GL` `GD` `GP` `GU` `GT` `GY` `HT` `HN` `HK` `HU` `IS` `IN` `ID` `IQ` `IE` `IM` `IL` `IT` `CI` `JM` `JO` `KZ` `KE` `KR` `KW` `LA` `LV` `LB` `LS` `LY` `LI` `LT` `LU` `MO` `MK` `MG` `MW` `MY` `MV` `ML` `MT` `MH` `MQ` `MR` `MU` `YT` `MX` `FM` `MD` `MC` `MA` `MZ` `MM` `NA` `NP` `NL` `AN` `AW` `NZ` `NI` `NE` `NO` `MP` `OM` `PK` `PW` `PA` `PG` `PY` `PE` `PH` `PL` `PT` `PR` `QA` `RE` `RO` `RU` `RW` `BL` `KN` `LC` `MF` `PM` `VC` `SA` `SN` `RS` `ME` `SL` `SG` `SK` `SI` `ZA` `ES` `LK` `SE` `SR` `CH` `TW` `TZ` `TH` `TG` `TT` `TN` `TR` `TM` `AE` `TC` `UG` `UA` `GB` `US` `PS` `UY` `UZ` `VU` `VE` `VN` `VI` `WF` `YE` `ZM` `ZW` `JP` `CA` .
+* `ap_country` - Country in which this WTP, FortiAP, or AP will operate (default = NA, automatically use the country configured for the current VDOM). Valid values: `--` `AF` `AL` `DZ` `AS` `AO` `AR` `AM` `AU` `AT` `AZ` `BS` `BH` `BD` `BB` `BY` `BE` `BZ` `BJ` `BM` `BT` `BO` `BA` `BW` `BR` `BN` `BG` `BF` `KH` `CM` `KY` `CF` `TD` `CL` `CN` `CX` `CO` `CG` `CD` `CR` `HR` `CY` `CZ` `DK` `DJ` `DM` `DO` `EC` `EG` `SV` `ET` `EE` `GF` `PF` `FO` `FJ` `FI` `FR` `GA` `GE` `GM` `DE` `GH` `GI` `GR` `GL` `GD` `GP` `GU` `GT` `GY` `HT` `HN` `HK` `HU` `IS` `IN` `ID` `IQ` `IE` `IM` `IL` `IT` `CI` `JM` `JO` `KZ` `KE` `KR` `KW` `LA` `LV` `LB` `LS` `LR` `LY` `LI` `LT` `LU` `MO` `MK` `MG` `MW` `MY` `MV` `ML` `MT` `MH` `MQ` `MR` `MU` `YT` `MX` `FM` `MD` `MC` `MN` `MA` `MZ` `MM` `NA` `NP` `NL` `AN` `AW` `NZ` `NI` `NE` `NG` `NO` `MP` `OM` `PK` `PW` `PA` `PG` `PY` `PE` `PH` `PL` `PT` `PR` `QA` `RE` `RO` `RU` `RW` `BL` `KN` `LC` `MF` `PM` `VC` `SA` `SN` `RS` `ME` `SL` `SG` `SK` `SI` `SO` `ZA` `ES` `LK` `SR` `SZ` `SE` `CH` `TW` `TZ` `TH` `TG` `TT` `TN` `TR` `TM` `AE` `TC` `UG` `UA` `GB` `US` `PS` `UY` `UZ` `VU` `VE` `VN` `VI` `WF` `YE` `ZM` `ZW` `JP` `CA` .
 * `ap_handoff` - Enable/disable AP handoff of clients to other APs (default = disable). Valid values: `enable` `disable` .
 * `apcfg_profile` - AP local configuration profile name. This attribute must reference one of the following datasources: `wireless-controller.apcfg-profile.name` .
 * `ble_profile` - Bluetooth Low Energy profile name. This attribute must reference one of the following datasources: `wireless-controller.ble-profile.name` .
@@ -137,13 +137,14 @@ The `led_schedules` block contains:
 
 The `platform` block contains:
 
-* `ddscan` - Enable/disable use of one radio for dedicated dual-band scanning to detect RF characterization and wireless threat management. Valid values: `enable` `disable` .
+* `ddscan` - Enable/disable use of one radio for dedicated full-band scanning to detect RF characterization and wireless threat management. Valid values: `enable` `disable` .
 * `mode` - Configure operation mode of 5G radios (default = single-5G). Valid values: `single-5G` `dual-5G` .
-* `type` - WTP, FortiAP or AP platform type. There are built-in WTP profiles for all supported FortiAP models. You can select a built-in profile and customize it or create a new profile. Valid values: `AP-11N` `220B` `210B` `222B` `112B` `320B` `11C` `14C` `223B` `28C` `320C` `221C` `25D` `222C` `224D` `214B` `21D` `24D` `112D` `223C` `321C` `C220C` `C225C` `C23JD` `C24JE` `S321C` `S322C` `S323C` `S311C` `S313C` `S321CR` `S322CR` `S323CR` `S421E` `S422E` `S423E` `421E` `423E` `221E` `222E` `223E` `224E` `231E` `S221E` `S223E` `321E` `431F` `432F` `433F` `231F` `234F` `23JF` `831F` `U421E` `U422EV` `U423E` `U221EV` `U223EV` `U24JEV` `U321EV` `U323EV` `U431F` `U433F` `U231F` `U234F` `U432F` .
+* `type` - WTP, FortiAP or AP platform type. There are built-in WTP profiles for all supported FortiAP models. You can select a built-in profile and customize it or create a new profile. Valid values: `AP-11N` `220B` `210B` `222B` `112B` `320B` `11C` `14C` `223B` `28C` `320C` `221C` `25D` `222C` `224D` `214B` `21D` `24D` `112D` `223C` `321C` `C220C` `C225C` `C23JD` `C24JE` `S321C` `S322C` `S323C` `S311C` `S313C` `S321CR` `S322CR` `S323CR` `S421E` `S422E` `S423E` `421E` `423E` `221E` `222E` `223E` `224E` `231E` `S221E` `S223E` `321E` `431F` `431FL` `432F` `432FR` `433F` `433FL` `231F` `231FL` `234F` `23JF` `831F` `231G` `233G` `234G` `431G` `432G` `433G` `U421E` `U422EV` `U423E` `U221EV` `U223EV` `U24JEV` `U321EV` `U323EV` `U431F` `U433F` `U231F` `U234F` `U432F` `U231G` `U441G` .
 * `radio_1` - Configuration options for radio 1. The structure of `radio_1` block is documented below.
 
 The `radio_1` block contains:
 
+* `80211d` - Enable/disable 802.11d countryie(default = enable). Valid values: `enable` `disable` .
 * `airtime_fairness` - Enable/disable airtime fairness (default = disable). Valid values: `enable` `disable` .
 * `amsdu` - Enable/disable 802.11n AMSDU support. AMSDU can improve performance if supported by your WiFi clients (default = enable). Valid values: `enable` `disable` .
 * `ap_handoff` - Enable/disable AP handoff of clients to other APs (default = disable). Valid values: `enable` `disable` .
@@ -160,7 +161,7 @@ The `radio_1` block contains:
 * `auto_power_level` - Enable/disable automatic power-level adjustment to prevent co-channel interference (default = enable). Valid values: `enable` `disable` .
 * `auto_power_low` - The lower bound of automatic transmit power adjustment in dBm (the actual range of transmit power depends on the AP platform type).
 * `auto_power_target` - Target of automatic transmit power adjustment in dBm (-95 to -20, default = -70).
-* `band` - WiFi band that Radio 1 operates on. Valid values: `802.11a` `802.11b` `802.11g` `802.11n` `802.11n-5G` `802.11ac` `802.11ax-5G` `802.11ax` `802.11ac-2G` `802.11n,g-only` `802.11g-only` `802.11n-only` `802.11n-5G-only` `802.11ac,n-only` `802.11ac-only` `802.11ax,ac-only` `802.11ax,ac,n-only` `802.11ax-5G-only` `802.11ax,n-only` `802.11ax,n,g-only` `802.11ax-only` .
+* `band` - WiFi band that Radio 1 operates on. Valid values: `802.11a` `802.11b` `802.11g` `802.11n` `802.11n-5G` `802.11ac` `802.11ax-5G` `802.11ax` `802.11ac-2G` `802.11ax-6G` `802.11n,g-only` `802.11g-only` `802.11n-only` `802.11n-5G-only` `802.11ac,n-only` `802.11ac-only` `802.11ax,ac-only` `802.11ax,ac,n-only` `802.11ax-5G-only` `802.11ax,n-only` `802.11ax,n,g-only` `802.11ax-only` .
 * `band_5g_type` - WiFi 5G band type. Valid values: `5g-full` `5g-high` `5g-low` .
 * `bandwidth_admission_control` - Enable/disable WiFi multimedia (WMM) bandwidth admission control to optimize WiFi bandwidth use. A request to join the wireless network is only allowed if the access point has enough bandwidth to support it. Valid values: `enable` `disable` .
 * `bandwidth_capacity` - Maximum bandwidth capacity allowed (1 - 600000 Kbps, default = 2000).
@@ -183,6 +184,7 @@ The `radio_1` block contains:
 * `max_clients` - Maximum number of stations (STAs) or WiFi clients supported by the radio. Range depends on the hardware.
 * `max_distance` - Maximum expected distance between the AP and clients (0 - 54000 m, default = 0).
 * `mode` - Mode of radio 1. Radio 1 can be disabled, configured as an access point, a rogue AP monitor, a sniffer, or a station. Valid values: `disabled` `ap` `monitor` `sniffer` `sam` .
+* `optional_antenna` - Optional antenna used on FAP (default = none). Valid values: `none` `FANT-04ABGN-0606-O-N` `FANT-04ABGN-1414-P-N` `FANT-04ABGN-8065-P-N` `FANT-04ABGN-0606-O-R` `FANT-04ABGN-0606-P-R` `FANT-10ACAX-1213-D-N` `FANT-08ABGN-1213-D-R` .
 * `power_level` - Radio EIRP power level as a percentage of the maximum EIRP power (0 - 100, default = 100).
 * `power_mode` - Set radio effective isotropic radiated power (EIRP) in dBm or by a percentage of the maximum EIRP (default = percentage). This power takes into account both radio transmit power and antenna gain. Higher power level settings may be constrained by local regulatory requirements and AP capabilities. Valid values: `dBm` `percentage` .
 * `power_value` - Radio EIRP power in dBm (1 - 33, default = 27).
@@ -227,6 +229,7 @@ The `vaps` block contains:
 
 The `radio_2` block contains:
 
+* `80211d` - Enable/disable 802.11d countryie(default = enable). Valid values: `enable` `disable` .
 * `airtime_fairness` - Enable/disable airtime fairness (default = disable). Valid values: `enable` `disable` .
 * `amsdu` - Enable/disable 802.11n AMSDU support. AMSDU can improve performance if supported by your WiFi clients (default = enable). Valid values: `enable` `disable` .
 * `ap_handoff` - Enable/disable AP handoff of clients to other APs (default = disable). Valid values: `enable` `disable` .
@@ -243,7 +246,7 @@ The `radio_2` block contains:
 * `auto_power_level` - Enable/disable automatic power-level adjustment to prevent co-channel interference (default = enable). Valid values: `enable` `disable` .
 * `auto_power_low` - The lower bound of automatic transmit power adjustment in dBm (the actual range of transmit power depends on the AP platform type).
 * `auto_power_target` - Target of automatic transmit power adjustment in dBm (-95 to -20, default = -70).
-* `band` - WiFi band that Radio 2 operates on. Valid values: `802.11a` `802.11b` `802.11g` `802.11n` `802.11n-5G` `802.11ac` `802.11ax-5G` `802.11ax` `802.11ac-2G` `802.11n,g-only` `802.11g-only` `802.11n-only` `802.11n-5G-only` `802.11ac,n-only` `802.11ac-only` `802.11ax,ac-only` `802.11ax,ac,n-only` `802.11ax-5G-only` `802.11ax,n-only` `802.11ax,n,g-only` `802.11ax-only` .
+* `band` - WiFi band that Radio 2 operates on. Valid values: `802.11a` `802.11b` `802.11g` `802.11n` `802.11n-5G` `802.11ac` `802.11ax-5G` `802.11ax` `802.11ac-2G` `802.11ax-6G` `802.11n,g-only` `802.11g-only` `802.11n-only` `802.11n-5G-only` `802.11ac,n-only` `802.11ac-only` `802.11ax,ac-only` `802.11ax,ac,n-only` `802.11ax-5G-only` `802.11ax,n-only` `802.11ax,n,g-only` `802.11ax-only` .
 * `band_5g_type` - WiFi 5G band type. Valid values: `5g-full` `5g-high` `5g-low` .
 * `bandwidth_admission_control` - Enable/disable WiFi multimedia (WMM) bandwidth admission control to optimize WiFi bandwidth use. A request to join the wireless network is only allowed if the access point has enough bandwidth to support it. Valid values: `enable` `disable` .
 * `bandwidth_capacity` - Maximum bandwidth capacity allowed (1 - 600000 Kbps, default = 2000).
@@ -266,6 +269,7 @@ The `radio_2` block contains:
 * `max_clients` - Maximum number of stations (STAs) or WiFi clients supported by the radio. Range depends on the hardware.
 * `max_distance` - Maximum expected distance between the AP and clients (0 - 54000 m, default = 0).
 * `mode` - Mode of radio 2. Radio 2 can be disabled, configured as an access point, a rogue AP monitor, a sniffer, or a station. Valid values: `disabled` `ap` `monitor` `sniffer` `sam` .
+* `optional_antenna` - Optional antenna used on FAP (default = none). Valid values: `none` `FANT-04ABGN-0606-O-N` `FANT-04ABGN-1414-P-N` `FANT-04ABGN-8065-P-N` `FANT-04ABGN-0606-O-R` `FANT-04ABGN-0606-P-R` `FANT-10ACAX-1213-D-N` `FANT-08ABGN-1213-D-R` .
 * `power_level` - Radio EIRP power level as a percentage of the maximum EIRP power (0 - 100, default = 100).
 * `power_mode` - Set radio effective isotropic radiated power (EIRP) in dBm or by a percentage of the maximum EIRP (default = percentage). This power takes into account both radio transmit power and antenna gain. Higher power level settings may be constrained by local regulatory requirements and AP capabilities. Valid values: `dBm` `percentage` .
 * `power_value` - Radio EIRP power in dBm (1 - 33, default = 27).
@@ -310,6 +314,7 @@ The `vaps` block contains:
 
 The `radio_3` block contains:
 
+* `80211d` - Enable/disable 802.11d countryie(default = enable). Valid values: `enable` `disable` .
 * `airtime_fairness` - Enable/disable airtime fairness (default = disable). Valid values: `enable` `disable` .
 * `amsdu` - Enable/disable 802.11n AMSDU support. AMSDU can improve performance if supported by your WiFi clients (default = enable). Valid values: `enable` `disable` .
 * `ap_handoff` - Enable/disable AP handoff of clients to other APs (default = disable). Valid values: `enable` `disable` .
@@ -326,7 +331,7 @@ The `radio_3` block contains:
 * `auto_power_level` - Enable/disable automatic power-level adjustment to prevent co-channel interference (default = enable). Valid values: `enable` `disable` .
 * `auto_power_low` - The lower bound of automatic transmit power adjustment in dBm (the actual range of transmit power depends on the AP platform type).
 * `auto_power_target` - Target of automatic transmit power adjustment in dBm (-95 to -20, default = -70).
-* `band` - WiFi band that Radio 3 operates on. Valid values: `802.11a` `802.11b` `802.11g` `802.11n` `802.11n-5G` `802.11ac` `802.11ax-5G` `802.11ax` `802.11ac-2G` `802.11n,g-only` `802.11g-only` `802.11n-only` `802.11n-5G-only` `802.11ac,n-only` `802.11ac-only` `802.11ax,ac-only` `802.11ax,ac,n-only` `802.11ax-5G-only` `802.11ax,n-only` `802.11ax,n,g-only` `802.11ax-only` .
+* `band` - WiFi band that Radio 3 operates on. Valid values: `802.11a` `802.11b` `802.11g` `802.11n` `802.11n-5G` `802.11ac` `802.11ax-5G` `802.11ax` `802.11ac-2G` `802.11ax-6G` `802.11n,g-only` `802.11g-only` `802.11n-only` `802.11n-5G-only` `802.11ac,n-only` `802.11ac-only` `802.11ax,ac-only` `802.11ax,ac,n-only` `802.11ax-5G-only` `802.11ax,n-only` `802.11ax,n,g-only` `802.11ax-only` .
 * `band_5g_type` - WiFi 5G band type. Valid values: `5g-full` `5g-high` `5g-low` .
 * `bandwidth_admission_control` - Enable/disable WiFi multimedia (WMM) bandwidth admission control to optimize WiFi bandwidth use. A request to join the wireless network is only allowed if the access point has enough bandwidth to support it. Valid values: `enable` `disable` .
 * `bandwidth_capacity` - Maximum bandwidth capacity allowed (1 - 600000 Kbps, default = 2000).
@@ -349,6 +354,7 @@ The `radio_3` block contains:
 * `max_clients` - Maximum number of stations (STAs) or WiFi clients supported by the radio. Range depends on the hardware.
 * `max_distance` - Maximum expected distance between the AP and clients (0 - 54000 m, default = 0).
 * `mode` - Mode of radio 3. Radio 3 can be disabled, configured as an access point, a rogue AP monitor, a sniffer, or a station. Valid values: `disabled` `ap` `monitor` `sniffer` `sam` .
+* `optional_antenna` - Optional antenna used on FAP (default = none). Valid values: `none` `FANT-04ABGN-0606-O-N` `FANT-04ABGN-1414-P-N` `FANT-04ABGN-8065-P-N` `FANT-04ABGN-0606-O-R` `FANT-04ABGN-0606-P-R` `FANT-10ACAX-1213-D-N` `FANT-08ABGN-1213-D-R` .
 * `power_level` - Radio EIRP power level as a percentage of the maximum EIRP power (0 - 100, default = 100).
 * `power_mode` - Set radio effective isotropic radiated power (EIRP) in dBm or by a percentage of the maximum EIRP (default = percentage). This power takes into account both radio transmit power and antenna gain. Higher power level settings may be constrained by local regulatory requirements and AP capabilities. Valid values: `dBm` `percentage` .
 * `power_value` - Radio EIRP power in dBm (1 - 33, default = 27).
@@ -393,6 +399,7 @@ The `vaps` block contains:
 
 The `radio_4` block contains:
 
+* `80211d` - Enable/disable 802.11d countryie(default = enable). Valid values: `enable` `disable` .
 * `airtime_fairness` - Enable/disable airtime fairness (default = disable). Valid values: `enable` `disable` .
 * `amsdu` - Enable/disable 802.11n AMSDU support. AMSDU can improve performance if supported by your WiFi clients (default = enable). Valid values: `enable` `disable` .
 * `ap_handoff` - Enable/disable AP handoff of clients to other APs (default = disable). Valid values: `enable` `disable` .
@@ -409,7 +416,7 @@ The `radio_4` block contains:
 * `auto_power_level` - Enable/disable automatic power-level adjustment to prevent co-channel interference (default = enable). Valid values: `enable` `disable` .
 * `auto_power_low` - The lower bound of automatic transmit power adjustment in dBm (the actual range of transmit power depends on the AP platform type).
 * `auto_power_target` - Target of automatic transmit power adjustment in dBm (-95 to -20, default = -70).
-* `band` - WiFi band that Radio 3 operates on. Valid values: `802.11a` `802.11b` `802.11g` `802.11n` `802.11n-5G` `802.11ac` `802.11ax-5G` `802.11ax` `802.11ac-2G` `802.11n,g-only` `802.11g-only` `802.11n-only` `802.11n-5G-only` `802.11ac,n-only` `802.11ac-only` `802.11ax,ac-only` `802.11ax,ac,n-only` `802.11ax-5G-only` `802.11ax,n-only` `802.11ax,n,g-only` `802.11ax-only` .
+* `band` - WiFi band that Radio 3 operates on. Valid values: `802.11a` `802.11b` `802.11g` `802.11n` `802.11n-5G` `802.11ac` `802.11ax-5G` `802.11ax` `802.11ac-2G` `802.11ax-6G` `802.11n,g-only` `802.11g-only` `802.11n-only` `802.11n-5G-only` `802.11ac,n-only` `802.11ac-only` `802.11ax,ac-only` `802.11ax,ac,n-only` `802.11ax-5G-only` `802.11ax,n-only` `802.11ax,n,g-only` `802.11ax-only` .
 * `band_5g_type` - WiFi 5G band type. Valid values: `5g-full` `5g-high` `5g-low` .
 * `bandwidth_admission_control` - Enable/disable WiFi multimedia (WMM) bandwidth admission control to optimize WiFi bandwidth use. A request to join the wireless network is only allowed if the access point has enough bandwidth to support it. Valid values: `enable` `disable` .
 * `bandwidth_capacity` - Maximum bandwidth capacity allowed (1 - 600000 Kbps, default = 2000).
@@ -432,6 +439,7 @@ The `radio_4` block contains:
 * `max_clients` - Maximum number of stations (STAs) or WiFi clients supported by the radio. Range depends on the hardware.
 * `max_distance` - Maximum expected distance between the AP and clients (0 - 54000 m, default = 0).
 * `mode` - Mode of radio 3. Radio 3 can be disabled, configured as an access point, a rogue AP monitor, a sniffer, or a station. Valid values: `disabled` `ap` `monitor` `sniffer` `sam` .
+* `optional_antenna` - Optional antenna used on FAP (default = none). Valid values: `none` `FANT-04ABGN-0606-O-N` `FANT-04ABGN-1414-P-N` `FANT-04ABGN-8065-P-N` `FANT-04ABGN-0606-O-R` `FANT-04ABGN-0606-P-R` `FANT-10ACAX-1213-D-N` `FANT-08ABGN-1213-D-R` .
 * `power_level` - Radio EIRP power level as a percentage of the maximum EIRP power (0 - 100, default = 100).
 * `power_mode` - Set radio effective isotropic radiated power (EIRP) in dBm or by a percentage of the maximum EIRP (default = percentage). This power takes into account both radio transmit power and antenna gain. Higher power level settings may be constrained by local regulatory requirements and AP capabilities. Valid values: `dBm` `percentage` .
 * `power_value` - Radio EIRP power in dBm (1 - 33, default = 27).

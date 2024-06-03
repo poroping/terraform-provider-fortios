@@ -30,6 +30,7 @@ The following attributes are exported:
 * `diffservcode` - Differentiated services code point (DSCP) in the IP header of the probe packet.
 * `dns_match_ip` - Response IP expected from DNS server if the protocol is DNS.
 * `dns_request_domain` - Fully qualified domain name to resolve for the DNS probe.
+* `embed_measured_health` - Enable/disable embedding measured health information.
 * `failtime` - Number of failures before server is considered lost (1 - 3600, default = 5).
 * `ftp_file` - Full path and file name on the FTP server to download for FTP health-check to probe.
 * `ftp_mode` - FTP mode.
@@ -37,7 +38,7 @@ The following attributes are exported:
 * `http_agent` - String in the http-agent field in the HTTP header.
 * `http_get` - URL used to communicate with the server if the protocol if the protocol is HTTP.
 * `http_match` - Response string expected from the server if the protocol is HTTP.
-* `interval` - Status check interval in milliseconds, or the time between attempting to connect to the server (500 - 3600*1000 msec, default = 500).
+* `interval` - Status check interval in milliseconds, or the time between attempting to connect to the server (20 - 3600*1000 msec, default = 500).
 * `mos_codec` - Codec to use for MOS calculation (default = g711).
 * `name` - Status check or health check name.
 * `packet_size` - Packet size of a TWAMP test session.
@@ -45,13 +46,14 @@ The following attributes are exported:
 * `port` - Port number used to communicate with the server over the selected protocol (0 - 65535, default = 0, auto select. http, tcp-connect: 80, udp-echo, tcp-echo: 7, dns: 53, ftp: 21, twamp: 862).
 * `probe_count` - Number of most recent probes that should be used to calculate latency and jitter (5 - 30, default = 30).
 * `probe_packets` - Enable/disable transmission of probe packets.
-* `probe_timeout` - Time to wait before a probe packet is considered lost (500 - 3600*1000 msec, default = 500).
+* `probe_timeout` - Time to wait before a probe packet is considered lost (20 - 3600*1000 msec, default = 500).
 * `protocol` - Protocol used to determine if the FortiGate can communicate with the server.
 * `quality_measured_method` - Method to measure the quality of tcp-connect.
 * `recoverytime` - Number of successful responses received before server is considered recovered (1 - 3600, default = 5).
 * `security_mode` - Twamp controller security mode.
 * `server` - IP address or FQDN name of the server.
 * `sla_fail_log_period` - Time interval in seconds that SLA fail log messages will be generated (0 - 3600, default = 0).
+* `sla_id_redistribute` - Select the ID from the SLA sub-table. The selected SLA's priority value will be distributed into the routing table (0 - 32, default = 0).
 * `sla_pass_log_period` - Time interval in seconds that SLA pass log messages will be generated (0 - 3600, default = 0).
 * `source` - Source IP address used in the health-check packet to the server.
 * `system_dns` - Enable/disable system DNS as the probe server.
@@ -80,3 +82,5 @@ The `sla` block contains:
 * `link_cost_factor` - Criteria on which to base link selection.
 * `mos_threshold` - Minimum Mean Opinion Score for SLA to be marked as pass. (1.0 - 5.0, default = 3.6).
 * `packetloss_threshold` - Packet loss for SLA to make decision in percentage. (0 - 100, default = 0).
+* `priority_in_sla` - Value to be distributed into routing table when in-sla (0 - 65535, default = 0).
+* `priority_out_sla` - Value to be distributed into routing table when out-sla (0 - 65535, default = 0).

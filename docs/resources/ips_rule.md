@@ -33,7 +33,6 @@ Configure IPS rules.
 * `rule_id` - Rule ID.
 * `service` - Vulnerable service.
 * `severity` - Severity.
-* `status` - Enable/disable status. Valid values: `disable` `enable` .
 * `metadata` - Meta data. The structure of `metadata` block is documented below.
 
 The `metadata` block contains:

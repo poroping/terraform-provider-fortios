@@ -20,13 +20,19 @@ Configure IPv6 access proxy.
 * `allow_append` - If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution! Requires `name` to be defined.
 * `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
+* `add_vhost_domain_to_dnsdb` - Enable/disable adding vhost/domain to dnsdb for ztna dox tunnel. Valid values: `enable` `disable` .
 * `auth_portal` - Enable/disable authentication portal. Valid values: `disable` `enable` .
 * `auth_virtual_host` - Virtual host for authentication portal. This attribute must reference one of the following datasources: `firewall.access-proxy-virtual-host.name` .
 * `client_cert` - Enable/disable to request client certificate. Valid values: `disable` `enable` .
 * `decrypted_traffic_mirror` - Decrypted traffic mirror. This attribute must reference one of the following datasources: `firewall.decrypted-traffic-mirror.name` .
-* `empty_cert_action` - Action of an empty client certificate. Valid values: `accept` `block` .
+* `empty_cert_action` - Action of an empty client certificate. Valid values: `accept` `block` `accept-unmanageable` .
+* `http_supported_max_version` - Maximum supported HTTP versions. default = HTTP2 Valid values: `http1` `http2` .
 * `log_blocked_traffic` - Enable/disable logging of blocked traffic. Valid values: `enable` `disable` .
 * `name` - Access Proxy name.
+* `svr_pool_multiplex` - Enable/disable server pool multiplexing. Share connected server in HTTP, HTTPS, and web-portal api-gateway. Valid values: `enable` `disable` .
+* `svr_pool_server_max_request` - Maximum number of requests that servers in server pool handle before disconnecting (default = unlimited).
+* `svr_pool_ttl` - Time-to-live in the server pool for idle connections to servers.
+* `user_agent_detect` - Enable/disable to detect device type by HTTP user-agent if no client certificate provided. Valid values: `disable` `enable` .
 * `vip` - Virtual IP name. This attribute must reference one of the following datasources: `firewall.vip6.name` .
 * `api_gateway` - Set IPv4 API Gateway. The structure of `api_gateway` block is documented below.
 
@@ -44,15 +50,21 @@ The `api_gateway` block contains:
 * `persistence` - Configure how to make sure that clients connect to the same server every time they make a request that is part of the same session. Valid values: `none` `http-cookie` .
 * `saml_redirect` - Enable/disable SAML redirection after successful authentication. Valid values: `disable` `enable` .
 * `saml_server` - SAML service provider configuration for VIP authentication. This attribute must reference one of the following datasources: `user.saml.name` .
-* `service` - Service. Valid values: `http` `https` `tcp-forwarding` `samlsp` `web-portal` .
+* `service` - Service. Valid values: `http` `https` `tcp-forwarding` `samlsp` `web-portal` `saas` .
 * `ssl_algorithm` - Permitted encryption algorithms for the server side of SSL full mode sessions according to encryption strength. Valid values: `high` `medium` `low` .
 * `ssl_dh_bits` - Number of bits to use in the Diffie-Hellman exchange for RSA encryption of SSL sessions. Valid values: `768` `1024` `1536` `2048` `3072` `4096` .
 * `ssl_max_version` - Highest SSL/TLS version acceptable from a server. Valid values: `tls-1.0` `tls-1.1` `tls-1.2` `tls-1.3` .
 * `ssl_min_version` - Lowest SSL/TLS version acceptable from a server. Valid values: `tls-1.0` `tls-1.1` `tls-1.2` `tls-1.3` .
+* `ssl_renegotiation` - Enable/disable secure renegotiation to comply with RFC 5746. Valid values: `enable` `disable` .
 * `ssl_vpn_web_portal` - SSL-VPN web portal. This attribute must reference one of the following datasources: `vpn.ssl.web.portal.name` .
 * `url_map` - URL pattern to match.
 * `url_map_type` - Type of url-map. Valid values: `sub-string` `wildcard` `regex` .
 * `virtual_host` - Virtual host. This attribute must reference one of the following datasources: `firewall.access-proxy-virtual-host.name` .
+* `application` - SaaS application controlled by this Access Proxy. The structure of `application` block is documented below.
+
+The `application` block contains:
+
+* `name` - SaaS application name.
 * `realservers` - Select the real servers that this Access Proxy will distribute traffic to. The structure of `realservers` block is documented below.
 
 The `realservers` block contains:
@@ -71,6 +83,7 @@ The `realservers` block contains:
 * `ssh_client_cert` - Set access-proxy SSH client certificate profile. This attribute must reference one of the following datasources: `firewall.access-proxy-ssh-client-cert.name` .
 * `ssh_host_key_validation` - Enable/disable SSH real server host key validation. Valid values: `disable` `enable` .
 * `status` - Set the status of the real server to active so that it can accept traffic, or on standby or disabled so no traffic is sent. Valid values: `active` `standby` `disable` .
+* `translate_host` - Enable/disable translation of hostname/IP from virtual server to real server. Valid values: `enable` `disable` .
 * `type` - TCP forwarding server type. Valid values: `tcp-forwarding` `ssh` .
 * `weight` - Weight of the real server. If weighted load balancing is enabled, the server with the highest weight gets more connections.
 * `ssh_host_key` - One or more server host key. The structure of `ssh_host_key` block is documented below.
@@ -101,15 +114,21 @@ The `api_gateway6` block contains:
 * `persistence` - Configure how to make sure that clients connect to the same server every time they make a request that is part of the same session. Valid values: `none` `http-cookie` .
 * `saml_redirect` - Enable/disable SAML redirection after successful authentication. Valid values: `disable` `enable` .
 * `saml_server` - SAML service provider configuration for VIP authentication. This attribute must reference one of the following datasources: `user.saml.name` .
-* `service` - Service. Valid values: `http` `https` `tcp-forwarding` `samlsp` `web-portal` .
+* `service` - Service. Valid values: `http` `https` `tcp-forwarding` `samlsp` `web-portal` `saas` .
 * `ssl_algorithm` - Permitted encryption algorithms for the server side of SSL full mode sessions according to encryption strength. Valid values: `high` `medium` `low` .
 * `ssl_dh_bits` - Number of bits to use in the Diffie-Hellman exchange for RSA encryption of SSL sessions. Valid values: `768` `1024` `1536` `2048` `3072` `4096` .
 * `ssl_max_version` - Highest SSL/TLS version acceptable from a server. Valid values: `tls-1.0` `tls-1.1` `tls-1.2` `tls-1.3` .
 * `ssl_min_version` - Lowest SSL/TLS version acceptable from a server. Valid values: `tls-1.0` `tls-1.1` `tls-1.2` `tls-1.3` .
+* `ssl_renegotiation` - Enable/disable secure renegotiation to comply with RFC 5746. Valid values: `enable` `disable` .
 * `ssl_vpn_web_portal` - SSL-VPN web portal. This attribute must reference one of the following datasources: `vpn.ssl.web.portal.name` .
 * `url_map` - URL pattern to match.
 * `url_map_type` - Type of url-map. Valid values: `sub-string` `wildcard` `regex` .
 * `virtual_host` - Virtual host. This attribute must reference one of the following datasources: `firewall.access-proxy-virtual-host.name` .
+* `application` - SaaS application controlled by this Access Proxy. The structure of `application` block is documented below.
+
+The `application` block contains:
+
+* `name` - SaaS application name.
 * `realservers` - Select the real servers that this Access Proxy will distribute traffic to. The structure of `realservers` block is documented below.
 
 The `realservers` block contains:
@@ -128,6 +147,7 @@ The `realservers` block contains:
 * `ssh_client_cert` - Set access-proxy SSH client certificate profile. This attribute must reference one of the following datasources: `firewall.access-proxy-ssh-client-cert.name` .
 * `ssh_host_key_validation` - Enable/disable SSH real server host key validation. Valid values: `disable` `enable` .
 * `status` - Set the status of the real server to active so that it can accept traffic, or on standby or disabled so no traffic is sent. Valid values: `active` `standby` `disable` .
+* `translate_host` - Enable/disable translation of hostname/IP from virtual server to real server. Valid values: `enable` `disable` .
 * `type` - TCP forwarding server type. Valid values: `tcp-forwarding` `ssh` .
 * `weight` - Weight of the real server. If weighted load balancing is enabled, the server with the highest weight gets more connections.
 * `ssh_host_key` - One or more server host key. The structure of `ssh_host_key` block is documented below.

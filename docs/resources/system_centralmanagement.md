@@ -29,6 +29,7 @@ Configure central management.
 * `fmg_source_ip` - IPv4 source address that this FortiGate uses when communicating with FortiManager.
 * `fmg_source_ip6` - IPv6 source address that this FortiGate uses when communicating with FortiManager.
 * `fmg_update_port` - Port used to communicate with FortiManager that is acting as a FortiGuard update server. Valid values: `8890` `443` .
+* `fortigate_cloud_sso_default_profile` - Override access profile. This attribute must reference one of the following datasources: `system.accprofile.name` .
 * `include_default_servers` - Enable/disable inclusion of public FortiGuard servers in the override server list. Valid values: `enable` `disable` .
 * `interface` - Specify outgoing interface to reach server. This attribute must reference one of the following datasources: `system.interface.name` .
 * `interface_select_method` - Specify how to select outgoing interface to reach server. Valid values: `auto` `sdwan` `specify` .
@@ -48,7 +49,7 @@ The `server_list` block contains:
 * `id` - ID.
 * `server_address` - IPv4 address of override server.
 * `server_address6` - IPv6 address of override server.
-* `server_type` - FortiGuard service type. Valid values: `update` `rating` .
+* `server_type` - FortiGuard service type. Valid values: `update` `rating` `iot-query` `iot-collect` .
 
 ## Attribute Reference
 

@@ -43,6 +43,7 @@ The following attributes are exported:
 * `dst_subnet` - Remote proxy ID IPv4 subnet.
 * `dst_subnet6` - Remote proxy ID IPv6 subnet.
 * `encapsulation` - ESP encapsulation mode.
+* `inbound_dscp_copy` - Enable/disable copying of the DSCP in the ESP header to the inner IP header.
 * `initiator_ts_narrow` - Enable/disable traffic selector narrowing for IKEv2 initiator.
 * `ipv4_df` - Enable/disable setting and resetting of IPv4 'Don't Fragment' bit.
 * `keepalive` - Enable/disable keep alive.

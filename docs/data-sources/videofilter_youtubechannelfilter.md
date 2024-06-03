@@ -30,6 +30,7 @@ The following attributes are exported:
 * `id` - ID.
 * `log` - Enable/disable logging.
 * `name` - Name.
+* `override_category` - Enable/disable overriding category filtering result.
 * `entries` - YouTube filter entries.The structure of `entries` block is documented below.
 
 The `entries` block contains:

@@ -40,6 +40,7 @@ The following attributes are exported:
 * `sn_dns_resolution` - Enable/disable DNS resolution of the FortiSwitch unit's IP address by use of its serial number.
 * `update_user_device` - Control which sources update the device user list.
 * `vlan_all_mode` - VLAN configuration mode, user-defined-vlans or all-possible-vlans.
+* `vlan_identity` - Identity of the VLAN. Commonly used for RADIUS Tunnel-Private-Group-Id.
 * `vlan_optimization` - FortiLink VLAN optimization.
 * `custom_command` - List of custom commands to be pushed to all FortiSwitches in the VDOM.The structure of `custom_command` block is documented below.
 

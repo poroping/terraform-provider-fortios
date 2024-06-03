@@ -31,12 +31,13 @@ The following attributes are exported:
 
 The `entry` block contains:
 
+* `addr_mode` - Address mode (IPv4 or IPv6).
 * `id` - Entry ID(1-255).
 * `protocol` - Integer value for the protocol type as defined by IANA (0 - 255).
 * `port_range` - Port ranges in the custom entry.The structure of `port_range` block is documented below.
 
 The `port_range` block contains:
 
-* `end_port` - Integer value for ending TCP/UDP/SCTP destination port in range (1 to 65535).
+* `end_port` - Integer value for ending TCP/UDP/SCTP destination port in range (0 to 65535).
 * `id` - Custom entry port range ID.
-* `start_port` - Integer value for starting TCP/UDP/SCTP destination port in range (1 to 65535).
+* `start_port` - Integer value for starting TCP/UDP/SCTP destination port in range (0 to 65535).

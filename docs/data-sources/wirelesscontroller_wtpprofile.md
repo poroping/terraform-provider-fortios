@@ -142,13 +142,14 @@ The `led_schedules` block contains:
 
 The `platform` block contains:
 
-* `ddscan` - Enable/disable use of one radio for dedicated dual-band scanning to detect RF characterization and wireless threat management.
+* `ddscan` - Enable/disable use of one radio for dedicated full-band scanning to detect RF characterization and wireless threat management.
 * `mode` - Configure operation mode of 5G radios (default = single-5G).
 * `type` - WTP, FortiAP or AP platform type. There are built-in WTP profiles for all supported FortiAP models. You can select a built-in profile and customize it or create a new profile.
 * `radio_1` - Configuration options for radio 1.The structure of `radio_1` block is documented below.
 
 The `radio_1` block contains:
 
+* `80211d` - Enable/disable 802.11d countryie(default = enable).
 * `airtime_fairness` - Enable/disable airtime fairness (default = disable).
 * `amsdu` - Enable/disable 802.11n AMSDU support. AMSDU can improve performance if supported by your WiFi clients (default = enable).
 * `ap_handoff` - Enable/disable AP handoff of clients to other APs (default = disable).
@@ -188,6 +189,7 @@ The `radio_1` block contains:
 * `max_clients` - Maximum number of stations (STAs) or WiFi clients supported by the radio. Range depends on the hardware.
 * `max_distance` - Maximum expected distance between the AP and clients (0 - 54000 m, default = 0).
 * `mode` - Mode of radio 1. Radio 1 can be disabled, configured as an access point, a rogue AP monitor, a sniffer, or a station.
+* `optional_antenna` - Optional antenna used on FAP (default = none).
 * `power_level` - Radio EIRP power level as a percentage of the maximum EIRP power (0 - 100, default = 100).
 * `power_mode` - Set radio effective isotropic radiated power (EIRP) in dBm or by a percentage of the maximum EIRP (default = percentage). This power takes into account both radio transmit power and antenna gain. Higher power level settings may be constrained by local regulatory requirements and AP capabilities.
 * `power_value` - Radio EIRP power in dBm (1 - 33, default = 27).
@@ -232,6 +234,7 @@ The `vaps` block contains:
 
 The `radio_2` block contains:
 
+* `80211d` - Enable/disable 802.11d countryie(default = enable).
 * `airtime_fairness` - Enable/disable airtime fairness (default = disable).
 * `amsdu` - Enable/disable 802.11n AMSDU support. AMSDU can improve performance if supported by your WiFi clients (default = enable).
 * `ap_handoff` - Enable/disable AP handoff of clients to other APs (default = disable).
@@ -271,6 +274,7 @@ The `radio_2` block contains:
 * `max_clients` - Maximum number of stations (STAs) or WiFi clients supported by the radio. Range depends on the hardware.
 * `max_distance` - Maximum expected distance between the AP and clients (0 - 54000 m, default = 0).
 * `mode` - Mode of radio 2. Radio 2 can be disabled, configured as an access point, a rogue AP monitor, a sniffer, or a station.
+* `optional_antenna` - Optional antenna used on FAP (default = none).
 * `power_level` - Radio EIRP power level as a percentage of the maximum EIRP power (0 - 100, default = 100).
 * `power_mode` - Set radio effective isotropic radiated power (EIRP) in dBm or by a percentage of the maximum EIRP (default = percentage). This power takes into account both radio transmit power and antenna gain. Higher power level settings may be constrained by local regulatory requirements and AP capabilities.
 * `power_value` - Radio EIRP power in dBm (1 - 33, default = 27).
@@ -315,6 +319,7 @@ The `vaps` block contains:
 
 The `radio_3` block contains:
 
+* `80211d` - Enable/disable 802.11d countryie(default = enable).
 * `airtime_fairness` - Enable/disable airtime fairness (default = disable).
 * `amsdu` - Enable/disable 802.11n AMSDU support. AMSDU can improve performance if supported by your WiFi clients (default = enable).
 * `ap_handoff` - Enable/disable AP handoff of clients to other APs (default = disable).
@@ -354,6 +359,7 @@ The `radio_3` block contains:
 * `max_clients` - Maximum number of stations (STAs) or WiFi clients supported by the radio. Range depends on the hardware.
 * `max_distance` - Maximum expected distance between the AP and clients (0 - 54000 m, default = 0).
 * `mode` - Mode of radio 3. Radio 3 can be disabled, configured as an access point, a rogue AP monitor, a sniffer, or a station.
+* `optional_antenna` - Optional antenna used on FAP (default = none).
 * `power_level` - Radio EIRP power level as a percentage of the maximum EIRP power (0 - 100, default = 100).
 * `power_mode` - Set radio effective isotropic radiated power (EIRP) in dBm or by a percentage of the maximum EIRP (default = percentage). This power takes into account both radio transmit power and antenna gain. Higher power level settings may be constrained by local regulatory requirements and AP capabilities.
 * `power_value` - Radio EIRP power in dBm (1 - 33, default = 27).
@@ -398,6 +404,7 @@ The `vaps` block contains:
 
 The `radio_4` block contains:
 
+* `80211d` - Enable/disable 802.11d countryie(default = enable).
 * `airtime_fairness` - Enable/disable airtime fairness (default = disable).
 * `amsdu` - Enable/disable 802.11n AMSDU support. AMSDU can improve performance if supported by your WiFi clients (default = enable).
 * `ap_handoff` - Enable/disable AP handoff of clients to other APs (default = disable).
@@ -437,6 +444,7 @@ The `radio_4` block contains:
 * `max_clients` - Maximum number of stations (STAs) or WiFi clients supported by the radio. Range depends on the hardware.
 * `max_distance` - Maximum expected distance between the AP and clients (0 - 54000 m, default = 0).
 * `mode` - Mode of radio 3. Radio 3 can be disabled, configured as an access point, a rogue AP monitor, a sniffer, or a station.
+* `optional_antenna` - Optional antenna used on FAP (default = none).
 * `power_level` - Radio EIRP power level as a percentage of the maximum EIRP power (0 - 100, default = 100).
 * `power_mode` - Set radio effective isotropic radiated power (EIRP) in dBm or by a percentage of the maximum EIRP (default = percentage). This power takes into account both radio transmit power and antenna gain. Higher power level settings may be constrained by local regulatory requirements and AP capabilities.
 * `power_value` - Radio EIRP power in dBm (1 - 33, default = 27).

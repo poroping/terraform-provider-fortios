@@ -25,6 +25,7 @@ Use this data source to get information on a fortios Configure WTP groups.
 
 The following attributes are exported:
 
+* `ble_major_id` - Override BLE Major ID.
 * `name` - WTP group name.
 * `platform_type` - FortiAP models to define the WTP group platform type.
 * `wtps` - WTP list.The structure of `wtps` block is documented below.

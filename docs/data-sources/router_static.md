@@ -42,6 +42,7 @@ The following attributes are exported:
 * `seq_num` - Sequence number.
 * `src` - Source prefix for this route.
 * `status` - Enable/disable this static route.
+* `tag` - Route tag.
 * `virtual_wan_link` - Enable/disable egress through the virtual-wan-link.
 * `vrf` - Virtual Routing Forwarding ID.
 * `weight` - Administrative weight (0 - 255).

@@ -28,4 +28,5 @@ The following attributes are exported:
 * `host` - The host name.
 * `host_type` - Type of host pattern.
 * `name` - Virtual host name.
+* `replacemsg_group` - Access-proxy-virtual-host replacement message override group.
 * `ssl_certificate` - SSL certificate for this host.

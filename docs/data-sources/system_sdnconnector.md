@@ -26,6 +26,7 @@ Use this data source to get information on a fortios Configure connection to SDN
 The following attributes are exported:
 
 * `access_key` - AWS / ACS access key ID.
+* `alt_resource_ip` - Enable/disable AWS alternative resource IP.
 * `api_key` - IBM cloud API key or service ID API key.
 * `azure_region` - Azure server region.
 * `client_id` - Azure client ID (application ID).
@@ -34,7 +35,7 @@ The following attributes are exported:
 * `compute_generation` - Compute generation for IBM cloud infrastructure.
 * `domain` - Domain name.
 * `gcp_project` - GCP project name.
-* `group_name` - Group name of computers.
+* `group_name` - Full path group name of computers.
 * `ha_status` - Enable/disable use for FortiGate HA service.
 * `ibm_region` - IBM cloud region name.
 * `login_endpoint` - Azure Stack login endpoint.
@@ -51,6 +52,8 @@ The following attributes are exported:
 * `secret_key` - AWS / ACS secret access key.
 * `secret_token` - Secret token of Kubernetes service account.
 * `server` - Server address of the remote SDN connector.
+* `server_ca_cert` - Trust only those servers whose certificate is directly/indirectly signed by this certificate.
+* `server_cert` - Trust servers that contain this certificate only.
 * `server_port` - Port number of the remote SDN connector.
 * `service_account` - GCP service account email.
 * `status` - Enable/disable connection to the remote SDN connector.
@@ -70,6 +73,7 @@ The following attributes are exported:
 
 The `external_account_list` block contains:
 
+* `external_id` - AWS external ID.
 * `role_arn` - AWS role ARN to assume.
 * `region_list` - AWS region name list.The structure of `region_list` block is documented below.
 

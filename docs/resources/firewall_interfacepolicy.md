@@ -38,6 +38,7 @@ Configure IPv4 interface policies.
 * `logtraffic` - Logging type to be used in this policy (Options: all | utm | disable, Default: utm). Valid values: `all` `utm` `disable` .
 * `policyid` - Policy ID (0 - 4294967295).
 * `status` - Enable/disable this policy. Valid values: `enable` `disable` .
+* `uuid` - Universally Unique Identifier (UUID; automatically assigned but can be manually reset).
 * `webfilter_profile` - Web filter profile. This attribute must reference one of the following datasources: `webfilter.profile.name` .
 * `webfilter_profile_status` - Enable/disable web filtering. Valid values: `enable` `disable` .
 * `dstaddr` - Address object to limit traffic monitoring to network traffic sent to the specified address or range. The structure of `dstaddr` block is documented below.

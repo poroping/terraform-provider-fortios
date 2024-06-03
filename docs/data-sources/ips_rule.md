@@ -38,7 +38,6 @@ The following attributes are exported:
 * `rule_id` - Rule ID.
 * `service` - Vulnerable service.
 * `severity` - Severity.
-* `status` - Enable/disable status.
 * `metadata` - Meta data.The structure of `metadata` block is documented below.
 
 The `metadata` block contains:

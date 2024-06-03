@@ -21,6 +21,7 @@ Configure IPv4 and IPv6 central SNAT policies.
 * `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
 * `comments` - Comment.
+* `dst_port` - Destination port or port range (1 to 65535, 0 means any port).
 * `nat` - Enable/disable source NAT. Valid values: `disable` `enable` .
 * `nat_port` - Translated port or port range (1 to 65535, 0 means any port).
 * `nat46` - Enable/disable NAT46. Valid values: `enable` `disable` .

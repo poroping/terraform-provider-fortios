@@ -35,6 +35,7 @@ The following attributes are exported:
 * `srcaddr_negate` - When enabled srcaddr specifies what the source address must NOT be.
 * `status` - Enable/disable this local-in policy.
 * `uuid` - Universally Unique Identifier (UUID; automatically assigned but can be manually reset).
+* `virtual_patch` - Enable/disable the virtual patching feature.
 * `dstaddr` - Destination address object from available options.The structure of `dstaddr` block is documented below.
 
 The `dstaddr` block contains:

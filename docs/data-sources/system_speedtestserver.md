@@ -31,8 +31,11 @@ The following attributes are exported:
 
 The `host` block contains:
 
+* `distance` - Speed test host distance.
 * `id` - Server host ID.
 * `ip` - Server host IPv4 address.
+* `latitude` - Speed test host latitude.
+* `longitude` - Speed test host longitude.
 * `password` - Speed test host password.
 * `port` - Server host port number to communicate with client.
 * `user` - Speed test host user name.

@@ -21,7 +21,7 @@ Trigger for automation stitches.
 * `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
 * `description` - Description.
-* `event_type` - Event type. Valid values: `ioc` `event-log` `reboot` `low-memory` `high-cpu` `license-near-expiry` `ha-failover` `config-change` `security-rating-summary` `virus-ips-db-updated` `faz-event` `incoming-webhook` `fabric-event` `ips-logs` `anomaly-logs` `virus-logs` `ssh-logs` `webfilter-violation` `traffic-violation` .
+* `event_type` - Event type. Valid values: `ioc` `event-log` `reboot` `low-memory` `high-cpu` `license-near-expiry` `local-cert-near-expiry` `ha-failover` `config-change` `security-rating-summary` `virus-ips-db-updated` `faz-event` `incoming-webhook` `fabric-event` `ips-logs` `anomaly-logs` `virus-logs` `ssh-logs` `webfilter-violation` `traffic-violation` .
 * `fabric_event_name` - Fabric connector event handler name.
 * `fabric_event_severity` - Fabric connector event severity.
 * `faz_event_name` - FortiAnalyzer event handler name.
@@ -32,8 +32,9 @@ Trigger for automation stitches.
 * `name` - Name.
 * `report_type` - Security Rating report. Valid values: `posture` `coverage` `optimization` `any` .
 * `serial` - Fabric connector serial number.
+* `trigger_datetime` - Trigger date and time (YYYY-MM-DD HH:MM:SS).
 * `trigger_day` - Day within a month to trigger.
-* `trigger_frequency` - Scheduled trigger frequency (default = daily). Valid values: `hourly` `daily` `weekly` `monthly` .
+* `trigger_frequency` - Scheduled trigger frequency (default = daily). Valid values: `hourly` `daily` `weekly` `monthly` `once` .
 * `trigger_hour` - Hour of the day on which to trigger (0 - 23, default = 1).
 * `trigger_minute` - Minute of the hour on which to trigger (0 - 59, default = 0).
 * `trigger_type` - Trigger type. Valid values: `event-based` `scheduled` .

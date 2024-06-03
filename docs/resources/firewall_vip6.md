@@ -49,6 +49,7 @@ Configure virtual IP for IPv6.
 * `nat_source_vip` - Enable to perform SNAT on traffic from mappedip to the extip for all egress interfaces. Valid values: `disable` `enable` .
 * `nat64` - Enable/disable DNAT64. Valid values: `disable` `enable` .
 * `nat66` - Enable/disable DNAT66. Valid values: `disable` `enable` .
+* `ndp_reply` - Enable/disable this FortiGate unit's ability to respond to NDP requests for this virtual IP address (default = enable). Valid values: `disable` `enable` .
 * `outlook_web_access` - Enable to add the Front-End-Https header for Microsoft Outlook Web Access. Valid values: `disable` `enable` .
 * `persistence` - Configure how to make sure that clients connect to the same server every time they make a request that is part of the same session. Valid values: `none` `http-cookie` `ssl-session-id` .
 * `portforward` - Enable port forwarding. Valid values: `disable` `enable` .
@@ -83,6 +84,7 @@ Configure virtual IP for IPv6.
 * `ssl_server_algorithm` - Permitted encryption algorithms for the server side of SSL full mode sessions according to encryption strength. Valid values: `high` `medium` `low` `custom` `client` .
 * `ssl_server_max_version` - Highest SSL/TLS version acceptable from a server. Use the client setting by default. Valid values: `ssl-3.0` `tls-1.0` `tls-1.1` `tls-1.2` `tls-1.3` `client` .
 * `ssl_server_min_version` - Lowest SSL/TLS version acceptable from a server. Use the client setting by default. Valid values: `ssl-3.0` `tls-1.0` `tls-1.1` `tls-1.2` `tls-1.3` `client` .
+* `ssl_server_renegotiation` - Enable/disable secure renegotiation to comply with RFC 5746. Valid values: `enable` `disable` .
 * `ssl_server_session_state_max` - Maximum number of FortiGate to Server SSL session states to keep.
 * `ssl_server_session_state_timeout` - Number of minutes to keep FortiGate to Server SSL session state.
 * `ssl_server_session_state_type` - How to expire SSL sessions for the segment of the SSL connection between the server and the FortiGate. Valid values: `disable` `time` `count` `both` .
@@ -108,6 +110,7 @@ The `realservers` block contains:
 * `max_connections` - Max number of active connections that can directed to the real server. When reached, sessions are sent to other real servers.
 * `port` - Port for communicating with the real server. Required if port forwarding is enabled.
 * `status` - Set the status of the real server to active so that it can accept traffic, or on standby or disabled so no traffic is sent. Valid values: `active` `standby` `disable` .
+* `translate_host` - Enable/disable translation of hostname/IP from virtual server to real server. Valid values: `enable` `disable` .
 * `weight` - Weight of the real server. If weighted load balancing is enabled, the server with the highest weight gets more connections.
 * `monitor` - Name of the health check monitor to use when polling to determine a virtual server's connectivity status. The structure of `monitor` block is documented below.
 

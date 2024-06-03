@@ -33,3 +33,13 @@ The following attributes are exported:
 * `source_ip` - Source IP address for communication with the NetFlow agent.
 * `template_tx_counter` - Counter of flowset records before resending a template flowset record.
 * `template_tx_timeout` - Timeout for periodic template flowset transmission (60 - 86400 sec, default = 1800).
+* `collectors` - Netflow collectors.The structure of `collectors` block is documented below.
+
+The `collectors` block contains:
+
+* `collector_ip` - Collector IP.
+* `collector_port` - NetFlow collector port number.
+* `id` - ID.
+* `interface` - Specify outgoing interface to reach server.
+* `interface_select_method` - Specify how to select outgoing interface to reach server.
+* `source_ip` - Source IP address for communication with the NetFlow agent.

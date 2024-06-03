@@ -48,4 +48,4 @@ The following attributes are exported:
 
 The `vdoms` block contains:
 
-* `name` - VDOM name
+* `name` - VDOM name.

@@ -27,6 +27,8 @@ The following attributes are exported:
 
 * `comment` - Comment.
 * `dailymotion` - Enable/disable Dailymotion video source.
+* `default_action` - Video filter default action.
+* `log` - Enable/disable logging.
 * `name` - Name.
 * `replacemsg_group` - Replacement message group.
 * `vimeo` - Enable/disable Vimeo video source.

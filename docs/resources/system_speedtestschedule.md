@@ -23,6 +23,7 @@ Speed test schedule for each interface.
 * `diffserv` - DSCP used for speed test.
 * `dynamic_server` - Enable/disable dynamic server option. Valid values: `disable` `enable` .
 * `interface` - Interface name. This attribute must reference one of the following datasources: `system.interface.name` .
+* `mode` - Protocol Auto(default), TCP or UDP used for speed test. Valid values: `UDP` `TCP` `Auto` .
 * `server_name` - Speed test server name.
 * `status` - Enable/disable scheduled speed test. Valid values: `disable` `enable` .
 * `update_inbandwidth` - Enable/disable bypassing interface's inbound bandwidth setting. Valid values: `disable` `enable` .

@@ -27,7 +27,7 @@ Configure system-wide switch controller settings.
 * `nac_periodic_interval` - Periodic time interval to run NAC engine (5 - 60 sec, default = 15).
 * `parallel_process` - Maximum number of parallel processes.
 * `parallel_process_override` - Enable/disable parallel process override. Valid values: `disable` `enable` .
-* `tunnel_mode` - Compatible/strict tunnel mode. Valid values: `compatible` `strict` .
+* `tunnel_mode` - Compatible/strict tunnel mode. Valid values: `compatible` `moderate` `strict` .
 
 ## Attribute Reference
 

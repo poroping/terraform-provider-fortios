@@ -22,7 +22,7 @@ SNMP user configuration.
 
 * `auth_proto` - Authentication protocol. Valid values: `md5` `sha` `sha224` `sha256` `sha384` `sha512` .
 * `auth_pwd` - Password for authentication protocol.
-* `events` - SNMP notifications (traps) to send. Valid values: `cpu-high` `mem-low` `log-full` `intf-ip` `vpn-tun-up` `vpn-tun-down` `ha-switch` `ha-hb-failure` `ips-signature` `ips-anomaly` `av-virus` `av-oversize` `av-pattern` `av-fragmented` `fm-if-change` `fm-conf-change` `bgp-established` `bgp-backward-transition` `ha-member-up` `ha-member-down` `ent-conf-change` `av-conserve` `av-bypass` `av-oversize-passed` `av-oversize-blocked` `ips-pkg-update` `ips-fail-open` `faz-disconnect` `wc-ap-up` `wc-ap-down` `fswctl-session-up` `fswctl-session-down` `load-balance-real-server-down` `device-new` `per-cpu-high` `dhcp` `ospf-nbr-state-change` `ospf-virtnbr-state-change` .
+* `events` - SNMP notifications (traps) to send. Valid values: `cpu-high` `mem-low` `log-full` `intf-ip` `vpn-tun-up` `vpn-tun-down` `ha-switch` `ha-hb-failure` `ips-signature` `ips-anomaly` `av-virus` `av-oversize` `av-pattern` `av-fragmented` `fm-if-change` `fm-conf-change` `bgp-established` `bgp-backward-transition` `ha-member-up` `ha-member-down` `ent-conf-change` `av-conserve` `av-bypass` `av-oversize-passed` `av-oversize-blocked` `ips-pkg-update` `ips-fail-open` `temperature-high` `voltage-alert` `power-supply-failure` `faz-disconnect` `fan-failure` `wc-ap-up` `wc-ap-down` `fswctl-session-up` `fswctl-session-down` `load-balance-real-server-down` `device-new` `per-cpu-high` `dhcp` `pool-usage` `ospf-nbr-state-change` `ospf-virtnbr-state-change` .
 * `ha_direct` - Enable/disable direct management of HA cluster members. Valid values: `enable` `disable` .
 * `mib_view` - SNMP access control MIB view. This attribute must reference one of the following datasources: `system.snmp.mib-view.name` .
 * `name` - SNMP user name.
@@ -43,7 +43,7 @@ SNMP user configuration.
 
 The `vdoms` block contains:
 
-* `name` - VDOM name This attribute must reference one of the following datasources: `system.vdom.name` .
+* `name` - VDOM name. This attribute must reference one of the following datasources: `system.vdom.name` .
 
 ## Attribute Reference
 

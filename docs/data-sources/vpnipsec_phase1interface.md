@@ -37,6 +37,7 @@ The following attributes are exported:
 * `authpasswd` - XAuth password (max 35 characters).
 * `authusr` - XAuth user name.
 * `authusrgrp` - Authentication user group.
+* `auto_discovery_crossover` - Allow/block set-up of short-cut tunnels between different network IDs.
 * `auto_discovery_forwarder` - Enable/disable forwarding auto-discovery short-cut messages.
 * `auto_discovery_offer_interval` - Interval between shortcut offer messages in seconds (1 - 300, default = 5).
 * `auto_discovery_psk` - Enable/disable use of pre-shared secrets for authentication of auto-discovery tunnels.
@@ -44,14 +45,18 @@ The following attributes are exported:
 * `auto_discovery_sender` - Enable/disable sending auto-discovery short-cut messages.
 * `auto_discovery_shortcuts` - Control deletion of child short-cut tunnels when the parent tunnel goes down.
 * `auto_negotiate` - Enable/disable automatic initiation of IKE SA negotiation.
+* `azure_ad_autoconnect` - Enable/disable Azure AD Auto-Connect for FortiClient.
 * `banner` - Message that unity client should display after connecting.
 * `cert_id_validation` - Enable/disable cross validation of peer ID and the identity in the peer's certificate as specified in RFC 4945.
+* `cert_trust_store` - CA certificate trust store.
 * `childless_ike` - Enable/disable childless IKEv2 initiation (RFC 6023).
 * `client_auto_negotiate` - Enable/disable allowing the VPN client to bring up the tunnel when there is no traffic.
 * `client_keep_alive` - Enable/disable allowing the VPN client to keep the tunnel up when there is no traffic.
 * `comments` - Comment.
 * `default_gw` - IPv4 address of default route gateway to use for traffic exiting the interface.
 * `default_gw_priority` - Priority for default gateway route. A higher priority number signifies a less preferred route.
+* `dev_id` - Device ID carried by the device ID notification.
+* `dev_id_notification` - Enable/disable device ID notification.
 * `dhcp_ra_giaddr` - Relay agent gateway IP address to use in the giaddr field of DHCP requests.
 * `dhcp6_ra_linkaddr` - Relay agent IPv6 link address to use in DHCP6 requests.
 * `dhgrp` - DH group.
@@ -65,6 +70,7 @@ The following attributes are exported:
 * `eap` - Enable/disable IKEv2 EAP authentication.
 * `eap_exclude_peergrp` - Peer group excluded from EAP authentication.
 * `eap_identity` - IKEv2 EAP peer identity type.
+* `ems_sn_check` - Enable/disable verification of EMS serial number.
 * `encap_local_gw4` - Local IPv4 address of GRE/VXLAN tunnel.
 * `encap_local_gw6` - Local IPv6 address of GRE/VXLAN tunnel.
 * `encap_remote_gw4` - Remote IPv4 address of GRE/VXLAN tunnel.
@@ -73,6 +79,7 @@ The following attributes are exported:
 * `encapsulation_address` - Source for GRE/VXLAN tunnel address.
 * `enforce_unique_id` - Enable/disable peer ID uniqueness check.
 * `esn` - Extended sequence number (ESN) negotiation.
+* `exchange_fgt_device_id` - Enable/disable device identifier exchange with peer FortiGate units for use of VPN monitor data by FortiManager.
 * `exchange_interface_ip` - Enable/disable exchange of IPsec interface IP address.
 * `exchange_ip_addr4` - IPv4 address to exchange with peers.
 * `exchange_ip_addr6` - IPv6 address to exchange with peers.
@@ -85,6 +92,7 @@ The following attributes are exported:
 * `fec_receive_timeout` - Timeout in milliseconds before dropping Forward Error Correction packets (1 - 1000).
 * `fec_redundant` - Number of redundant Forward Error Correction packets (1 - 5 for reed-solomon, 1 for xor).
 * `fec_send_timeout` - Timeout in milliseconds before sending Forward Error Correction packets (1 - 1000).
+* `fgsp_sync` - Enable/disable IPsec syncing of tunnels for FGSP IPsec.
 * `forticlient_enforcement` - Enable/disable FortiClient enforcement.
 * `fragmentation` - Enable/disable fragment IKE message on re-transmission.
 * `fragmentation_mtu` - IKE fragmentation MTU (500 - 16000).
@@ -94,6 +102,7 @@ The following attributes are exported:
 * `idle_timeout` - Enable/disable IPsec tunnel idle timeout.
 * `idle_timeoutinterval` - IPsec tunnel idle timeout in minutes (5 - 43200).
 * `ike_version` - IKE protocol version.
+* `inbound_dscp_copy` - Enable/disable copy the dscp in the ESP header to the inner IP Header.
 * `include_local_lan` - Enable/disable allow local LAN access on unity clients.
 * `interface` - Local physical, aggregate, or VLAN outgoing interface.
 * `ip_delay_interval` - IP address reuse delay interval in seconds (0 - 28800).
@@ -121,6 +130,7 @@ The following attributes are exported:
 * `ipv6_start_ip` - Start of IPv6 range.
 * `keepalive` - NAT-T keep alive interval.
 * `keylife` - Time to wait in seconds before phase 1 encryption key expires.
+* `link_cost` - VPN tunnel underlay link cost.
 * `local_gw` - IPv4 address of the local gateway's external interface.
 * `local_gw6` - IPv6 address of the local gateway's external interface.
 * `localid` - Local ID.
@@ -142,6 +152,7 @@ The following attributes are exported:
 * `network_id` - VPN gateway network ID.
 * `network_overlay` - Enable/disable network overlays.
 * `npu_offload` - Enable/disable offloading NPU.
+* `packet_redistribution` - Enable/disable packet distribution (RPS) on the IPsec interface.
 * `passive_mode` - Enable/disable IPsec passive mode for static tunnels.
 * `peer` - Accept this peer certificate.
 * `peergrp` - Accept this peer certificate group.
@@ -157,9 +168,20 @@ The following attributes are exported:
 * `reauth` - Enable/disable re-authentication upon IKE SA lifetime expiration.
 * `rekey` - Enable/disable phase1 rekey.
 * `remote_gw` - IPv4 address of the remote gateway's external interface.
+* `remote_gw_country` - IPv4 addresses associated to a specific country.
+* `remote_gw_end_ip` - Last IPv4 address in the range.
+* `remote_gw_match` - Set type of IPv4 remote gateway address matching.
+* `remote_gw_start_ip` - First IPv4 address in the range.
+* `remote_gw_subnet` - IPv4 address and subnet mask.
 * `remote_gw6` - IPv6 address of the remote gateway's external interface.
+* `remote_gw6_country` - IPv6 addresses associated to a specific country.
+* `remote_gw6_end_ip` - Last IPv6 address in the range.
+* `remote_gw6_match` - Set type of IPv6 remote gateway address matching.
+* `remote_gw6_start_ip` - First IPv6 address in the range.
+* `remote_gw6_subnet` - IPv6 address and prefix.
 * `remotegw_ddns` - Domain name of remote gateway. For example, name.ddns.com.
 * `rsa_signature_format` - Digital Signature Authentication RSA signature format.
+* `rsa_signature_hash_override` - Enable/disable IKEv2 RSA signature hash algorithm override.
 * `save_password` - Enable/disable saving XAuth username and password on VPN clients.
 * `send_cert_chain` - Enable/disable sending certificate chain.
 * `signature_hash_alg` - Digital Signature Authentication hash algorithms.
@@ -182,6 +204,11 @@ The `backup_gateway` block contains:
 The `certificate` block contains:
 
 * `name` - Certificate name.
+* `internal_domain_list` - List of domains for which the client directs DNS queries to the internal DNS servers for resolution.  DNS servers are configured in the mode-cfg settings.  One or more internal domain names in quotes separated by spaces, like "abc.com xyz.com 123.com"The structure of `internal_domain_list` block is documented below.
+
+The `internal_domain_list` block contains:
+
+* `domain_name` - Domain name.
 * `ipv4_exclude_range` - Configuration Method IPv4 exclude ranges.The structure of `ipv4_exclude_range` block is documented below.
 
 The `ipv4_exclude_range` block contains:

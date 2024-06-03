@@ -24,6 +24,7 @@ Use this data source to get information on a fortios Configure wireless controll
 
 The following attributes are exported:
 
+* `acd_process_count` - Configure the number cw_acd daemons for multi-core CPU support (default = 0).
 * `ap_log_server` - Enable/disable configuring FortiGate to redirect wireless event log messages or FortiAPs to send UTM log messages to a syslog server (default = disable).
 * `ap_log_server_ip` - IP address that FortiGate or FortiAPs send log messages to.
 * `ap_log_server_port` - Port that FortiGate or FortiAPs send log messages to.

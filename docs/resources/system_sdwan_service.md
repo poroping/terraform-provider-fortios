@@ -24,6 +24,7 @@ Create SD-WAN rules (also called services) to control how sessions are distribut
 * `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
 * `addr_mode` - Address mode (IPv4 or IPv6). Valid values: `ipv4` `ipv6` .
+* `agent_exclusive` - Set/unset the service as agent use exclusively. Valid values: `enable` `disable` .
 * `bandwidth_weight` - Coefficient of reciprocal of available bidirectional bandwidth in the formula of custom-profile-1.
 * `default` - Enable/disable use of SD-WAN as default service. Valid values: `enable` `disable` .
 * `dscp_forward` - Enable/disable forward traffic DSCP tag. Valid values: `enable` `disable` .

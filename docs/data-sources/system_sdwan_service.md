@@ -26,6 +26,7 @@ Use this data source to get information on a fortios Create SD-WAN rules (also c
 The following attributes are exported:
 
 * `addr_mode` - Address mode (IPv4 or IPv6).
+* `agent_exclusive` - Set/unset the service as agent use exclusively.
 * `bandwidth_weight` - Coefficient of reciprocal of available bidirectional bandwidth in the formula of custom-profile-1.
 * `default` - Enable/disable use of SD-WAN as default service.
 * `dscp_forward` - Enable/disable forward traffic DSCP tag.

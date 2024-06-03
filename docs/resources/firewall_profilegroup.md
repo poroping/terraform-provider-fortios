@@ -29,13 +29,14 @@ Configure profile groups.
 * `file_filter_profile` - Name of an existing file-filter profile. This attribute must reference one of the following datasources: `file-filter.profile.name` .
 * `icap_profile` - Name of an existing ICAP profile. This attribute must reference one of the following datasources: `icap.profile.name` .
 * `ips_sensor` - Name of an existing IPS sensor. This attribute must reference one of the following datasources: `ips.sensor.name` .
+* `ips_voip_filter` - Name of an existing VoIP (ips) profile. This attribute must reference one of the following datasources: `voip.profile.name` .
 * `name` - Profile group name.
 * `profile_protocol_options` - Name of an existing Protocol options profile. This attribute must reference one of the following datasources: `firewall.profile-protocol-options.name` .
 * `sctp_filter_profile` - Name of an existing SCTP filter profile. This attribute must reference one of the following datasources: `sctp-filter.profile.name` .
 * `ssh_filter_profile` - Name of an existing SSH filter profile. This attribute must reference one of the following datasources: `ssh-filter.profile.name` .
 * `ssl_ssh_profile` - Name of an existing SSL SSH profile. This attribute must reference one of the following datasources: `firewall.ssl-ssh-profile.name` .
 * `videofilter_profile` - Name of an existing VideoFilter profile. This attribute must reference one of the following datasources: `videofilter.profile.name` .
-* `voip_profile` - Name of an existing VoIP profile. This attribute must reference one of the following datasources: `voip.profile.name` .
+* `voip_profile` - Name of an existing VoIP (voipd) profile. This attribute must reference one of the following datasources: `voip.profile.name` .
 * `waf_profile` - Name of an existing Web application firewall profile. This attribute must reference one of the following datasources: `waf.profile.name` .
 * `webfilter_profile` - Name of an existing Web filter profile. This attribute must reference one of the following datasources: `webfilter.profile.name` .
 

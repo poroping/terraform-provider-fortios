@@ -28,7 +28,7 @@ Configure application control lists.
 * `extended_log` - Enable/disable extended logging. Valid values: `enable` `disable` .
 * `force_inclusion_ssl_di_sigs` - Enable/disable forced inclusion of SSL deep inspection signatures. Valid values: `disable` `enable` .
 * `name` - List name.
-* `options` - Basic application protocol signatures allowed by default. Valid values: `allow-dns` `allow-icmp` `allow-http` `allow-ssl` `allow-quic` .
+* `options` - Basic application protocol signatures allowed by default. Valid values: `allow-dns` `allow-icmp` `allow-http` `allow-ssl` .
 * `other_application_action` - Action for other applications. Valid values: `pass` `block` .
 * `other_application_log` - Enable/disable logging for other applications. Valid values: `disable` `enable` .
 * `p2p_black_list` - P2P applications to be black listed. Valid values: `skype` `edonkey` `bittorrent` .

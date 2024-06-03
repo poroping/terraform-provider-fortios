@@ -20,6 +20,7 @@ Configure WAN optimization settings.
 
 * `auto_detect_algorithm` - Auto detection algorithms used in tunnel negotiations. Valid values: `simple` `diff-req-resp` .
 * `host_id` - Local host ID (must also be entered in the remote FortiGate's peer list).
+* `tunnel_optimization` - WANOpt tunnel optimization option. Valid values: `memory-usage` `balanced` `throughput` .
 * `tunnel_ssl_algorithm` - Relative strength of encryption algorithms accepted during tunnel negotiation. Valid values: `high` `medium` `low` .
 
 ## Attribute Reference

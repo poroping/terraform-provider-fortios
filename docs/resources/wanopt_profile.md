@@ -19,7 +19,7 @@ Configure WAN optimization profiles.
 * `vdomparam` - Specifies the vdom to which the data source will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.
 * `allow_append` - If set to true allows provider to overwrite existing resources instead of erroring. Useful for brownfield implementations. Use with caution! Requires `name` to be defined.
 
-* `auth_group` - Optionally add an authentication group to restrict access to the WAN Optimization tunnel to peers in the authentication group. This attribute must reference one of the following datasources: `wanopt.auth-group.name` .
+* `auth_group` - Optionally add an authentication group to restrict access to the WAN Optimization tunnel to peers in the authentication group.
 * `comments` - Comment.
 * `name` - Profile name.
 * `transparent` - Enable/disable transparent mode. Valid values: `enable` `disable` .

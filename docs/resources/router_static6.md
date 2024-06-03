@@ -30,6 +30,7 @@ resource "fortios_router_static6" "example" {
 * `devindex` - Device index (0 - 4294967295).
 * `distance` - Administrative distance (1 - 255).
 * `dst` - Destination IPv6 prefix.
+* `dstaddr` - Name of firewall address or address group. This attribute must reference one of the following datasources: `firewall.address6.name` `firewall.addrgrp6.name` .
 * `dynamic_gateway` - Enable use of dynamic gateway retrieved from Router Advertisement (RA). Valid values: `enable` `disable` .
 * `gateway` - IPv6 address of the gateway.
 * `link_monitor_exempt` - Enable/disable withdrawal of this static route when link monitor or health check is down. Valid values: `enable` `disable` .
@@ -39,6 +40,7 @@ resource "fortios_router_static6" "example" {
 * `status` - Enable/disable this static route. Valid values: `enable` `disable` .
 * `virtual_wan_link` - Enable/disable egress through the virtual-wan-link. Valid values: `enable` `disable` .
 * `vrf` - Virtual Routing Forwarding ID.
+* `weight` - Administrative weight (0 - 255).
 * `sdwan_zone` - Choose SD-WAN Zone. The structure of `sdwan_zone` block is documented below.
 
 The `sdwan_zone` block contains:

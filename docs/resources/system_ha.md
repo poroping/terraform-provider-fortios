@@ -27,9 +27,9 @@ Configure HA.
 * `failover_hold_time` - Time to wait before failover (0 - 300 sec, default = 0), to avoid flip.
 * `ftp_proxy_threshold` - Dynamic weighted load balancing weight and high and low number of FTP proxy sessions.
 * `gratuitous_arps` - Enable/disable gratuitous ARPs. Disable if link-failed-signal enabled. Valid values: `enable` `disable` .
-* `group_id` - HA group ID  (0 - 1023;  or 0 - 7 when vcluster is enabled). Must be the same for all members.
+* `group_id` - HA group ID  (0 - 1023;  or 0 - 7 when there are more than 2 vclusters). Must be the same for all members.
 * `group_name` - Cluster group name. Must be the same for all members.
-* `ha_direct` - Enable/disable using ha-mgmt interface for syslog, SNMP, remote authentication (RADIUS), FortiAnalyzer, FortiSandbox, sFlow, and Netflow. Valid values: `enable` `disable` .
+* `ha_direct` - Enable/disable using ha-mgmt interface for syslog, remote authentication (RADIUS), FortiAnalyzer, FortiSandbox, sFlow, and Netflow. Valid values: `enable` `disable` .
 * `ha_eth_type` - HA heartbeat packet Ethertype (4-digit hex).
 * `ha_mgmt_status` - Enable to reserve interfaces to manage individual cluster units. Valid values: `enable` `disable` .
 * `ha_uptime_diff_margin` - Normally you would only reduce this value for failover testing.
@@ -71,7 +71,7 @@ Configure HA.
 * `route_hold` - Time to wait between routing table updates to the cluster (0 - 3600 sec).
 * `route_ttl` - TTL for primary unit routes (5 - 3600 sec). Increase to maintain active routes during failover.
 * `route_wait` - Time to wait before sending new routes to the cluster (0 - 3600 sec).
-* `schedule` - Type of A-A load balancing. Use none if you have external load balancers. Valid values: `none` `hub` `leastconnection` `round-robin` `weight-round-robin` `random` `ip` `ipport` .
+* `schedule` - Type of A-A load balancing. Use none if you have external load balancers. Valid values: `none` `leastconnection` `round-robin` `weight-round-robin` `random` `ip` `ipport` .
 * `session_pickup` - Enable/disable session pickup. Enabling it can reduce session down time when fail over happens. Valid values: `enable` `disable` .
 * `session_pickup_connectionless` - Enable/disable UDP and ICMP session sync. Valid values: `enable` `disable` .
 * `session_pickup_delay` - Enable to sync sessions longer than 30 sec. Only longer lived sessions need to be synced. Valid values: `enable` `disable` .
@@ -134,6 +134,7 @@ The `vcluster` block contains:
 * `override_wait_time` - Delay negotiating if override is enabled (0 - 3600 sec). Reduces how often the cluster negotiates.
 * `pingserver_failover_threshold` - Remote IP monitoring failover threshold (0 - 50).
 * `pingserver_monitor_interface` - Interfaces to check for remote IP monitoring. This attribute must reference one of the following datasources: `system.interface.name` .
+* `pingserver_secondary_force_reset` - Enable to force the cluster to negotiate after a remote IP monitoring failover. Valid values: `enable` `disable` .
 * `pingserver_slave_force_reset` - Enable to force the cluster to negotiate after a remote IP monitoring failover. Valid values: `enable` `disable` .
 * `priority` - Increase the priority to select the primary unit (0 - 255).
 * `vcluster_id` - ID.

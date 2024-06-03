@@ -22,7 +22,7 @@ Designate logical storage for DLP fingerprint database.
 * `chunk_size` - Maximum fingerprint chunk size. Caution, changing this setting will flush the entire database.
 * `db_mode` - Behavior when the maximum size is reached. Valid values: `stop-adding` `remove-modified-then-oldest` `remove-oldest` .
 * `size` - Maximum total size of files within the storage (MB).
-* `storage_device` - Storage device name. This attribute must reference one of the following datasources: `system.storage.name` .
+* `storage_device` - Storage device name.
 
 ## Attribute Reference
 

@@ -24,6 +24,7 @@ CA certificate.
 * `ca` - CA certificate as a PEM file.
 * `ca_identifier` - CA identifier of the SCEP server.
 * `name` - Name.
+* `obsolete` - Enable/disable this CA as obsoleted. Valid values: `disable` `enable` .
 * `range` - Either global or VDOM IP address range for the CA certificate. Valid values: `global` `vdom` .
 * `scep_url` - URL of the SCEP server.
 * `source` - CA certificate source type. Valid values: `factory` `user` `bundle` .

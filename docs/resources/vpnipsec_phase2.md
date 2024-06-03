@@ -37,6 +37,7 @@ Configure VPN autokey tunnel.
 * `dst_subnet` - Remote proxy ID IPv4 subnet.
 * `dst_subnet6` - Remote proxy ID IPv6 subnet.
 * `encapsulation` - ESP encapsulation mode. Valid values: `tunnel-mode` `transport-mode` .
+* `inbound_dscp_copy` - Enable/disable copying of the DSCP in the ESP header to the inner IP header. Valid values: `phase1` `enable` `disable` .
 * `initiator_ts_narrow` - Enable/disable traffic selector narrowing for IKEv2 initiator. Valid values: `enable` `disable` .
 * `ipv4_df` - Enable/disable setting and resetting of IPv4 'Don't Fragment' bit. Valid values: `enable` `disable` .
 * `keepalive` - Enable/disable keep alive. Valid values: `enable` `disable` .

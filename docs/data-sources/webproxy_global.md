@@ -30,9 +30,11 @@ The following attributes are exported:
 * `ldap_user_cache` - Enable/disable LDAP user cache for explicit and transparent proxy user.
 * `learn_client_ip` - Enable/disable learning the client's IP address from headers.
 * `learn_client_ip_from_header` - Learn client IP address from the specified headers.
+* `log_policy_pending` - Enable/disable logging sessions that are pending on policy matching.
 * `max_message_length` - Maximum length of HTTP message, not including body (16 - 256 Kbytes, default = 32).
 * `max_request_length` - Maximum length of HTTP request line (2 - 64 Kbytes, default = 8).
 * `max_waf_body_cache_length` - Maximum length of HTTP messages processed by Web Application Firewall (WAF) (10 - 1024 Kbytes, default = 32).
+* `policy_category_deep_inspect` - Enable/disable deep inspection for application level category policy matching.
 * `proxy_fqdn` - Fully Qualified Domain Name (FQDN) that clients connect to (default = default.fqdn) to connect to the explicit web proxy.
 * `src_affinity_exempt_addr` - IPv4 source addresses to exempt proxy affinity.
 * `src_affinity_exempt_addr6` - IPv6 source addresses to exempt proxy affinity.

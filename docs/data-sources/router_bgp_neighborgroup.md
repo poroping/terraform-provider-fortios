@@ -96,6 +96,7 @@ The following attributes are exported:
 * `next_hop_self6` - Enable/disable IPv6 next-hop calculation for this neighbor.
 * `override_capability` - Enable/disable override result of capability negotiation.
 * `passive` - Enable/disable sending of open messages to this neighbor.
+* `password` - Password used in MD5 authentication.
 * `prefix_list_in` - IPv4 Inbound filter for updates from this neighbor.
 * `prefix_list_in_vpnv4` - Inbound filter for VPNv4 updates from this neighbor.
 * `prefix_list_in6` - IPv6 Inbound filter for updates from this neighbor.

@@ -27,6 +27,9 @@ Add this FortiGate to a Security Fabric or set up a new Security Fabric on this 
 * `downstream_accprofile` - Default access profile for requests from downstream devices. This attribute must reference one of the following datasources: `system.accprofile.name` .
 * `fabric_object_unification` - Fabric CMDB Object Unification. Valid values: `default` `local` .
 * `fabric_workers` - Number of worker processes for Security Fabric daemon.
+* `file_mgmt` - Enable/disable Security Fabric daemon file management. Valid values: `enable` `disable` .
+* `file_quota` - Maximum amount of memory that can be used by the daemon files (in bytes).
+* `file_quota_warning` - Warn when the set percentage of quota has been used.
 * `forticloud_account_enforcement` - Fabric FortiCloud account unification. Valid values: `enable` `disable` .
 * `group_name` - Security Fabric group name. All FortiGates in a Security Fabric must have the same group name.
 * `group_password` - Security Fabric group password. All FortiGates in a Security Fabric must have the same group password.
@@ -34,8 +37,11 @@ Add this FortiGate to a Security Fabric or set up a new Security Fabric on this 
 * `management_ip` - Management IP address of this FortiGate. Used to log into this FortiGate from another FortiGate in the Security Fabric.
 * `management_port` - Overriding port for management connection (Overrides admin port).
 * `saml_configuration_sync` - SAML setting configuration synchronization. Valid values: `default` `local` .
+* `source_ip` - Source IP address for communication with the upstream FortiGate.
 * `status` - Enable/disable Security Fabric. Valid values: `enable` `disable` .
 * `upstream` - IP/FQDN of the FortiGate upstream from this FortiGate in the Security Fabric.
+* `upstream_interface` - Specify outgoing interface to reach server. This attribute must reference one of the following datasources: `system.interface.name` .
+* `upstream_interface_select_method` - Specify how to select outgoing interface to reach server. Valid values: `auto` `sdwan` `specify` .
 * `upstream_ip` - IP address of the FortiGate upstream from this FortiGate in the Security Fabric.
 * `upstream_port` - The port number to use to communicate with the FortiGate upstream from this FortiGate in the Security Fabric (default = 8013).
 * `fabric_connector` - Fabric connector configuration. The structure of `fabric_connector` block is documented below.
@@ -62,6 +68,7 @@ The `trusted_list` block contains:
 * `certificate` - Certificate.
 * `downstream_authorization` - Trust authorizations by this node's administrator. Valid values: `enable` `disable` .
 * `ha_members` - HA members.
+* `index` - Index of the downstream in tree.
 * `name` - Name.
 * `serial` - Serial.
 

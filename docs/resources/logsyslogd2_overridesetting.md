@@ -37,9 +37,9 @@ Override settings for remote syslog server.
 
 The `custom_field_name` block contains:
 
-* `custom` - Field custom name.
+* `custom` - Field custom name [A-Za-z0-9_].
 * `id` - Entry ID.
-* `name` - Field name.
+* `name` - Field name [A-Za-z0-9_].
 
 ## Attribute Reference
 

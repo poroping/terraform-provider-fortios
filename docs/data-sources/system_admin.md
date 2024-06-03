@@ -73,6 +73,7 @@ The following attributes are exported:
 * `two_factor` - Enable/disable two-factor authentication.
 * `two_factor_authentication` - Authentication method by FortiToken Cloud.
 * `two_factor_notification` - Notification method for user activation by FortiToken Cloud.
+* `vdom_override` - Enable to use the names of VDOMs provided by the remote authentication server to control the VDOMs that this administrator can access.
 * `wildcard` - Enable/disable wildcard RADIUS authentication.
 * `guest_usergroups` - Select guest user groups.The structure of `guest_usergroups` block is documented below.
 

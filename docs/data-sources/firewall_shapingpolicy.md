@@ -44,6 +44,7 @@ The following attributes are exported:
 * `tos_negate` - Enable negated TOS match.
 * `traffic_shaper` - Traffic shaper to apply to traffic forwarded by the firewall policy.
 * `traffic_shaper_reverse` - Traffic shaper to apply to response traffic received by the firewall policy.
+* `uuid` - Universally Unique Identifier (UUID; automatically assigned but can be manually reset).
 * `app_category` - IDs of one or more application categories that this shaper applies application control traffic shaping to.The structure of `app_category` block is documented below.
 
 The `app_category` block contains:

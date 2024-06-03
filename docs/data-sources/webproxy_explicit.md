@@ -26,6 +26,7 @@ The following attributes are exported:
 
 * `ftp_incoming_port` - Accept incoming FTP-over-HTTP requests on one or more ports (0 - 65535, default = 0; use the same as HTTP).
 * `ftp_over_http` - Enable to proxy FTP-over-HTTP sessions sent from a web browser.
+* `http_connection_mode` - HTTP connection mode (default = static).
 * `http_incoming_port` - Accept incoming HTTP requests on one or more ports (0 - 65535, default = 8080).
 * `https_incoming_port` - Accept incoming HTTPS requests on one or more ports (0 - 65535, default = 0, use the same as HTTP).
 * `https_replacement_message` - Enable/disable sending the client a replacement message for HTTPS requests.
@@ -39,6 +40,7 @@ The following attributes are exported:
 * `pac_file_name` - Pac file name.
 * `pac_file_server_port` - Port number that PAC traffic from client web browsers uses to connect to the explicit web proxy (0 - 65535, default = 0; use the same as HTTP).
 * `pac_file_server_status` - Enable/disable Proxy Auto-Configuration (PAC) for users of this explicit proxy profile.
+* `pac_file_through_https` - Enable/disable to get Proxy Auto-Configuration (PAC) through HTTPS.
 * `pac_file_url` - PAC file access URL.
 * `pref_dns_result` - Prefer resolving addresses using the configured IPv4 or IPv6 DNS server (default = ipv4).
 * `realm` - Authentication realm used to identify the explicit web proxy (maximum of 63 characters).

@@ -26,6 +26,7 @@ Use this data source to get information on a fortios Configure IPv4 and IPv6 cen
 The following attributes are exported:
 
 * `comments` - Comment.
+* `dst_port` - Destination port or port range (1 to 65535, 0 means any port).
 * `nat` - Enable/disable source NAT.
 * `nat_port` - Translated port or port range (1 to 65535, 0 means any port).
 * `nat46` - Enable/disable NAT46.

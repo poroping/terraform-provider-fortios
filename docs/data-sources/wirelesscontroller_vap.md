@@ -32,6 +32,7 @@ The following attributes are exported:
 * `address_group_policy` - Configure MAC address filtering policy for MAC addresses that are in the address-group.
 * `antivirus_profile` - AntiVirus profile name.
 * `application_detection_engine` - Enable/disable application detection engine (default = disable).
+* `application_dscp_marking` - Enable/disable application attribute based DSCP marking (default = disable).
 * `application_list` - Application control list name.
 * `application_report_intv` - Application report interval (30 - 864000 sec, default = 120).
 * `atf_weight` - Airtime weight in percentage (default = 20).
@@ -47,6 +48,7 @@ The following attributes are exported:
 * `bstm_rssi_disassoc_timer` - Time interval for client to voluntarily leave AP before forcing a disassociation due to low RSSI (0 to 2000, default = 200).
 * `captive_portal_ac_name` - Local-bridging captive portal ac-name.
 * `captive_portal_auth_timeout` - Hard timeout - AP will always clear the session after timeout regardless of traffic (0 - 864000 sec, default = 0).
+* `captive_portal_fw_accounting` - Enable/disable RADIUS accounting for captive portal firewall authentication session.
 * `captive_portal_macauth_radius_secret` - Secret key to access the macauth RADIUS server.
 * `captive_portal_macauth_radius_server` - Captive portal external RADIUS server domain name or IP address.
 * `captive_portal_radius_secret` - Secret key to access the RADIUS server.
@@ -86,6 +88,7 @@ The following attributes are exported:
 * `key` - WEP Key.
 * `keyindex` - WEP key index (1 - 4).
 * `l3_roaming` - Enable/disable layer 3 roaming (default = disable).
+* `l3_roaming_mode` - Select the way that layer 3 roaming traffic is passed (default = direct).
 * `ldpc` - VAP low-density parity-check (LDPC) coding configuration.
 * `local_authentication` - Enable/disable AP local authentication.
 * `local_bridging` - Enable/disable bridging of wireless and Ethernet interfaces on the FortiAP (default = disable).
@@ -143,20 +146,26 @@ The following attributes are exported:
 * `radio_5g_threshold` - Minimum signal level/threshold in dBm required for the AP response to receive a packet in 5G band(-95 to -20, default = -76).
 * `radio_sensitivity` - Enable/disable software radio sensitivity (to ignore weak signals) (default = disable).
 * `radius_mac_auth` - Enable/disable RADIUS-based MAC authentication of clients (default = disable).
+* `radius_mac_auth_block_interval` - Don't send RADIUS MAC auth request again if the client has been rejected within specific interval (0 or 30 - 864000 seconds, default = 0, 0 to disable blocking).
 * `radius_mac_auth_server` - RADIUS-based MAC authentication server.
 * `radius_mac_mpsk_auth` - Enable/disable RADIUS-based MAC authentication of clients for MPSK authentication (default = disable).
-* `radius_mac_mpsk_timeout` - RADIUS MAC MPSK cache timeout interval (1800 - 864000, default = 86400).
+* `radius_mac_mpsk_timeout` - RADIUS MAC MPSK cache timeout interval (0 or 300 - 864000, default = 86400, 0 to disable caching).
 * `radius_server` - RADIUS server to be used to authenticate WiFi users.
 * `rates_11a` - Allowed data rates for 802.11a.
+* `rates_11ac_mcs_map` - Comma separated list of max supported VHT MCS for spatial streams 1 through 8.
 * `rates_11ac_ss12` - Allowed data rates for 802.11ac with 1 or 2 spatial streams.
 * `rates_11ac_ss34` - Allowed data rates for 802.11ac with 3 or 4 spatial streams.
+* `rates_11ax_mcs_map` - Comma separated list of max supported HE MCS for spatial streams 1 through 8.
 * `rates_11ax_ss12` - Allowed data rates for 802.11ax with 1 or 2 spatial streams.
 * `rates_11ax_ss34` - Allowed data rates for 802.11ax with 3 or 4 spatial streams.
 * `rates_11bg` - Allowed data rates for 802.11b/g.
 * `rates_11n_ss12` - Allowed data rates for 802.11n with 1 or 2 spatial streams.
 * `rates_11n_ss34` - Allowed data rates for 802.11n with 3 or 4 spatial streams.
 * `sae_groups` - SAE-Groups.
+* `sae_h2e_only` - Use hash-to-element-only mechanism for PWE derivation (default = disable).
 * `sae_password` - WPA3 SAE password to be used to authenticate WiFi users.
+* `sae_pk` - Enable/disable WPA3 SAE-PK (default = disable).
+* `sae_private_key` - Private key used for WPA3 SAE-PK authentication.
 * `scan_botnet_connections` - Block or monitor connections to Botnet servers or disable Botnet scanning.
 * `secondary_wag_profile` - Secondary wireless access gateway profile name.
 * `security` - Security mode for the wireless interface (default = wpa2-only-personal).
@@ -167,6 +176,7 @@ The following attributes are exported:
 * `sticky_client_remove` - Enable/disable sticky client remove to maintain good signal level clients in SSID (default = disable).
 * `sticky_client_threshold_2g` - Minimum signal level/threshold in dBm required for the 2G client to be serviced by the AP (-95 to -20, default = -79).
 * `sticky_client_threshold_5g` - Minimum signal level/threshold in dBm required for the 5G client to be serviced by the AP (-95 to -20, default = -76).
+* `sticky_client_threshold_6g` - Minimum signal level/threshold in dBm required for the 6G client to be serviced by the AP (-95 to -20, default = -76).
 * `target_wake_time` - Enable/disable 802.11ax target wake time (default = enable).
 * `tkip_counter_measure` - Enable/disable TKIP counter measure.
 * `tunnel_echo_interval` - The time interval to send echo to both primary and secondary tunnel peers (1 - 65535 sec, default = 300).

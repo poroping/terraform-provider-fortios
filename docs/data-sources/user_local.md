@@ -18,7 +18,7 @@ Use this data source to get information on a fortios Configure local users.
 
 ## Argument Reference
 
-* `name` - (Required) User name.
+* `name` - (Required) Local user name.
 * `vdomparam` - Specifies the vdom to which the data source will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.
 
 ## Attribute Reference
@@ -32,7 +32,7 @@ The following attributes are exported:
 * `fortitoken` - Two-factor recipient's FortiToken serial number.
 * `id` - User ID.
 * `ldap_server` - Name of LDAP server with which the user must authenticate.
-* `name` - User name.
+* `name` - Local user name.
 * `passwd` - User's password.
 * `passwd_policy` - Password policy to apply to this user, as defined in config user password-policy.
 * `passwd_time` - Time of the last password update.

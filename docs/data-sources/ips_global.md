@@ -33,7 +33,7 @@ The following attributes are exported:
 * `exclude_signatures` - Excluded signatures.
 * `fail_open` - Enable to allow traffic if the IPS buffer is full. Default is disable and IPS traffic is blocked when the IPS buffer is full.
 * `intelligent_mode` - Enable/disable IPS adaptive scanning (intelligent mode). Intelligent mode optimizes the scanning method for the type of traffic.
-* `ips_reserve_cpu` - Enable/disable IPS daemon's use of CPUs other than CPU 0
+* `ips_reserve_cpu` - Enable/disable IPS daemon's use of CPUs other than CPU 0.
 * `ngfw_max_scan_range` - NGFW policy-mode app detection threshold.
 * `np_accel_mode` - Acceleration mode for IPS processing by NPx processors.
 * `packet_log_queue_depth` - Packet/pcap log queue depth per IPS engine.

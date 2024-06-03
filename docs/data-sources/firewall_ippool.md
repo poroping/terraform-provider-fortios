@@ -30,6 +30,15 @@ The following attributes are exported:
 * `arp_reply` - Enable/disable replying to ARP requests when an IP Pool is added to a policy (default = enable).
 * `associated_interface` - Associated interface name.
 * `block_size` - Number of addresses in a block (64 - 4096, default = 128).
+* `cgn_block_size` - Number of ports in a block(64 to 4096 in unit of 64, default = 128).
+* `cgn_client_endip` - Final client IPv4 address (inclusive) (format xxx.xxx.xxx.xxx, Default: 0.0.0.0).
+* `cgn_client_ipv6shift` - IPv6 shift for fixed-allocation.(default 0)
+* `cgn_client_startip` - First client IPv4 address (inclusive) (format xxx.xxx.xxx.xxx, Default: 0.0.0.0).
+* `cgn_fixedalloc` - Enable/disable fixed-allocation mode.
+* `cgn_overload` - Enable/disable overload mode.
+* `cgn_port_end` - Ending public port can be allocated. 
+* `cgn_port_start` - Starting public port can be allocated. 
+* `cgn_spa` - Enable/disable single port allocation mode.
 * `comments` - Comment.
 * `endip` - Final IPv4 address (inclusive) in the range for the address pool (format xxx.xxx.xxx.xxx, Default: 0.0.0.0).
 * `endport` - Final port number (inclusive) in the range for the address pool (Default: 65533).
@@ -43,4 +52,12 @@ The following attributes are exported:
 * `source_startip` - First IPv4 address (inclusive) in the range of the source addresses to be translated (format = xxx.xxx.xxx.xxx, default = 0.0.0.0).
 * `startip` - First IPv4 address (inclusive) in the range for the address pool (format xxx.xxx.xxx.xxx, Default: 0.0.0.0).
 * `startport` - First port number (inclusive) in the range for the address pool (Default: 5117).
+* `subnet_broadcast_in_ippool` - Enable/disable inclusion of the subnetwork address and broadcast IP address in the NAT64 IP pool.
 * `type` - IP pool type (overload, one-to-one, fixed port range, or port block allocation).
+* `utilization_alarm_clear` - Pool utilization alarm clear threshold (40-100).
+* `utilization_alarm_raise` - Pool utilization alarm raise threshold (50-100).
+* `exclude_ip` - Exclude IPs x.x.x.x.The structure of `exclude_ip` block is documented below.
+
+The `exclude_ip` block contains:
+
+* `subnet` - Exclude IPs

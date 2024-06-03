@@ -25,6 +25,7 @@ Use this data source to get information on a fortios Configure GRE tunnel.
 
 The following attributes are exported:
 
+* `auto_asic_offload` - Enable/disable automatic ASIC offloading.
 * `checksum_reception` - Enable/disable validating checksums in received GRE packets.
 * `checksum_transmission` - Enable/disable including checksums in transmitted GRE packets.
 * `diffservcode` - DiffServ setting to be applied to GRE tunnel outer IP header.

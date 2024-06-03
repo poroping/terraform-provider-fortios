@@ -68,6 +68,7 @@ Configure admin users.
 * `two_factor` - Enable/disable two-factor authentication. Valid values: `disable` `fortitoken` `fortitoken-cloud` `email` `sms` .
 * `two_factor_authentication` - Authentication method by FortiToken Cloud. Valid values: `fortitoken` `email` `sms` .
 * `two_factor_notification` - Notification method for user activation by FortiToken Cloud. Valid values: `email` `sms` .
+* `vdom_override` - Enable to use the names of VDOMs provided by the remote authentication server to control the VDOMs that this administrator can access. Valid values: `enable` `disable` .
 * `wildcard` - Enable/disable wildcard RADIUS authentication. Valid values: `enable` `disable` .
 * `guest_usergroups` - Select guest user groups. The structure of `guest_usergroups` block is documented below.
 

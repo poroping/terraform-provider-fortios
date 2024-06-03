@@ -26,8 +26,8 @@ Configure shared traffic shaper.
 * `exceed_bandwidth` - Exceed bandwidth used for DSCP multi-stage marking. Units depend on the bandwidth-unit setting.
 * `exceed_class_id` - Class ID for traffic in guaranteed-bandwidth and maximum-bandwidth. This attribute must reference one of the following datasources: `firewall.traffic-class.class-id` .
 * `exceed_dscp` - DSCP mark for traffic in guaranteed-bandwidth and exceed-bandwidth.
-* `guaranteed_bandwidth` - Amount of bandwidth guaranteed for this shaper (0 - 16776000). Units depend on the bandwidth-unit setting.
-* `maximum_bandwidth` - Upper bandwidth limit enforced by this shaper (0 - 16776000). 0 means no limit. Units depend on the bandwidth-unit setting.
+* `guaranteed_bandwidth` - Amount of bandwidth guaranteed for this shaper (0 - 100000000). Units depend on the bandwidth-unit setting.
+* `maximum_bandwidth` - Upper bandwidth limit enforced by this shaper (0 - 100000000). 0 means no limit. Units depend on the bandwidth-unit setting.
 * `maximum_dscp` - DSCP mark for traffic in exceed-bandwidth and maximum-bandwidth.
 * `name` - Traffic shaper name.
 * `overhead` - Per-packet size overhead used in rate computations.

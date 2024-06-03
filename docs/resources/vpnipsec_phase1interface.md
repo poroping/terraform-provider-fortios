@@ -32,6 +32,7 @@ Configure VPN remote gateway.
 * `authpasswd` - XAuth password (max 35 characters).
 * `authusr` - XAuth user name.
 * `authusrgrp` - Authentication user group. This attribute must reference one of the following datasources: `user.group.name` .
+* `auto_discovery_crossover` - Allow/block set-up of short-cut tunnels between different network IDs. Valid values: `allow` `block` .
 * `auto_discovery_forwarder` - Enable/disable forwarding auto-discovery short-cut messages. Valid values: `enable` `disable` .
 * `auto_discovery_offer_interval` - Interval between shortcut offer messages in seconds (1 - 300, default = 5).
 * `auto_discovery_psk` - Enable/disable use of pre-shared secrets for authentication of auto-discovery tunnels. Valid values: `enable` `disable` .
@@ -39,14 +40,18 @@ Configure VPN remote gateway.
 * `auto_discovery_sender` - Enable/disable sending auto-discovery short-cut messages. Valid values: `enable` `disable` .
 * `auto_discovery_shortcuts` - Control deletion of child short-cut tunnels when the parent tunnel goes down. Valid values: `independent` `dependent` .
 * `auto_negotiate` - Enable/disable automatic initiation of IKE SA negotiation. Valid values: `enable` `disable` .
+* `azure_ad_autoconnect` - Enable/disable Azure AD Auto-Connect for FortiClient. Valid values: `enable` `disable` .
 * `banner` - Message that unity client should display after connecting.
 * `cert_id_validation` - Enable/disable cross validation of peer ID and the identity in the peer's certificate as specified in RFC 4945. Valid values: `enable` `disable` .
+* `cert_trust_store` - CA certificate trust store. Valid values: `local` `ems` .
 * `childless_ike` - Enable/disable childless IKEv2 initiation (RFC 6023). Valid values: `enable` `disable` .
 * `client_auto_negotiate` - Enable/disable allowing the VPN client to bring up the tunnel when there is no traffic. Valid values: `disable` `enable` .
 * `client_keep_alive` - Enable/disable allowing the VPN client to keep the tunnel up when there is no traffic. Valid values: `disable` `enable` .
 * `comments` - Comment.
 * `default_gw` - IPv4 address of default route gateway to use for traffic exiting the interface.
 * `default_gw_priority` - Priority for default gateway route. A higher priority number signifies a less preferred route.
+* `dev_id` - Device ID carried by the device ID notification.
+* `dev_id_notification` - Enable/disable device ID notification. Valid values: `disable` `enable` .
 * `dhcp_ra_giaddr` - Relay agent gateway IP address to use in the giaddr field of DHCP requests.
 * `dhcp6_ra_linkaddr` - Relay agent IPv6 link address to use in DHCP6 requests.
 * `dhgrp` - DH group. Valid values: `1` `2` `5` `14` `15` `16` `17` `18` `19` `20` `21` `27` `28` `29` `30` `31` `32` .
@@ -60,6 +65,7 @@ Configure VPN remote gateway.
 * `eap` - Enable/disable IKEv2 EAP authentication. Valid values: `enable` `disable` .
 * `eap_exclude_peergrp` - Peer group excluded from EAP authentication. This attribute must reference one of the following datasources: `user.peergrp.name` .
 * `eap_identity` - IKEv2 EAP peer identity type. Valid values: `use-id-payload` `send-request` .
+* `ems_sn_check` - Enable/disable verification of EMS serial number. Valid values: `enable` `disable` .
 * `encap_local_gw4` - Local IPv4 address of GRE/VXLAN tunnel.
 * `encap_local_gw6` - Local IPv6 address of GRE/VXLAN tunnel.
 * `encap_remote_gw4` - Remote IPv4 address of GRE/VXLAN tunnel.
@@ -68,6 +74,7 @@ Configure VPN remote gateway.
 * `encapsulation_address` - Source for GRE/VXLAN tunnel address. Valid values: `ike` `ipv4` `ipv6` .
 * `enforce_unique_id` - Enable/disable peer ID uniqueness check. Valid values: `disable` `keep-new` `keep-old` .
 * `esn` - Extended sequence number (ESN) negotiation. Valid values: `require` `allow` `disable` .
+* `exchange_fgt_device_id` - Enable/disable device identifier exchange with peer FortiGate units for use of VPN monitor data by FortiManager. Valid values: `enable` `disable` .
 * `exchange_interface_ip` - Enable/disable exchange of IPsec interface IP address. Valid values: `enable` `disable` .
 * `exchange_ip_addr4` - IPv4 address to exchange with peers.
 * `exchange_ip_addr6` - IPv6 address to exchange with peers.
@@ -80,6 +87,7 @@ Configure VPN remote gateway.
 * `fec_receive_timeout` - Timeout in milliseconds before dropping Forward Error Correction packets (1 - 1000).
 * `fec_redundant` - Number of redundant Forward Error Correction packets (1 - 5 for reed-solomon, 1 for xor).
 * `fec_send_timeout` - Timeout in milliseconds before sending Forward Error Correction packets (1 - 1000).
+* `fgsp_sync` - Enable/disable IPsec syncing of tunnels for FGSP IPsec. Valid values: `enable` `disable` .
 * `forticlient_enforcement` - Enable/disable FortiClient enforcement. Valid values: `enable` `disable` .
 * `fragmentation` - Enable/disable fragment IKE message on re-transmission. Valid values: `enable` `disable` .
 * `fragmentation_mtu` - IKE fragmentation MTU (500 - 16000).
@@ -89,6 +97,7 @@ Configure VPN remote gateway.
 * `idle_timeout` - Enable/disable IPsec tunnel idle timeout. Valid values: `enable` `disable` .
 * `idle_timeoutinterval` - IPsec tunnel idle timeout in minutes (5 - 43200).
 * `ike_version` - IKE protocol version. Valid values: `1` `2` .
+* `inbound_dscp_copy` - Enable/disable copy the dscp in the ESP header to the inner IP Header. Valid values: `enable` `disable` .
 * `include_local_lan` - Enable/disable allow local LAN access on unity clients. Valid values: `disable` `enable` .
 * `interface` - Local physical, aggregate, or VLAN outgoing interface. This attribute must reference one of the following datasources: `system.interface.name` .
 * `ip_delay_interval` - IP address reuse delay interval in seconds (0 - 28800).
@@ -116,6 +125,7 @@ Configure VPN remote gateway.
 * `ipv6_start_ip` - Start of IPv6 range.
 * `keepalive` - NAT-T keep alive interval.
 * `keylife` - Time to wait in seconds before phase 1 encryption key expires.
+* `link_cost` - VPN tunnel underlay link cost.
 * `local_gw` - IPv4 address of the local gateway's external interface.
 * `local_gw6` - IPv6 address of the local gateway's external interface.
 * `localid` - Local ID.
@@ -137,6 +147,7 @@ Configure VPN remote gateway.
 * `network_id` - VPN gateway network ID.
 * `network_overlay` - Enable/disable network overlays. Valid values: `disable` `enable` .
 * `npu_offload` - Enable/disable offloading NPU. Valid values: `enable` `disable` .
+* `packet_redistribution` - Enable/disable packet distribution (RPS) on the IPsec interface. Valid values: `enable` `disable` .
 * `passive_mode` - Enable/disable IPsec passive mode for static tunnels. Valid values: `enable` `disable` .
 * `peer` - Accept this peer certificate. This attribute must reference one of the following datasources: `user.peer.name` .
 * `peergrp` - Accept this peer certificate group. This attribute must reference one of the following datasources: `user.peergrp.name` .
@@ -152,9 +163,20 @@ Configure VPN remote gateway.
 * `reauth` - Enable/disable re-authentication upon IKE SA lifetime expiration. Valid values: `disable` `enable` .
 * `rekey` - Enable/disable phase1 rekey. Valid values: `enable` `disable` .
 * `remote_gw` - IPv4 address of the remote gateway's external interface.
+* `remote_gw_country` - IPv4 addresses associated to a specific country.
+* `remote_gw_end_ip` - Last IPv4 address in the range.
+* `remote_gw_match` - Set type of IPv4 remote gateway address matching. Valid values: `any` `ipmask` `iprange` `geography` .
+* `remote_gw_start_ip` - First IPv4 address in the range.
+* `remote_gw_subnet` - IPv4 address and subnet mask.
 * `remote_gw6` - IPv6 address of the remote gateway's external interface.
+* `remote_gw6_country` - IPv6 addresses associated to a specific country.
+* `remote_gw6_end_ip` - Last IPv6 address in the range.
+* `remote_gw6_match` - Set type of IPv6 remote gateway address matching. Valid values: `any` `ipprefix` `iprange` `geography` .
+* `remote_gw6_start_ip` - First IPv6 address in the range.
+* `remote_gw6_subnet` - IPv6 address and prefix.
 * `remotegw_ddns` - Domain name of remote gateway. For example, name.ddns.com.
 * `rsa_signature_format` - Digital Signature Authentication RSA signature format. Valid values: `pkcs1` `pss` .
+* `rsa_signature_hash_override` - Enable/disable IKEv2 RSA signature hash algorithm override. Valid values: `enable` `disable` .
 * `save_password` - Enable/disable saving XAuth username and password on VPN clients. Valid values: `disable` `enable` .
 * `send_cert_chain` - Enable/disable sending certificate chain. Valid values: `enable` `disable` .
 * `signature_hash_alg` - Digital Signature Authentication hash algorithms. Valid values: `sha1` `sha2-256` `sha2-384` `sha2-512` .
@@ -177,6 +199,11 @@ The `backup_gateway` block contains:
 The `certificate` block contains:
 
 * `name` - Certificate name. This attribute must reference one of the following datasources: `vpn.certificate.local.name` .
+* `internal_domain_list` - List of domains for which the client directs DNS queries to the internal DNS servers for resolution.  DNS servers are configured in the mode-cfg settings.  One or more internal domain names in quotes separated by spaces, like "abc.com xyz.com 123.com" The structure of `internal_domain_list` block is documented below.
+
+The `internal_domain_list` block contains:
+
+* `domain_name` - Domain name.
 * `ipv4_exclude_range` - Configuration Method IPv4 exclude ranges. The structure of `ipv4_exclude_range` block is documented below.
 
 The `ipv4_exclude_range` block contains:

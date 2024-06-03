@@ -26,4 +26,5 @@ The following attributes are exported:
 
 * `auto_detect_algorithm` - Auto detection algorithms used in tunnel negotiations.
 * `host_id` - Local host ID (must also be entered in the remote FortiGate's peer list).
+* `tunnel_optimization` - WANOpt tunnel optimization option.
 * `tunnel_ssl_algorithm` - Relative strength of encryption algorithms accepted during tunnel negotiation.

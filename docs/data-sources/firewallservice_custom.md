@@ -47,7 +47,7 @@ The following attributes are exported:
 * `tcp_portrange` - Multiple TCP port ranges.
 * `tcp_rst_timer` - Set the length of the TCP CLOSE state in seconds (5 - 300 sec, 0 = default).
 * `tcp_timewait_timer` - Set the length of the TCP TIME-WAIT state in seconds (1 - 300 sec, 0 = default).
-* `udp_idle_timer` - UDP half close timeout (0 - 86400 sec, 0 = default).
+* `udp_idle_timer` - Number of seconds before an idle UDP connection times out (0 - 86400 sec, 0 = default).
 * `udp_portrange` - Multiple UDP port ranges.
 * `visibility` - Enable/disable the visibility of the service on the GUI.
 * `app_category` - Application category ID.The structure of `app_category` block is documented below.

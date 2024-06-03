@@ -33,9 +33,11 @@ The following attributes are exported:
 * `password` - HTTP basic authentication password.
 * `refresh_rate` - Time interval to refresh external resource (1 - 43200 min, default = 5 min).
 * `resource` - URI of external resource.
+* `server_identity_check` - Certificate verification option.
 * `source_ip` - Source IPv4 address used to communicate with server.
 * `status` - Enable/disable user resource.
 * `type` - User resource type.
+* `update_method` - External resource update method.
 * `user_agent` - HTTP User-Agent header (default = 'curl/7.58.0').
 * `username` - HTTP basic authentication user name.
 * `uuid` - Universally Unique Identifier (UUID; automatically assigned but can be manually reset).

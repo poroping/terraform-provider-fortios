@@ -85,7 +85,7 @@ resource "fortios_firewall_address" "specialchars" {
 * `sdn_tag` - SDN Tag.
 * `start_ip` - First IP address (inclusive) in the range for the address.
 * `start_mac` - First MAC address in the range.
-* `sub_type` - Sub-type of address. Valid values: `sdn` `clearpass-spt` `fsso` `ems-tag` `fortivoice-tag` `fortinac-tag` `swc-tag` .
+* `sub_type` - Sub-type of address. Valid values: `sdn` `clearpass-spt` `fsso` `ems-tag` `fortivoice-tag` `fortinac-tag` `fortipolicy-tag` `swc-tag` .
 * `subnet` - IP address and subnet mask of address.
 * `subnet_name` - Subnet name.
 * `tag_detection_level` - Tag detection level of dynamic address object.

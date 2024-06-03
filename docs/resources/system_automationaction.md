@@ -21,7 +21,7 @@ Action for automation stitches.
 * `dynamic_sort_table` - `true` or `false`, set this parameter to `true` when using dynamic for_each + toset to configure and sort sub-tables, if set to `true` static sub-tables must be ordered.
 
 * `accprofile` - Access profile for CLI script action to access FortiGate features. This attribute must reference one of the following datasources: `system.accprofile.name` .
-* `action_type` - Action type. Valid values: `email` `fortiexplorer-notification` `alert` `disable-ssid` `quarantine` `quarantine-forticlient` `quarantine-nsx` `quarantine-fortinac` `ban-ip` `aws-lambda` `azure-function` `google-cloud-function` `alicloud-function` `webhook` `cli-script` `slack-notification` `microsoft-teams-notification` .
+* `action_type` - Action type. Valid values: `email` `fortiexplorer-notification` `alert` `disable-ssid` `system-actions` `quarantine` `quarantine-forticlient` `quarantine-nsx` `quarantine-fortinac` `ban-ip` `aws-lambda` `azure-function` `google-cloud-function` `alicloud-function` `webhook` `cli-script` `slack-notification` `microsoft-teams-notification` .
 * `alicloud_access_key_id` - AliCloud AccessKey ID.
 * `alicloud_access_key_secret` - AliCloud AccessKey secret.
 * `alicloud_account_id` - AliCloud account ID.
@@ -66,6 +66,7 @@ Action for automation stitches.
 * `required` - Required in action chain. Valid values: `enable` `disable` .
 * `script` - CLI script.
 * `security_tag` - NSX security tag.
+* `system_action` - System action type. Valid values: `reboot` `shutdown` `backup-config` .
 * `timeout` - Maximum running time for this script in seconds (0 = no timeout).
 * `tls_certificate` - Custom TLS certificate for API request. This attribute must reference one of the following datasources: `certificate.local.name` .
 * `uri` - Request API URI.
@@ -80,6 +81,13 @@ The `email_to` block contains:
 The `headers` block contains:
 
 * `header` - Request header.
+* `http_headers` - Request headers. The structure of `http_headers` block is documented below.
+
+The `http_headers` block contains:
+
+* `id` - Entry ID.
+* `key` - Request header key.
+* `value` - Request header value.
 * `sdn_connector` - NSX SDN connector names. The structure of `sdn_connector` block is documented below.
 
 The `sdn_connector` block contains:

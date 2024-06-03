@@ -25,10 +25,12 @@ Use this data source to get information on a fortios Global FortiAnalyzer settin
 The following attributes are exported:
 
 * `access_config` - Enable/disable FortiAnalyzer access to configuration and data.
+* `alt_server` - Alternate FortiAnalyzer.
 * `certificate` - Certificate used to communicate with FortiAnalyzer.
 * `certificate_verification` - Enable/disable identity verification of FortiAnalyzer by use of certificate.
 * `conn_timeout` - FortiAnalyzer connection time-out in seconds (for status and log buffer).
 * `enc_algorithm` - Configure the level of SSL protection for secure communication with FortiAnalyzer.
+* `fallback_to_primary` - Enable/disable this FortiGate unit to fallback to the primary FortiAnalyzer when it is available.
 * `hmac_algorithm` - OFTP login hash algorithm.
 * `interface` - Specify outgoing interface to reach server.
 * `interface_select_method` - Specify how to select outgoing interface to reach server.
@@ -40,6 +42,7 @@ The following attributes are exported:
 * `priority` - Set log transmission priority.
 * `reliable` - Enable/disable reliable logging to FortiAnalyzer.
 * `server` - The remote FortiAnalyzer.
+* `server_cert_ca` - Mandatory CA on FortiGate in certificate chain of server.
 * `source_ip` - Source IPv4 or IPv6 address used to communicate with FortiAnalyzer.
 * `ssl_min_proto_version` - Minimum supported protocol version for SSL/TLS connections (default is to follow system global setting).
 * `status` - Enable/disable logging to FortiAnalyzer.

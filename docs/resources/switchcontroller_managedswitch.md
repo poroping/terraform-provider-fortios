@@ -72,6 +72,15 @@ The `custom_command` block contains:
 
 * `command_entry` - List of FortiSwitch commands.
 * `command_name` - Names of commands to be pushed to this FortiSwitch device, as configured under config switch-controller custom-command. This attribute must reference one of the following datasources: `switch-controller.custom-command.command-name` .
+* `dhcp_snooping_static_client` - Configure FortiSwitch DHCP snooping static clients. The structure of `dhcp_snooping_static_client` block is documented below.
+
+The `dhcp_snooping_static_client` block contains:
+
+* `ip` - Client static IP address.
+* `mac` - Client MAC address.
+* `name` - Client name.
+* `port` - Interface name.
+* `vlan` - VLAN name. This attribute must reference one of the following datasources: `system.interface.name` .
 * `igmp_snooping` - Configure FortiSwitch IGMP snooping global settings. The structure of `igmp_snooping` block is documented below.
 
 The `igmp_snooping` block contains:
@@ -148,6 +157,7 @@ The `ports` block contains:
 * `flow_control` - Flow control direction. Valid values: `disable` `tx` `rx` `both` .
 * `fortilink_port` - FortiLink uplink port.
 * `igmp_snooping` - Set IGMP snooping mode for the physical port interface. Valid values: `enable` `disable` .
+* `igmp_snooping_flood_reports` - Enable/disable flooding of IGMP reports to this interface when igmp-snooping enabled. Valid values: `enable` `disable` .
 * `igmps_flood_reports` - Enable/disable flooding of IGMP reports to this interface when igmp-snooping enabled. Valid values: `enable` `disable` .
 * `igmps_flood_traffic` - Enable/disable flooding of IGMP snooping traffic to this interface. Valid values: `enable` `disable` .
 * `ip_source_guard` - Enable/disable IP source guard. Valid values: `disable` `enable` .
@@ -164,6 +174,7 @@ The `ports` block contains:
 * `matched_dpp_intf_tags` - Matched interface tags in the dynamic port policy.
 * `matched_dpp_policy` - Matched child policy in the dynamic port policy.
 * `max_bundle` - Maximum size of LAG bundle (1 - 24, default = 24).
+* `mcast_snooping_flood_traffic` - Enable/disable flooding of IGMP snooping traffic to this interface. Valid values: `enable` `disable` .
 * `mclag` - Enable/disable multi-chassis link aggregation (MCLAG). Valid values: `enable` `disable` .
 * `mclag_icl_port` - MCLAG-ICL port.
 * `media_type` - Media type.
@@ -177,6 +188,10 @@ The `ports` block contains:
 * `pause_meter_resume` - Resume threshold for resuming traffic on ingress port. Valid values: `75%` `50%` `25%` .
 * `poe_capable` - PoE capable.
 * `poe_max_power` - PoE maximum power.
+* `poe_mode_bt_cabable` - PoE mode IEEE 802.3BT capable.
+* `poe_port_mode` - Configure PoE port mode. Valid values: `ieee802-3af` `ieee802-3at` `ieee802-3bt` .
+* `poe_port_power` - Configure PoE port power. Valid values: `normal` `perpetual` `perpetual-fast` .
+* `poe_port_priority` - Configure PoE port priority. Valid values: `critical-priority` `high-priority` `low-priority` `medium-priority` .
 * `poe_pre_standard_detection` - Enable/disable PoE pre-standard detection. Valid values: `enable` `disable` .
 * `poe_standard` - PoE standard supported.
 * `poe_status` - Enable/disable PoE status. Valid values: `enable` `disable` .
@@ -192,7 +207,7 @@ The `ports` block contains:
 * `rpvst_port` - Enable/disable inter-operability with rapid PVST on this interface. Valid values: `disabled` `enabled` .
 * `sample_direction` - Packet sampling direction. Valid values: `tx` `rx` `both` .
 * `sflow_counter_interval` - sFlow sampling counter polling interval in seconds (0 - 255).
-* `speed` - Switch port speed; default and available settings depend on hardware. Valid values: `10half` `10full` `100half` `100full` `1000auto` `1000fiber` `1000full` `10000` `40000` `auto` `auto-module` `100FX-half` `100FX-full` `100000full` `2500auto` `25000full` `50000full` `10000cr` `10000sr` `100000sr4` `100000cr4` `25000cr4` `25000sr4` `5000full` .
+* `speed` - Switch port speed; default and available settings depend on hardware. Valid values: `10half` `10full` `100half` `100full` `1000full` `10000full` `auto` `1000auto` `1000full-fiber` `40000full` `auto-module` `100FX-half` `100FX-full` `100000full` `2500auto` `2500full` `25000full` `50000full` `10000cr` `10000sr` `100000sr4` `100000cr4` `40000sr4` `40000cr4` `40000auto` `25000cr` `25000sr` `50000cr` `50000sr` `5000auto` .
 * `stacking_port` - Stacking port.
 * `status` - Switch port admin status: up or down. Valid values: `up` `down` .
 * `sticky_mac` - Enable or disable sticky-mac on the interface. Valid values: `enable` `disable` .

@@ -28,6 +28,7 @@ The following attributes are exported:
 * `204_response` - Enable/disable allowance of 204 response from ICAP server.
 * `204_size_limit` - 204 response size limit to be saved by ICAP client in megabytes (1 - 10, default = 1 MB).
 * `chunk_encap` - Enable/disable chunked encapsulation (default = disable).
+* `comment` - Comment.
 * `extension_feature` - Enable/disable ICAP extension features.
 * `file_transfer` - Configure the file transfer protocols to pass transferred files to an ICAP server as REQMOD.
 * `file_transfer_failure` - Action to take if the ICAP server cannot be contacted when processing a file transfer.

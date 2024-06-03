@@ -77,6 +77,15 @@ The `custom_command` block contains:
 
 * `command_entry` - List of FortiSwitch commands.
 * `command_name` - Names of commands to be pushed to this FortiSwitch device, as configured under config switch-controller custom-command.
+* `dhcp_snooping_static_client` - Configure FortiSwitch DHCP snooping static clients.The structure of `dhcp_snooping_static_client` block is documented below.
+
+The `dhcp_snooping_static_client` block contains:
+
+* `ip` - Client static IP address.
+* `mac` - Client MAC address.
+* `name` - Client name.
+* `port` - Interface name.
+* `vlan` - VLAN name.
 * `igmp_snooping` - Configure FortiSwitch IGMP snooping global settings.The structure of `igmp_snooping` block is documented below.
 
 The `igmp_snooping` block contains:
@@ -153,6 +162,7 @@ The `ports` block contains:
 * `flow_control` - Flow control direction.
 * `fortilink_port` - FortiLink uplink port.
 * `igmp_snooping` - Set IGMP snooping mode for the physical port interface.
+* `igmp_snooping_flood_reports` - Enable/disable flooding of IGMP reports to this interface when igmp-snooping enabled.
 * `igmps_flood_reports` - Enable/disable flooding of IGMP reports to this interface when igmp-snooping enabled.
 * `igmps_flood_traffic` - Enable/disable flooding of IGMP snooping traffic to this interface.
 * `ip_source_guard` - Enable/disable IP source guard.
@@ -169,6 +179,7 @@ The `ports` block contains:
 * `matched_dpp_intf_tags` - Matched interface tags in the dynamic port policy.
 * `matched_dpp_policy` - Matched child policy in the dynamic port policy.
 * `max_bundle` - Maximum size of LAG bundle (1 - 24, default = 24).
+* `mcast_snooping_flood_traffic` - Enable/disable flooding of IGMP snooping traffic to this interface.
 * `mclag` - Enable/disable multi-chassis link aggregation (MCLAG).
 * `mclag_icl_port` - MCLAG-ICL port.
 * `media_type` - Media type.
@@ -182,6 +193,10 @@ The `ports` block contains:
 * `pause_meter_resume` - Resume threshold for resuming traffic on ingress port.
 * `poe_capable` - PoE capable.
 * `poe_max_power` - PoE maximum power.
+* `poe_mode_bt_cabable` - PoE mode IEEE 802.3BT capable.
+* `poe_port_mode` - Configure PoE port mode.
+* `poe_port_power` - Configure PoE port power.
+* `poe_port_priority` - Configure PoE port priority.
 * `poe_pre_standard_detection` - Enable/disable PoE pre-standard detection.
 * `poe_standard` - PoE standard supported.
 * `poe_status` - Enable/disable PoE status.

@@ -47,6 +47,7 @@ Configure sniffer.
 * `port` - Ports to sniff (Format examples: 10, :20, 30:40, 50-, 100-200).
 * `protocol` - Integer value for the protocol type as defined by IANA (0 - 255).
 * `status` - Enable/disable the active status of the sniffer. Valid values: `enable` `disable` .
+* `uuid` - Universally Unique Identifier (UUID; automatically assigned but can be manually reset).
 * `vlan` - List of VLANs to sniff.
 * `webfilter_profile` - Name of an existing web filter profile. This attribute must reference one of the following datasources: `webfilter.profile.name` .
 * `webfilter_profile_status` - Enable/disable web filter profile. Valid values: `enable` `disable` .
@@ -54,15 +55,22 @@ Configure sniffer.
 
 The `anomaly` block contains:
 
-* `action` - Action taken when the threshold is reached. Valid values: `pass` `block` .
+* `action` - Action taken when the threshold is reached. Valid values: `pass` `block` `proxy` .
 * `log` - Enable/disable anomaly logging. Valid values: `enable` `disable` .
 * `name` - Anomaly name.
 * `quarantine` - Quarantine method. Valid values: `none` `attacker` .
 * `quarantine_expiry` - Duration of quarantine. (Format ###d##h##m, minimum 1m, maximum 364d23h59m, default = 5m). Requires quarantine set to attacker.
 * `quarantine_log` - Enable/disable quarantine logging. Valid values: `disable` `enable` .
 * `status` - Enable/disable this anomaly. Valid values: `disable` `enable` .
-* `threshold` - Anomaly threshold. Number of detected instances per minute that triggers the anomaly action.
-* `thresholddefault` - Number of detected instances per minute which triggers action (1 - 2147483647, default = 1000). Note that each anomaly has a different threshold value assigned to it.
+* `synproxy_tcp_mss` - Determine TCP maximum segment size (MSS) value for packets replied by syn proxy module. Valid values: `0` `256` `512` `1024` `1300` `1360` `1460` `1500` .
+* `synproxy_tcp_sack` - enable/disable TCP selective acknowledage (SACK) for packets replied by syn proxy module. Valid values: `enable` `disable` .
+* `synproxy_tcp_timestamp` - enable/disable TCP timestamp option for packets replied by syn proxy module. Valid values: `enable` `disable` .
+* `synproxy_tcp_window` - Determine TCP Window size for packets replied by syn proxy module. Valid values: `4096` `8192` `16384` `32768` .
+* `synproxy_tcp_windowscale` - Determine TCP window scale option value for packets replied by syn proxy module. Valid values: `0` `1` `2` `3` `4` `5` `6` `7` `8` `9` `10` `11` `12` `13` `14` .
+* `synproxy_tos` - Determine TCP differentiated services code point value (type of service). Valid values: `0` `10` `12` `14` `18` `20` `22` `26` `28` `30` `34` `36` `38` `40` `46` `255` .
+* `synproxy_ttl` - Determine Time to live (TTL) value for packets replied by syn proxy module. Valid values: `32` `64` `128` `255` .
+* `threshold` - Anomaly threshold. Number of detected instances (packets per second or concurrent session number) that triggers the anomaly action.
+* `thresholddefault` - Number of detected instances (packets per second or concurrent session number) which triggers action (1 - 2147483647, default = 1000). Note that each anomaly has a different threshold value assigned to it.
 * `ip_threatfeed` - Name of an existing IP threat feed. The structure of `ip_threatfeed` block is documented below.
 
 The `ip_threatfeed` block contains:

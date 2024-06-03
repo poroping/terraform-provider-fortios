@@ -31,6 +31,7 @@ The following attributes are exported:
 * `country` - IPv6 addresses associated to a specific country.
 * `end_ip` - Final IP address (inclusive) in the range for the address (format: xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx).
 * `end_mac` - Last MAC address in the range.
+* `epg_name` - Endpoint group name.
 * `fabric_object` - Security Fabric global object setting.
 * `fqdn` - Fully qualified domain name.
 * `host` - Host Address.
@@ -39,9 +40,11 @@ The following attributes are exported:
 * `name` - Address name.
 * `obj_id` - Object ID for NSX.
 * `sdn` - SDN.
+* `sdn_tag` - SDN Tag.
 * `start_ip` - First IP address (inclusive) in the range for the address (format: xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx).
 * `start_mac` - First MAC address in the range.
 * `template` - IPv6 address template.
+* `tenant` - Tenant.
 * `type` - Type of IPv6 address object (default = ipprefix).
 * `uuid` - Universally Unique Identifier (UUID; automatically assigned but can be manually reset).
 * `visibility` - Enable/disable the visibility of the object in the GUI.

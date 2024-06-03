@@ -18,7 +18,7 @@ Configure alert email settings.
 ## Argument Reference
 * `vdomparam` - Specifies the vdom to which the data source will be applied when the FortiGate unit is running in VDOM mode. Only one vdom can be specified. If you want to inherit the vdom configuration of the provider, please do not set this parameter.
 
-* `fds_license_expiring_days` - Number of days to send alert email prior to FortiGuard license expiration (1 - 100 days, default = 100).
+* `fds_license_expiring_days` - Number of days to send alert email prior to FortiGuard license expiration (1 - 100 days, default = 15).
 * `fds_license_expiring_warning` - Enable/disable FortiGuard license expiration warnings in alert email. Valid values: `enable` `disable` .
 * `fds_update_logs` - Enable/disable FortiGuard update logs in alert email. Valid values: `enable` `disable` .
 * `fips_cc_errors` - Enable/disable FIPS and Common Criteria error logs in alert email. Valid values: `enable` `disable` .

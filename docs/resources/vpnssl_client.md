@@ -24,6 +24,8 @@ Client.
 * `comment` - Comment.
 * `distance` - Distance for routes added by SSL-VPN (1 - 255).
 * `interface` - SSL interface to send/receive traffic over. This attribute must reference one of the following datasources: `system.interface.name` .
+* `ipv4_subnets` - IPv4 subnets that the client is protecting. This attribute must reference one of the following datasources: `firewall.address.name` `firewall.addrgrp.name` .
+* `ipv6_subnets` - IPv6 subnets that the client is protecting. This attribute must reference one of the following datasources: `firewall.address6.name` `firewall.addrgrp6.name` .
 * `name` - SSL-VPN tunnel name.
 * `peer` - Authenticate peer's certificate with the peer/peergrp. This attribute must reference one of the following datasources: `user.peer.name` `user.peergrp.name` .
 * `port` - SSL-VPN server port.

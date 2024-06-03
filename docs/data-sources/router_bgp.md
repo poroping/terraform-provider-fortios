@@ -31,7 +31,7 @@ The following attributes are exported:
 * `additional_path_vpnv4` - Enable/disable selection of BGP VPNv4 additional paths.
 * `additional_path6` - Enable/disable selection of BGP IPv6 additional paths.
 * `always_compare_med` - Enable/disable always compare MED.
-* `as` - Router AS number, valid from 1 to 4294967295, 0 to disable BGP.
+* `as` - Router AS number, asplain/asdot/asdot+ format, 0 to disable BGP.
 * `bestpath_as_path_ignore` - Enable/disable ignore AS path.
 * `bestpath_cmp_confed_aspath` - Enable/disable compare federation AS path length.
 * `bestpath_cmp_routerid` - Enable/disable compare router ID for identical EBGP paths.
@@ -67,6 +67,7 @@ The following attributes are exported:
 * `log_neighbour_changes` - Log BGP neighbor changes.
 * `multipath_recursive_distance` - Enable/disable use of recursive distance to select multipath.
 * `network_import_check` - Enable/disable ensure BGP network route exists in IGP.
+* `recursive_inherit_priority` - Enable/disable priority inheritance for recursive resolution.
 * `recursive_next_hop` - Enable/disable recursive resolution of next-hop using BGP route.
 * `router_id` - Router ID.
 * `scan_time` - Background scanner interval (sec), 0 to disable it.
@@ -227,7 +228,7 @@ The `conditional_advertise` block contains:
 
 The `condition_routemap` block contains:
 
-* `name` - route map
+* `name` - Route map.
 * `conditional_advertise6` - IPv6 conditional advertisement.The structure of `conditional_advertise6` block is documented below.
 
 The `conditional_advertise6` block contains:
@@ -238,7 +239,7 @@ The `conditional_advertise6` block contains:
 
 The `condition_routemap` block contains:
 
-* `name` - route map
+* `name` - Route map.
 * `neighbor_group` - BGP neighbor group table.The structure of `neighbor_group` block is documented below.
 
 The `neighbor_group` block contains:
@@ -314,6 +315,7 @@ The `neighbor_group` block contains:
 * `next_hop_self6` - Enable/disable IPv6 next-hop calculation for this neighbor.
 * `override_capability` - Enable/disable override result of capability negotiation.
 * `passive` - Enable/disable sending of open messages to this neighbor.
+* `password` - Password used in MD5 authentication.
 * `prefix_list_in` - IPv4 Inbound filter for updates from this neighbor.
 * `prefix_list_in_vpnv4` - Inbound filter for VPNv4 updates from this neighbor.
 * `prefix_list_in6` - IPv6 Inbound filter for updates from this neighbor.
@@ -409,7 +411,7 @@ The `vrf` block contains:
 * `import_route_map` - Import route map.
 * `rd` - Route Distinguisher: AA|AA:NN.
 * `role` - VRF role.
-* `vrf` - Origin VRF ID (0 - 63).
+* `vrf` - Origin VRF ID (0 - 251).
 * `export_rt` - List of export route target.The structure of `export_rt` block is documented below.
 
 The `export_rt` block contains:
@@ -426,7 +428,7 @@ The `leak_target` block contains:
 
 * `interface` - Interface which is used to leak routes to target VRF.
 * `route_map` - Route map of VRF leaking.
-* `vrf` - Target VRF ID (0 - 63).
+* `vrf` - Target VRF ID (0 - 251).
 * `vrf_leak` - BGP VRF leaking table.The structure of `vrf_leak` block is documented below.
 
 The `vrf_leak` block contains:
@@ -455,11 +457,11 @@ The `target` block contains:
 
 The `vrf6` block contains:
 
-* `vrf` - Origin VRF ID (0 - 63).
+* `vrf` - Origin VRF ID (0 - 251).
 * `leak_target` - Target VRF table.The structure of `leak_target` block is documented below.
 
 The `leak_target` block contains:
 
 * `interface` - Interface which is used to leak routes to target VRF.
 * `route_map` - Route map of VRF leaking.
-* `vrf` - Target VRF ID (0 - 63).
+* `vrf` - Target VRF ID (0 - 251).

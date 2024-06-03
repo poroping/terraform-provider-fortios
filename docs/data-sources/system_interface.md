@@ -27,6 +27,7 @@ The following attributes are exported:
 
 * `ac_name` - PPPoE server name.
 * `aggregate` - Aggregate interface.
+* `aggregate_type` - Type of aggregation.
 * `algorithm` - Frame distribution algorithm.
 * `alias` - Alias will be displayed with the interface name to make it easier to distinguish.
 * `allowaccess` - Permitted types of management access to this interface.
@@ -96,6 +97,7 @@ The following attributes are exported:
 * `fortilink_split_interface` - Enable/disable FortiLink split interface to connect member link to different FortiSwitch in stack for uplink redundancy.
 * `fortilink_stacking` - Enable/disable FortiLink switch-stacking on this interface.
 * `forward_domain` - Transparent mode forward domain.
+* `forward_error_correction` - Configure forward error correction (FEC).
 * `gwdetect` - Enable/disable detect gateway alive for first.
 * `ha_priority` - HA election priority for the PING server.
 * `icmp_accept_redirect` - Enable/disable ICMP accept redirect.
@@ -103,7 +105,7 @@ The following attributes are exported:
 * `ident_accept` - Enable/disable authentication for this interface.
 * `idle_timeout` - PPPoE auto disconnect after idle timeout seconds, 0 means no timeout.
 * `ike_saml_server` - Configure IKE authentication SAML server.
-* `inbandwidth` - Bandwidth limit for incoming traffic (0 - 16776000 kbps), 0 means unlimited.
+* `inbandwidth` - Bandwidth limit for incoming traffic (0 - 100000000 kbps), 0 means unlimited.
 * `ingress_cos` - Override incoming CoS in user VLAN tag on VLAN interface or assign a priority VLAN tag on physical interface.
 * `ingress_shaping_profile` - Incoming traffic shaping profile.
 * `ingress_spillover_threshold` - Ingress Spillover threshold (0 - 16776000 kbps), 0 means unlimited.
@@ -115,6 +117,7 @@ The following attributes are exported:
 * `ips_sniffer_mode` - Enable/disable the use of this interface as a one-armed sniffer.
 * `ipunnumbered` - Unnumbered IP used for PPPoE interfaces for which no unique local address is provided.
 * `l2forward` - Enable/disable l2 forwarding.
+* `lacp_ha_secondary` - LACP HA secondary member.
 * `lacp_ha_slave` - LACP HA slave.
 * `lacp_mode` - LACP mode.
 * `lacp_speed` - How often the interface sends LACP messages.
@@ -140,7 +143,8 @@ The following attributes are exported:
 * `ndiscforward` - Enable/disable NDISC forwarding.
 * `netbios_forward` - Enable/disable NETBIOS forwarding.
 * `netflow_sampler` - Enable/disable NetFlow on this interface and set the data that NetFlow collects (rx, tx, or both).
-* `outbandwidth` - Bandwidth limit for outgoing traffic (0 - 16776000 kbps), 0 means unlimited.
+* `np_qos_profile` - NP QoS profile ID.
+* `outbandwidth` - Bandwidth limit for outgoing traffic (0 - 100000000 kbps).
 * `padt_retry_timeout` - PPPoE Active Discovery Terminate (PADT) used to terminate sessions after an idle time.
 * `password` - PPPoE account's password.
 * `ping_serv_status` - PING server status.
@@ -166,6 +170,9 @@ The following attributes are exported:
 * `sample_direction` - Data that NetFlow collects (rx, tx, or both).
 * `sample_rate` - sFlow sample rate (10 - 99999).
 * `secondary_ip` - Enable/disable adding a secondary IP to this interface.
+* `security_8021x_dynamic_vlan_id` - VLAN ID for virtual switch.
+* `security_8021x_master` - 802.1X master virtual-switch.
+* `security_8021x_mode` - 802.1X mode.
 * `security_exempt_list` - Name of security-exempt-list.
 * `security_external_logout` - URL of external authentication logout server.
 * `security_external_web` - URL of external authentication web server.
@@ -179,6 +186,8 @@ The following attributes are exported:
 * `spillover_threshold` - Egress Spillover threshold (0 - 16776000 kbps), 0 means unlimited.
 * `src_check` - Enable/disable source IP check.
 * `status` - Bring the interface up or shut the interface down.
+* `stp` - Enable/disable STP.
+* `stp_ha_secondary` - Control STP behavior on HA secondary.
 * `stpforward` - Enable/disable STP forwarding.
 * `stpforward_mode` - Configure STP forwarding mode.
 * `subst` - Enable to always send packets from this interface to a destination MAC address.
@@ -200,12 +209,14 @@ The following attributes are exported:
 * `switch_controller_learning_limit` - Limit the number of dynamic MAC addresses on this VLAN (1 - 128, 0 = no limit, default).
 * `switch_controller_mgmt_vlan` - VLAN to use for FortiLink management purposes.
 * `switch_controller_nac` - Integrated FortiLink settings for managed FortiSwitch.
+* `switch_controller_netflow_collect` - NetFlow collection and processing.
 * `switch_controller_rspan_mode` - Stop Layer2 MAC learning and interception of BPDUs and other packets on this interface.
 * `switch_controller_source_ip` - Source IP address used in FortiLink over L3 connections.
 * `switch_controller_traffic_policy` - Switch controller traffic policy for the VLAN.
 * `system_id` - Define a system ID for the aggregate interface.
 * `system_id_type` - Method in which system ID is generated.
 * `tcp_mss` - TCP maximum segment size. 0 means do not change segment size.
+* `trunk` - Enable/disable VLAN trunk.
 * `trust_ip_1` - Trusted host for dedicated management traffic (0.0.0.0/24 for all hosts).
 * `trust_ip_2` - Trusted host for dedicated management traffic (0.0.0.0/24 for all hosts).
 * `trust_ip_3` - Trusted host for dedicated management traffic (0.0.0.0/24 for all hosts).
@@ -270,6 +281,7 @@ The `ipv6` block contains:
 * `dhcp6_prefix_hint_vlt` - DHCPv6 prefix hint valid life time (sec).
 * `dhcp6_relay_ip` - DHCPv6 relay IP address.
 * `dhcp6_relay_service` - Enable/disable DHCPv6 relay.
+* `dhcp6_relay_source_interface` - Enable/disable use of address on this interface as the source address of the relay message.
 * `dhcp6_relay_type` - DHCPv6 relay type.
 * `icmp6_send_redirect` - Enable/disable sending of ICMPv6 redirects.
 * `interface_identifier` - IPv6 interface identifier.
