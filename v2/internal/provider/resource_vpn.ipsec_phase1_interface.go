@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -149,6 +149,14 @@ func resourceVpnIpsecPhase1Interface() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"auto_discovery_crossover": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"allow", "block"}, false),
+
+				Description: "Allow/block set-up of short-cut tunnels between different network IDs.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"auto_discovery_forwarder": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -205,6 +213,14 @@ func resourceVpnIpsecPhase1Interface() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"azure_ad_autoconnect": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable Azure AD Auto-Connect for FortiClient.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"backup_gateway": {
 				Type:        schema.TypeList,
 				Description: "Instruct unity clients about the backup gateway address(es).",
@@ -235,6 +251,14 @@ func resourceVpnIpsecPhase1Interface() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable cross validation of peer ID and the identity in the peer's certificate as specified in RFC 4945.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"cert_trust_store": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"local", "ems"}, false),
+
+				Description: "CA certificate trust store.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -299,6 +323,22 @@ func resourceVpnIpsecPhase1Interface() *schema.Resource {
 				Type: schema.TypeInt,
 
 				Description: "Priority for default gateway route. A higher priority number signifies a less preferred route.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"dev_id": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 63),
+
+				Description: "Device ID carried by the device ID notification.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"dev_id_notification": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+				Description: "Enable/disable device ID notification.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -405,6 +445,14 @@ func resourceVpnIpsecPhase1Interface() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"ems_sn_check": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable verification of EMS serial number.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"encap_local_gw4": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv4Address,
@@ -466,6 +514,14 @@ func resourceVpnIpsecPhase1Interface() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"require", "allow", "disable"}, false),
 
 				Description: "Extended sequence number (ESN) negotiation.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"exchange_fgt_device_id": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable device identifier exchange with peer FortiGate units for use of VPN monitor data by FortiManager.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -565,6 +621,14 @@ func resourceVpnIpsecPhase1Interface() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"fgsp_sync": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable IPsec syncing of tunnels for FGSP IPsec.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"forticlient_enforcement": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -637,6 +701,14 @@ func resourceVpnIpsecPhase1Interface() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"inbound_dscp_copy": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable copy the dscp in the ESP header to the inner IP Header.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"include_local_lan": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
@@ -652,6 +724,23 @@ func resourceVpnIpsecPhase1Interface() *schema.Resource {
 				Description: "Local physical, aggregate, or VLAN outgoing interface.",
 				Optional:    true,
 				Computed:    true,
+			},
+			"internal_domain_list": {
+				Type:        schema.TypeList,
+				Description: "List of domains for which the client directs DNS queries to the internal DNS servers for resolution.  DNS servers are configured in the mode-cfg settings.  One or more internal domain names in quotes separated by spaces, like \"abc.com xyz.com 123.com\"",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"domain_name": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 79),
+
+							Description: "Domain name.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
 			},
 			"ip_delay_interval": {
 				Type:         schema.TypeInt,
@@ -917,6 +1006,14 @@ func resourceVpnIpsecPhase1Interface() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"link_cost": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 255),
+
+				Description: "VPN tunnel underlay link cost.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"local_gw": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv4Address,
@@ -1084,6 +1181,14 @@ func resourceVpnIpsecPhase1Interface() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"packet_redistribution": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable packet distribution (RPS) on the IPsec interface.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"passive_mode": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -1204,11 +1309,91 @@ func resourceVpnIpsecPhase1Interface() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"remote_gw_country": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 2),
+
+				Description: "IPv4 addresses associated to a specific country.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"remote_gw_end_ip": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.IsIPv4Address,
+
+				Description: "Last IPv4 address in the range.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"remote_gw_match": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"any", "ipmask", "iprange", "geography"}, false),
+
+				Description: "Set type of IPv4 remote gateway address matching.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"remote_gw_start_ip": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.IsIPv4Address,
+
+				Description: "First IPv4 address in the range.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"remote_gw_subnet": {
+				Type:         schema.TypeString,
+				ValidateFunc: validators.FortiValidateIPv4ClassnetAny,
+
+				Description: "IPv4 address and subnet mask.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"remote_gw6": {
 				Type:             schema.TypeString,
 				ValidateFunc:     validation.IsIPv6Address,
 				DiffSuppressFunc: suppressors.DiffIPEqual,
 				Description:      "IPv6 address of the remote gateway's external interface.",
+				Optional:         true,
+				Computed:         true,
+			},
+			"remote_gw6_country": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 2),
+
+				Description: "IPv6 addresses associated to a specific country.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"remote_gw6_end_ip": {
+				Type:             schema.TypeString,
+				ValidateFunc:     validation.IsIPv6Address,
+				DiffSuppressFunc: suppressors.DiffIPEqual,
+				Description:      "Last IPv6 address in the range.",
+				Optional:         true,
+				Computed:         true,
+			},
+			"remote_gw6_match": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"any", "ipprefix", "iprange", "geography"}, false),
+
+				Description: "Set type of IPv6 remote gateway address matching.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"remote_gw6_start_ip": {
+				Type:             schema.TypeString,
+				ValidateFunc:     validation.IsIPv6Address,
+				DiffSuppressFunc: suppressors.DiffIPEqual,
+				Description:      "First IPv6 address in the range.",
+				Optional:         true,
+				Computed:         true,
+			},
+			"remote_gw6_subnet": {
+				Type:             schema.TypeString,
+				ValidateFunc:     validators.FortiValidateIPv6Network,
+				DiffSuppressFunc: suppressors.DiffCidrEqual,
+				Description:      "IPv6 address and prefix.",
 				Optional:         true,
 				Computed:         true,
 			},
@@ -1225,6 +1410,14 @@ func resourceVpnIpsecPhase1Interface() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"pkcs1", "pss"}, false),
 
 				Description: "Digital Signature Authentication RSA signature format.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"rsa_signature_hash_override": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable IKEv2 RSA signature hash algorithm override.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1525,6 +1718,28 @@ func flattenVpnIpsecPhase1InterfaceCertificate(d *schema.ResourceData, v *[]mode
 	return flat
 }
 
+func flattenVpnIpsecPhase1InterfaceInternalDomainList(d *schema.ResourceData, v *[]models.VpnIpsecPhase1InterfaceInternalDomainList, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.DomainName; tmp != nil {
+				v["domain_name"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "domain_name")
+	}
+
+	return flat
+}
+
 func flattenVpnIpsecPhase1InterfaceIpv4ExcludeRange(d *schema.ResourceData, v *[]models.VpnIpsecPhase1InterfaceIpv4ExcludeRange, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
@@ -1685,6 +1900,14 @@ func refreshObjectVpnIpsecPhase1Interface(d *schema.ResourceData, o *models.VpnI
 		}
 	}
 
+	if o.AutoDiscoveryCrossover != nil {
+		v := *o.AutoDiscoveryCrossover
+
+		if err = d.Set("auto_discovery_crossover", v); err != nil {
+			return diag.Errorf("error reading auto_discovery_crossover: %v", err)
+		}
+	}
+
 	if o.AutoDiscoveryForwarder != nil {
 		v := *o.AutoDiscoveryForwarder
 
@@ -1741,6 +1964,14 @@ func refreshObjectVpnIpsecPhase1Interface(d *schema.ResourceData, o *models.VpnI
 		}
 	}
 
+	if o.AzureAdAutoconnect != nil {
+		v := *o.AzureAdAutoconnect
+
+		if err = d.Set("azure_ad_autoconnect", v); err != nil {
+			return diag.Errorf("error reading azure_ad_autoconnect: %v", err)
+		}
+	}
+
 	if o.BackupGateway != nil {
 		if err = d.Set("backup_gateway", flattenVpnIpsecPhase1InterfaceBackupGateway(d, o.BackupGateway, "backup_gateway", sort)); err != nil {
 			return diag.Errorf("error reading backup_gateway: %v", err)
@@ -1760,6 +1991,14 @@ func refreshObjectVpnIpsecPhase1Interface(d *schema.ResourceData, o *models.VpnI
 
 		if err = d.Set("cert_id_validation", v); err != nil {
 			return diag.Errorf("error reading cert_id_validation: %v", err)
+		}
+	}
+
+	if o.CertTrustStore != nil {
+		v := *o.CertTrustStore
+
+		if err = d.Set("cert_trust_store", v); err != nil {
+			return diag.Errorf("error reading cert_trust_store: %v", err)
 		}
 	}
 
@@ -1814,6 +2053,22 @@ func refreshObjectVpnIpsecPhase1Interface(d *schema.ResourceData, o *models.VpnI
 
 		if err = d.Set("default_gw_priority", v); err != nil {
 			return diag.Errorf("error reading default_gw_priority: %v", err)
+		}
+	}
+
+	if o.DevId != nil {
+		v := *o.DevId
+
+		if err = d.Set("dev_id", v); err != nil {
+			return diag.Errorf("error reading dev_id: %v", err)
+		}
+	}
+
+	if o.DevIdNotification != nil {
+		v := *o.DevIdNotification
+
+		if err = d.Set("dev_id_notification", v); err != nil {
+			return diag.Errorf("error reading dev_id_notification: %v", err)
 		}
 	}
 
@@ -1921,6 +2176,14 @@ func refreshObjectVpnIpsecPhase1Interface(d *schema.ResourceData, o *models.VpnI
 		}
 	}
 
+	if o.EmsSnCheck != nil {
+		v := *o.EmsSnCheck
+
+		if err = d.Set("ems_sn_check", v); err != nil {
+			return diag.Errorf("error reading ems_sn_check: %v", err)
+		}
+	}
+
 	if o.EncapLocalGw4 != nil {
 		v := *o.EncapLocalGw4
 
@@ -1982,6 +2245,14 @@ func refreshObjectVpnIpsecPhase1Interface(d *schema.ResourceData, o *models.VpnI
 
 		if err = d.Set("esn", v); err != nil {
 			return diag.Errorf("error reading esn: %v", err)
+		}
+	}
+
+	if o.ExchangeFgtDeviceId != nil {
+		v := *o.ExchangeFgtDeviceId
+
+		if err = d.Set("exchange_fgt_device_id", v); err != nil {
+			return diag.Errorf("error reading exchange_fgt_device_id: %v", err)
 		}
 	}
 
@@ -2081,6 +2352,14 @@ func refreshObjectVpnIpsecPhase1Interface(d *schema.ResourceData, o *models.VpnI
 		}
 	}
 
+	if o.FgspSync != nil {
+		v := *o.FgspSync
+
+		if err = d.Set("fgsp_sync", v); err != nil {
+			return diag.Errorf("error reading fgsp_sync: %v", err)
+		}
+	}
+
 	if o.ForticlientEnforcement != nil {
 		v := *o.ForticlientEnforcement
 
@@ -2154,6 +2433,14 @@ func refreshObjectVpnIpsecPhase1Interface(d *schema.ResourceData, o *models.VpnI
 		}
 	}
 
+	if o.InboundDscpCopy != nil {
+		v := *o.InboundDscpCopy
+
+		if err = d.Set("inbound_dscp_copy", v); err != nil {
+			return diag.Errorf("error reading inbound_dscp_copy: %v", err)
+		}
+	}
+
 	if o.IncludeLocalLan != nil {
 		v := *o.IncludeLocalLan
 
@@ -2167,6 +2454,12 @@ func refreshObjectVpnIpsecPhase1Interface(d *schema.ResourceData, o *models.VpnI
 
 		if err = d.Set("interface", v); err != nil {
 			return diag.Errorf("error reading interface: %v", err)
+		}
+	}
+
+	if o.InternalDomainList != nil {
+		if err = d.Set("internal_domain_list", flattenVpnIpsecPhase1InterfaceInternalDomainList(d, o.InternalDomainList, "internal_domain_list", sort)); err != nil {
+			return diag.Errorf("error reading internal_domain_list: %v", err)
 		}
 	}
 
@@ -2382,6 +2675,14 @@ func refreshObjectVpnIpsecPhase1Interface(d *schema.ResourceData, o *models.VpnI
 		}
 	}
 
+	if o.LinkCost != nil {
+		v := *o.LinkCost
+
+		if err = d.Set("link_cost", v); err != nil {
+			return diag.Errorf("error reading link_cost: %v", err)
+		}
+	}
+
 	if o.LocalGw != nil {
 		v := *o.LocalGw
 
@@ -2550,6 +2851,14 @@ func refreshObjectVpnIpsecPhase1Interface(d *schema.ResourceData, o *models.VpnI
 		}
 	}
 
+	if o.PacketRedistribution != nil {
+		v := *o.PacketRedistribution
+
+		if err = d.Set("packet_redistribution", v); err != nil {
+			return diag.Errorf("error reading packet_redistribution: %v", err)
+		}
+	}
+
 	if o.PassiveMode != nil {
 		v := *o.PassiveMode
 
@@ -2673,11 +2982,96 @@ func refreshObjectVpnIpsecPhase1Interface(d *schema.ResourceData, o *models.VpnI
 		}
 	}
 
+	if o.RemoteGwCountry != nil {
+		v := *o.RemoteGwCountry
+
+		if err = d.Set("remote_gw_country", v); err != nil {
+			return diag.Errorf("error reading remote_gw_country: %v", err)
+		}
+	}
+
+	if o.RemoteGwEndIp != nil {
+		v := *o.RemoteGwEndIp
+
+		if err = d.Set("remote_gw_end_ip", v); err != nil {
+			return diag.Errorf("error reading remote_gw_end_ip: %v", err)
+		}
+	}
+
+	if o.RemoteGwMatch != nil {
+		v := *o.RemoteGwMatch
+
+		if err = d.Set("remote_gw_match", v); err != nil {
+			return diag.Errorf("error reading remote_gw_match: %v", err)
+		}
+	}
+
+	if o.RemoteGwStartIp != nil {
+		v := *o.RemoteGwStartIp
+
+		if err = d.Set("remote_gw_start_ip", v); err != nil {
+			return diag.Errorf("error reading remote_gw_start_ip: %v", err)
+		}
+	}
+
+	if o.RemoteGwSubnet != nil {
+		v := *o.RemoteGwSubnet
+		if current, ok := d.GetOk("remote_gw_subnet"); ok {
+			if s, ok := current.(string); ok {
+				v = utils.ValidateConvIPMask2CIDR(s, v)
+			}
+		}
+
+		if err = d.Set("remote_gw_subnet", v); err != nil {
+			return diag.Errorf("error reading remote_gw_subnet: %v", err)
+		}
+	}
+
 	if o.RemoteGw6 != nil {
 		v := *o.RemoteGw6
 
 		if err = d.Set("remote_gw6", v); err != nil {
 			return diag.Errorf("error reading remote_gw6: %v", err)
+		}
+	}
+
+	if o.RemoteGw6Country != nil {
+		v := *o.RemoteGw6Country
+
+		if err = d.Set("remote_gw6_country", v); err != nil {
+			return diag.Errorf("error reading remote_gw6_country: %v", err)
+		}
+	}
+
+	if o.RemoteGw6EndIp != nil {
+		v := *o.RemoteGw6EndIp
+
+		if err = d.Set("remote_gw6_end_ip", v); err != nil {
+			return diag.Errorf("error reading remote_gw6_end_ip: %v", err)
+		}
+	}
+
+	if o.RemoteGw6Match != nil {
+		v := *o.RemoteGw6Match
+
+		if err = d.Set("remote_gw6_match", v); err != nil {
+			return diag.Errorf("error reading remote_gw6_match: %v", err)
+		}
+	}
+
+	if o.RemoteGw6StartIp != nil {
+		v := *o.RemoteGw6StartIp
+
+		if err = d.Set("remote_gw6_start_ip", v); err != nil {
+			return diag.Errorf("error reading remote_gw6_start_ip: %v", err)
+		}
+	}
+
+	if o.RemoteGw6Subnet != nil {
+		v := *o.RemoteGw6Subnet
+
+		if err = d.Set("remote_gw6_subnet", v); err != nil {
+			return diag.Errorf("error reading remote_gw6_subnet: %v", err)
 		}
 	}
 
@@ -2694,6 +3088,14 @@ func refreshObjectVpnIpsecPhase1Interface(d *schema.ResourceData, o *models.VpnI
 
 		if err = d.Set("rsa_signature_format", v); err != nil {
 			return diag.Errorf("error reading rsa_signature_format: %v", err)
+		}
+	}
+
+	if o.RsaSignatureHashOverride != nil {
+		v := *o.RsaSignatureHashOverride
+
+		if err = d.Set("rsa_signature_hash_override", v); err != nil {
+			return diag.Errorf("error reading rsa_signature_hash_override: %v", err)
 		}
 	}
 
@@ -2836,6 +3238,30 @@ func expandVpnIpsecPhase1InterfaceCertificate(d *schema.ResourceData, v interfac
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.Name = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandVpnIpsecPhase1InterfaceInternalDomainList(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnIpsecPhase1InterfaceInternalDomainList, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.VpnIpsecPhase1InterfaceInternalDomainList
+
+	for i := range l {
+		tmp := models.VpnIpsecPhase1InterfaceInternalDomainList{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.domain_name", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.DomainName = &v2
 			}
 		}
 
@@ -3035,6 +3461,15 @@ func getObjectVpnIpsecPhase1Interface(d *schema.ResourceData, sv string) (*model
 			obj.Authusrgrp = &v2
 		}
 	}
+	if v1, ok := d.GetOk("auto_discovery_crossover"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("auto_discovery_crossover", sv)
+				diags = append(diags, e)
+			}
+			obj.AutoDiscoveryCrossover = &v2
+		}
+	}
 	if v1, ok := d.GetOk("auto_discovery_forwarder"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -3099,6 +3534,15 @@ func getObjectVpnIpsecPhase1Interface(d *schema.ResourceData, sv string) (*model
 			obj.AutoNegotiate = &v2
 		}
 	}
+	if v1, ok := d.GetOk("azure_ad_autoconnect"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("azure_ad_autoconnect", sv)
+				diags = append(diags, e)
+			}
+			obj.AzureAdAutoconnect = &v2
+		}
+	}
 	if v, ok := d.GetOk("backup_gateway"); ok {
 		if !utils.CheckVer(sv, "", "") {
 			e := utils.AttributeVersionWarning("backup_gateway", sv)
@@ -3132,6 +3576,15 @@ func getObjectVpnIpsecPhase1Interface(d *schema.ResourceData, sv string) (*model
 				diags = append(diags, e)
 			}
 			obj.CertIdValidation = &v2
+		}
+	}
+	if v1, ok := d.GetOk("cert_trust_store"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("cert_trust_store", sv)
+				diags = append(diags, e)
+			}
+			obj.CertTrustStore = &v2
 		}
 	}
 	if v, ok := d.GetOk("certificate"); ok {
@@ -3204,6 +3657,24 @@ func getObjectVpnIpsecPhase1Interface(d *schema.ResourceData, sv string) (*model
 			}
 			tmp := int64(v2)
 			obj.DefaultGwPriority = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("dev_id"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("dev_id", sv)
+				diags = append(diags, e)
+			}
+			obj.DevId = &v2
+		}
+	}
+	if v1, ok := d.GetOk("dev_id_notification"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("dev_id_notification", sv)
+				diags = append(diags, e)
+			}
+			obj.DevIdNotification = &v2
 		}
 	}
 	if v1, ok := d.GetOk("dhcp_ra_giaddr"); ok {
@@ -3325,6 +3796,15 @@ func getObjectVpnIpsecPhase1Interface(d *schema.ResourceData, sv string) (*model
 			obj.EapIdentity = &v2
 		}
 	}
+	if v1, ok := d.GetOk("ems_sn_check"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("ems_sn_check", sv)
+				diags = append(diags, e)
+			}
+			obj.EmsSnCheck = &v2
+		}
+	}
 	if v1, ok := d.GetOk("encap_local_gw4"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -3395,6 +3875,15 @@ func getObjectVpnIpsecPhase1Interface(d *schema.ResourceData, sv string) (*model
 				diags = append(diags, e)
 			}
 			obj.Esn = &v2
+		}
+	}
+	if v1, ok := d.GetOk("exchange_fgt_device_id"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("exchange_fgt_device_id", sv)
+				diags = append(diags, e)
+			}
+			obj.ExchangeFgtDeviceId = &v2
 		}
 	}
 	if v1, ok := d.GetOk("exchange_interface_ip"); ok {
@@ -3509,6 +3998,15 @@ func getObjectVpnIpsecPhase1Interface(d *schema.ResourceData, sv string) (*model
 			obj.FecSendTimeout = &tmp
 		}
 	}
+	if v1, ok := d.GetOk("fgsp_sync"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("fgsp_sync", sv)
+				diags = append(diags, e)
+			}
+			obj.FgspSync = &v2
+		}
+	}
 	if v1, ok := d.GetOk("forticlient_enforcement"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -3592,6 +4090,15 @@ func getObjectVpnIpsecPhase1Interface(d *schema.ResourceData, sv string) (*model
 			obj.IkeVersion = &v2
 		}
 	}
+	if v1, ok := d.GetOk("inbound_dscp_copy"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.6", "v7.2.0") {
+				e := utils.AttributeVersionWarning("inbound_dscp_copy", sv)
+				diags = append(diags, e)
+			}
+			obj.InboundDscpCopy = &v2
+		}
+	}
 	if v1, ok := d.GetOk("include_local_lan"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -3608,6 +4115,23 @@ func getObjectVpnIpsecPhase1Interface(d *schema.ResourceData, sv string) (*model
 				diags = append(diags, e)
 			}
 			obj.Interface = &v2
+		}
+	}
+	if v, ok := d.GetOk("internal_domain_list"); ok {
+		if !utils.CheckVer(sv, "v7.2.8", "") {
+			e := utils.AttributeVersionWarning("internal_domain_list", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandVpnIpsecPhase1InterfaceInternalDomainList(d, v, "internal_domain_list", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.InternalDomainList = t
+		}
+	} else if d.HasChange("internal_domain_list") {
+		old, new := d.GetChange("internal_domain_list")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.InternalDomainList = &[]models.VpnIpsecPhase1InterfaceInternalDomainList{}
 		}
 	}
 	if v1, ok := d.GetOk("ip_delay_interval"); ok {
@@ -3873,6 +4397,16 @@ func getObjectVpnIpsecPhase1Interface(d *schema.ResourceData, sv string) (*model
 			obj.Keylife = &tmp
 		}
 	}
+	if v1, ok := d.GetOk("link_cost"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("link_cost", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.LinkCost = &tmp
+		}
+	}
 	if v1, ok := d.GetOk("local_gw"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -4065,6 +4599,15 @@ func getObjectVpnIpsecPhase1Interface(d *schema.ResourceData, sv string) (*model
 			obj.NpuOffload = &v2
 		}
 	}
+	if v1, ok := d.GetOk("packet_redistribution"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("packet_redistribution", sv)
+				diags = append(diags, e)
+			}
+			obj.PacketRedistribution = &v2
+		}
+	}
 	if v1, ok := d.GetOk("passive_mode"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -4201,6 +4744,51 @@ func getObjectVpnIpsecPhase1Interface(d *schema.ResourceData, sv string) (*model
 			obj.RemoteGw = &v2
 		}
 	}
+	if v1, ok := d.GetOk("remote_gw_country"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("remote_gw_country", sv)
+				diags = append(diags, e)
+			}
+			obj.RemoteGwCountry = &v2
+		}
+	}
+	if v1, ok := d.GetOk("remote_gw_end_ip"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("remote_gw_end_ip", sv)
+				diags = append(diags, e)
+			}
+			obj.RemoteGwEndIp = &v2
+		}
+	}
+	if v1, ok := d.GetOk("remote_gw_match"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("remote_gw_match", sv)
+				diags = append(diags, e)
+			}
+			obj.RemoteGwMatch = &v2
+		}
+	}
+	if v1, ok := d.GetOk("remote_gw_start_ip"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("remote_gw_start_ip", sv)
+				diags = append(diags, e)
+			}
+			obj.RemoteGwStartIp = &v2
+		}
+	}
+	if v1, ok := d.GetOk("remote_gw_subnet"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("remote_gw_subnet", sv)
+				diags = append(diags, e)
+			}
+			obj.RemoteGwSubnet = &v2
+		}
+	}
 	if v1, ok := d.GetOk("remote_gw6"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -4208,6 +4796,51 @@ func getObjectVpnIpsecPhase1Interface(d *schema.ResourceData, sv string) (*model
 				diags = append(diags, e)
 			}
 			obj.RemoteGw6 = &v2
+		}
+	}
+	if v1, ok := d.GetOk("remote_gw6_country"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("remote_gw6_country", sv)
+				diags = append(diags, e)
+			}
+			obj.RemoteGw6Country = &v2
+		}
+	}
+	if v1, ok := d.GetOk("remote_gw6_end_ip"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("remote_gw6_end_ip", sv)
+				diags = append(diags, e)
+			}
+			obj.RemoteGw6EndIp = &v2
+		}
+	}
+	if v1, ok := d.GetOk("remote_gw6_match"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("remote_gw6_match", sv)
+				diags = append(diags, e)
+			}
+			obj.RemoteGw6Match = &v2
+		}
+	}
+	if v1, ok := d.GetOk("remote_gw6_start_ip"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("remote_gw6_start_ip", sv)
+				diags = append(diags, e)
+			}
+			obj.RemoteGw6StartIp = &v2
+		}
+	}
+	if v1, ok := d.GetOk("remote_gw6_subnet"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("remote_gw6_subnet", sv)
+				diags = append(diags, e)
+			}
+			obj.RemoteGw6Subnet = &v2
 		}
 	}
 	if v1, ok := d.GetOk("remotegw_ddns"); ok {
@@ -4226,6 +4859,15 @@ func getObjectVpnIpsecPhase1Interface(d *schema.ResourceData, sv string) (*model
 				diags = append(diags, e)
 			}
 			obj.RsaSignatureFormat = &v2
+		}
+	}
+	if v1, ok := d.GetOk("rsa_signature_hash_override"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("rsa_signature_hash_override", sv)
+				diags = append(diags, e)
+			}
+			obj.RsaSignatureHashOverride = &v2
 		}
 	}
 	if v1, ok := d.GetOk("save_password"); ok {

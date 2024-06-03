@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -92,6 +92,7 @@ func resourceSystemDhcpServer() *schema.Resource {
 				Description: "DDNS update key (base 64 encoding).",
 				Optional:    true,
 				Computed:    true,
+				Sensitive:   true,
 			},
 			"ddns_keyname": {
 				Type:         schema.TypeString,
@@ -226,6 +227,14 @@ func resourceSystemDhcpServer() *schema.Resource {
 							Optional:    true,
 							Computed:    true,
 						},
+						"lease_time": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(300, 8640000),
+
+							Description: "Lease time in seconds, 0 means default lease time.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"start_ip": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.IsIPv4Address,
@@ -233,6 +242,56 @@ func resourceSystemDhcpServer() *schema.Resource {
 							Description: "Start of IP range.",
 							Optional:    true,
 							Computed:    true,
+						},
+						"uci_match": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+							Description: "Enable/disable user class identifier (UCI) matching. When enabled only DHCP requests with a matching UCI are served with this range.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"uci_string": {
+							Type:        schema.TypeList,
+							Description: "One or more UCI strings in quotes separated by spaces.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"uci_string": {
+										Type:         schema.TypeString,
+										ValidateFunc: validation.StringLenBetween(0, 255),
+
+										Description: "UCI strings.",
+										Optional:    true,
+										Computed:    true,
+									},
+								},
+							},
+						},
+						"vci_match": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+							Description: "Enable/disable vendor class identifier (VCI) matching. When enabled only DHCP requests with a matching VCI are served with this range.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"vci_string": {
+							Type:        schema.TypeList,
+							Description: "One or more VCI strings in quotes separated by spaces.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"vci_string": {
+										Type:         schema.TypeString,
+										ValidateFunc: validation.StringLenBetween(0, 255),
+
+										Description: "VCI strings.",
+										Optional:    true,
+										Computed:    true,
+									},
+								},
+							},
 						},
 					},
 				},
@@ -298,6 +357,14 @@ func resourceSystemDhcpServer() *schema.Resource {
 							Optional:    true,
 							Computed:    true,
 						},
+						"lease_time": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(300, 8640000),
+
+							Description: "Lease time in seconds, 0 means default lease time.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"start_ip": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.IsIPv4Address,
@@ -305,6 +372,56 @@ func resourceSystemDhcpServer() *schema.Resource {
 							Description: "Start of IP range.",
 							Optional:    true,
 							Computed:    true,
+						},
+						"uci_match": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+							Description: "Enable/disable user class identifier (UCI) matching. When enabled only DHCP requests with a matching UCI are served with this range.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"uci_string": {
+							Type:        schema.TypeList,
+							Description: "One or more UCI strings in quotes separated by spaces.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"uci_string": {
+										Type:         schema.TypeString,
+										ValidateFunc: validation.StringLenBetween(0, 255),
+
+										Description: "UCI strings.",
+										Optional:    true,
+										Computed:    true,
+									},
+								},
+							},
+						},
+						"vci_match": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+							Description: "Enable/disable vendor class identifier (VCI) matching. When enabled only DHCP requests with a matching VCI are served with this range.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"vci_string": {
+							Type:        schema.TypeList,
+							Description: "One or more VCI strings in quotes separated by spaces.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"vci_string": {
+										Type:         schema.TypeString,
+										ValidateFunc: validation.StringLenBetween(0, 255),
+
+										Description: "VCI strings.",
+										Optional:    true,
+										Computed:    true,
+									},
+								},
+							},
 						},
 					},
 				},
@@ -418,6 +535,31 @@ func resourceSystemDhcpServer() *schema.Resource {
 							Optional:    true,
 							Computed:    true,
 						},
+						"uci_match": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+							Description: "Enable/disable user class identifier (UCI) matching. When enabled only DHCP requests with a matching UCI are served with this option.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"uci_string": {
+							Type:        schema.TypeList,
+							Description: "One or more UCI strings in quotes separated by spaces.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"uci_string": {
+										Type:         schema.TypeString,
+										ValidateFunc: validation.StringLenBetween(0, 255),
+
+										Description: "UCI strings.",
+										Optional:    true,
+										Computed:    true,
+									},
+								},
+							},
+						},
 						"value": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 312),
@@ -425,6 +567,31 @@ func resourceSystemDhcpServer() *schema.Resource {
 							Description: "DHCP option value.",
 							Optional:    true,
 							Computed:    true,
+						},
+						"vci_match": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+							Description: "Enable/disable vendor class identifier (VCI) matching. When enabled only DHCP requests with a matching VCI are served with this option.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"vci_string": {
+							Type:        schema.TypeList,
+							Description: "One or more VCI strings in quotes separated by spaces.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"vci_string": {
+										Type:         schema.TypeString,
+										ValidateFunc: validation.StringLenBetween(0, 255),
+
+										Description: "VCI strings.",
+										Optional:    true,
+										Computed:    true,
+									},
+								},
+							},
 						},
 					},
 				},
@@ -551,7 +718,7 @@ func resourceSystemDhcpServer() *schema.Resource {
 			},
 			"timezone": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"01", "02", "03", "04", "05", "81", "06", "07", "08", "09", "10", "11", "12", "13", "74", "14", "77", "15", "87", "16", "17", "18", "19", "20", "75", "21", "22", "23", "24", "80", "79", "25", "26", "27", "28", "78", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "83", "84", "40", "85", "41", "42", "43", "39", "44", "46", "47", "51", "48", "45", "49", "50", "52", "53", "54", "55", "56", "57", "58", "59", "60", "62", "63", "61", "64", "65", "66", "67", "68", "69", "70", "71", "72", "00", "82", "73", "86", "76"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"01", "02", "03", "04", "05", "81", "06", "07", "08", "09", "10", "11", "12", "13", "74", "14", "77", "15", "87", "16", "17", "18", "19", "20", "75", "21", "22", "23", "24", "80", "79", "25", "26", "27", "28", "78", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "83", "84", "40", "85", "39", "41", "42", "43", "44", "45", "46", "47", "51", "48", "49", "50", "52", "53", "54", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71", "72", "00", "82", "73", "86", "76"}, false),
 
 				Description: "Select the time zone to be assigned to DHCP clients.",
 				Optional:    true,
@@ -810,8 +977,28 @@ func flattenSystemDhcpServerExcludeRange(d *schema.ResourceData, v *[]models.Sys
 				v["id"] = *tmp
 			}
 
+			if tmp := cfg.LeaseTime; tmp != nil {
+				v["lease_time"] = *tmp
+			}
+
 			if tmp := cfg.StartIp; tmp != nil {
 				v["start_ip"] = *tmp
+			}
+
+			if tmp := cfg.UciMatch; tmp != nil {
+				v["uci_match"] = *tmp
+			}
+
+			if tmp := cfg.UciString; tmp != nil {
+				v["uci_string"] = flattenSystemDhcpServerExcludeRangeUciString(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "uci_string"), sort)
+			}
+
+			if tmp := cfg.VciMatch; tmp != nil {
+				v["vci_match"] = *tmp
+			}
+
+			if tmp := cfg.VciString; tmp != nil {
+				v["vci_string"] = flattenSystemDhcpServerExcludeRangeVciString(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "vci_string"), sort)
 			}
 
 			flat = append(flat, v)
@@ -820,6 +1007,50 @@ func flattenSystemDhcpServerExcludeRange(d *schema.ResourceData, v *[]models.Sys
 
 	if sort {
 		utils.SortSubtable(flat, "id")
+	}
+
+	return flat
+}
+
+func flattenSystemDhcpServerExcludeRangeUciString(d *schema.ResourceData, v *[]models.SystemDhcpServerExcludeRangeUciString, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.UciString; tmp != nil {
+				v["uci_string"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "uci_string")
+	}
+
+	return flat
+}
+
+func flattenSystemDhcpServerExcludeRangeVciString(d *schema.ResourceData, v *[]models.SystemDhcpServerExcludeRangeVciString, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.VciString; tmp != nil {
+				v["vci_string"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "vci_string")
 	}
 
 	return flat
@@ -840,8 +1071,28 @@ func flattenSystemDhcpServerIpRange(d *schema.ResourceData, v *[]models.SystemDh
 				v["id"] = *tmp
 			}
 
+			if tmp := cfg.LeaseTime; tmp != nil {
+				v["lease_time"] = *tmp
+			}
+
 			if tmp := cfg.StartIp; tmp != nil {
 				v["start_ip"] = *tmp
+			}
+
+			if tmp := cfg.UciMatch; tmp != nil {
+				v["uci_match"] = *tmp
+			}
+
+			if tmp := cfg.UciString; tmp != nil {
+				v["uci_string"] = flattenSystemDhcpServerIpRangeUciString(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "uci_string"), sort)
+			}
+
+			if tmp := cfg.VciMatch; tmp != nil {
+				v["vci_match"] = *tmp
+			}
+
+			if tmp := cfg.VciString; tmp != nil {
+				v["vci_string"] = flattenSystemDhcpServerIpRangeVciString(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "vci_string"), sort)
 			}
 
 			flat = append(flat, v)
@@ -850,6 +1101,50 @@ func flattenSystemDhcpServerIpRange(d *schema.ResourceData, v *[]models.SystemDh
 
 	if sort {
 		utils.SortSubtable(flat, "id")
+	}
+
+	return flat
+}
+
+func flattenSystemDhcpServerIpRangeUciString(d *schema.ResourceData, v *[]models.SystemDhcpServerIpRangeUciString, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.UciString; tmp != nil {
+				v["uci_string"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "uci_string")
+	}
+
+	return flat
+}
+
+func flattenSystemDhcpServerIpRangeVciString(d *schema.ResourceData, v *[]models.SystemDhcpServerIpRangeVciString, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.VciString; tmp != nil {
+				v["vci_string"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "vci_string")
 	}
 
 	return flat
@@ -878,8 +1173,24 @@ func flattenSystemDhcpServerOptions(d *schema.ResourceData, v *[]models.SystemDh
 				v["type"] = *tmp
 			}
 
+			if tmp := cfg.UciMatch; tmp != nil {
+				v["uci_match"] = *tmp
+			}
+
+			if tmp := cfg.UciString; tmp != nil {
+				v["uci_string"] = flattenSystemDhcpServerOptionsUciString(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "uci_string"), sort)
+			}
+
 			if tmp := cfg.Value; tmp != nil {
 				v["value"] = *tmp
+			}
+
+			if tmp := cfg.VciMatch; tmp != nil {
+				v["vci_match"] = *tmp
+			}
+
+			if tmp := cfg.VciString; tmp != nil {
+				v["vci_string"] = flattenSystemDhcpServerOptionsVciString(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "vci_string"), sort)
 			}
 
 			flat = append(flat, v)
@@ -888,6 +1199,50 @@ func flattenSystemDhcpServerOptions(d *schema.ResourceData, v *[]models.SystemDh
 
 	if sort {
 		utils.SortSubtable(flat, "id")
+	}
+
+	return flat
+}
+
+func flattenSystemDhcpServerOptionsUciString(d *schema.ResourceData, v *[]models.SystemDhcpServerOptionsUciString, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.UciString; tmp != nil {
+				v["uci_string"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "uci_string")
+	}
+
+	return flat
+}
+
+func flattenSystemDhcpServerOptionsVciString(d *schema.ResourceData, v *[]models.SystemDhcpServerOptionsVciString, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.VciString; tmp != nil {
+				v["vci_string"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "vci_string")
 	}
 
 	return flat
@@ -1033,7 +1388,8 @@ func refreshObjectSystemDhcpServer(d *schema.ResourceData, o *models.SystemDhcpS
 	if o.DdnsKey != nil {
 		v := *o.DdnsKey
 
-		if err = d.Set("ddns_key", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("ddns_key", v); err != nil {
 			return diag.Errorf("error reading ddns_key: %v", err)
 		}
 	}
@@ -1416,10 +1772,100 @@ func expandSystemDhcpServerExcludeRange(d *schema.ResourceData, v interface{}, p
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.lease_time", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.LeaseTime = &v3
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.start_ip", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.StartIp = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.uci_match", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.UciMatch = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.uci_string", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			v2, _ := expandSystemDhcpServerExcludeRangeUciString(d, v1, pre_append, sv)
+			// if err != nil {
+			// 	v2 := &[]models.SystemDhcpServerExcludeRangeUciString
+			// 	}
+			tmp.UciString = v2
+
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.vci_match", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.VciMatch = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.vci_string", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			v2, _ := expandSystemDhcpServerExcludeRangeVciString(d, v1, pre_append, sv)
+			// if err != nil {
+			// 	v2 := &[]models.SystemDhcpServerExcludeRangeVciString
+			// 	}
+			tmp.VciString = v2
+
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandSystemDhcpServerExcludeRangeUciString(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemDhcpServerExcludeRangeUciString, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.SystemDhcpServerExcludeRangeUciString
+
+	for i := range l {
+		tmp := models.SystemDhcpServerExcludeRangeUciString{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.uci_string", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.UciString = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandSystemDhcpServerExcludeRangeVciString(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemDhcpServerExcludeRangeVciString, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.SystemDhcpServerExcludeRangeVciString
+
+	for i := range l {
+		tmp := models.SystemDhcpServerExcludeRangeVciString{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.vci_string", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.VciString = &v2
 			}
 		}
 
@@ -1455,10 +1901,100 @@ func expandSystemDhcpServerIpRange(d *schema.ResourceData, v interface{}, pre st
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.lease_time", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.LeaseTime = &v3
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.start_ip", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.StartIp = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.uci_match", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.UciMatch = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.uci_string", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			v2, _ := expandSystemDhcpServerIpRangeUciString(d, v1, pre_append, sv)
+			// if err != nil {
+			// 	v2 := &[]models.SystemDhcpServerIpRangeUciString
+			// 	}
+			tmp.UciString = v2
+
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.vci_match", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.VciMatch = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.vci_string", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			v2, _ := expandSystemDhcpServerIpRangeVciString(d, v1, pre_append, sv)
+			// if err != nil {
+			// 	v2 := &[]models.SystemDhcpServerIpRangeVciString
+			// 	}
+			tmp.VciString = v2
+
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandSystemDhcpServerIpRangeUciString(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemDhcpServerIpRangeUciString, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.SystemDhcpServerIpRangeUciString
+
+	for i := range l {
+		tmp := models.SystemDhcpServerIpRangeUciString{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.uci_string", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.UciString = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandSystemDhcpServerIpRangeVciString(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemDhcpServerIpRangeVciString, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.SystemDhcpServerIpRangeVciString
+
+	for i := range l {
+		tmp := models.SystemDhcpServerIpRangeVciString{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.vci_string", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.VciString = &v2
 			}
 		}
 
@@ -1509,10 +2045,92 @@ func expandSystemDhcpServerOptions(d *schema.ResourceData, v interface{}, pre st
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.uci_match", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.UciMatch = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.uci_string", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			v2, _ := expandSystemDhcpServerOptionsUciString(d, v1, pre_append, sv)
+			// if err != nil {
+			// 	v2 := &[]models.SystemDhcpServerOptionsUciString
+			// 	}
+			tmp.UciString = v2
+
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.value", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.Value = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.vci_match", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.VciMatch = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.vci_string", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			v2, _ := expandSystemDhcpServerOptionsVciString(d, v1, pre_append, sv)
+			// if err != nil {
+			// 	v2 := &[]models.SystemDhcpServerOptionsVciString
+			// 	}
+			tmp.VciString = v2
+
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandSystemDhcpServerOptionsUciString(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemDhcpServerOptionsUciString, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.SystemDhcpServerOptionsUciString
+
+	for i := range l {
+		tmp := models.SystemDhcpServerOptionsUciString{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.uci_string", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.UciString = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandSystemDhcpServerOptionsVciString(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemDhcpServerOptionsVciString, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.SystemDhcpServerOptionsVciString
+
+	for i := range l {
+		tmp := models.SystemDhcpServerOptionsVciString{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.vci_string", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.VciString = &v2
 			}
 		}
 

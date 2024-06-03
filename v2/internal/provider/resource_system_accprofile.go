@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -313,6 +313,22 @@ func resourceSystemAccprofile() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"system_execute_ssh": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable permission to execute SSH commands.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"system_execute_telnet": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable permission to execute TELNET commands.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"utmgrp": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"none", "read", "read-write", "custom"}, false),
@@ -340,6 +356,14 @@ func resourceSystemAccprofile() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{"none", "read", "read-write"}, false),
 
 							Description: "Application Control profiles and settings.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"data_leak_prevention": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"none", "read", "read-write"}, false),
+
+							Description: "DLP profiles and settings.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -755,6 +779,10 @@ func flattenSystemAccprofileUtmgrpPermission(d *schema.ResourceData, v *models.S
 				v["application_control"] = *tmp
 			}
 
+			if tmp := cfg.DataLeakPrevention; tmp != nil {
+				v["data_leak_prevention"] = *tmp
+			}
+
 			if tmp := cfg.DataLossPrevention; tmp != nil {
 				v["data_loss_prevention"] = *tmp
 			}
@@ -942,6 +970,22 @@ func refreshObjectSystemAccprofile(d *schema.ResourceData, o *models.SystemAccpr
 
 		if err = d.Set("system_diagnostics", v); err != nil {
 			return diag.Errorf("error reading system_diagnostics: %v", err)
+		}
+	}
+
+	if o.SystemExecuteSsh != nil {
+		v := *o.SystemExecuteSsh
+
+		if err = d.Set("system_execute_ssh", v); err != nil {
+			return diag.Errorf("error reading system_execute_ssh: %v", err)
+		}
+	}
+
+	if o.SystemExecuteTelnet != nil {
+		v := *o.SystemExecuteTelnet
+
+		if err = d.Set("system_execute_telnet", v); err != nil {
+			return diag.Errorf("error reading system_execute_telnet: %v", err)
 		}
 	}
 
@@ -1191,6 +1235,13 @@ func expandSystemAccprofileUtmgrpPermission(d *schema.ResourceData, v interface{
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.ApplicationControl = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.data_leak_prevention", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.DataLeakPrevention = &v2
 			}
 		}
 
@@ -1466,6 +1517,24 @@ func getObjectSystemAccprofile(d *schema.ResourceData, sv string) (*models.Syste
 			obj.SystemDiagnostics = &v2
 		}
 	}
+	if v1, ok := d.GetOk("system_execute_ssh"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("system_execute_ssh", sv)
+				diags = append(diags, e)
+			}
+			obj.SystemExecuteSsh = &v2
+		}
+	}
+	if v1, ok := d.GetOk("system_execute_telnet"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("system_execute_telnet", sv)
+				diags = append(diags, e)
+			}
+			obj.SystemExecuteTelnet = &v2
+		}
+	}
 	if v1, ok := d.GetOk("utmgrp"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -1503,7 +1572,7 @@ func getObjectSystemAccprofile(d *schema.ResourceData, sv string) (*models.Syste
 	}
 	if v1, ok := d.GetOk("wanoptgrp"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.8") {
 				e := utils.AttributeVersionWarning("wanoptgrp", sv)
 				diags = append(diags, e)
 			}

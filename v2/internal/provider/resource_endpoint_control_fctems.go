@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -93,6 +93,22 @@ func resourceEndpointControlFctems() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"dirty_reason": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"none", "mismatched-ems-sn"}, false),
+
+				Description: "Dirty Reason for FortiClient EMS.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"ems_id": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(1, 7),
+
+				Description: "EMS ID in order (1 - 7).",
+				ForceNew:    true,
+				Required:    true,
+			},
 			"fortinetone_cloud_authentication": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -109,13 +125,29 @@ func resourceEndpointControlFctems() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"interface": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 15),
+
+				Description: "Specify outgoing interface to reach server.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"interface_select_method": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"auto", "sdwan", "specify"}, false),
+
+				Description: "Specify how to select outgoing interface to reach server.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 
 				Description: "FortiClient Enterprise Management Server (EMS) name.",
-				ForceNew:    true,
-				Required:    true,
+				Optional:    true,
+				Computed:    true,
 			},
 			"out_of_sync_threshold": {
 				Type:         schema.TypeInt,
@@ -177,7 +209,7 @@ func resourceEndpointControlFctems() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 16),
 
-				Description: "FortiClient EMS Serial Number.",
+				Description: "EMS Serial Number.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -197,11 +229,35 @@ func resourceEndpointControlFctems() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"status": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable or disable this EMS configuration.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"status_check_interval": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 180),
 
 				Description: "FortiClient EMS call timeout in seconds (1 - 120 seconds, default = 5).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"tenant_id": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 32),
+
+				Description: "EMS Tenant ID.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"trust_ca_cn": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable trust of the EMS certificate issuer(CA) and common name(CN) for certificate auto-renewal.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -240,7 +296,7 @@ func resourceEndpointControlFctemsCreate(ctx context.Context, d *schema.Resource
 	urlparams.AllowAppend = &allow_append
 
 	mkey := ""
-	key := "name"
+	key := "ems_id"
 	if v, ok := d.GetOk(key); ok {
 		mkey = utils.ParseMkey(v)
 		if mkey == "" && allow_append {
@@ -422,6 +478,22 @@ func refreshObjectEndpointControlFctems(d *schema.ResourceData, o *models.Endpoi
 		}
 	}
 
+	if o.DirtyReason != nil {
+		v := *o.DirtyReason
+
+		if err = d.Set("dirty_reason", v); err != nil {
+			return diag.Errorf("error reading dirty_reason: %v", err)
+		}
+	}
+
+	if o.EmsId != nil {
+		v := *o.EmsId
+
+		if err = d.Set("ems_id", v); err != nil {
+			return diag.Errorf("error reading ems_id: %v", err)
+		}
+	}
+
 	if o.FortinetoneCloudAuthentication != nil {
 		v := *o.FortinetoneCloudAuthentication
 
@@ -435,6 +507,22 @@ func refreshObjectEndpointControlFctems(d *schema.ResourceData, o *models.Endpoi
 
 		if err = d.Set("https_port", v); err != nil {
 			return diag.Errorf("error reading https_port: %v", err)
+		}
+	}
+
+	if o.Interface != nil {
+		v := *o.Interface
+
+		if err = d.Set("interface", v); err != nil {
+			return diag.Errorf("error reading interface: %v", err)
+		}
+	}
+
+	if o.InterfaceSelectMethod != nil {
+		v := *o.InterfaceSelectMethod
+
+		if err = d.Set("interface_select_method", v); err != nil {
+			return diag.Errorf("error reading interface_select_method: %v", err)
 		}
 	}
 
@@ -526,11 +614,35 @@ func refreshObjectEndpointControlFctems(d *schema.ResourceData, o *models.Endpoi
 		}
 	}
 
+	if o.Status != nil {
+		v := *o.Status
+
+		if err = d.Set("status", v); err != nil {
+			return diag.Errorf("error reading status: %v", err)
+		}
+	}
+
 	if o.StatusCheckInterval != nil {
 		v := *o.StatusCheckInterval
 
 		if err = d.Set("status_check_interval", v); err != nil {
 			return diag.Errorf("error reading status_check_interval: %v", err)
+		}
+	}
+
+	if o.TenantId != nil {
+		v := *o.TenantId
+
+		if err = d.Set("tenant_id", v); err != nil {
+			return diag.Errorf("error reading tenant_id: %v", err)
+		}
+	}
+
+	if o.TrustCaCn != nil {
+		v := *o.TrustCaCn
+
+		if err = d.Set("trust_ca_cn", v); err != nil {
+			return diag.Errorf("error reading trust_ca_cn: %v", err)
 		}
 	}
 
@@ -604,6 +716,25 @@ func getObjectEndpointControlFctems(d *schema.ResourceData, sv string) (*models.
 			obj.CloudServerType = &v2
 		}
 	}
+	if v1, ok := d.GetOk("dirty_reason"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("dirty_reason", sv)
+				diags = append(diags, e)
+			}
+			obj.DirtyReason = &v2
+		}
+	}
+	if v1, ok := d.GetOk("ems_id"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("ems_id", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.EmsId = &tmp
+		}
+	}
 	if v1, ok := d.GetOk("fortinetone_cloud_authentication"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -621,6 +752,24 @@ func getObjectEndpointControlFctems(d *schema.ResourceData, sv string) (*models.
 			}
 			tmp := int64(v2)
 			obj.HttpsPort = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("interface"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.6", "v7.2.0") {
+				e := utils.AttributeVersionWarning("interface", sv)
+				diags = append(diags, e)
+			}
+			obj.Interface = &v2
+		}
+	}
+	if v1, ok := d.GetOk("interface_select_method"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.6", "v7.2.0") {
+				e := utils.AttributeVersionWarning("interface_select_method", sv)
+				diags = append(diags, e)
+			}
+			obj.InterfaceSelectMethod = &v2
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {
@@ -723,6 +872,15 @@ func getObjectEndpointControlFctems(d *schema.ResourceData, sv string) (*models.
 			obj.SourceIp = &v2
 		}
 	}
+	if v1, ok := d.GetOk("status"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("status", sv)
+				diags = append(diags, e)
+			}
+			obj.Status = &v2
+		}
+	}
 	if v1, ok := d.GetOk("status_check_interval"); ok {
 		if v2, ok := v1.(int); ok {
 			if !utils.CheckVer(sv, "v6.4.5", "v7.0.0") {
@@ -731,6 +889,24 @@ func getObjectEndpointControlFctems(d *schema.ResourceData, sv string) (*models.
 			}
 			tmp := int64(v2)
 			obj.StatusCheckInterval = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("tenant_id"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("tenant_id", sv)
+				diags = append(diags, e)
+			}
+			obj.TenantId = &v2
+		}
+	}
+	if v1, ok := d.GetOk("trust_ca_cn"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("trust_ca_cn", sv)
+				diags = append(diags, e)
+			}
+			obj.TrustCaCn = &v2
 		}
 	}
 	if v1, ok := d.GetOk("websocket_override"); ok {

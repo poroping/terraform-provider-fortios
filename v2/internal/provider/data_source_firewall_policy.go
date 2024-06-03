@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -161,6 +161,11 @@ func dataSourceFirewallPolicy() *schema.Resource {
 				Description: "Enable TCP NPU session delay to guarantee packet order of 3-way handshake.",
 				Computed:    true,
 			},
+			"diffserv_copy": {
+				Type:        schema.TypeString,
+				Description: "Enable to copy packet's DiffServ values from session's original direction to its reply direction.",
+				Computed:    true,
+			},
 			"diffserv_forward": {
 				Type:        schema.TypeString,
 				Description: "Enable to change packet's DiffServ values to the specified diffservcode-forward value.",
@@ -222,7 +227,7 @@ func dataSourceFirewallPolicy() *schema.Resource {
 			},
 			"dstaddr_negate": {
 				Type:        schema.TypeString,
-				Description: "When enabled dstaddr/dstaddr6 specifies what the destination address must NOT be.",
+				Description: "When enabled dstaddr specifies what the destination address must NOT be.",
 				Computed:    true,
 			},
 			"dstaddr6": {
@@ -238,6 +243,11 @@ func dataSourceFirewallPolicy() *schema.Resource {
 						},
 					},
 				},
+			},
+			"dstaddr6_negate": {
+				Type:        schema.TypeString,
+				Description: "When enabled dstaddr6 specifies what the destination address must NOT be.",
+				Computed:    true,
 			},
 			"dstintf": {
 				Type:        schema.TypeList,
@@ -521,6 +531,138 @@ func dataSourceFirewallPolicy() *schema.Resource {
 				Description: "When enabled internet-service-src specifies what the service must NOT be.",
 				Computed:    true,
 			},
+			"internet_service6": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable use of IPv6 Internet Services for this policy. If enabled, destination address and service are not used.",
+				Computed:    true,
+			},
+			"internet_service6_custom": {
+				Type:        schema.TypeList,
+				Description: "Custom IPv6 Internet Service name.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "Custom Internet Service name.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service6_custom_group": {
+				Type:        schema.TypeList,
+				Description: "Custom Internet Service6 group name.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "Custom Internet Service6 group name.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service6_group": {
+				Type:        schema.TypeList,
+				Description: "Internet Service group name.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "Internet Service group name.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service6_name": {
+				Type:        schema.TypeList,
+				Description: "IPv6 Internet Service name.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "IPv6 Internet Service name.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service6_negate": {
+				Type:        schema.TypeString,
+				Description: "When enabled internet-service6 specifies what the service must NOT be.",
+				Computed:    true,
+			},
+			"internet_service6_src": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable use of IPv6 Internet Services in source for this policy. If enabled, source address is not used.",
+				Computed:    true,
+			},
+			"internet_service6_src_custom": {
+				Type:        schema.TypeList,
+				Description: "Custom IPv6 Internet Service source name.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "Custom Internet Service name.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service6_src_custom_group": {
+				Type:        schema.TypeList,
+				Description: "Custom Internet Service6 source group name.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "Custom Internet Service6 group name.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service6_src_group": {
+				Type:        schema.TypeList,
+				Description: "Internet Service6 source group name.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "Internet Service group name.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service6_src_name": {
+				Type:        schema.TypeList,
+				Description: "IPv6 Internet Service source name.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "Internet Service name.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service6_src_negate": {
+				Type:        schema.TypeString,
+				Description: "When enabled internet-service6-src specifies what the service must NOT be.",
+				Computed:    true,
+			},
 			"ippool": {
 				Type:        schema.TypeString,
 				Description: "Enable to use IP Pools for source NAT.",
@@ -529,6 +671,11 @@ func dataSourceFirewallPolicy() *schema.Resource {
 			"ips_sensor": {
 				Type:        schema.TypeString,
 				Description: "Name of an existing IPS sensor.",
+				Computed:    true,
+			},
+			"ips_voip_filter": {
+				Type:        schema.TypeString,
+				Description: "Name of an existing VoIP (ips) profile.",
 				Computed:    true,
 			},
 			"logtraffic": {
@@ -585,6 +732,34 @@ func dataSourceFirewallPolicy() *schema.Resource {
 				Type:        schema.TypeString,
 				Description: "Policy-based IPsec VPN: apply source NAT to outbound traffic.",
 				Computed:    true,
+			},
+			"network_service_dynamic": {
+				Type:        schema.TypeList,
+				Description: "Dynamic Network Service name.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "Dynamic Network Service name.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"network_service_src_dynamic": {
+				Type:        schema.TypeList,
+				Description: "Dynamic Network Service source name.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "Dynamic Network Service name.",
+							Computed:    true,
+						},
+					},
+				},
 			},
 			"np_acceleration": {
 				Type:        schema.TypeString,
@@ -648,6 +823,11 @@ func dataSourceFirewallPolicy() *schema.Resource {
 			"policy_expiry_date": {
 				Type:        schema.TypeString,
 				Description: "Policy expiry date (YYYY-MM-DD HH:MM:SS).",
+				Computed:    true,
+			},
+			"policy_expiry_date_utc": {
+				Type:        schema.TypeString,
+				Description: "Policy expiry date and time, in epoch format.",
 				Computed:    true,
 			},
 			"policyid": {
@@ -718,9 +898,19 @@ func dataSourceFirewallPolicy() *schema.Resource {
 				Description: "Direction of the initial traffic for reputation to take effect.",
 				Computed:    true,
 			},
+			"reputation_direction6": {
+				Type:        schema.TypeString,
+				Description: "Direction of the initial traffic for IPv6 reputation to take effect.",
+				Computed:    true,
+			},
 			"reputation_minimum": {
 				Type:        schema.TypeInt,
 				Description: "Minimum Reputation to take action.",
+				Computed:    true,
+			},
+			"reputation_minimum6": {
+				Type:        schema.TypeInt,
+				Description: "IPv6 Minimum Reputation to take action.",
 				Computed:    true,
 			},
 			"rsso": {
@@ -840,7 +1030,7 @@ func dataSourceFirewallPolicy() *schema.Resource {
 			},
 			"srcaddr_negate": {
 				Type:        schema.TypeString,
-				Description: "When enabled srcaddr/srcaddr6 specifies what the source address must NOT be.",
+				Description: "When enabled srcaddr specifies what the source address must NOT be.",
 				Computed:    true,
 			},
 			"srcaddr6": {
@@ -856,6 +1046,11 @@ func dataSourceFirewallPolicy() *schema.Resource {
 						},
 					},
 				},
+			},
+			"srcaddr6_negate": {
+				Type:        schema.TypeString,
+				Description: "When enabled srcaddr6 specifies what the source address must NOT be.",
+				Computed:    true,
 			},
 			"srcintf": {
 				Type:        schema.TypeList,
@@ -1010,12 +1205,12 @@ func dataSourceFirewallPolicy() *schema.Resource {
 			},
 			"vlan_filter": {
 				Type:        schema.TypeString,
-				Description: "Set VLAN filters.",
+				Description: "VLAN ranges to allow",
 				Computed:    true,
 			},
 			"voip_profile": {
 				Type:        schema.TypeString,
-				Description: "Name of an existing VoIP profile.",
+				Description: "Name of an existing VoIP (voipd) profile.",
 				Computed:    true,
 			},
 			"vpntunnel": {
@@ -1088,6 +1283,11 @@ func dataSourceFirewallPolicy() *schema.Resource {
 				Description: "Enable/disable WiFi Single Sign On (WSSO).",
 				Computed:    true,
 			},
+			"ztna_device_ownership": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable zero trust device ownership.",
+				Computed:    true,
+			},
 			"ztna_ems_tag": {
 				Type:        schema.TypeList,
 				Description: "Source ztna-ems-tag names.",
@@ -1116,9 +1316,19 @@ func dataSourceFirewallPolicy() *schema.Resource {
 					},
 				},
 			},
+			"ztna_policy_redirect": {
+				Type:        schema.TypeString,
+				Description: "Redirect ZTNA traffic to matching Access-Proxy proxy-policy.",
+				Computed:    true,
+			},
 			"ztna_status": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable zero trust access.",
+				Computed:    true,
+			},
+			"ztna_tags_match_logic": {
+				Type:        schema.TypeString,
+				Description: "ZTNA tag matching logic.",
 				Computed:    true,
 			},
 		},

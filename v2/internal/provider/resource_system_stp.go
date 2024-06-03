@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.4.6,v7.0.2 schemas
+// Generated from templates using FortiOS v6.4.6,v7.0.2,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -299,6 +299,15 @@ func getObjectSystemStp(d *schema.ResourceData, sv string) (*models.SystemStp, d
 			}
 			tmp := int64(v2)
 			obj.HelloTime = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("list"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("list", sv)
+				diags = append(diags, e)
+			}
+			obj.List = &v2
 		}
 	}
 	if v1, ok := d.GetOk("max_age"); ok {

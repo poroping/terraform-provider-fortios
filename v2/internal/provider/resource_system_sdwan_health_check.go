@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -61,7 +61,7 @@ func resourceSystemSdwanHealthCheck() *schema.Resource {
 			},
 			"detect_mode": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"active", "passive", "prefer-passive"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"active", "passive", "prefer-passive", "remote", "agent-based"}, false),
 
 				Description: "The mode determining how to detect the server.",
 				Optional:    true,
@@ -87,6 +87,14 @@ func resourceSystemSdwanHealthCheck() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 255),
 
 				Description: "Fully qualified domain name to resolve for the DNS probe.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"embed_measured_health": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable embedding measured health information.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -148,9 +156,9 @@ func resourceSystemSdwanHealthCheck() *schema.Resource {
 			},
 			"interval": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(500, 3600000),
+				ValidateFunc: validation.IntBetween(20, 3600000),
 
-				Description: "Status check interval in milliseconds, or the time between attempting to connect to the server (500 - 3600*1000 msec, default = 500).",
+				Description: "Status check interval in milliseconds, or the time between attempting to connect to the server (20 - 3600*1000 msec, default = 500).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -228,9 +236,9 @@ func resourceSystemSdwanHealthCheck() *schema.Resource {
 			},
 			"probe_timeout": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(500, 3600000),
+				ValidateFunc: validation.IntBetween(20, 3600000),
 
-				Description: "Time to wait before a probe packet is considered lost (500 - 3600*1000 msec, default = 500).",
+				Description: "Time to wait before a probe packet is considered lost (20 - 3600*1000 msec, default = 500).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -328,6 +336,22 @@ func resourceSystemSdwanHealthCheck() *schema.Resource {
 							Optional:    true,
 							Computed:    true,
 						},
+						"priority_in_sla": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(0, 65535),
+
+							Description: "Value to be distributed into routing table when in-sla (0 - 65535, default = 0).",
+							Optional:    true,
+							Computed:    true,
+						},
+						"priority_out_sla": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(0, 65535),
+
+							Description: "Value to be distributed into routing table when out-sla (0 - 65535, default = 0).",
+							Optional:    true,
+							Computed:    true,
+						},
 					},
 				},
 			},
@@ -336,6 +360,14 @@ func resourceSystemSdwanHealthCheck() *schema.Resource {
 				ValidateFunc: validation.IntBetween(0, 3600),
 
 				Description: "Time interval in seconds that SLA fail log messages will be generated (0 - 3600, default = 0).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"sla_id_redistribute": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 32),
+
+				Description: "Select the ID from the SLA sub-table. The selected SLA's priority value will be distributed into the routing table (0 - 32, default = 0).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -433,7 +465,7 @@ func resourceSystemSdwanHealthCheck() *schema.Resource {
 			},
 			"vrf": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(0, 63),
+				ValidateFunc: validation.IntBetween(0, 251),
 
 				Description: "Virtual Routing Forwarding ID.",
 				Optional:    true,
@@ -639,6 +671,14 @@ func refreshObjectSystemSdwanHealthCheck(d *schema.ResourceData, o *models.Syste
 		}
 	}
 
+	if o.EmbedMeasuredHealth != nil {
+		v := *o.EmbedMeasuredHealth
+
+		if err = d.Set("embed_measured_health", v); err != nil {
+			return diag.Errorf("error reading embed_measured_health: %v", err)
+		}
+	}
+
 	if o.Failtime != nil {
 		v := *o.Failtime
 
@@ -828,6 +868,14 @@ func refreshObjectSystemSdwanHealthCheck(d *schema.ResourceData, o *models.Syste
 		}
 	}
 
+	if o.SlaIdRedistribute != nil {
+		v := *o.SlaIdRedistribute
+
+		if err = d.Set("sla_id_redistribute", v); err != nil {
+			return diag.Errorf("error reading sla_id_redistribute: %v", err)
+		}
+	}
+
 	if o.SlaPassLogPeriod != nil {
 		v := *o.SlaPassLogPeriod
 
@@ -982,6 +1030,15 @@ func getObjectSystemSdwanHealthCheck(d *schema.ResourceData, sv string) (*models
 				diags = append(diags, e)
 			}
 			obj.DnsRequestDomain = &v2
+		}
+	}
+	if v1, ok := d.GetOk("embed_measured_health"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("embed_measured_health", sv)
+				diags = append(diags, e)
+			}
+			obj.EmbedMeasuredHealth = &v2
 		}
 	}
 	if v1, ok := d.GetOk("failtime"); ok {
@@ -1223,6 +1280,16 @@ func getObjectSystemSdwanHealthCheck(d *schema.ResourceData, sv string) (*models
 			}
 			tmp := int64(v2)
 			obj.SlaFailLogPeriod = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("sla_id_redistribute"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("sla_id_redistribute", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.SlaIdRedistribute = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("sla_pass_log_period"); ok {

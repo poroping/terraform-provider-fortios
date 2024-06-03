@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -54,6 +54,7 @@ func dataSourceSystemDhcpServer() *schema.Resource {
 				Type:        schema.TypeString,
 				Description: "DDNS update key (base 64 encoding).",
 				Computed:    true,
+				Sensitive:   true,
 			},
 			"ddns_keyname": {
 				Type:        schema.TypeString,
@@ -141,10 +142,53 @@ func dataSourceSystemDhcpServer() *schema.Resource {
 							Description: "ID.",
 							Computed:    true,
 						},
+						"lease_time": {
+							Type:        schema.TypeInt,
+							Description: "Lease time in seconds, 0 means default lease time.",
+							Computed:    true,
+						},
 						"start_ip": {
 							Type:        schema.TypeString,
 							Description: "Start of IP range.",
 							Computed:    true,
+						},
+						"uci_match": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable user class identifier (UCI) matching. When enabled only DHCP requests with a matching UCI are served with this range.",
+							Computed:    true,
+						},
+						"uci_string": {
+							Type:        schema.TypeList,
+							Description: "One or more UCI strings in quotes separated by spaces.",
+							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"uci_string": {
+										Type:        schema.TypeString,
+										Description: "UCI strings.",
+										Computed:    true,
+									},
+								},
+							},
+						},
+						"vci_match": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable vendor class identifier (VCI) matching. When enabled only DHCP requests with a matching VCI are served with this range.",
+							Computed:    true,
+						},
+						"vci_string": {
+							Type:        schema.TypeList,
+							Description: "One or more VCI strings in quotes separated by spaces.",
+							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"vci_string": {
+										Type:        schema.TypeString,
+										Description: "VCI strings.",
+										Computed:    true,
+									},
+								},
+							},
 						},
 					},
 				},
@@ -190,10 +234,53 @@ func dataSourceSystemDhcpServer() *schema.Resource {
 							Description: "ID.",
 							Computed:    true,
 						},
+						"lease_time": {
+							Type:        schema.TypeInt,
+							Description: "Lease time in seconds, 0 means default lease time.",
+							Computed:    true,
+						},
 						"start_ip": {
 							Type:        schema.TypeString,
 							Description: "Start of IP range.",
 							Computed:    true,
+						},
+						"uci_match": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable user class identifier (UCI) matching. When enabled only DHCP requests with a matching UCI are served with this range.",
+							Computed:    true,
+						},
+						"uci_string": {
+							Type:        schema.TypeList,
+							Description: "One or more UCI strings in quotes separated by spaces.",
+							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"uci_string": {
+										Type:        schema.TypeString,
+										Description: "UCI strings.",
+										Computed:    true,
+									},
+								},
+							},
+						},
+						"vci_match": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable vendor class identifier (VCI) matching. When enabled only DHCP requests with a matching VCI are served with this range.",
+							Computed:    true,
+						},
+						"vci_string": {
+							Type:        schema.TypeList,
+							Description: "One or more VCI strings in quotes separated by spaces.",
+							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"vci_string": {
+										Type:        schema.TypeString,
+										Description: "VCI strings.",
+										Computed:    true,
+									},
+								},
+							},
 						},
 					},
 				},
@@ -269,10 +356,48 @@ func dataSourceSystemDhcpServer() *schema.Resource {
 							Description: "DHCP option type.",
 							Computed:    true,
 						},
+						"uci_match": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable user class identifier (UCI) matching. When enabled only DHCP requests with a matching UCI are served with this option.",
+							Computed:    true,
+						},
+						"uci_string": {
+							Type:        schema.TypeList,
+							Description: "One or more UCI strings in quotes separated by spaces.",
+							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"uci_string": {
+										Type:        schema.TypeString,
+										Description: "UCI strings.",
+										Computed:    true,
+									},
+								},
+							},
+						},
 						"value": {
 							Type:        schema.TypeString,
 							Description: "DHCP option value.",
 							Computed:    true,
+						},
+						"vci_match": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable vendor class identifier (VCI) matching. When enabled only DHCP requests with a matching VCI are served with this option.",
+							Computed:    true,
+						},
+						"vci_string": {
+							Type:        schema.TypeList,
+							Description: "One or more VCI strings in quotes separated by spaces.",
+							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"vci_string": {
+										Type:        schema.TypeString,
+										Description: "VCI strings.",
+										Computed:    true,
+									},
+								},
+							},
 						},
 					},
 				},

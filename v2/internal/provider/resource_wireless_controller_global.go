@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -38,6 +38,14 @@ func resourceWirelessControllerGlobal() *schema.Resource {
 				Description: "Specifies the vdom to which the resource will be applied when the FortiGate unit is running in VDOM mode. If you want to inherit the VDOM configuration of the provider, do not set this parameter.",
 				Optional:    true,
 				ForceNew:    true,
+			},
+			"acd_process_count": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 255),
+
+				Description: "Configure the number cw_acd daemons for multi-core CPU support (default = 0).",
+				Optional:    true,
+				Computed:    true,
 			},
 			"ap_log_server": {
 				Type:         schema.TypeString,
@@ -346,6 +354,14 @@ func resourceWirelessControllerGlobalRead(ctx context.Context, d *schema.Resourc
 func refreshObjectWirelessControllerGlobal(d *schema.ResourceData, o *models.WirelessControllerGlobal, sv string, sort bool) diag.Diagnostics {
 	var err error
 
+	if o.AcdProcessCount != nil {
+		v := *o.AcdProcessCount
+
+		if err = d.Set("acd_process_count", v); err != nil {
+			return diag.Errorf("error reading acd_process_count: %v", err)
+		}
+	}
+
 	if o.ApLogServer != nil {
 		v := *o.ApLogServer
 
@@ -505,6 +521,16 @@ func getObjectWirelessControllerGlobal(d *schema.ResourceData, sv string) (*mode
 	obj := models.WirelessControllerGlobal{}
 	diags := diag.Diagnostics{}
 
+	if v1, ok := d.GetOk("acd_process_count"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("acd_process_count", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.AcdProcessCount = &tmp
+		}
+	}
 	if v1, ok := d.GetOk("ap_log_server"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {

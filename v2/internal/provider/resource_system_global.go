@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -56,11 +56,27 @@ func resourceSystemGlobal() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"admin_forticloud_sso_default_profile": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "Override access profile.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"admin_forticloud_sso_login": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable FortiCloud admin login via SSO.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"admin_host": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 255),
+
+				Description: "Administrative host for HTTP and HTTPS. When set, will be used in lieu of the client's Host header for any redirection.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -512,7 +528,7 @@ func resourceSystemGlobal() *schema.Resource {
 			},
 			"dnsproxy_worker_count": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(1, 255),
+				ValidateFunc: validation.IntBetween(1, 16),
 
 				Description: "DNS proxy worker count. For a FortiGate with multiple logical CPUs, you can set the DNS process number from 1 to the number of logical CPUs.",
 				Optional:    true,
@@ -523,6 +539,22 @@ func resourceSystemGlobal() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable daylight saving time.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"early_tcp_npu_session": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable early TCP NPU session.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"edit_vdom_prompt": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable edit new VDOM prompt.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -605,6 +637,14 @@ func resourceSystemGlobal() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"fortiextender_provision_on_authorization": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable automatic provisioning of latest FortiExtender firmware on authorization.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"fortiextender_vlan_mode": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -642,6 +682,22 @@ func resourceSystemGlobal() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable the factory default hostname warning on the GUI setup wizard.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"gui_app_detection_sdwan": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable Allow app-detection based SD-WAN.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"gui_auto_upgrade_setup_warning": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable the automatic patch upgrade setup prompt on the GUI.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -741,6 +797,14 @@ func resourceSystemGlobal() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"gui_fortiguard_resource_fetch": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable retrieving static GUI resources from FortiGuard. Disabling it will improve GUI load time for air-gapped environments.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"gui_fortisandbox_cloud": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -837,6 +901,14 @@ func resourceSystemGlobal() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"hyper_scale_vdom_num": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(1, 250),
+
+				Description: "Number of VDOMs for hyper scale license.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"igmp_state_limit": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(96, 128000),
@@ -845,9 +917,17 @@ func resourceSystemGlobal() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"interface_subnet_usage": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+				Description: "Enable/disable allowing use of interface-subnet setting in firewall addresses (default = enable).",
+				Optional:    true,
+				Computed:    true,
+			},
 			"internet_service_database": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"mini", "standard", "full"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"mini", "standard", "full", "on-demand"}, false),
 
 				Description: "Configure which Internet Service database size to download from FortiGuard and use.",
 				Optional:    true,
@@ -857,6 +937,14 @@ func resourceSystemGlobal() *schema.Resource {
 				Type: schema.TypeInt,
 
 				Description: "Dead gateway detection interval.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"ip_fragment_mem_thresholds": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(32, 2047),
+
+				Description: "Maximum memory (MB) used to reassemble IPv4/IPv6 fragments.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -899,6 +987,14 @@ func resourceSystemGlobal() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"ipsec_round_robin": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable round-robin redistribution to multiple CPUs for IPsec VPN traffic.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"ipsec_soft_dec_async": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -920,6 +1016,30 @@ func resourceSystemGlobal() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable IPv6 address probe through Anycast.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"ipv6_allow_local_in_silent_drop": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable silent drop of IPv6 local-in traffic.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"ipv6_allow_local_in_slient_drop": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable silent drop of IPv6 local-in traffic.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"ipv6_allow_multicast_probe": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable IPv6 address probe through Multicast.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -968,6 +1088,14 @@ func resourceSystemGlobal() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable Link Layer Discovery Protocol (LLDP) transmission.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"log_single_cpu_high": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable logging the event of a single CPU core reaching CPU usage threshold.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1085,9 +1213,9 @@ func resourceSystemGlobal() *schema.Resource {
 			},
 			"miglog_affinity": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 19),
+				ValidateFunc: validation.StringLenBetween(0, 79),
 
-				Description: "Affinity setting for logging (64-bit hexadecimal value in the format of xxxxxxxxxxxxxxxx).",
+				Description: "Affinity setting for logging (hexadecimal value up to 256 bits in the format of xxxxxxxxxxxxxxxx).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1112,6 +1240,14 @@ func resourceSystemGlobal() *schema.Resource {
 				ValidateFunc: validation.IntBetween(65536, 2147483647),
 
 				Description: "Maximum number of NDP table entries (set to 65,536 or higher; if set to 0, kernel holds 65,536 entries).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"npu_neighbor_update": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable sending of ARP/ICMP6 probing packets to update neighbors for offloaded sessions.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1211,6 +1347,22 @@ func resourceSystemGlobal() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"proxy_hardware_acceleration": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+				Description: "Enable/disable email proxy hardware acceleration.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"proxy_keep_alive_mode": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"session", "traffic", "re-authentication"}, false),
+
+				Description: "Control if users must re-authenticate after a session is closed, traffic has been idle, or from the point at which the user was authenticated.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"proxy_kxp_hardware_acceleration": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
@@ -1227,6 +1379,14 @@ func resourceSystemGlobal() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"proxy_re_authentication_time": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(1, 86400),
+
+				Description: "The time limit that users must re-authenticate if proxy-keep-alive-mode is set to re-authenticate (1  - 86400 sec, default=30s.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"proxy_resource_mode": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -1237,7 +1397,7 @@ func resourceSystemGlobal() *schema.Resource {
 			},
 			"proxy_worker_count": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(1, 255),
+				ValidateFunc: validation.IntBetween(1, 16),
 
 				Description: "Proxy worker count.",
 				Optional:    true,
@@ -1307,7 +1467,7 @@ func resourceSystemGlobal() *schema.Resource {
 			},
 			"scanunit_count": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(2, 255),
+				ValidateFunc: validation.IntBetween(2, 16),
 
 				Description: "Number of scanunits. The range and the default depend on the number of CPUs. Only available on FortiGate units with multiple CPUs.",
 				Optional:    true,
@@ -1337,11 +1497,19 @@ func resourceSystemGlobal() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"sflowd_max_children_num": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 6),
+
+				Description: "Maximum number of sflowd child processes allowed to run.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"snat_route_change": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
-				Description: "Enable/disable the ability to change the static NAT route.",
+				Description: "Enable/disable the ability to change the source NAT route.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1349,7 +1517,7 @@ func resourceSystemGlobal() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
 
-				Description: "Enable/disable detection of those special format files when using Data Leak Protection.",
+				Description: "Enable/disable detection of those special format files when using Data Leak Prevention.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1360,6 +1528,14 @@ func resourceSystemGlobal() *schema.Resource {
 				Description: "Enable/disable speed test server.",
 				Optional:    true,
 				Computed:    true,
+			},
+			"split_port": {
+				Type:             schema.TypeString,
+				ValidateFunc:     validation.StringLenBetween(0, 15),
+				DiffSuppressFunc: suppressors.DiffMultiStringEqual,
+				Description:      "Split port(s) to multiple 10Gbps ports.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"ssd_trim_date": {
 				Type:         schema.TypeInt,
@@ -1499,7 +1675,7 @@ func resourceSystemGlobal() *schema.Resource {
 			},
 			"sslvpn_max_worker_count": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(0, 128),
+				ValidateFunc: validation.IntBetween(0, 16),
 
 				Description: "Maximum number of SSL-VPN processes. Upper limit for this value is the number of CPUs and depends on the model. Default value of zero means the SSLVPN daemon decides the number of worker processes.",
 				Optional:    true,
@@ -1509,7 +1685,7 @@ func resourceSystemGlobal() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
-				Description: "Enable/disable checking browser's plugin version by SSL-VPN.",
+				Description: "sslvpn-plugin-version-check",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1550,6 +1726,14 @@ func resourceSystemGlobal() *schema.Resource {
 				ValidateFunc: validation.IntBetween(0, 15),
 
 				Description: "Time in minutes between updates of performance statistics logging. (1 - 15 min, default = 5, 0 = disabled).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"syslog_affinity": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 79),
+
+				Description: "Affinity setting for syslog (hexadecimal value up to 256 bits in the format of xxxxxxxxxxxxxxxx).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1603,7 +1787,7 @@ func resourceSystemGlobal() *schema.Resource {
 			},
 			"timezone": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"01", "02", "03", "04", "05", "81", "06", "07", "08", "09", "10", "11", "12", "13", "74", "14", "77", "15", "87", "16", "17", "18", "19", "20", "75", "21", "22", "23", "24", "80", "79", "25", "26", "27", "28", "78", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "83", "84", "40", "85", "41", "42", "43", "39", "44", "46", "47", "51", "48", "45", "49", "50", "52", "53", "54", "55", "56", "57", "58", "59", "60", "62", "63", "61", "64", "65", "66", "67", "68", "69", "70", "71", "72", "00", "82", "73", "86", "76"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"01", "02", "03", "04", "05", "81", "06", "07", "08", "09", "10", "11", "12", "13", "74", "14", "77", "15", "87", "16", "17", "18", "19", "20", "75", "21", "22", "23", "24", "80", "79", "25", "26", "27", "28", "78", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "83", "84", "40", "85", "39", "41", "42", "43", "44", "45", "46", "47", "51", "48", "49", "50", "52", "53", "54", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71", "72", "00", "82", "73", "86", "76"}, false),
 
 				Description: "Number corresponding to your time zone from 00 to 86. Enter set timezone ? to view the list of time zones and the numbers that represent them.",
 				Optional:    true,
@@ -1683,7 +1867,7 @@ func resourceSystemGlobal() *schema.Resource {
 			},
 			"url_filter_count": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(1, 10),
+				ValidateFunc: validation.IntBetween(1, 2),
 
 				Description: "URL filter daemon count.",
 				Optional:    true,
@@ -1691,15 +1875,14 @@ func resourceSystemGlobal() *schema.Resource {
 			},
 			"user_device_store_max_devices": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(36677, 104793),
+				ValidateFunc: validation.IntBetween(126566, 361618),
 
 				Description: "Maximum number of devices allowed in user device store.",
 				Optional:    true,
 				Computed:    true,
 			},
 			"user_device_store_max_unified_mem": {
-				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(73355796, 733557964),
+				Type: schema.TypeInt,
 
 				Description: "Maximum unified memory allowed in user device store.",
 				Optional:    true,
@@ -1707,7 +1890,7 @@ func resourceSystemGlobal() *schema.Resource {
 			},
 			"user_device_store_max_users": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(36677, 104793),
+				ValidateFunc: validation.IntBetween(126566, 361618),
 
 				Description: "Maximum number of users allowed in user device store.",
 				Optional:    true,
@@ -1723,9 +1906,9 @@ func resourceSystemGlobal() *schema.Resource {
 			},
 			"vdom_mode": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"no-vdom", "split-vdom", "multi-vdom"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"no-vdom", "multi-vdom"}, false),
 
-				Description: "Enable/disable support for split/multiple virtual domains (VDOMs).",
+				Description: "Enable/disable support for multiple virtual domains (VDOMs).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1734,6 +1917,14 @@ func resourceSystemGlobal() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"unlimited", "restricted"}, false),
 
 				Description: "Controls the number of ARPs that the FortiGate sends for a Virtual IP (VIP) address range.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"virtual_switch_vlan": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable virtual switch VLAN.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1755,7 +1946,7 @@ func resourceSystemGlobal() *schema.Resource {
 			},
 			"wad_csvc_db_count": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(0, 255),
+				ValidateFunc: validation.IntBetween(0, 16),
 
 				Description: "Number of concurrent WAD-cache-service byte-cache processes.",
 				Optional:    true,
@@ -1769,6 +1960,28 @@ func resourceSystemGlobal() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"wad_restart_end_time": {
+				Type: schema.TypeString,
+
+				Description: "WAD workers daily restart end time (hh:mm).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"wad_restart_mode": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"none", "time", "memory"}, false),
+
+				Description: "WAD worker restart mode (default = none).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"wad_restart_start_time": {
+				Type: schema.TypeString,
+
+				Description: "WAD workers daily restart time (hh:mm).",
+				Optional:    true,
+				Computed:    true,
+			},
 			"wad_source_affinity": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
@@ -1779,7 +1992,7 @@ func resourceSystemGlobal() *schema.Resource {
 			},
 			"wad_worker_count": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(0, 255),
+				ValidateFunc: validation.IntBetween(0, 16),
 
 				Description: "Number of explicit proxy WAN optimization daemon (WAD) processes. By default WAN optimization, explicit proxy, and web caching is handled by all of the CPU cores in a FortiGate unit.",
 				Optional:    true,
@@ -1997,11 +2210,27 @@ func refreshObjectSystemGlobal(d *schema.ResourceData, o *models.SystemGlobal, s
 		}
 	}
 
+	if o.AdminForticloudSsoDefaultProfile != nil {
+		v := *o.AdminForticloudSsoDefaultProfile
+
+		if err = d.Set("admin_forticloud_sso_default_profile", v); err != nil {
+			return diag.Errorf("error reading admin_forticloud_sso_default_profile: %v", err)
+		}
+	}
+
 	if o.AdminForticloudSsoLogin != nil {
 		v := *o.AdminForticloudSsoLogin
 
 		if err = d.Set("admin_forticloud_sso_login", v); err != nil {
 			return diag.Errorf("error reading admin_forticloud_sso_login: %v", err)
+		}
+	}
+
+	if o.AdminHost != nil {
+		v := *o.AdminHost
+
+		if err = d.Set("admin_host", v); err != nil {
+			return diag.Errorf("error reading admin_host: %v", err)
 		}
 	}
 
@@ -2469,6 +2698,22 @@ func refreshObjectSystemGlobal(d *schema.ResourceData, o *models.SystemGlobal, s
 		}
 	}
 
+	if o.EarlyTcpNpuSession != nil {
+		v := *o.EarlyTcpNpuSession
+
+		if err = d.Set("early_tcp_npu_session", v); err != nil {
+			return diag.Errorf("error reading early_tcp_npu_session: %v", err)
+		}
+	}
+
+	if o.EditVdomPrompt != nil {
+		v := *o.EditVdomPrompt
+
+		if err = d.Set("edit_vdom_prompt", v); err != nil {
+			return diag.Errorf("error reading edit_vdom_prompt: %v", err)
+		}
+	}
+
 	if o.ExtenderControllerReservedNetwork != nil {
 		v := *o.ExtenderControllerReservedNetwork
 		if current, ok := d.GetOk("extender_controller_reserved_network"); ok {
@@ -2554,6 +2799,14 @@ func refreshObjectSystemGlobal(d *schema.ResourceData, o *models.SystemGlobal, s
 		}
 	}
 
+	if o.FortiextenderProvisionOnAuthorization != nil {
+		v := *o.FortiextenderProvisionOnAuthorization
+
+		if err = d.Set("fortiextender_provision_on_authorization", v); err != nil {
+			return diag.Errorf("error reading fortiextender_provision_on_authorization: %v", err)
+		}
+	}
+
 	if o.FortiextenderVlanMode != nil {
 		v := *o.FortiextenderVlanMode
 
@@ -2591,6 +2844,22 @@ func refreshObjectSystemGlobal(d *schema.ResourceData, o *models.SystemGlobal, s
 
 		if err = d.Set("gui_allow_default_hostname", v); err != nil {
 			return diag.Errorf("error reading gui_allow_default_hostname: %v", err)
+		}
+	}
+
+	if o.GuiAppDetectionSdwan != nil {
+		v := *o.GuiAppDetectionSdwan
+
+		if err = d.Set("gui_app_detection_sdwan", v); err != nil {
+			return diag.Errorf("error reading gui_app_detection_sdwan: %v", err)
+		}
+	}
+
+	if o.GuiAutoUpgradeSetupWarning != nil {
+		v := *o.GuiAutoUpgradeSetupWarning
+
+		if err = d.Set("gui_auto_upgrade_setup_warning", v); err != nil {
+			return diag.Errorf("error reading gui_auto_upgrade_setup_warning: %v", err)
 		}
 	}
 
@@ -2690,6 +2959,14 @@ func refreshObjectSystemGlobal(d *schema.ResourceData, o *models.SystemGlobal, s
 		}
 	}
 
+	if o.GuiFortiguardResourceFetch != nil {
+		v := *o.GuiFortiguardResourceFetch
+
+		if err = d.Set("gui_fortiguard_resource_fetch", v); err != nil {
+			return diag.Errorf("error reading gui_fortiguard_resource_fetch: %v", err)
+		}
+	}
+
 	if o.GuiFortisandboxCloud != nil {
 		v := *o.GuiFortisandboxCloud
 
@@ -2786,11 +3063,27 @@ func refreshObjectSystemGlobal(d *schema.ResourceData, o *models.SystemGlobal, s
 		}
 	}
 
+	if o.HyperScaleVdomNum != nil {
+		v := *o.HyperScaleVdomNum
+
+		if err = d.Set("hyper_scale_vdom_num", v); err != nil {
+			return diag.Errorf("error reading hyper_scale_vdom_num: %v", err)
+		}
+	}
+
 	if o.IgmpStateLimit != nil {
 		v := *o.IgmpStateLimit
 
 		if err = d.Set("igmp_state_limit", v); err != nil {
 			return diag.Errorf("error reading igmp_state_limit: %v", err)
+		}
+	}
+
+	if o.InterfaceSubnetUsage != nil {
+		v := *o.InterfaceSubnetUsage
+
+		if err = d.Set("interface_subnet_usage", v); err != nil {
+			return diag.Errorf("error reading interface_subnet_usage: %v", err)
 		}
 	}
 
@@ -2807,6 +3100,14 @@ func refreshObjectSystemGlobal(d *schema.ResourceData, o *models.SystemGlobal, s
 
 		if err = d.Set("interval", v); err != nil {
 			return diag.Errorf("error reading interval: %v", err)
+		}
+	}
+
+	if o.IpFragmentMemThresholds != nil {
+		v := *o.IpFragmentMemThresholds
+
+		if err = d.Set("ip_fragment_mem_thresholds", v); err != nil {
+			return diag.Errorf("error reading ip_fragment_mem_thresholds: %v", err)
 		}
 	}
 
@@ -2850,6 +3151,14 @@ func refreshObjectSystemGlobal(d *schema.ResourceData, o *models.SystemGlobal, s
 		}
 	}
 
+	if o.IpsecRoundRobin != nil {
+		v := *o.IpsecRoundRobin
+
+		if err = d.Set("ipsec_round_robin", v); err != nil {
+			return diag.Errorf("error reading ipsec_round_robin: %v", err)
+		}
+	}
+
 	if o.IpsecSoftDecAsync != nil {
 		v := *o.IpsecSoftDecAsync
 
@@ -2871,6 +3180,30 @@ func refreshObjectSystemGlobal(d *schema.ResourceData, o *models.SystemGlobal, s
 
 		if err = d.Set("ipv6_allow_anycast_probe", v); err != nil {
 			return diag.Errorf("error reading ipv6_allow_anycast_probe: %v", err)
+		}
+	}
+
+	if o.Ipv6AllowLocalInSilentDrop != nil {
+		v := *o.Ipv6AllowLocalInSilentDrop
+
+		if err = d.Set("ipv6_allow_local_in_silent_drop", v); err != nil {
+			return diag.Errorf("error reading ipv6_allow_local_in_silent_drop: %v", err)
+		}
+	}
+
+	if o.Ipv6AllowLocalInSlientDrop != nil {
+		v := *o.Ipv6AllowLocalInSlientDrop
+
+		if err = d.Set("ipv6_allow_local_in_slient_drop", v); err != nil {
+			return diag.Errorf("error reading ipv6_allow_local_in_slient_drop: %v", err)
+		}
+	}
+
+	if o.Ipv6AllowMulticastProbe != nil {
+		v := *o.Ipv6AllowMulticastProbe
+
+		if err = d.Set("ipv6_allow_multicast_probe", v); err != nil {
+			return diag.Errorf("error reading ipv6_allow_multicast_probe: %v", err)
 		}
 	}
 
@@ -2919,6 +3252,14 @@ func refreshObjectSystemGlobal(d *schema.ResourceData, o *models.SystemGlobal, s
 
 		if err = d.Set("lldp_transmission", v); err != nil {
 			return diag.Errorf("error reading lldp_transmission: %v", err)
+		}
+	}
+
+	if o.LogSingleCpuHigh != nil {
+		v := *o.LogSingleCpuHigh
+
+		if err = d.Set("log_single_cpu_high", v); err != nil {
+			return diag.Errorf("error reading log_single_cpu_high: %v", err)
 		}
 	}
 
@@ -3066,6 +3407,14 @@ func refreshObjectSystemGlobal(d *schema.ResourceData, o *models.SystemGlobal, s
 		}
 	}
 
+	if o.NpuNeighborUpdate != nil {
+		v := *o.NpuNeighborUpdate
+
+		if err = d.Set("npu_neighbor_update", v); err != nil {
+			return diag.Errorf("error reading npu_neighbor_update: %v", err)
+		}
+	}
+
 	if o.PerUserBal != nil {
 		v := *o.PerUserBal
 
@@ -3162,6 +3511,22 @@ func refreshObjectSystemGlobal(d *schema.ResourceData, o *models.SystemGlobal, s
 		}
 	}
 
+	if o.ProxyHardwareAcceleration != nil {
+		v := *o.ProxyHardwareAcceleration
+
+		if err = d.Set("proxy_hardware_acceleration", v); err != nil {
+			return diag.Errorf("error reading proxy_hardware_acceleration: %v", err)
+		}
+	}
+
+	if o.ProxyKeepAliveMode != nil {
+		v := *o.ProxyKeepAliveMode
+
+		if err = d.Set("proxy_keep_alive_mode", v); err != nil {
+			return diag.Errorf("error reading proxy_keep_alive_mode: %v", err)
+		}
+	}
+
 	if o.ProxyKxpHardwareAcceleration != nil {
 		v := *o.ProxyKxpHardwareAcceleration
 
@@ -3175,6 +3540,14 @@ func refreshObjectSystemGlobal(d *schema.ResourceData, o *models.SystemGlobal, s
 
 		if err = d.Set("proxy_re_authentication_mode", v); err != nil {
 			return diag.Errorf("error reading proxy_re_authentication_mode: %v", err)
+		}
+	}
+
+	if o.ProxyReAuthenticationTime != nil {
+		v := *o.ProxyReAuthenticationTime
+
+		if err = d.Set("proxy_re_authentication_time", v); err != nil {
+			return diag.Errorf("error reading proxy_re_authentication_time: %v", err)
 		}
 	}
 
@@ -3290,6 +3663,14 @@ func refreshObjectSystemGlobal(d *schema.ResourceData, o *models.SystemGlobal, s
 		}
 	}
 
+	if o.SflowdMaxChildrenNum != nil {
+		v := *o.SflowdMaxChildrenNum
+
+		if err = d.Set("sflowd_max_children_num", v); err != nil {
+			return diag.Errorf("error reading sflowd_max_children_num: %v", err)
+		}
+	}
+
 	if o.SnatRouteChange != nil {
 		v := *o.SnatRouteChange
 
@@ -3311,6 +3692,14 @@ func refreshObjectSystemGlobal(d *schema.ResourceData, o *models.SystemGlobal, s
 
 		if err = d.Set("speedtest_server", v); err != nil {
 			return diag.Errorf("error reading speedtest_server: %v", err)
+		}
+	}
+
+	if o.SplitPort != nil {
+		v := *o.SplitPort
+
+		if err = d.Set("split_port", v); err != nil {
+			return diag.Errorf("error reading split_port: %v", err)
 		}
 	}
 
@@ -3511,6 +3900,14 @@ func refreshObjectSystemGlobal(d *schema.ResourceData, o *models.SystemGlobal, s
 		}
 	}
 
+	if o.SyslogAffinity != nil {
+		v := *o.SyslogAffinity
+
+		if err = d.Set("syslog_affinity", v); err != nil {
+			return diag.Errorf("error reading syslog_affinity: %v", err)
+		}
+	}
+
 	if o.TcpHalfcloseTimer != nil {
 		v := *o.TcpHalfcloseTimer
 
@@ -3695,6 +4092,14 @@ func refreshObjectSystemGlobal(d *schema.ResourceData, o *models.SystemGlobal, s
 		}
 	}
 
+	if o.VirtualSwitchVlan != nil {
+		v := *o.VirtualSwitchVlan
+
+		if err = d.Set("virtual_switch_vlan", v); err != nil {
+			return diag.Errorf("error reading virtual_switch_vlan: %v", err)
+		}
+	}
+
 	if o.WadAffinity != nil {
 		v := *o.WadAffinity
 
@@ -3724,6 +4129,30 @@ func refreshObjectSystemGlobal(d *schema.ResourceData, o *models.SystemGlobal, s
 
 		if err = d.Set("wad_memory_change_granularity", v); err != nil {
 			return diag.Errorf("error reading wad_memory_change_granularity: %v", err)
+		}
+	}
+
+	if o.WadRestartEndTime != nil {
+		v := *o.WadRestartEndTime
+
+		if err = d.Set("wad_restart_end_time", v); err != nil {
+			return diag.Errorf("error reading wad_restart_end_time: %v", err)
+		}
+	}
+
+	if o.WadRestartMode != nil {
+		v := *o.WadRestartMode
+
+		if err = d.Set("wad_restart_mode", v); err != nil {
+			return diag.Errorf("error reading wad_restart_mode: %v", err)
+		}
+	}
+
+	if o.WadRestartStartTime != nil {
+		v := *o.WadRestartStartTime
+
+		if err = d.Set("wad_restart_start_time", v); err != nil {
+			return diag.Errorf("error reading wad_restart_start_time: %v", err)
 		}
 	}
 
@@ -3809,6 +4238,15 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 			obj.AdminConsoleTimeout = &tmp
 		}
 	}
+	if v1, ok := d.GetOk("admin_forticloud_sso_default_profile"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("admin_forticloud_sso_default_profile", sv)
+				diags = append(diags, e)
+			}
+			obj.AdminForticloudSsoDefaultProfile = &v2
+		}
+	}
 	if v1, ok := d.GetOk("admin_forticloud_sso_login"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "v7.0.0", "") {
@@ -3816,6 +4254,15 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 				diags = append(diags, e)
 			}
 			obj.AdminForticloudSsoLogin = &v2
+		}
+	}
+	if v1, ok := d.GetOk("admin_host"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.6", "v7.2.0") {
+				e := utils.AttributeVersionWarning("admin_host", sv)
+				diags = append(diags, e)
+			}
+			obj.AdminHost = &v2
 		}
 	}
 	if v1, ok := d.GetOk("admin_hsts_max_age"); ok {
@@ -3905,7 +4352,7 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 	}
 	if v1, ok := d.GetOk("admin_maintainer"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.8") {
 				e := utils.AttributeVersionWarning("admin_maintainer", sv)
 				diags = append(diags, e)
 			}
@@ -4355,11 +4802,29 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 	}
 	if v1, ok := d.GetOk("dst"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.1") {
 				e := utils.AttributeVersionWarning("dst", sv)
 				diags = append(diags, e)
 			}
 			obj.Dst = &v2
+		}
+	}
+	if v1, ok := d.GetOk("early_tcp_npu_session"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.6", "v7.2.0") {
+				e := utils.AttributeVersionWarning("early_tcp_npu_session", sv)
+				diags = append(diags, e)
+			}
+			obj.EarlyTcpNpuSession = &v2
+		}
+	}
+	if v1, ok := d.GetOk("edit_vdom_prompt"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("edit_vdom_prompt", sv)
+				diags = append(diags, e)
+			}
+			obj.EditVdomPrompt = &v2
 		}
 	}
 	if v1, ok := d.GetOk("extender_controller_reserved_network"); ok {
@@ -4457,6 +4922,15 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 			obj.FortiextenderDiscoveryLockdown = &v2
 		}
 	}
+	if v1, ok := d.GetOk("fortiextender_provision_on_authorization"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("fortiextender_provision_on_authorization", sv)
+				diags = append(diags, e)
+			}
+			obj.FortiextenderProvisionOnAuthorization = &v2
+		}
+	}
 	if v1, ok := d.GetOk("fortiextender_vlan_mode"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "v6.4.2") {
@@ -4496,11 +4970,29 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 	}
 	if v1, ok := d.GetOk("gui_allow_default_hostname"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.8") {
 				e := utils.AttributeVersionWarning("gui_allow_default_hostname", sv)
 				diags = append(diags, e)
 			}
 			obj.GuiAllowDefaultHostname = &v2
+		}
+	}
+	if v1, ok := d.GetOk("gui_app_detection_sdwan"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("gui_app_detection_sdwan", sv)
+				diags = append(diags, e)
+			}
+			obj.GuiAppDetectionSdwan = &v2
+		}
+	}
+	if v1, ok := d.GetOk("gui_auto_upgrade_setup_warning"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("gui_auto_upgrade_setup_warning", sv)
+				diags = append(diags, e)
+			}
+			obj.GuiAutoUpgradeSetupWarning = &v2
 		}
 	}
 	if v1, ok := d.GetOk("gui_cdn_usage"); ok {
@@ -4609,6 +5101,15 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 				diags = append(diags, e)
 			}
 			obj.GuiFortigateCloudSandbox = &v2
+		}
+	}
+	if v1, ok := d.GetOk("gui_fortiguard_resource_fetch"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.6", "v7.2.0") {
+				e := utils.AttributeVersionWarning("gui_fortiguard_resource_fetch", sv)
+				diags = append(diags, e)
+			}
+			obj.GuiFortiguardResourceFetch = &v2
 		}
 	}
 	if v1, ok := d.GetOk("gui_fortisandbox_cloud"); ok {
@@ -4720,6 +5221,16 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 			obj.Hostname = &v2
 		}
 	}
+	if v1, ok := d.GetOk("hyper_scale_vdom_num"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("hyper_scale_vdom_num", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.HyperScaleVdomNum = &tmp
+		}
+	}
 	if v1, ok := d.GetOk("igmp_state_limit"); ok {
 		if v2, ok := v1.(int); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -4728,6 +5239,15 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 			}
 			tmp := int64(v2)
 			obj.IgmpStateLimit = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("interface_subnet_usage"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("interface_subnet_usage", sv)
+				diags = append(diags, e)
+			}
+			obj.InterfaceSubnetUsage = &v2
 		}
 	}
 	if v1, ok := d.GetOk("internet_service_database"); ok {
@@ -4749,6 +5269,16 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 			obj.Interval = &tmp
 		}
 	}
+	if v1, ok := d.GetOk("ip_fragment_mem_thresholds"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("ip_fragment_mem_thresholds", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.IpFragmentMemThresholds = &tmp
+		}
+	}
 	if v1, ok := d.GetOk("ip_src_port_range"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -4760,7 +5290,7 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 	}
 	if v1, ok := d.GetOk("ips_affinity"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.8") {
 				e := utils.AttributeVersionWarning("ips_affinity", sv)
 				diags = append(diags, e)
 			}
@@ -4795,6 +5325,15 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 			obj.IpsecHmacOffload = &v2
 		}
 	}
+	if v1, ok := d.GetOk("ipsec_round_robin"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.6", "v7.2.0") {
+				e := utils.AttributeVersionWarning("ipsec_round_robin", sv)
+				diags = append(diags, e)
+			}
+			obj.IpsecRoundRobin = &v2
+		}
+	}
 	if v1, ok := d.GetOk("ipsec_soft_dec_async"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -4821,6 +5360,33 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 				diags = append(diags, e)
 			}
 			obj.Ipv6AllowAnycastProbe = &v2
+		}
+	}
+	if v1, ok := d.GetOk("ipv6_allow_local_in_silent_drop"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("ipv6_allow_local_in_silent_drop", sv)
+				diags = append(diags, e)
+			}
+			obj.Ipv6AllowLocalInSilentDrop = &v2
+		}
+	}
+	if v1, ok := d.GetOk("ipv6_allow_local_in_slient_drop"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.6", "v7.2.0") {
+				e := utils.AttributeVersionWarning("ipv6_allow_local_in_slient_drop", sv)
+				diags = append(diags, e)
+			}
+			obj.Ipv6AllowLocalInSlientDrop = &v2
+		}
+	}
+	if v1, ok := d.GetOk("ipv6_allow_multicast_probe"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.6", "v7.2.0") {
+				e := utils.AttributeVersionWarning("ipv6_allow_multicast_probe", sv)
+				diags = append(diags, e)
+			}
+			obj.Ipv6AllowMulticastProbe = &v2
 		}
 	}
 	if v1, ok := d.GetOk("ipv6_allow_traffic_redirect"); ok {
@@ -4876,6 +5442,15 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 				diags = append(diags, e)
 			}
 			obj.LldpTransmission = &v2
+		}
+	}
+	if v1, ok := d.GetOk("log_single_cpu_high"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("log_single_cpu_high", sv)
+				diags = append(diags, e)
+			}
+			obj.LogSingleCpuHigh = &v2
 		}
 	}
 	if v1, ok := d.GetOk("log_ssl_connection"); ok {
@@ -5048,6 +5623,15 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 			obj.NdpMaxEntry = &tmp
 		}
 	}
+	if v1, ok := d.GetOk("npu_neighbor_update"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("npu_neighbor_update", sv)
+				diags = append(diags, e)
+			}
+			obj.NpuNeighborUpdate = &v2
+		}
+	}
 	if v1, ok := d.GetOk("per_user_bal"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "v7.0.0", "") {
@@ -5159,6 +5743,24 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 			obj.ProxyCipherHardwareAcceleration = &v2
 		}
 	}
+	if v1, ok := d.GetOk("proxy_hardware_acceleration"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("proxy_hardware_acceleration", sv)
+				diags = append(diags, e)
+			}
+			obj.ProxyHardwareAcceleration = &v2
+		}
+	}
+	if v1, ok := d.GetOk("proxy_keep_alive_mode"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("proxy_keep_alive_mode", sv)
+				diags = append(diags, e)
+			}
+			obj.ProxyKeepAliveMode = &v2
+		}
+	}
 	if v1, ok := d.GetOk("proxy_kxp_hardware_acceleration"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "v6.4.0") {
@@ -5170,11 +5772,21 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 	}
 	if v1, ok := d.GetOk("proxy_re_authentication_mode"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.8") {
 				e := utils.AttributeVersionWarning("proxy_re_authentication_mode", sv)
 				diags = append(diags, e)
 			}
 			obj.ProxyReAuthenticationMode = &v2
+		}
+	}
+	if v1, ok := d.GetOk("proxy_re_authentication_time"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("proxy_re_authentication_time", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.ProxyReAuthenticationTime = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("proxy_resource_mode"); ok {
@@ -5308,6 +5920,16 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 			obj.SendPmtuIcmp = &v2
 		}
 	}
+	if v1, ok := d.GetOk("sflowd_max_children_num"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("sflowd_max_children_num", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.SflowdMaxChildrenNum = &tmp
+		}
+	}
 	if v1, ok := d.GetOk("snat_route_change"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -5335,9 +5957,18 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 			obj.SpeedtestServer = &v2
 		}
 	}
+	if v1, ok := d.GetOk("split_port"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("split_port", sv)
+				diags = append(diags, e)
+			}
+			obj.SplitPort = &v2
+		}
+	}
 	if v1, ok := d.GetOk("ssd_trim_date"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.8") {
 				e := utils.AttributeVersionWarning("ssd_trim_date", sv)
 				diags = append(diags, e)
 			}
@@ -5347,7 +5978,7 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 	}
 	if v1, ok := d.GetOk("ssd_trim_freq"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.8") {
 				e := utils.AttributeVersionWarning("ssd_trim_freq", sv)
 				diags = append(diags, e)
 			}
@@ -5356,7 +5987,7 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 	}
 	if v1, ok := d.GetOk("ssd_trim_hour"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.8") {
 				e := utils.AttributeVersionWarning("ssd_trim_hour", sv)
 				diags = append(diags, e)
 			}
@@ -5366,7 +5997,7 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 	}
 	if v1, ok := d.GetOk("ssd_trim_min"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.8") {
 				e := utils.AttributeVersionWarning("ssd_trim_min", sv)
 				diags = append(diags, e)
 			}
@@ -5376,7 +6007,7 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 	}
 	if v1, ok := d.GetOk("ssd_trim_weekday"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.8") {
 				e := utils.AttributeVersionWarning("ssd_trim_weekday", sv)
 				diags = append(diags, e)
 			}
@@ -5503,7 +6134,7 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 	}
 	if v1, ok := d.GetOk("sslvpn_plugin_version_check"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.8") {
 				e := utils.AttributeVersionWarning("sslvpn_plugin_version_check", sv)
 				diags = append(diags, e)
 			}
@@ -5554,6 +6185,15 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 			}
 			tmp := int64(v2)
 			obj.SysPerfLogInterval = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("syslog_affinity"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("syslog_affinity", sv)
+				diags = append(diags, e)
+			}
+			obj.SyslogAffinity = &v2
 		}
 	}
 	if v1, ok := d.GetOk("tcp_halfclose_timer"); ok {
@@ -5752,7 +6392,7 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 	}
 	if v1, ok := d.GetOk("user_server_cert"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.1") {
 				e := utils.AttributeVersionWarning("user_server_cert", sv)
 				diags = append(diags, e)
 			}
@@ -5775,6 +6415,15 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 				diags = append(diags, e)
 			}
 			obj.VipArpRange = &v2
+		}
+	}
+	if v1, ok := d.GetOk("virtual_switch_vlan"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("virtual_switch_vlan", sv)
+				diags = append(diags, e)
+			}
+			obj.VirtualSwitchVlan = &v2
 		}
 	}
 	if v1, ok := d.GetOk("wad_affinity"); ok {
@@ -5814,6 +6463,33 @@ func getObjectSystemGlobal(d *schema.ResourceData, sv string) (*models.SystemGlo
 			}
 			tmp := int64(v2)
 			obj.WadMemoryChangeGranularity = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("wad_restart_end_time"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("wad_restart_end_time", sv)
+				diags = append(diags, e)
+			}
+			obj.WadRestartEndTime = &v2
+		}
+	}
+	if v1, ok := d.GetOk("wad_restart_mode"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("wad_restart_mode", sv)
+				diags = append(diags, e)
+			}
+			obj.WadRestartMode = &v2
+		}
+	}
+	if v1, ok := d.GetOk("wad_restart_start_time"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("wad_restart_start_time", sv)
+				diags = append(diags, e)
+			}
+			obj.WadRestartStartTime = &v2
 		}
 	}
 	if v1, ok := d.GetOk("wad_source_affinity"); ok {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -148,7 +148,7 @@ func resourceVpnSslWebUserGroupBookmark() *schema.Resource {
 						},
 						"keyboard_layout": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"ar-101", "ar-102", "ar-102-azerty", "can-mul", "cz", "cz-qwerty", "cz-pr", "da", "nl", "de", "de-ch", "de-ibm", "en-uk", "en-uk-ext", "en-us", "en-us-dvorak", "es", "es-var", "fi", "fi-sami", "fr", "fr-apple", "fr-ca", "fr-ch", "fr-be", "hr", "hu", "hu-101", "it", "it-142", "ja", "ko", "lt", "lt-ibm", "lt-std", "lav-std", "lav-leg", "mk", "mk-std", "no", "no-sami", "pol-214", "pol-pr", "pt", "pt-br", "pt-br-abnt2", "ru", "ru-mne", "ru-t", "sl", "sv", "sv-sami", "tuk", "tur-f", "tur-q", "zh-sym-sg-us", "zh-sym-us", "zh-tr-hk", "zh-tr-mo", "zh-tr-us"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"ar-101", "ar-102", "ar-102-azerty", "can-mul", "cz", "cz-qwerty", "cz-pr", "da", "nl", "de", "de-ch", "de-ibm", "en-uk", "en-uk-ext", "en-us", "en-us-dvorak", "es", "es-var", "fi", "fi-sami", "fr", "fr-apple", "fr-ca", "fr-ch", "fr-be", "hr", "hu", "hu-101", "it", "it-142", "ja", "ko", "la-am", "lt", "lt-ibm", "lt-std", "lav-std", "lav-leg", "mk", "mk-std", "no", "no-sami", "pol-214", "pol-pr", "pt", "pt-br", "pt-br-abnt2", "ru", "ru-mne", "ru-t", "sl", "sv", "sv-sami", "tuk", "tur-f", "tur-q", "zh-sym-sg-us", "zh-sym-us", "zh-tr-hk", "zh-tr-mo", "zh-tr-us"}, false),
 
 							Description: "Keyboard layout.",
 							Optional:    true,
@@ -235,7 +235,7 @@ func resourceVpnSslWebUserGroupBookmark() *schema.Resource {
 						},
 						"security": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"rdp", "nla", "tls", "any"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"any", "rdp", "nla", "tls"}, false),
 
 							Description: "Security mode for RDP connection.",
 							Optional:    true,
@@ -310,6 +310,14 @@ func resourceVpnSslWebUserGroupBookmark() *schema.Resource {
 							ValidateFunc: validation.StringLenBetween(0, 128),
 
 							Description: "URL parameter.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"vnc_keyboard_layout": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"default", "da", "nl", "en-uk", "en-uk-ext", "fi", "fr", "fr-be", "fr-ca-mul", "de", "de-ch", "it", "it-142", "pt", "pt-br-abnt2", "no", "gd", "es", "sv", "us-intl"}, false),
+
+							Description: "Keyboard layout.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -616,6 +624,10 @@ func flattenVpnSslWebUserGroupBookmarkBookmarks(d *schema.ResourceData, v *[]mod
 				v["url"] = *tmp
 			}
 
+			if tmp := cfg.VncKeyboardLayout; tmp != nil {
+				v["vnc_keyboard_layout"] = *tmp
+			}
+
 			if tmp := cfg.Width; tmp != nil {
 				v["width"] = *tmp
 			}
@@ -904,6 +916,13 @@ func expandVpnSslWebUserGroupBookmarkBookmarks(d *schema.ResourceData, v interfa
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.Url = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.vnc_keyboard_layout", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.VncKeyboardLayout = &v2
 			}
 		}
 

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -73,6 +73,14 @@ func resourceIcapProfile() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
 
 				Description: "Enable/disable chunked encapsulation (default = disable).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"comment": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 255),
+
+				Description: "Comment.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -710,6 +718,14 @@ func refreshObjectIcapProfile(d *schema.ResourceData, o *models.IcapProfile, sv 
 		}
 	}
 
+	if o.Comment != nil {
+		v := *o.Comment
+
+		if err = d.Set("comment", v); err != nil {
+			return diag.Errorf("error reading comment: %v", err)
+		}
+	}
+
 	if o.ExtensionFeature != nil {
 		v := *o.ExtensionFeature
 
@@ -1122,6 +1138,15 @@ func getObjectIcapProfile(d *schema.ResourceData, sv string) (*models.IcapProfil
 				diags = append(diags, e)
 			}
 			obj.ChunkEncap = &v2
+		}
+	}
+	if v1, ok := d.GetOk("comment"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("comment", sv)
+				diags = append(diags, e)
+			}
+			obj.Comment = &v2
 		}
 	}
 	if v1, ok := d.GetOk("extension_feature"); ok {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -48,7 +48,7 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"oversize_limit": {
 							Type:        schema.TypeInt,
-							Description: "Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory file size that can be scanned (MB).",
 							Computed:    true,
 						},
 						"ports": {
@@ -117,7 +117,7 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"uncompressed_oversize_limit": {
 							Type:        schema.TypeInt,
-							Description: "Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory uncompressed file size that can be scanned.",
 							Computed:    true,
 						},
 					},
@@ -160,12 +160,17 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						"comfort_amount": {
 							Type:        schema.TypeInt,
-							Description: "Amount of data to send in a transmission for client comforting (1 - 65535 bytes, default = 1).",
+							Description: "Number of bytes to send in each transmission for client comforting (bytes).",
 							Computed:    true,
 						},
 						"comfort_interval": {
 							Type:        schema.TypeInt,
-							Description: "Period of time between start, or last transmission, and the next client comfort transmission of data (1 - 900 sec, default = 10).",
+							Description: "Interval between successive transmissions of data for client comforting (seconds).",
+							Computed:    true,
+						},
+						"explicit_ftp_tls": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable FTP redirection for explicit FTPS.",
 							Computed:    true,
 						},
 						"inspect_all": {
@@ -180,7 +185,7 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"oversize_limit": {
 							Type:        schema.TypeInt,
-							Description: "Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory file size that can be scanned (MB).",
 							Computed:    true,
 						},
 						"ports": {
@@ -235,7 +240,7 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"uncompressed_oversize_limit": {
 							Type:        schema.TypeInt,
-							Description: "Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory uncompressed file size that can be scanned.",
 							Computed:    true,
 						},
 					},
@@ -259,12 +264,12 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"comfort_amount": {
 							Type:        schema.TypeInt,
-							Description: "Amount of data to send in a transmission for client comforting (1 - 65535 bytes, default = 1).",
+							Description: "Number of bytes to send in each transmission for client comforting (bytes).",
 							Computed:    true,
 						},
 						"comfort_interval": {
 							Type:        schema.TypeInt,
-							Description: "Period of time between start, or last transmission, and the next client comfort transmission of data (1 - 900 sec, default = 10).",
+							Description: "Interval between successive transmissions of data for client comforting (seconds).",
 							Computed:    true,
 						},
 						"fortinet_bar": {
@@ -294,7 +299,7 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"oversize_limit": {
 							Type:        schema.TypeInt,
-							Description: "Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory file size that can be scanned (MB).",
 							Computed:    true,
 						},
 						"ports": {
@@ -389,12 +394,22 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"uncompressed_oversize_limit": {
 							Type:        schema.TypeInt,
-							Description: "Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory uncompressed file size that can be scanned.",
+							Computed:    true,
+						},
+						"unknown_content_encoding": {
+							Type:        schema.TypeString,
+							Description: "Configure the action the FortiGate unit will take on unknown content-encoding.",
 							Computed:    true,
 						},
 						"unknown_http_version": {
 							Type:        schema.TypeString,
 							Description: "How to handle HTTP sessions that do not comply with HTTP 0.9, 1.0, or 1.1.",
+							Computed:    true,
+						},
+						"verify_dns_for_policy_matching": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable verification of DNS for policy matching.",
 							Computed:    true,
 						},
 					},
@@ -418,7 +433,7 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"oversize_limit": {
 							Type:        schema.TypeInt,
-							Description: "Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory file size that can be scanned (MB).",
 							Computed:    true,
 						},
 						"ports": {
@@ -453,7 +468,7 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"uncompressed_oversize_limit": {
 							Type:        schema.TypeInt,
-							Description: "Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory uncompressed file size that can be scanned.",
 							Computed:    true,
 						},
 					},
@@ -491,7 +506,7 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"oversize_limit": {
 							Type:        schema.TypeInt,
-							Description: "Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory file size that can be scanned (MB).",
 							Computed:    true,
 						},
 						"ports": {
@@ -516,7 +531,7 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"uncompressed_oversize_limit": {
 							Type:        schema.TypeInt,
-							Description: "Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory uncompressed file size that can be scanned.",
 							Computed:    true,
 						},
 					},
@@ -545,7 +560,7 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"oversize_limit": {
 							Type:        schema.TypeInt,
-							Description: "Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory file size that can be scanned (MB).",
 							Computed:    true,
 						},
 						"ports": {
@@ -575,7 +590,7 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"uncompressed_oversize_limit": {
 							Type:        schema.TypeInt,
-							Description: "Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory uncompressed file size that can be scanned.",
 							Computed:    true,
 						},
 					},
@@ -604,7 +619,7 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"oversize_limit": {
 							Type:        schema.TypeInt,
-							Description: "Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory file size that can be scanned (MB).",
 							Computed:    true,
 						},
 						"ports": {
@@ -639,7 +654,7 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"uncompressed_oversize_limit": {
 							Type:        schema.TypeInt,
-							Description: "Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory uncompressed file size that can be scanned.",
 							Computed:    true,
 						},
 					},
@@ -673,7 +688,7 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"oversize_limit": {
 							Type:        schema.TypeInt,
-							Description: "Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory file size that can be scanned (MB).",
 							Computed:    true,
 						},
 						"ports": {
@@ -713,7 +728,7 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"uncompressed_oversize_limit": {
 							Type:        schema.TypeInt,
-							Description: "Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory uncompressed file size that can be scanned.",
 							Computed:    true,
 						},
 					},
@@ -727,12 +742,12 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						"comfort_amount": {
 							Type:        schema.TypeInt,
-							Description: "Amount of data to send in a transmission for client comforting (1 - 65535 bytes, default = 1).",
+							Description: "Number of bytes to send in each transmission for client comforting (bytes).",
 							Computed:    true,
 						},
 						"comfort_interval": {
 							Type:        schema.TypeInt,
-							Description: "Period of time between start, or last transmission, and the next client comfort transmission of data (1 - 900 sec, default = 10).",
+							Description: "Interval between successive transmissions of data for client comforting (seconds).",
 							Computed:    true,
 						},
 						"options": {
@@ -742,7 +757,7 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"oversize_limit": {
 							Type:        schema.TypeInt,
-							Description: "Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory file size that can be scanned (MB).",
 							Computed:    true,
 						},
 						"scan_bzip2": {
@@ -787,7 +802,7 @@ func dataSourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"uncompressed_oversize_limit": {
 							Type:        schema.TypeInt,
-							Description: "Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory uncompressed file size that can be scanned.",
 							Computed:    true,
 						},
 					},

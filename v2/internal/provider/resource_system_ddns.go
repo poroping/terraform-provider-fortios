@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -97,6 +97,7 @@ func resourceSystemDdns() *schema.Resource {
 				Description: "DDNS update key (base 64 encoding).",
 				Optional:    true,
 				Computed:    true,
+				Sensitive:   true,
 			},
 			"ddns_keyname": {
 				Type:         schema.TypeString,
@@ -482,7 +483,8 @@ func refreshObjectSystemDdns(d *schema.ResourceData, o *models.SystemDdns, sv st
 	if o.DdnsKey != nil {
 		v := *o.DdnsKey
 
-		if err = d.Set("ddns_key", v); err != nil {
+		if v == "ENC XXXX" {
+		} else if err = d.Set("ddns_key", v); err != nil {
 			return diag.Errorf("error reading ddns_key: %v", err)
 		}
 	}

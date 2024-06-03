@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -106,6 +106,14 @@ func resourceWirelessControllerVap() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable application detection engine (default = disable).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"application_dscp_marking": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable application attribute based DSCP marking (default = disable).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -226,6 +234,14 @@ func resourceWirelessControllerVap() *schema.Resource {
 				ValidateFunc: validation.IntBetween(0, 864000),
 
 				Description: "Hard timeout - AP will always clear the session after timeout regardless of traffic (0 - 864000 sec, default = 0).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"captive_portal_fw_accounting": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable RADIUS accounting for captive portal firewall authentication session.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -538,6 +554,14 @@ func resourceWirelessControllerVap() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable layer 3 roaming (default = disable).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"l3_roaming_mode": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"direct", "indirect"}, false),
+
+				Description: "Select the way that layer 3 roaming traffic is passed (default = direct).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1125,6 +1149,14 @@ func resourceWirelessControllerVap() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"radius_mac_auth_block_interval": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(30, 864000),
+
+				Description: "Don't send RADIUS MAC auth request again if the client has been rejected within specific interval (0 or 30 - 864000 seconds, default = 0, 0 to disable blocking).",
+				Optional:    true,
+				Computed:    true,
+			},
 			"radius_mac_auth_server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
@@ -1160,9 +1192,9 @@ func resourceWirelessControllerVap() *schema.Resource {
 			},
 			"radius_mac_mpsk_timeout": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(1800, 864000),
+				ValidateFunc: validation.IntBetween(300, 864000),
 
-				Description: "RADIUS MAC MPSK cache timeout interval (1800 - 864000, default = 86400).",
+				Description: "RADIUS MAC MPSK cache timeout interval (0 or 300 - 864000, default = 86400, 0 to disable caching).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1182,6 +1214,14 @@ func resourceWirelessControllerVap() *schema.Resource {
 				Optional:         true,
 				Computed:         true,
 			},
+			"rates_11ac_mcs_map": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 63),
+
+				Description: "Comma separated list of max supported VHT MCS for spatial streams 1 through 8.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"rates_11ac_ss12": {
 				Type: schema.TypeString,
 
@@ -1197,6 +1237,14 @@ func resourceWirelessControllerVap() *schema.Resource {
 				Description:      "Allowed data rates for 802.11ac with 3 or 4 spatial streams.",
 				Optional:         true,
 				Computed:         true,
+			},
+			"rates_11ax_mcs_map": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 63),
+
+				Description: "Comma separated list of max supported HE MCS for spatial streams 1 through 8.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"rates_11ax_ss12": {
 				Type: schema.TypeString,
@@ -1246,6 +1294,14 @@ func resourceWirelessControllerVap() *schema.Resource {
 				Optional:         true,
 				Computed:         true,
 			},
+			"sae_h2e_only": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Use hash-to-element-only mechanism for PWE derivation (default = disable).",
+				Optional:    true,
+				Computed:    true,
+			},
 			"sae_password": {
 				Type: schema.TypeString,
 
@@ -1253,6 +1309,22 @@ func resourceWirelessControllerVap() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 				Sensitive:   true,
+			},
+			"sae_pk": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable WPA3 SAE-PK (default = disable).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"sae_private_key": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 359),
+
+				Description: "Private key used for WPA3 SAE-PK authentication.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"scan_botnet_connections": {
 				Type:         schema.TypeString,
@@ -1365,6 +1437,14 @@ func resourceWirelessControllerVap() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 7),
 
 				Description: "Minimum signal level/threshold in dBm required for the 5G client to be serviced by the AP (-95 to -20, default = -76).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"sticky_client_threshold_6g": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 7),
+
+				Description: "Minimum signal level/threshold in dBm required for the 6G client to be serviced by the AP (-95 to -20, default = -76).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -2008,6 +2088,14 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 		}
 	}
 
+	if o.ApplicationDscpMarking != nil {
+		v := *o.ApplicationDscpMarking
+
+		if err = d.Set("application_dscp_marking", v); err != nil {
+			return diag.Errorf("error reading application_dscp_marking: %v", err)
+		}
+	}
+
 	if o.ApplicationList != nil {
 		v := *o.ApplicationList
 
@@ -2125,6 +2213,14 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 
 		if err = d.Set("captive_portal_auth_timeout", v); err != nil {
 			return diag.Errorf("error reading captive_portal_auth_timeout: %v", err)
+		}
+	}
+
+	if o.CaptivePortalFwAccounting != nil {
+		v := *o.CaptivePortalFwAccounting
+
+		if err = d.Set("captive_portal_fw_accounting", v); err != nil {
+			return diag.Errorf("error reading captive_portal_fw_accounting: %v", err)
 		}
 	}
 
@@ -2445,6 +2541,14 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 
 		if err = d.Set("l3_roaming", v); err != nil {
 			return diag.Errorf("error reading l3_roaming: %v", err)
+		}
+	}
+
+	if o.L3RoamingMode != nil {
+		v := *o.L3RoamingMode
+
+		if err = d.Set("l3_roaming_mode", v); err != nil {
+			return diag.Errorf("error reading l3_roaming_mode: %v", err)
 		}
 	}
 
@@ -2925,6 +3029,14 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 		}
 	}
 
+	if o.RadiusMacAuthBlockInterval != nil {
+		v := *o.RadiusMacAuthBlockInterval
+
+		if err = d.Set("radius_mac_auth_block_interval", v); err != nil {
+			return diag.Errorf("error reading radius_mac_auth_block_interval: %v", err)
+		}
+	}
+
 	if o.RadiusMacAuthServer != nil {
 		v := *o.RadiusMacAuthServer
 
@@ -2971,6 +3083,14 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 		}
 	}
 
+	if o.Rates11acMcsMap != nil {
+		v := *o.Rates11acMcsMap
+
+		if err = d.Set("rates_11ac_mcs_map", v); err != nil {
+			return diag.Errorf("error reading rates_11ac_mcs_map: %v", err)
+		}
+	}
+
 	if o.Rates11acSs12 != nil {
 		v := *o.Rates11acSs12
 
@@ -2984,6 +3104,14 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 
 		if err = d.Set("rates_11ac_ss34", v); err != nil {
 			return diag.Errorf("error reading rates_11ac_ss34: %v", err)
+		}
+	}
+
+	if o.Rates11axMcsMap != nil {
+		v := *o.Rates11axMcsMap
+
+		if err = d.Set("rates_11ax_mcs_map", v); err != nil {
+			return diag.Errorf("error reading rates_11ax_mcs_map: %v", err)
 		}
 	}
 
@@ -3035,12 +3163,36 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 		}
 	}
 
+	if o.SaeH2eOnly != nil {
+		v := *o.SaeH2eOnly
+
+		if err = d.Set("sae_h2e_only", v); err != nil {
+			return diag.Errorf("error reading sae_h2e_only: %v", err)
+		}
+	}
+
 	if o.SaePassword != nil {
 		v := *o.SaePassword
 
 		if v == "ENC XXXX" {
 		} else if err = d.Set("sae_password", v); err != nil {
 			return diag.Errorf("error reading sae_password: %v", err)
+		}
+	}
+
+	if o.SaePk != nil {
+		v := *o.SaePk
+
+		if err = d.Set("sae_pk", v); err != nil {
+			return diag.Errorf("error reading sae_pk: %v", err)
+		}
+	}
+
+	if o.SaePrivateKey != nil {
+		v := *o.SaePrivateKey
+
+		if err = d.Set("sae_private_key", v); err != nil {
+			return diag.Errorf("error reading sae_private_key: %v", err)
 		}
 	}
 
@@ -3133,6 +3285,14 @@ func refreshObjectWirelessControllerVap(d *schema.ResourceData, o *models.Wirele
 
 		if err = d.Set("sticky_client_threshold_5g", v); err != nil {
 			return diag.Errorf("error reading sticky_client_threshold_5g: %v", err)
+		}
+	}
+
+	if o.StickyClientThreshold6g != nil {
+		v := *o.StickyClientThreshold6g
+
+		if err = d.Set("sticky_client_threshold_6g", v); err != nil {
+			return diag.Errorf("error reading sticky_client_threshold_6g: %v", err)
 		}
 	}
 
@@ -3644,6 +3804,15 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 			obj.ApplicationDetectionEngine = &v2
 		}
 	}
+	if v1, ok := d.GetOk("application_dscp_marking"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("application_dscp_marking", sv)
+				diags = append(diags, e)
+			}
+			obj.ApplicationDscpMarking = &v2
+		}
+	}
 	if v1, ok := d.GetOk("application_list"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "v7.0.1", "") {
@@ -3782,6 +3951,15 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 			}
 			tmp := int64(v2)
 			obj.CaptivePortalAuthTimeout = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("captive_portal_fw_accounting"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("captive_portal_fw_accounting", sv)
+				diags = append(diags, e)
+			}
+			obj.CaptivePortalFwAccounting = &v2
 		}
 	}
 	if v1, ok := d.GetOk("captive_portal_macauth_radius_secret"); ok {
@@ -4142,6 +4320,15 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 				diags = append(diags, e)
 			}
 			obj.L3Roaming = &v2
+		}
+	}
+	if v1, ok := d.GetOk("l3_roaming_mode"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("l3_roaming_mode", sv)
+				diags = append(diags, e)
+			}
+			obj.L3RoamingMode = &v2
 		}
 	}
 	if v1, ok := d.GetOk("ldpc"); ok {
@@ -4717,6 +4904,16 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 			obj.RadiusMacAuth = &v2
 		}
 	}
+	if v1, ok := d.GetOk("radius_mac_auth_block_interval"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("radius_mac_auth_block_interval", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.RadiusMacAuthBlockInterval = &tmp
+		}
+	}
 	if v1, ok := d.GetOk("radius_mac_auth_server"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -4780,9 +4977,18 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 			obj.Rates11a = &v2
 		}
 	}
+	if v1, ok := d.GetOk("rates_11ac_mcs_map"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("rates_11ac_mcs_map", sv)
+				diags = append(diags, e)
+			}
+			obj.Rates11acMcsMap = &v2
+		}
+	}
 	if v1, ok := d.GetOk("rates_11ac_ss12"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.1") {
 				e := utils.AttributeVersionWarning("rates_11ac_ss12", sv)
 				diags = append(diags, e)
 			}
@@ -4791,16 +4997,25 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 	}
 	if v1, ok := d.GetOk("rates_11ac_ss34"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.1") {
 				e := utils.AttributeVersionWarning("rates_11ac_ss34", sv)
 				diags = append(diags, e)
 			}
 			obj.Rates11acSs34 = &v2
 		}
 	}
+	if v1, ok := d.GetOk("rates_11ax_mcs_map"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("rates_11ax_mcs_map", sv)
+				diags = append(diags, e)
+			}
+			obj.Rates11axMcsMap = &v2
+		}
+	}
 	if v1, ok := d.GetOk("rates_11ax_ss12"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v7.0.2", "") {
+			if !utils.CheckVer(sv, "v7.0.2", "v7.2.1") {
 				e := utils.AttributeVersionWarning("rates_11ax_ss12", sv)
 				diags = append(diags, e)
 			}
@@ -4809,7 +5024,7 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 	}
 	if v1, ok := d.GetOk("rates_11ax_ss34"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v7.0.2", "") {
+			if !utils.CheckVer(sv, "v7.0.2", "v7.2.1") {
 				e := utils.AttributeVersionWarning("rates_11ax_ss34", sv)
 				diags = append(diags, e)
 			}
@@ -4852,6 +5067,15 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 			obj.SaeGroups = &v2
 		}
 	}
+	if v1, ok := d.GetOk("sae_h2e_only"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("sae_h2e_only", sv)
+				diags = append(diags, e)
+			}
+			obj.SaeH2eOnly = &v2
+		}
+	}
 	if v1, ok := d.GetOk("sae_password"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -4859,6 +5083,24 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 				diags = append(diags, e)
 			}
 			obj.SaePassword = &v2
+		}
+	}
+	if v1, ok := d.GetOk("sae_pk"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("sae_pk", sv)
+				diags = append(diags, e)
+			}
+			obj.SaePk = &v2
+		}
+	}
+	if v1, ok := d.GetOk("sae_private_key"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("sae_private_key", sv)
+				diags = append(diags, e)
+			}
+			obj.SaePrivateKey = &v2
 		}
 	}
 	if v1, ok := d.GetOk("scan_botnet_connections"); ok {
@@ -4983,6 +5225,15 @@ func getObjectWirelessControllerVap(d *schema.ResourceData, sv string) (*models.
 				diags = append(diags, e)
 			}
 			obj.StickyClientThreshold5g = &v2
+		}
+	}
+	if v1, ok := d.GetOk("sticky_client_threshold_6g"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("sticky_client_threshold_6g", sv)
+				diags = append(diags, e)
+			}
+			obj.StickyClientThreshold6g = &v2
 		}
 	}
 	if v1, ok := d.GetOk("target_wake_time"); ok {

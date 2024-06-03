@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -212,6 +212,14 @@ func resourceVpnCertificateLocal() *schema.Resource {
 				Type: schema.TypeString,
 
 				Description: "PEM format key encrypted with a password.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"private_key_retain": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable retention of private key during SCEP renewal (default = disable).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -599,6 +607,14 @@ func refreshObjectVpnCertificateLocal(d *schema.ResourceData, o *models.VpnCerti
 		}
 	}
 
+	if o.PrivateKeyRetain != nil {
+		v := *o.PrivateKeyRetain
+
+		if err = d.Set("private_key_retain", v); err != nil {
+			return diag.Errorf("error reading private_key_retain: %v", err)
+		}
+	}
+
 	if o.Range != nil {
 		v := *o.Range
 
@@ -794,6 +810,15 @@ func getObjectVpnCertificateLocal(d *schema.ResourceData, sv string) (*models.Vp
 			obj.Csr = &v2
 		}
 	}
+	if v1, ok := d.GetOk("details"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("details", sv)
+				diags = append(diags, e)
+			}
+			obj.Details = &v2
+		}
+	}
 	if v1, ok := d.GetOk("enroll_protocol"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -855,6 +880,15 @@ func getObjectVpnCertificateLocal(d *schema.ResourceData, sv string) (*models.Vp
 				diags = append(diags, e)
 			}
 			obj.PrivateKey = &v2
+		}
+	}
+	if v1, ok := d.GetOk("private_key_retain"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("private_key_retain", sv)
+				diags = append(diags, e)
+			}
+			obj.PrivateKeyRetain = &v2
 		}
 	}
 	if v1, ok := d.GetOk("range"); ok {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -139,10 +139,35 @@ func dataSourceUserRadius() *schema.Resource {
 				Description: "Specify how to select outgoing interface to reach server.",
 				Computed:    true,
 			},
+			"mac_case": {
+				Type:        schema.TypeString,
+				Description: "MAC authentication case (default = lowercase).",
+				Computed:    true,
+			},
+			"mac_password_delimiter": {
+				Type:        schema.TypeString,
+				Description: "MAC authentication password delimiter (default = hyphen).",
+				Computed:    true,
+			},
+			"mac_username_delimiter": {
+				Type:        schema.TypeString,
+				Description: "MAC authentication username delimiter (default = hyphen).",
+				Computed:    true,
+			},
 			"name": {
 				Type:        schema.TypeString,
 				Description: "RADIUS server entry name.",
 				Required:    true,
+			},
+			"nas_id": {
+				Type:        schema.TypeString,
+				Description: "Custom NAS identifier.",
+				Computed:    true,
+			},
+			"nas_id_type": {
+				Type:        schema.TypeString,
+				Description: "NAS identifier type configuration (default = legacy).",
+				Computed:    true,
 			},
 			"nas_ip": {
 				Type:        schema.TypeString,

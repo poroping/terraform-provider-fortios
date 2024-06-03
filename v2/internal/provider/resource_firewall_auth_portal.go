@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -83,6 +83,14 @@ func resourceFirewallAuthPortal() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 63),
 
 				Description: "IPv6 address (or FQDN) of authentication portal.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"proxy_auth": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable authentication by proxy daemon (default = disable).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -294,6 +302,14 @@ func refreshObjectFirewallAuthPortal(d *schema.ResourceData, o *models.FirewallA
 		}
 	}
 
+	if o.ProxyAuth != nil {
+		v := *o.ProxyAuth
+
+		if err = d.Set("proxy_auth", v); err != nil {
+			return diag.Errorf("error reading proxy_auth: %v", err)
+		}
+	}
+
 	return nil
 }
 
@@ -367,6 +383,15 @@ func getObjectFirewallAuthPortal(d *schema.ResourceData, sv string) (*models.Fir
 				diags = append(diags, e)
 			}
 			obj.PortalAddr6 = &v2
+		}
+	}
+	if v1, ok := d.GetOk("proxy_auth"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("proxy_auth", sv)
+				diags = append(diags, e)
+			}
+			obj.ProxyAuth = &v2
 		}
 	}
 	return &obj, diags

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -109,6 +109,22 @@ func resourceSystemDns() *schema.Resource {
 						},
 					},
 				},
+			},
+			"fqdn_cache_ttl": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 86400),
+
+				Description: "FQDN cache time to live in seconds (0 - 86400, default = 0).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"fqdn_min_refresh": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(10, 3600),
+
+				Description: "FQDN cache minimum refresh time in seconds (10 - 3600, default = 60).",
+				Optional:    true,
+				Computed:    true,
 			},
 			"interface": {
 				Type:         schema.TypeString,
@@ -485,6 +501,22 @@ func refreshObjectSystemDns(d *schema.ResourceData, o *models.SystemDns, sv stri
 		}
 	}
 
+	if o.FqdnCacheTtl != nil {
+		v := *o.FqdnCacheTtl
+
+		if err = d.Set("fqdn_cache_ttl", v); err != nil {
+			return diag.Errorf("error reading fqdn_cache_ttl: %v", err)
+		}
+	}
+
+	if o.FqdnMinRefresh != nil {
+		v := *o.FqdnMinRefresh
+
+		if err = d.Set("fqdn_min_refresh", v); err != nil {
+			return diag.Errorf("error reading fqdn_min_refresh: %v", err)
+		}
+	}
+
 	if o.Interface != nil {
 		v := *o.Interface
 
@@ -721,6 +753,26 @@ func getObjectSystemDns(d *schema.ResourceData, sv string) (*models.SystemDns, d
 		old, new := d.GetChange("domain")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
 			obj.Domain = &[]models.SystemDnsDomain{}
+		}
+	}
+	if v1, ok := d.GetOk("fqdn_cache_ttl"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("fqdn_cache_ttl", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.FqdnCacheTtl = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("fqdn_min_refresh"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("fqdn_min_refresh", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.FqdnMinRefresh = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("interface"); ok {

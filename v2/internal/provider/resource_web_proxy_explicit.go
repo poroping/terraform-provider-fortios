@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -58,6 +58,14 @@ func resourceWebProxyExplicit() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable to proxy FTP-over-HTTP sessions sent from a web browser.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"http_connection_mode": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"static", "multiplex", "serverpool"}, false),
+
+				Description: "HTTP connection mode (default = static).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -158,6 +166,14 @@ func resourceWebProxyExplicit() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable Proxy Auto-Configuration (PAC) for users of this explicit proxy profile.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"pac_file_through_https": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable to get Proxy Auto-Configuration (PAC) through HTTPS.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -634,6 +650,14 @@ func refreshObjectWebProxyExplicit(d *schema.ResourceData, o *models.WebProxyExp
 		}
 	}
 
+	if o.HttpConnectionMode != nil {
+		v := *o.HttpConnectionMode
+
+		if err = d.Set("http_connection_mode", v); err != nil {
+			return diag.Errorf("error reading http_connection_mode: %v", err)
+		}
+	}
+
 	if o.HttpIncomingPort != nil {
 		v := *o.HttpIncomingPort
 
@@ -735,6 +759,14 @@ func refreshObjectWebProxyExplicit(d *schema.ResourceData, o *models.WebProxyExp
 
 		if err = d.Set("pac_file_server_status", v); err != nil {
 			return diag.Errorf("error reading pac_file_server_status: %v", err)
+		}
+	}
+
+	if o.PacFileThroughHttps != nil {
+		v := *o.PacFileThroughHttps
+
+		if err = d.Set("pac_file_through_https", v); err != nil {
+			return diag.Errorf("error reading pac_file_through_https: %v", err)
 		}
 	}
 
@@ -1012,6 +1044,15 @@ func getObjectWebProxyExplicit(d *schema.ResourceData, sv string) (*models.WebPr
 			obj.FtpOverHttp = &v2
 		}
 	}
+	if v1, ok := d.GetOk("http_connection_mode"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("http_connection_mode", sv)
+				diags = append(diags, e)
+			}
+			obj.HttpConnectionMode = &v2
+		}
+	}
 	if v1, ok := d.GetOk("http_incoming_port"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -1127,6 +1168,15 @@ func getObjectWebProxyExplicit(d *schema.ResourceData, sv string) (*models.WebPr
 				diags = append(diags, e)
 			}
 			obj.PacFileServerStatus = &v2
+		}
+	}
+	if v1, ok := d.GetOk("pac_file_through_https"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("pac_file_through_https", sv)
+				diags = append(diags, e)
+			}
+			obj.PacFileThroughHttps = &v2
 		}
 	}
 	if v1, ok := d.GetOk("pac_file_url"); ok {

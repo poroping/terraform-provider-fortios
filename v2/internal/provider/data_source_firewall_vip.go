@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -134,9 +134,24 @@ func dataSourceFirewallVip() *schema.Resource {
 				Description: "Enable/disable HTTP multiplexing.",
 				Computed:    true,
 			},
+			"http_multiplex_max_request": {
+				Type:        schema.TypeInt,
+				Description: "Maximum number of requests that a multiplex server can handle before disconnecting sessions (default = unlimited).",
+				Computed:    true,
+			},
+			"http_multiplex_ttl": {
+				Type:        schema.TypeInt,
+				Description: "Time-to-live for idle connections to servers.",
+				Computed:    true,
+			},
 			"http_redirect": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable redirection of HTTP to HTTPS.",
+				Computed:    true,
+			},
+			"http_supported_max_version": {
+				Type:        schema.TypeString,
+				Description: "Maximum supported HTTP versions. default = HTTP2",
 				Computed:    true,
 			},
 			"https_cookie_secure": {
@@ -320,6 +335,11 @@ func dataSourceFirewallVip() *schema.Resource {
 						"status": {
 							Type:        schema.TypeString,
 							Description: "Set the status of the real server to active so that it can accept traffic, or on standby or disabled so no traffic is sent.",
+							Computed:    true,
+						},
+						"translate_host": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable translation of hostname/IP from virtual server to real server.",
 							Computed:    true,
 						},
 						"type": {
@@ -573,6 +593,11 @@ func dataSourceFirewallVip() *schema.Resource {
 			"ssl_server_min_version": {
 				Type:        schema.TypeString,
 				Description: "Lowest SSL/TLS version acceptable from a server. Use the client setting by default.",
+				Computed:    true,
+			},
+			"ssl_server_renegotiation": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable secure renegotiation to comply with RFC 5746.",
 				Computed:    true,
 			},
 			"ssl_server_session_state_max": {

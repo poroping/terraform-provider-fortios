@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -28,6 +28,11 @@ func dataSourceVpnCertificateSetting() *schema.Resource {
 				Description: "Specifies the vdom to which the dataSource will be applied when the FortiGate unit is running in VDOM mode. If you want to inherit the VDOM configuration of the provider, do not set this parameter.",
 				Optional:    true,
 				ForceNew:    true,
+			},
+			"cert_expire_warning": {
+				Type:        schema.TypeInt,
+				Description: "Number of days before a certificate expires to send a warning. Set to 0 to disable sending of the warning (0 - 100, default = 14).",
+				Computed:    true,
 			},
 			"certname_dsa1024": {
 				Type:        schema.TypeString,
@@ -156,6 +161,32 @@ func dataSourceVpnCertificateSetting() *schema.Resource {
 			"ocsp_status": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable receiving certificates using the OCSP.",
+				Computed:    true,
+			},
+			"proxy": {
+				Type:        schema.TypeString,
+				Description: "Proxy server FQDN or IP for OCSP/CA queries during certificate verification.",
+				Computed:    true,
+			},
+			"proxy_password": {
+				Type:        schema.TypeString,
+				Description: "Proxy server password.",
+				Computed:    true,
+				Sensitive:   true,
+			},
+			"proxy_port": {
+				Type:        schema.TypeInt,
+				Description: "Proxy server port (1 - 65535, default = 8080).",
+				Computed:    true,
+			},
+			"proxy_username": {
+				Type:        schema.TypeString,
+				Description: "Proxy server user name.",
+				Computed:    true,
+			},
+			"source_ip": {
+				Type:        schema.TypeString,
+				Description: "Source IP address for dynamic AIA and OCSP queries.",
 				Computed:    true,
 			},
 			"ssl_min_proto_version": {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -57,6 +57,13 @@ func resourceSystemSpeedTestServer() *schema.Resource {
 				Optional:    true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"distance": {
+							Type: schema.TypeInt,
+
+							Description: "Speed test host distance.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"id": {
 							Type: schema.TypeInt,
 
@@ -69,6 +76,22 @@ func resourceSystemSpeedTestServer() *schema.Resource {
 							ValidateFunc: validation.IsIPv4Address,
 
 							Description: "Server host IPv4 address.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"latitude": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 7),
+
+							Description: "Speed test host latitude.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"longitude": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 7),
+
+							Description: "Speed test host longitude.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -278,12 +301,24 @@ func flattenSystemSpeedTestServerHost(d *schema.ResourceData, v *[]models.System
 		for i, cfg := range *v {
 			_ = i
 			v := make(map[string]interface{})
+			if tmp := cfg.Distance; tmp != nil {
+				v["distance"] = *tmp
+			}
+
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
 			}
 
 			if tmp := cfg.Ip; tmp != nil {
 				v["ip"] = *tmp
+			}
+
+			if tmp := cfg.Latitude; tmp != nil {
+				v["latitude"] = *tmp
+			}
+
+			if tmp := cfg.Longitude; tmp != nil {
+				v["longitude"] = *tmp
 			}
 
 			if tmp := cfg.Password; tmp != nil {
@@ -349,6 +384,14 @@ func expandSystemSpeedTestServerHost(d *schema.ResourceData, v interface{}, pre 
 		tmp := models.SystemSpeedTestServerHost{}
 		var pre_append string
 
+		pre_append = fmt.Sprintf("%s.%d.distance", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Distance = &v3
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(int); ok {
@@ -361,6 +404,20 @@ func expandSystemSpeedTestServerHost(d *schema.ResourceData, v interface{}, pre 
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.Ip = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.latitude", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Latitude = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.longitude", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Longitude = &v2
 			}
 		}
 

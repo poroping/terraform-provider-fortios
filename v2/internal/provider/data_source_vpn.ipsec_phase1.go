@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -84,6 +84,11 @@ func dataSourceVpnIpsecPhase1() *schema.Resource {
 			"auto_negotiate": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable automatic initiation of IKE SA negotiation.",
+				Computed:    true,
+			},
+			"azure_ad_autoconnect": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable Azure AD Auto-Connect for FortiClient.",
 				Computed:    true,
 			},
 			"backup_gateway": {
@@ -264,6 +269,11 @@ func dataSourceVpnIpsecPhase1() *schema.Resource {
 				Description: "Timeout in milliseconds before sending Forward Error Correction packets (1 - 1000).",
 				Computed:    true,
 			},
+			"fgsp_sync": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable IPsec syncing of tunnels for FGSP IPsec.",
+				Computed:    true,
+			},
 			"forticlient_enforcement": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable FortiClient enforcement.",
@@ -310,6 +320,11 @@ func dataSourceVpnIpsecPhase1() *schema.Resource {
 				Description: "IKE protocol version.",
 				Computed:    true,
 			},
+			"inbound_dscp_copy": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable copy the dscp in the ESP header to the inner IP Header.",
+				Computed:    true,
+			},
 			"include_local_lan": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable allow local LAN access on unity clients.",
@@ -319,6 +334,20 @@ func dataSourceVpnIpsecPhase1() *schema.Resource {
 				Type:        schema.TypeString,
 				Description: "Local physical, aggregate, or VLAN outgoing interface.",
 				Computed:    true,
+			},
+			"internal_domain_list": {
+				Type:        schema.TypeList,
+				Description: "List of domains for which the client directs DNS queries to the internal DNS servers for resolution.  DNS servers are configured in the mode-cfg settings.  One or more internal domain names in quotes separated by spaces, like \"abc.com xyz.com 123.com\"",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"domain_name": {
+							Type:        schema.TypeString,
+							Description: "Domain name.",
+							Computed:    true,
+						},
+					},
+				},
 			},
 			"ip_delay_interval": {
 				Type:        schema.TypeInt,
@@ -634,6 +663,11 @@ func dataSourceVpnIpsecPhase1() *schema.Resource {
 			"rsa_signature_format": {
 				Type:        schema.TypeString,
 				Description: "Digital Signature Authentication RSA signature format.",
+				Computed:    true,
+			},
+			"rsa_signature_hash_override": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable IKEv2 RSA signature hash algorithm override.",
 				Computed:    true,
 			},
 			"save_password": {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -224,9 +224,9 @@ func resourceRouterBgp() *schema.Resource {
 				Computed:    true,
 			},
 			"as": {
-				Type: schema.TypeInt,
+				Type: schema.TypeString,
 
-				Description: "Router AS number, valid from 1 to 4294967295, 0 to disable BGP.",
+				Description: "Router AS number, asplain/asdot/asdot+ format, 0 to disable BGP.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -787,7 +787,7 @@ func resourceRouterBgp() *schema.Resource {
 													Type:         schema.TypeString,
 													ValidateFunc: validation.StringLenBetween(0, 79),
 
-													Description: "route map",
+													Description: "Route map.",
 													Optional:    true,
 													Computed:    true,
 												},
@@ -829,7 +829,7 @@ func resourceRouterBgp() *schema.Resource {
 													Type:         schema.TypeString,
 													ValidateFunc: validation.StringLenBetween(0, 79),
 
-													Description: "route map",
+													Description: "Route map.",
 													Optional:    true,
 													Computed:    true,
 												},
@@ -849,7 +849,7 @@ func resourceRouterBgp() *schema.Resource {
 						},
 						"connect_timer": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(0, 65535),
+							ValidateFunc: validation.IntBetween(1, 65535),
 
 							Description: "Interval (sec) for connect timer.",
 							Optional:    true,
@@ -1024,7 +1024,7 @@ func resourceRouterBgp() *schema.Resource {
 							Computed:    true,
 						},
 						"local_as": {
-							Type: schema.TypeInt,
+							Type: schema.TypeString,
 
 							Description: "Local AS number of neighbor.",
 							Optional:    true,
@@ -1228,7 +1228,7 @@ func resourceRouterBgp() *schema.Resource {
 							Computed:    true,
 						},
 						"remote_as": {
-							Type: schema.TypeInt,
+							Type: schema.TypeString,
 
 							Description: "AS number of neighbor.",
 							Optional:    true,
@@ -1749,7 +1749,7 @@ func resourceRouterBgp() *schema.Resource {
 						},
 						"connect_timer": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(0, 65535),
+							ValidateFunc: validation.IntBetween(1, 65535),
 
 							Description: "Interval (sec) for connect timer.",
 							Optional:    true,
@@ -1916,7 +1916,7 @@ func resourceRouterBgp() *schema.Resource {
 							Computed:    true,
 						},
 						"local_as": {
-							Type: schema.TypeInt,
+							Type: schema.TypeString,
 
 							Description: "Local AS number of neighbor.",
 							Optional:    true,
@@ -2071,6 +2071,14 @@ func resourceRouterBgp() *schema.Resource {
 							Optional:    true,
 							Computed:    true,
 						},
+						"password": {
+							Type: schema.TypeString,
+
+							Description: "Password used in MD5 authentication.",
+							Optional:    true,
+							Computed:    true,
+							Sensitive:   true,
+						},
 						"prefix_list_in": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
@@ -2120,7 +2128,7 @@ func resourceRouterBgp() *schema.Resource {
 							Computed:    true,
 						},
 						"remote_as": {
-							Type: schema.TypeInt,
+							Type: schema.TypeString,
 
 							Description: "AS number of neighbor.",
 							Optional:    true,
@@ -2577,6 +2585,14 @@ func resourceRouterBgp() *schema.Resource {
 					},
 				},
 			},
+			"recursive_inherit_priority": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable priority inheritance for recursive resolution.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"recursive_next_hop": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -2757,7 +2773,7 @@ func resourceRouterBgp() *schema.Resource {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 7),
 
-										Description: "Target VRF ID (0 - 63).",
+										Description: "Target VRF ID (0 - 251).",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -2784,7 +2800,7 @@ func resourceRouterBgp() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 7),
 
-							Description: "Origin VRF ID (0 - 63).",
+							Description: "Origin VRF ID (0 - 251).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -2923,7 +2939,7 @@ func resourceRouterBgp() *schema.Resource {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 7),
 
-										Description: "Target VRF ID (0 - 63).",
+										Description: "Target VRF ID (0 - 251).",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -2934,7 +2950,7 @@ func resourceRouterBgp() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 7),
 
-							Description: "Origin VRF ID (0 - 63).",
+							Description: "Origin VRF ID (0 - 251).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -4091,6 +4107,10 @@ func flattenRouterBgpNeighborGroup(d *schema.ResourceData, v *[]models.RouterBgp
 				v["passive"] = *tmp
 			}
 
+			if tmp := cfg.Password; tmp != nil {
+				v["password"] = *tmp
+			}
+
 			if tmp := cfg.PrefixListIn; tmp != nil {
 				v["prefix_list_in"] = *tmp
 			}
@@ -4555,6 +4575,36 @@ func flattenRouterBgpVrfImportRt(d *schema.ResourceData, v *[]models.RouterBgpVr
 
 	if sort {
 		utils.SortSubtable(flat, "route_target")
+	}
+
+	return flat
+}
+
+func flattenRouterBgpVrfLeakTarget(d *schema.ResourceData, v *[]models.RouterBgpVrfLeakTarget, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Interface; tmp != nil {
+				v["interface"] = *tmp
+			}
+
+			if tmp := cfg.RouteMap; tmp != nil {
+				v["route_map"] = *tmp
+			}
+
+			if tmp := cfg.Vrf; tmp != nil {
+				v["vrf"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "vrf")
 	}
 
 	return flat
@@ -5132,6 +5182,14 @@ func refreshObjectRouterBgp(d *schema.ResourceData, o *models.RouterBgp, sv stri
 	if o.Network6 != nil {
 		if err = d.Set("network6", flattenRouterBgpNetwork6(d, o.Network6, "network6", sort)); err != nil {
 			return diag.Errorf("error reading network6: %v", err)
+		}
+	}
+
+	if o.RecursiveInheritPriority != nil {
+		v := *o.RecursiveInheritPriority
+
+		if err = d.Set("recursive_inherit_priority", v); err != nil {
+			return diag.Errorf("error reading recursive_inherit_priority: %v", err)
 		}
 	}
 
@@ -5786,9 +5844,8 @@ func expandRouterBgpNeighbor(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.local_as", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int); ok {
-				v3 := int64(v2)
-				tmp.LocalAs = &v3
+			if v2, ok := v1.(string); ok {
+				tmp.LocalAs = &v2
 			}
 		}
 
@@ -5975,9 +6032,8 @@ func expandRouterBgpNeighbor(d *schema.ResourceData, v interface{}, pre string, 
 
 		pre_append = fmt.Sprintf("%s.%d.remote_as", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int); ok {
-				v3 := int64(v2)
-				tmp.RemoteAs = &v3
+			if v2, ok := v1.(string); ok {
+				tmp.RemoteAs = &v2
 			}
 		}
 
@@ -6732,9 +6788,8 @@ func expandRouterBgpNeighborGroup(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.local_as", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int); ok {
-				v3 := int64(v2)
-				tmp.LocalAs = &v3
+			if v2, ok := v1.(string); ok {
+				tmp.LocalAs = &v2
 			}
 		}
 
@@ -6877,6 +6932,13 @@ func expandRouterBgpNeighborGroup(d *schema.ResourceData, v interface{}, pre str
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.password", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Password = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.prefix_list_in", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
@@ -6921,9 +6983,8 @@ func expandRouterBgpNeighborGroup(d *schema.ResourceData, v interface{}, pre str
 
 		pre_append = fmt.Sprintf("%s.%d.remote_as", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(int); ok {
-				v3 := int64(v2)
-				tmp.RemoteAs = &v3
+			if v2, ok := v1.(string); ok {
+				tmp.RemoteAs = &v2
 			}
 		}
 
@@ -7565,6 +7626,44 @@ func expandRouterBgpVrfImportRt(d *schema.ResourceData, v interface{}, pre strin
 	return &result, nil
 }
 
+func expandRouterBgpVrfLeakTarget(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.RouterBgpVrfLeakTarget, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.RouterBgpVrfLeakTarget
+
+	for i := range l {
+		tmp := models.RouterBgpVrfLeakTarget{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.interface", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Interface = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.route_map", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.RouteMap = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.vrf", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Vrf = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
 func expandRouterBgpVrfLeak(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.RouterBgpVrfLeak, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
@@ -7903,13 +8002,12 @@ func getObjectRouterBgp(d *schema.ResourceData, sv string) (*models.RouterBgp, d
 		}
 	}
 	if v1, ok := d.GetOk("as"); ok {
-		if v2, ok := v1.(int); ok {
+		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
 				e := utils.AttributeVersionWarning("as", sv)
 				diags = append(diags, e)
 			}
-			tmp := int64(v2)
-			obj.As = &tmp
+			obj.As = &v2
 		}
 	}
 	if v1, ok := d.GetOk("bestpath_as_path_ignore"); ok {
@@ -8359,6 +8457,15 @@ func getObjectRouterBgp(d *schema.ResourceData, sv string) (*models.RouterBgp, d
 		old, new := d.GetChange("network6")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
 			obj.Network6 = &[]models.RouterBgpNetwork6{}
+		}
+	}
+	if v1, ok := d.GetOk("recursive_inherit_priority"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("recursive_inherit_priority", sv)
+				diags = append(diags, e)
+			}
+			obj.RecursiveInheritPriority = &v2
 		}
 	}
 	if v1, ok := d.GetOk("recursive_next_hop"); ok {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -9,6 +9,7 @@ package provider
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -41,6 +42,12 @@ func resourceFirewallIppool() *schema.Resource {
 			"allow_append": {
 				Type:        schema.TypeBool,
 				Description: "If set the provider will overwrite existing resources with the same mkey instead of erroring. Useful for brownfield implementations. Use with caution!",
+				Optional:    true,
+				Default:     false,
+			},
+			"dynamic_sort_subtable": {
+				Type:        schema.TypeBool,
+				Description: "If set will sort table response by mkey",
 				Optional:    true,
 				Default:     false,
 			},
@@ -84,6 +91,78 @@ func resourceFirewallIppool() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"cgn_block_size": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(64, 4096),
+
+				Description: "Number of ports in a block(64 to 4096 in unit of 64, default = 128).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"cgn_client_endip": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 255),
+
+				Description: "Final client IPv4 address (inclusive) (format xxx.xxx.xxx.xxx, Default: 0.0.0.0).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"cgn_client_ipv6shift": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 127),
+
+				Description: "IPv6 shift for fixed-allocation.(default 0)",
+				Optional:    true,
+				Computed:    true,
+			},
+			"cgn_client_startip": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 255),
+
+				Description: "First client IPv4 address (inclusive) (format xxx.xxx.xxx.xxx, Default: 0.0.0.0).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"cgn_fixedalloc": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+				Description: "Enable/disable fixed-allocation mode.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"cgn_overload": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+				Description: "Enable/disable overload mode.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"cgn_port_end": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(1024, 65535),
+
+				Description: "Ending public port can be allocated. ",
+				Optional:    true,
+				Computed:    true,
+			},
+			"cgn_port_start": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(1024, 65535),
+
+				Description: "Starting public port can be allocated. ",
+				Optional:    true,
+				Computed:    true,
+			},
+			"cgn_spa": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+				Description: "Enable/disable single port allocation mode.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
@@ -107,6 +186,23 @@ func resourceFirewallIppool() *schema.Resource {
 				Description: "Final port number (inclusive) in the range for the address pool (Default: 65533).",
 				Optional:    true,
 				Computed:    true,
+			},
+			"exclude_ip": {
+				Type:        schema.TypeList,
+				Description: "Exclude IPs x.x.x.x.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"subnet": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 79),
+
+							Description: "Exclude IPs",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
 			},
 			"name": {
 				Type:         schema.TypeString,
@@ -134,7 +230,7 @@ func resourceFirewallIppool() *schema.Resource {
 			},
 			"pba_timeout": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(3, 300),
+				ValidateFunc: validation.IntBetween(3, 86400),
 
 				Description: "Port block allocation timeout (seconds).",
 				Optional:    true,
@@ -150,7 +246,7 @@ func resourceFirewallIppool() *schema.Resource {
 			},
 			"port_per_user": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(32, 60416),
+				ValidateFunc: validation.IntBetween(32, 60417),
 
 				Description: "Number of port for each user (32 - 60416, default = 0, which is auto).",
 				Optional:    true,
@@ -188,11 +284,35 @@ func resourceFirewallIppool() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"subnet_broadcast_in_ippool": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+				Description: "Enable/disable inclusion of the subnetwork address and broadcast IP address in the NAT64 IP pool.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"type": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"overload", "one-to-one", "fixed-port-range", "port-block-allocation"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"overload", "one-to-one", "fixed-port-range", "port-block-allocation", "cgn-resource-allocation"}, false),
 
 				Description: "IP pool type (overload, one-to-one, fixed port range, or port block allocation).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"utilization_alarm_clear": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(40, 100),
+
+				Description: "Pool utilization alarm clear threshold (40-100).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"utilization_alarm_raise": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(50, 100),
+
+				Description: "Pool utilization alarm raise threshold (50-100).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -353,6 +473,28 @@ func resourceFirewallIppoolRead(ctx context.Context, d *schema.ResourceData, met
 	return nil
 }
 
+func flattenFirewallIppoolExcludeIp(d *schema.ResourceData, v *[]models.FirewallIppoolExcludeIp, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Subnet; tmp != nil {
+				v["subnet"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "subnet")
+	}
+
+	return flat
+}
+
 func refreshObjectFirewallIppool(d *schema.ResourceData, o *models.FirewallIppool, sv string, sort bool) diag.Diagnostics {
 	var err error
 
@@ -396,6 +538,78 @@ func refreshObjectFirewallIppool(d *schema.ResourceData, o *models.FirewallIppoo
 		}
 	}
 
+	if o.CgnBlockSize != nil {
+		v := *o.CgnBlockSize
+
+		if err = d.Set("cgn_block_size", v); err != nil {
+			return diag.Errorf("error reading cgn_block_size: %v", err)
+		}
+	}
+
+	if o.CgnClientEndip != nil {
+		v := *o.CgnClientEndip
+
+		if err = d.Set("cgn_client_endip", v); err != nil {
+			return diag.Errorf("error reading cgn_client_endip: %v", err)
+		}
+	}
+
+	if o.CgnClientIpv6shift != nil {
+		v := *o.CgnClientIpv6shift
+
+		if err = d.Set("cgn_client_ipv6shift", v); err != nil {
+			return diag.Errorf("error reading cgn_client_ipv6shift: %v", err)
+		}
+	}
+
+	if o.CgnClientStartip != nil {
+		v := *o.CgnClientStartip
+
+		if err = d.Set("cgn_client_startip", v); err != nil {
+			return diag.Errorf("error reading cgn_client_startip: %v", err)
+		}
+	}
+
+	if o.CgnFixedalloc != nil {
+		v := *o.CgnFixedalloc
+
+		if err = d.Set("cgn_fixedalloc", v); err != nil {
+			return diag.Errorf("error reading cgn_fixedalloc: %v", err)
+		}
+	}
+
+	if o.CgnOverload != nil {
+		v := *o.CgnOverload
+
+		if err = d.Set("cgn_overload", v); err != nil {
+			return diag.Errorf("error reading cgn_overload: %v", err)
+		}
+	}
+
+	if o.CgnPortEnd != nil {
+		v := *o.CgnPortEnd
+
+		if err = d.Set("cgn_port_end", v); err != nil {
+			return diag.Errorf("error reading cgn_port_end: %v", err)
+		}
+	}
+
+	if o.CgnPortStart != nil {
+		v := *o.CgnPortStart
+
+		if err = d.Set("cgn_port_start", v); err != nil {
+			return diag.Errorf("error reading cgn_port_start: %v", err)
+		}
+	}
+
+	if o.CgnSpa != nil {
+		v := *o.CgnSpa
+
+		if err = d.Set("cgn_spa", v); err != nil {
+			return diag.Errorf("error reading cgn_spa: %v", err)
+		}
+	}
+
 	if o.Comments != nil {
 		v := *o.Comments
 
@@ -417,6 +631,12 @@ func refreshObjectFirewallIppool(d *schema.ResourceData, o *models.FirewallIppoo
 
 		if err = d.Set("endport", v); err != nil {
 			return diag.Errorf("error reading endport: %v", err)
+		}
+	}
+
+	if o.ExcludeIp != nil {
+		if err = d.Set("exclude_ip", flattenFirewallIppoolExcludeIp(d, o.ExcludeIp, "exclude_ip", sort)); err != nil {
+			return diag.Errorf("error reading exclude_ip: %v", err)
 		}
 	}
 
@@ -500,6 +720,14 @@ func refreshObjectFirewallIppool(d *schema.ResourceData, o *models.FirewallIppoo
 		}
 	}
 
+	if o.SubnetBroadcastInIppool != nil {
+		v := *o.SubnetBroadcastInIppool
+
+		if err = d.Set("subnet_broadcast_in_ippool", v); err != nil {
+			return diag.Errorf("error reading subnet_broadcast_in_ippool: %v", err)
+		}
+	}
+
 	if o.Type != nil {
 		v := *o.Type
 
@@ -508,7 +736,47 @@ func refreshObjectFirewallIppool(d *schema.ResourceData, o *models.FirewallIppoo
 		}
 	}
 
+	if o.UtilizationAlarmClear != nil {
+		v := *o.UtilizationAlarmClear
+
+		if err = d.Set("utilization_alarm_clear", v); err != nil {
+			return diag.Errorf("error reading utilization_alarm_clear: %v", err)
+		}
+	}
+
+	if o.UtilizationAlarmRaise != nil {
+		v := *o.UtilizationAlarmRaise
+
+		if err = d.Set("utilization_alarm_raise", v); err != nil {
+			return diag.Errorf("error reading utilization_alarm_raise: %v", err)
+		}
+	}
+
 	return nil
+}
+
+func expandFirewallIppoolExcludeIp(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallIppoolExcludeIp, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.FirewallIppoolExcludeIp
+
+	for i := range l {
+		tmp := models.FirewallIppoolExcludeIp{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.subnet", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Subnet = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
 }
 
 func getObjectFirewallIppool(d *schema.ResourceData, sv string) (*models.FirewallIppool, diag.Diagnostics) {
@@ -561,6 +829,91 @@ func getObjectFirewallIppool(d *schema.ResourceData, sv string) (*models.Firewal
 			obj.BlockSize = &tmp
 		}
 	}
+	if v1, ok := d.GetOk("cgn_block_size"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("cgn_block_size", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.CgnBlockSize = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("cgn_client_endip"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("cgn_client_endip", sv)
+				diags = append(diags, e)
+			}
+			obj.CgnClientEndip = &v2
+		}
+	}
+	if v1, ok := d.GetOk("cgn_client_ipv6shift"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("cgn_client_ipv6shift", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.CgnClientIpv6shift = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("cgn_client_startip"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("cgn_client_startip", sv)
+				diags = append(diags, e)
+			}
+			obj.CgnClientStartip = &v2
+		}
+	}
+	if v1, ok := d.GetOk("cgn_fixedalloc"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("cgn_fixedalloc", sv)
+				diags = append(diags, e)
+			}
+			obj.CgnFixedalloc = &v2
+		}
+	}
+	if v1, ok := d.GetOk("cgn_overload"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("cgn_overload", sv)
+				diags = append(diags, e)
+			}
+			obj.CgnOverload = &v2
+		}
+	}
+	if v1, ok := d.GetOk("cgn_port_end"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("cgn_port_end", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.CgnPortEnd = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("cgn_port_start"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("cgn_port_start", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.CgnPortStart = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("cgn_spa"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("cgn_spa", sv)
+				diags = append(diags, e)
+			}
+			obj.CgnSpa = &v2
+		}
+	}
 	if v1, ok := d.GetOk("comments"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -587,6 +940,23 @@ func getObjectFirewallIppool(d *schema.ResourceData, sv string) (*models.Firewal
 			}
 			tmp := int64(v2)
 			obj.Endport = &tmp
+		}
+	}
+	if v, ok := d.GetOk("exclude_ip"); ok {
+		if !utils.CheckVer(sv, "v7.2.8", "") {
+			e := utils.AttributeVersionWarning("exclude_ip", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandFirewallIppoolExcludeIp(d, v, "exclude_ip", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.ExcludeIp = t
+		}
+	} else if d.HasChange("exclude_ip") {
+		old, new := d.GetChange("exclude_ip")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.ExcludeIp = &[]models.FirewallIppoolExcludeIp{}
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {
@@ -683,6 +1053,15 @@ func getObjectFirewallIppool(d *schema.ResourceData, sv string) (*models.Firewal
 			obj.Startport = &tmp
 		}
 	}
+	if v1, ok := d.GetOk("subnet_broadcast_in_ippool"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("subnet_broadcast_in_ippool", sv)
+				diags = append(diags, e)
+			}
+			obj.SubnetBroadcastInIppool = &v2
+		}
+	}
 	if v1, ok := d.GetOk("type"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -690,6 +1069,26 @@ func getObjectFirewallIppool(d *schema.ResourceData, sv string) (*models.Firewal
 				diags = append(diags, e)
 			}
 			obj.Type = &v2
+		}
+	}
+	if v1, ok := d.GetOk("utilization_alarm_clear"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("utilization_alarm_clear", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.UtilizationAlarmClear = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("utilization_alarm_raise"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("utilization_alarm_raise", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.UtilizationAlarmRaise = &tmp
 		}
 	}
 	return &obj, diags

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -67,6 +67,14 @@ func resourceWebfilterFortiguard() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Close ports used for HTTP/HTTPS override authentication and disable user overrides.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"embed_image": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable embedding images into replacement messages (default = enable).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -314,6 +322,14 @@ func refreshObjectWebfilterFortiguard(d *schema.ResourceData, o *models.Webfilte
 		}
 	}
 
+	if o.EmbedImage != nil {
+		v := *o.EmbedImage
+
+		if err = d.Set("embed_image", v); err != nil {
+			return diag.Errorf("error reading embed_image: %v", err)
+		}
+	}
+
 	if o.OvrdAuthHttps != nil {
 		v := *o.OvrdAuthHttps
 
@@ -412,6 +428,15 @@ func getObjectWebfilterFortiguard(d *schema.ResourceData, sv string) (*models.We
 				diags = append(diags, e)
 			}
 			obj.ClosePorts = &v2
+		}
+	}
+	if v1, ok := d.GetOk("embed_image"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("embed_image", sv)
+				diags = append(diags, e)
+			}
+			obj.EmbedImage = &v2
 		}
 	}
 	if v1, ok := d.GetOk("ovrd_auth_https"); ok {

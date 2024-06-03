@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -42,7 +42,12 @@ func dataSourceFirewallInternetService() *schema.Resource {
 			},
 			"extra_ip_range_number": {
 				Type:        schema.TypeInt,
-				Description: "Extra number of IP ranges.",
+				Description: "Extra number of IPv4 ranges.",
+				Computed:    true,
+			},
+			"extra_ip6_range_number": {
+				Type:        schema.TypeInt,
+				Description: "Extra number of IPv6 ranges.",
 				Computed:    true,
 			},
 			"icon_id": {
@@ -57,12 +62,17 @@ func dataSourceFirewallInternetService() *schema.Resource {
 			},
 			"ip_number": {
 				Type:        schema.TypeInt,
-				Description: "Total number of IP addresses.",
+				Description: "Total number of IPv4 addresses.",
 				Computed:    true,
 			},
 			"ip_range_number": {
 				Type:        schema.TypeInt,
-				Description: "Number of IP ranges.",
+				Description: "Number of IPv4 ranges.",
+				Computed:    true,
+			},
+			"ip6_range_number": {
+				Type:        schema.TypeInt,
+				Description: "Number of IPv6 ranges.",
 				Computed:    true,
 			},
 			"name": {

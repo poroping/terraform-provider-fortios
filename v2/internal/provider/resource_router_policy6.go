@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -18,7 +18,6 @@ import (
 	"github.com/poroping/forti-sdk-go/v2/models"
 	"github.com/poroping/terraform-provider-fortios/v2/suppressors"
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
-	"github.com/poroping/terraform-provider-fortios/v2/validators"
 )
 
 func resourceRouterPolicy6() *schema.Resource {
@@ -54,6 +53,14 @@ func resourceRouterPolicy6() *schema.Resource {
 				Optional:    true,
 				Default:     false,
 			},
+			"action": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"deny", "permit"}, false),
+
+				Description: "Action of the policy route.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"comments": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 255),
@@ -63,12 +70,46 @@ func resourceRouterPolicy6() *schema.Resource {
 				Computed:    true,
 			},
 			"dst": {
-				Type:             schema.TypeString,
-				ValidateFunc:     validators.FortiValidateIPv6Network,
-				DiffSuppressFunc: suppressors.DiffCidrEqual,
-				Description:      "Destination IPv6 prefix.",
-				Optional:         true,
-				Computed:         true,
+				Type:        schema.TypeList,
+				Description: "Destination IPv6 prefix.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"addr6": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 79),
+
+							Description: "IPv6 address prefix.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"dst_negate": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable negating destination address match.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"dstaddr": {
+				Type:        schema.TypeList,
+				Description: "Destination address name.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 79),
+
+							Description: "Address/group name.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
 			},
 			"end_port": {
 				Type:         schema.TypeInt,
@@ -103,6 +144,47 @@ func resourceRouterPolicy6() *schema.Resource {
 					},
 				},
 			},
+			"input_device_negate": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable negation of input device match.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"internet_service_custom": {
+				Type:        schema.TypeList,
+				Description: "Custom Destination Internet Service name.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 79),
+
+							Description: "Custom Destination Internet Service name.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service_id": {
+				Type:        schema.TypeList,
+				Description: "Destination Internet Service ID.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"id": {
+							Type: schema.TypeInt,
+
+							Description: "Destination Internet Service ID.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
+			},
 			"output_device": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
@@ -129,12 +211,46 @@ func resourceRouterPolicy6() *schema.Resource {
 				Computed:    true,
 			},
 			"src": {
-				Type:             schema.TypeString,
-				ValidateFunc:     validators.FortiValidateIPv6Network,
-				DiffSuppressFunc: suppressors.DiffCidrEqual,
-				Description:      "Source IPv6 prefix.",
-				Optional:         true,
-				Computed:         true,
+				Type:        schema.TypeList,
+				Description: "Source IPv6 prefix.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"addr6": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 79),
+
+							Description: "IPv6 address prefix.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"src_negate": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable negating source address match.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"srcaddr": {
+				Type:        schema.TypeList,
+				Description: "Source address name.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 79),
+
+							Description: "Address/group name.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
 			},
 			"start_port": {
 				Type:         schema.TypeInt,
@@ -323,7 +439,139 @@ func resourceRouterPolicy6Read(ctx context.Context, d *schema.ResourceData, meta
 	return nil
 }
 
+func flattenRouterPolicy6Dst(d *schema.ResourceData, v *[]models.RouterPolicy6Dst, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Addr6; tmp != nil {
+				v["addr6"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "addr6")
+	}
+
+	return flat
+}
+
+func flattenRouterPolicy6Dstaddr(d *schema.ResourceData, v *[]models.RouterPolicy6Dstaddr, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Name; tmp != nil {
+				v["name"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "name")
+	}
+
+	return flat
+}
+
 func flattenRouterPolicy6InputDevice(d *schema.ResourceData, v *[]models.RouterPolicy6InputDevice, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Name; tmp != nil {
+				v["name"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "name")
+	}
+
+	return flat
+}
+
+func flattenRouterPolicy6InternetServiceCustom(d *schema.ResourceData, v *[]models.RouterPolicy6InternetServiceCustom, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Name; tmp != nil {
+				v["name"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "name")
+	}
+
+	return flat
+}
+
+func flattenRouterPolicy6InternetServiceId(d *schema.ResourceData, v *[]models.RouterPolicy6InternetServiceId, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Id; tmp != nil {
+				v["id"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "id")
+	}
+
+	return flat
+}
+
+func flattenRouterPolicy6Src(d *schema.ResourceData, v *[]models.RouterPolicy6Src, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Addr6; tmp != nil {
+				v["addr6"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "addr6")
+	}
+
+	return flat
+}
+
+func flattenRouterPolicy6Srcaddr(d *schema.ResourceData, v *[]models.RouterPolicy6Srcaddr, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -348,6 +596,14 @@ func flattenRouterPolicy6InputDevice(d *schema.ResourceData, v *[]models.RouterP
 func refreshObjectRouterPolicy6(d *schema.ResourceData, o *models.RouterPolicy6, sv string, sort bool) diag.Diagnostics {
 	var err error
 
+	if o.Action != nil {
+		v := *o.Action
+
+		if err = d.Set("action", v); err != nil {
+			return diag.Errorf("error reading action: %v", err)
+		}
+	}
+
 	if o.Comments != nil {
 		v := *o.Comments
 
@@ -357,10 +613,22 @@ func refreshObjectRouterPolicy6(d *schema.ResourceData, o *models.RouterPolicy6,
 	}
 
 	if o.Dst != nil {
-		v := *o.Dst
-
-		if err = d.Set("dst", v); err != nil {
+		if err = d.Set("dst", flattenRouterPolicy6Dst(d, o.Dst, "dst", sort)); err != nil {
 			return diag.Errorf("error reading dst: %v", err)
+		}
+	}
+
+	if o.DstNegate != nil {
+		v := *o.DstNegate
+
+		if err = d.Set("dst_negate", v); err != nil {
+			return diag.Errorf("error reading dst_negate: %v", err)
+		}
+	}
+
+	if o.Dstaddr != nil {
+		if err = d.Set("dstaddr", flattenRouterPolicy6Dstaddr(d, o.Dstaddr, "dstaddr", sort)); err != nil {
+			return diag.Errorf("error reading dstaddr: %v", err)
 		}
 	}
 
@@ -383,6 +651,26 @@ func refreshObjectRouterPolicy6(d *schema.ResourceData, o *models.RouterPolicy6,
 	if o.InputDevice != nil {
 		if err = d.Set("input_device", flattenRouterPolicy6InputDevice(d, o.InputDevice, "input_device", sort)); err != nil {
 			return diag.Errorf("error reading input_device: %v", err)
+		}
+	}
+
+	if o.InputDeviceNegate != nil {
+		v := *o.InputDeviceNegate
+
+		if err = d.Set("input_device_negate", v); err != nil {
+			return diag.Errorf("error reading input_device_negate: %v", err)
+		}
+	}
+
+	if o.InternetServiceCustom != nil {
+		if err = d.Set("internet_service_custom", flattenRouterPolicy6InternetServiceCustom(d, o.InternetServiceCustom, "internet_service_custom", sort)); err != nil {
+			return diag.Errorf("error reading internet_service_custom: %v", err)
+		}
+	}
+
+	if o.InternetServiceId != nil {
+		if err = d.Set("internet_service_id", flattenRouterPolicy6InternetServiceId(d, o.InternetServiceId, "internet_service_id", sort)); err != nil {
+			return diag.Errorf("error reading internet_service_id: %v", err)
 		}
 	}
 
@@ -411,10 +699,22 @@ func refreshObjectRouterPolicy6(d *schema.ResourceData, o *models.RouterPolicy6,
 	}
 
 	if o.Src != nil {
-		v := *o.Src
-
-		if err = d.Set("src", v); err != nil {
+		if err = d.Set("src", flattenRouterPolicy6Src(d, o.Src, "src", sort)); err != nil {
 			return diag.Errorf("error reading src: %v", err)
+		}
+	}
+
+	if o.SrcNegate != nil {
+		v := *o.SrcNegate
+
+		if err = d.Set("src_negate", v); err != nil {
+			return diag.Errorf("error reading src_negate: %v", err)
+		}
+	}
+
+	if o.Srcaddr != nil {
+		if err = d.Set("srcaddr", flattenRouterPolicy6Srcaddr(d, o.Srcaddr, "srcaddr", sort)); err != nil {
+			return diag.Errorf("error reading srcaddr: %v", err)
 		}
 	}
 
@@ -453,6 +753,54 @@ func refreshObjectRouterPolicy6(d *schema.ResourceData, o *models.RouterPolicy6,
 	return nil
 }
 
+func expandRouterPolicy6Dst(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.RouterPolicy6Dst, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.RouterPolicy6Dst
+
+	for i := range l {
+		tmp := models.RouterPolicy6Dst{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.addr6", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Addr6 = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandRouterPolicy6Dstaddr(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.RouterPolicy6Dstaddr, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.RouterPolicy6Dstaddr
+
+	for i := range l {
+		tmp := models.RouterPolicy6Dstaddr{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Name = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
 func expandRouterPolicy6InputDevice(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.RouterPolicy6InputDevice, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
@@ -477,10 +825,116 @@ func expandRouterPolicy6InputDevice(d *schema.ResourceData, v interface{}, pre s
 	return &result, nil
 }
 
+func expandRouterPolicy6InternetServiceCustom(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.RouterPolicy6InternetServiceCustom, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.RouterPolicy6InternetServiceCustom
+
+	for i := range l {
+		tmp := models.RouterPolicy6InternetServiceCustom{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Name = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandRouterPolicy6InternetServiceId(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.RouterPolicy6InternetServiceId, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.RouterPolicy6InternetServiceId
+
+	for i := range l {
+		tmp := models.RouterPolicy6InternetServiceId{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandRouterPolicy6Src(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.RouterPolicy6Src, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.RouterPolicy6Src
+
+	for i := range l {
+		tmp := models.RouterPolicy6Src{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.addr6", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Addr6 = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandRouterPolicy6Srcaddr(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.RouterPolicy6Srcaddr, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.RouterPolicy6Srcaddr
+
+	for i := range l {
+		tmp := models.RouterPolicy6Srcaddr{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Name = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
 func getObjectRouterPolicy6(d *schema.ResourceData, sv string) (*models.RouterPolicy6, diag.Diagnostics) {
 	obj := models.RouterPolicy6{}
 	diags := diag.Diagnostics{}
 
+	if v1, ok := d.GetOk("action"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("action", sv)
+				diags = append(diags, e)
+			}
+			obj.Action = &v2
+		}
+	}
 	if v1, ok := d.GetOk("comments"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -490,13 +944,47 @@ func getObjectRouterPolicy6(d *schema.ResourceData, sv string) (*models.RouterPo
 			obj.Comments = &v2
 		}
 	}
-	if v1, ok := d.GetOk("dst"); ok {
+	if v, ok := d.GetOk("dst"); ok {
+		if !utils.CheckVer(sv, "", "") {
+			e := utils.AttributeVersionWarning("dst", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandRouterPolicy6Dst(d, v, "dst", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.Dst = t
+		}
+	} else if d.HasChange("dst") {
+		old, new := d.GetChange("dst")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.Dst = &[]models.RouterPolicy6Dst{}
+		}
+	}
+	if v1, ok := d.GetOk("dst_negate"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
-				e := utils.AttributeVersionWarning("dst", sv)
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("dst_negate", sv)
 				diags = append(diags, e)
 			}
-			obj.Dst = &v2
+			obj.DstNegate = &v2
+		}
+	}
+	if v, ok := d.GetOk("dstaddr"); ok {
+		if !utils.CheckVer(sv, "v7.2.1", "") {
+			e := utils.AttributeVersionWarning("dstaddr", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandRouterPolicy6Dstaddr(d, v, "dstaddr", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.Dstaddr = t
+		}
+	} else if d.HasChange("dstaddr") {
+		old, new := d.GetChange("dstaddr")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.Dstaddr = &[]models.RouterPolicy6Dstaddr{}
 		}
 	}
 	if v1, ok := d.GetOk("end_port"); ok {
@@ -535,6 +1023,49 @@ func getObjectRouterPolicy6(d *schema.ResourceData, sv string) (*models.RouterPo
 			obj.InputDevice = &[]models.RouterPolicy6InputDevice{}
 		}
 	}
+	if v1, ok := d.GetOk("input_device_negate"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("input_device_negate", sv)
+				diags = append(diags, e)
+			}
+			obj.InputDeviceNegate = &v2
+		}
+	}
+	if v, ok := d.GetOk("internet_service_custom"); ok {
+		if !utils.CheckVer(sv, "v7.2.1", "") {
+			e := utils.AttributeVersionWarning("internet_service_custom", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandRouterPolicy6InternetServiceCustom(d, v, "internet_service_custom", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.InternetServiceCustom = t
+		}
+	} else if d.HasChange("internet_service_custom") {
+		old, new := d.GetChange("internet_service_custom")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.InternetServiceCustom = &[]models.RouterPolicy6InternetServiceCustom{}
+		}
+	}
+	if v, ok := d.GetOk("internet_service_id"); ok {
+		if !utils.CheckVer(sv, "v7.2.1", "") {
+			e := utils.AttributeVersionWarning("internet_service_id", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandRouterPolicy6InternetServiceId(d, v, "internet_service_id", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.InternetServiceId = t
+		}
+	} else if d.HasChange("internet_service_id") {
+		old, new := d.GetChange("internet_service_id")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.InternetServiceId = &[]models.RouterPolicy6InternetServiceId{}
+		}
+	}
 	if v1, ok := d.GetOk("output_device"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -564,13 +1095,47 @@ func getObjectRouterPolicy6(d *schema.ResourceData, sv string) (*models.RouterPo
 			obj.SeqNum = &tmp
 		}
 	}
-	if v1, ok := d.GetOk("src"); ok {
+	if v, ok := d.GetOk("src"); ok {
+		if !utils.CheckVer(sv, "", "") {
+			e := utils.AttributeVersionWarning("src", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandRouterPolicy6Src(d, v, "src", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.Src = t
+		}
+	} else if d.HasChange("src") {
+		old, new := d.GetChange("src")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.Src = &[]models.RouterPolicy6Src{}
+		}
+	}
+	if v1, ok := d.GetOk("src_negate"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
-				e := utils.AttributeVersionWarning("src", sv)
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("src_negate", sv)
 				diags = append(diags, e)
 			}
-			obj.Src = &v2
+			obj.SrcNegate = &v2
+		}
+	}
+	if v, ok := d.GetOk("srcaddr"); ok {
+		if !utils.CheckVer(sv, "v7.2.1", "") {
+			e := utils.AttributeVersionWarning("srcaddr", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandRouterPolicy6Srcaddr(d, v, "srcaddr", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.Srcaddr = t
+		}
+	} else if d.HasChange("srcaddr") {
+		old, new := d.GetChange("srcaddr")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.Srcaddr = &[]models.RouterPolicy6Srcaddr{}
 		}
 	}
 	if v1, ok := d.GetOk("start_port"); ok {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -458,7 +458,7 @@ func getObjectWirelessControllerTimers(d *schema.ResourceData, sv string) (*mode
 
 	if v1, ok := d.GetOk("auth_timeout"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "v7.2.0", "") {
+			if !utils.CheckVer(sv, "v7.0.6", "") {
 				e := utils.AttributeVersionWarning("auth_timeout", sv)
 				diags = append(diags, e)
 			}
@@ -558,7 +558,7 @@ func getObjectWirelessControllerTimers(d *schema.ResourceData, sv string) (*mode
 	}
 	if v1, ok := d.GetOk("rogue_ap_cleanup"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "v7.2.0", "") {
+			if !utils.CheckVer(sv, "v7.0.6", "") {
 				e := utils.AttributeVersionWarning("rogue_ap_cleanup", sv)
 				diags = append(diags, e)
 			}

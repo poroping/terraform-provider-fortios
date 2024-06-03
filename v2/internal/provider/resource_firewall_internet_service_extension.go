@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -16,6 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"github.com/poroping/forti-sdk-go/v2/models"
+	"github.com/poroping/terraform-provider-fortios/v2/suppressors"
 	"github.com/poroping/terraform-provider-fortios/v2/utils"
 )
 
@@ -66,6 +67,14 @@ func resourceFirewallInternetServiceExtension() *schema.Resource {
 				Optional:    true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"addr_mode": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"ipv4", "ipv6"}, false),
+
+							Description: "Address mode (IPv4 or IPv6).",
+							Optional:    true,
+							Computed:    true,
+						},
 						"id": {
 							Type: schema.TypeInt,
 
@@ -75,7 +84,7 @@ func resourceFirewallInternetServiceExtension() *schema.Resource {
 						},
 						"ip_range": {
 							Type:        schema.TypeList,
-							Description: "IP ranges in the disable entry.",
+							Description: "IPv4 ranges in the disable entry.",
 							Optional:    true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
@@ -83,7 +92,7 @@ func resourceFirewallInternetServiceExtension() *schema.Resource {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.IsIPv4Address,
 
-										Description: "End IP address.",
+										Description: "End IPv4 address.",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -98,9 +107,41 @@ func resourceFirewallInternetServiceExtension() *schema.Resource {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.IsIPv4Address,
 
-										Description: "Start IP address.",
+										Description: "Start IPv4 address.",
 										Optional:    true,
 										Computed:    true,
+									},
+								},
+							},
+						},
+						"ip6_range": {
+							Type:        schema.TypeList,
+							Description: "IPv6 ranges in the disable entry.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"end_ip6": {
+										Type:             schema.TypeString,
+										ValidateFunc:     validation.IsIPv6Address,
+										DiffSuppressFunc: suppressors.DiffIPEqual,
+										Description:      "End IPv6 address.",
+										Optional:         true,
+										Computed:         true,
+									},
+									"id": {
+										Type: schema.TypeInt,
+
+										Description: "Disable entry range ID.",
+										Optional:    true,
+										Computed:    true,
+									},
+									"start_ip6": {
+										Type:             schema.TypeString,
+										ValidateFunc:     validation.IsIPv6Address,
+										DiffSuppressFunc: suppressors.DiffIPEqual,
+										Description:      "Start IPv6 address.",
+										Optional:         true,
+										Computed:         true,
 									},
 								},
 							},
@@ -113,9 +154,9 @@ func resourceFirewallInternetServiceExtension() *schema.Resource {
 								Schema: map[string]*schema.Schema{
 									"end_port": {
 										Type:         schema.TypeInt,
-										ValidateFunc: validation.IntBetween(1, 65535),
+										ValidateFunc: validation.IntBetween(0, 65535),
 
-										Description: "Ending TCP/UDP/SCTP destination port (1 to 65535).",
+										Description: "Ending TCP/UDP/SCTP destination port (0 to 65535).",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -128,9 +169,9 @@ func resourceFirewallInternetServiceExtension() *schema.Resource {
 									},
 									"start_port": {
 										Type:         schema.TypeInt,
-										ValidateFunc: validation.IntBetween(1, 65535),
+										ValidateFunc: validation.IntBetween(0, 65535),
 
-										Description: "Starting TCP/UDP/SCTP destination port (1 to 65535).",
+										Description: "Starting TCP/UDP/SCTP destination port (0 to 65535).",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -154,6 +195,14 @@ func resourceFirewallInternetServiceExtension() *schema.Resource {
 				Optional:    true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"addr_mode": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"ipv4", "ipv6"}, false),
+
+							Description: "Address mode (IPv4 or IPv6).",
+							Optional:    true,
+							Computed:    true,
+						},
 						"dst": {
 							Type:        schema.TypeList,
 							Description: "Destination address or address group name.",
@@ -165,6 +214,23 @@ func resourceFirewallInternetServiceExtension() *schema.Resource {
 										ValidateFunc: validation.StringLenBetween(0, 79),
 
 										Description: "Select the destination address or address group object from available options.",
+										Optional:    true,
+										Computed:    true,
+									},
+								},
+							},
+						},
+						"dst6": {
+							Type:        schema.TypeList,
+							Description: "Destination address6 or address6 group name.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"name": {
+										Type:         schema.TypeString,
+										ValidateFunc: validation.StringLenBetween(0, 79),
+
+										Description: "Select the destination address6 or address group object from available options.",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -187,9 +253,9 @@ func resourceFirewallInternetServiceExtension() *schema.Resource {
 								Schema: map[string]*schema.Schema{
 									"end_port": {
 										Type:         schema.TypeInt,
-										ValidateFunc: validation.IntBetween(1, 65535),
+										ValidateFunc: validation.IntBetween(0, 65535),
 
-										Description: "Integer value for ending TCP/UDP/SCTP destination port in range (1 to 65535).",
+										Description: "Integer value for ending TCP/UDP/SCTP destination port in range (0 to 65535).",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -202,9 +268,9 @@ func resourceFirewallInternetServiceExtension() *schema.Resource {
 									},
 									"start_port": {
 										Type:         schema.TypeInt,
-										ValidateFunc: validation.IntBetween(1, 65535),
+										ValidateFunc: validation.IntBetween(0, 65535),
 
-										Description: "Integer value for starting TCP/UDP/SCTP destination port in range (1 to 65535).",
+										Description: "Integer value for starting TCP/UDP/SCTP destination port in range (0 to 65535).",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -394,12 +460,20 @@ func flattenFirewallInternetServiceExtensionDisableEntry(d *schema.ResourceData,
 		for i, cfg := range *v {
 			_ = i
 			v := make(map[string]interface{})
+			if tmp := cfg.AddrMode; tmp != nil {
+				v["addr_mode"] = *tmp
+			}
+
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
 			}
 
 			if tmp := cfg.IpRange; tmp != nil {
 				v["ip_range"] = flattenFirewallInternetServiceExtensionDisableEntryIpRange(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "ip_range"), sort)
+			}
+
+			if tmp := cfg.Ip6Range; tmp != nil {
+				v["ip6_range"] = flattenFirewallInternetServiceExtensionDisableEntryIp6Range(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "ip6_range"), sort)
 			}
 
 			if tmp := cfg.PortRange; tmp != nil {
@@ -451,6 +525,36 @@ func flattenFirewallInternetServiceExtensionDisableEntryIpRange(d *schema.Resour
 	return flat
 }
 
+func flattenFirewallInternetServiceExtensionDisableEntryIp6Range(d *schema.ResourceData, v *[]models.FirewallInternetServiceExtensionDisableEntryIp6Range, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.EndIp6; tmp != nil {
+				v["end_ip6"] = *tmp
+			}
+
+			if tmp := cfg.Id; tmp != nil {
+				v["id"] = *tmp
+			}
+
+			if tmp := cfg.StartIp6; tmp != nil {
+				v["start_ip6"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "id")
+	}
+
+	return flat
+}
+
 func flattenFirewallInternetServiceExtensionDisableEntryPortRange(d *schema.ResourceData, v *[]models.FirewallInternetServiceExtensionDisableEntryPortRange, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
@@ -488,8 +592,16 @@ func flattenFirewallInternetServiceExtensionEntry(d *schema.ResourceData, v *[]m
 		for i, cfg := range *v {
 			_ = i
 			v := make(map[string]interface{})
+			if tmp := cfg.AddrMode; tmp != nil {
+				v["addr_mode"] = *tmp
+			}
+
 			if tmp := cfg.Dst; tmp != nil {
 				v["dst"] = flattenFirewallInternetServiceExtensionEntryDst(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "dst"), sort)
+			}
+
+			if tmp := cfg.Dst6; tmp != nil {
+				v["dst6"] = flattenFirewallInternetServiceExtensionEntryDst6(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "dst6"), sort)
 			}
 
 			if tmp := cfg.Id; tmp != nil {
@@ -516,6 +628,28 @@ func flattenFirewallInternetServiceExtensionEntry(d *schema.ResourceData, v *[]m
 }
 
 func flattenFirewallInternetServiceExtensionEntryDst(d *schema.ResourceData, v *[]models.FirewallInternetServiceExtensionEntryDst, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Name; tmp != nil {
+				v["name"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "name")
+	}
+
+	return flat
+}
+
+func flattenFirewallInternetServiceExtensionEntryDst6(d *schema.ResourceData, v *[]models.FirewallInternetServiceExtensionEntryDst6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
 	if v != nil {
@@ -613,6 +747,13 @@ func expandFirewallInternetServiceExtensionDisableEntry(d *schema.ResourceData, 
 		tmp := models.FirewallInternetServiceExtensionDisableEntry{}
 		var pre_append string
 
+		pre_append = fmt.Sprintf("%s.%d.addr_mode", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.AddrMode = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(int); ok {
@@ -628,6 +769,16 @@ func expandFirewallInternetServiceExtensionDisableEntry(d *schema.ResourceData, 
 			// 	v2 := &[]models.FirewallInternetServiceExtensionDisableEntryIpRange
 			// 	}
 			tmp.IpRange = v2
+
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.ip6_range", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			v2, _ := expandFirewallInternetServiceExtensionDisableEntryIp6Range(d, v1, pre_append, sv)
+			// if err != nil {
+			// 	v2 := &[]models.FirewallInternetServiceExtensionDisableEntryIp6Range
+			// 	}
+			tmp.Ip6Range = v2
 
 		}
 
@@ -693,6 +844,45 @@ func expandFirewallInternetServiceExtensionDisableEntryIpRange(d *schema.Resourc
 	return &result, nil
 }
 
+func expandFirewallInternetServiceExtensionDisableEntryIp6Range(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallInternetServiceExtensionDisableEntryIp6Range, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.FirewallInternetServiceExtensionDisableEntryIp6Range
+
+	for i := range l {
+		tmp := models.FirewallInternetServiceExtensionDisableEntryIp6Range{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.end_ip6", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.EndIp6 = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.start_ip6", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.StartIp6 = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
 func expandFirewallInternetServiceExtensionDisableEntryPortRange(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallInternetServiceExtensionDisableEntryPortRange, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
@@ -746,6 +936,13 @@ func expandFirewallInternetServiceExtensionEntry(d *schema.ResourceData, v inter
 		tmp := models.FirewallInternetServiceExtensionEntry{}
 		var pre_append string
 
+		pre_append = fmt.Sprintf("%s.%d.addr_mode", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.AddrMode = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.dst", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			v2, _ := expandFirewallInternetServiceExtensionEntryDst(d, v1, pre_append, sv)
@@ -753,6 +950,16 @@ func expandFirewallInternetServiceExtensionEntry(d *schema.ResourceData, v inter
 			// 	v2 := &[]models.FirewallInternetServiceExtensionEntryDst
 			// 	}
 			tmp.Dst = v2
+
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.dst6", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			v2, _ := expandFirewallInternetServiceExtensionEntryDst6(d, v1, pre_append, sv)
+			// if err != nil {
+			// 	v2 := &[]models.FirewallInternetServiceExtensionEntryDst6
+			// 	}
+			tmp.Dst6 = v2
 
 		}
 
@@ -797,6 +1004,30 @@ func expandFirewallInternetServiceExtensionEntryDst(d *schema.ResourceData, v in
 
 	for i := range l {
 		tmp := models.FirewallInternetServiceExtensionEntryDst{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Name = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandFirewallInternetServiceExtensionEntryDst6(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallInternetServiceExtensionEntryDst6, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.FirewallInternetServiceExtensionEntryDst6
+
+	for i := range l {
+		tmp := models.FirewallInternetServiceExtensionEntryDst6{}
 		var pre_append string
 
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)

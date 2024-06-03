@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -29,6 +29,11 @@ func dataSourceSystemSsoForticloudAdmin() *schema.Resource {
 				Description: "Specifies the vdom to which the dataSource will be applied when the FortiGate unit is running in VDOM mode. If you want to inherit the VDOM configuration of the provider, do not set this parameter.",
 				Optional:    true,
 				ForceNew:    true,
+			},
+			"accprofile": {
+				Type:        schema.TypeString,
+				Description: "FortiCloud SSO admin user access profile.",
+				Computed:    true,
 			},
 			"name": {
 				Type:        schema.TypeString,

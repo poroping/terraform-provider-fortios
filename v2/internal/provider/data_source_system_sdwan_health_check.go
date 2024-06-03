@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -55,6 +55,11 @@ func dataSourceSystemSdwanHealthCheck() *schema.Resource {
 				Description: "Fully qualified domain name to resolve for the DNS probe.",
 				Computed:    true,
 			},
+			"embed_measured_health": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable embedding measured health information.",
+				Computed:    true,
+			},
 			"failtime": {
 				Type:        schema.TypeInt,
 				Description: "Number of failures before server is considered lost (1 - 3600, default = 5).",
@@ -92,7 +97,7 @@ func dataSourceSystemSdwanHealthCheck() *schema.Resource {
 			},
 			"interval": {
 				Type:        schema.TypeInt,
-				Description: "Status check interval in milliseconds, or the time between attempting to connect to the server (500 - 3600*1000 msec, default = 500).",
+				Description: "Status check interval in milliseconds, or the time between attempting to connect to the server (20 - 3600*1000 msec, default = 500).",
 				Computed:    true,
 			},
 			"members": {
@@ -147,7 +152,7 @@ func dataSourceSystemSdwanHealthCheck() *schema.Resource {
 			},
 			"probe_timeout": {
 				Type:        schema.TypeInt,
-				Description: "Time to wait before a probe packet is considered lost (500 - 3600*1000 msec, default = 500).",
+				Description: "Time to wait before a probe packet is considered lost (20 - 3600*1000 msec, default = 500).",
 				Computed:    true,
 			},
 			"protocol": {
@@ -211,12 +216,27 @@ func dataSourceSystemSdwanHealthCheck() *schema.Resource {
 							Description: "Packet loss for SLA to make decision in percentage. (0 - 100, default = 0).",
 							Computed:    true,
 						},
+						"priority_in_sla": {
+							Type:        schema.TypeInt,
+							Description: "Value to be distributed into routing table when in-sla (0 - 65535, default = 0).",
+							Computed:    true,
+						},
+						"priority_out_sla": {
+							Type:        schema.TypeInt,
+							Description: "Value to be distributed into routing table when out-sla (0 - 65535, default = 0).",
+							Computed:    true,
+						},
 					},
 				},
 			},
 			"sla_fail_log_period": {
 				Type:        schema.TypeInt,
 				Description: "Time interval in seconds that SLA fail log messages will be generated (0 - 3600, default = 0).",
+				Computed:    true,
+			},
+			"sla_id_redistribute": {
+				Type:        schema.TypeInt,
+				Description: "Select the ID from the SLA sub-table. The selected SLA's priority value will be distributed into the routing table (0 - 32, default = 0).",
 				Computed:    true,
 			},
 			"sla_pass_log_period": {

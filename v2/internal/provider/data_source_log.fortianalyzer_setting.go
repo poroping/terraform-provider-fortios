@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -34,6 +34,11 @@ func dataSourceLogFortianalyzerSetting() *schema.Resource {
 				Description: "Enable/disable FortiAnalyzer access to configuration and data.",
 				Computed:    true,
 			},
+			"alt_server": {
+				Type:        schema.TypeString,
+				Description: "Alternate FortiAnalyzer.",
+				Computed:    true,
+			},
 			"certificate": {
 				Type:        schema.TypeString,
 				Description: "Certificate used to communicate with FortiAnalyzer.",
@@ -52,6 +57,11 @@ func dataSourceLogFortianalyzerSetting() *schema.Resource {
 			"enc_algorithm": {
 				Type:        schema.TypeString,
 				Description: "Configure the level of SSL protection for secure communication with FortiAnalyzer.",
+				Computed:    true,
+			},
+			"fallback_to_primary": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable this FortiGate unit to fallback to the primary FortiAnalyzer when it is available.",
 				Computed:    true,
 			},
 			"hmac_algorithm": {
@@ -121,6 +131,11 @@ func dataSourceLogFortianalyzerSetting() *schema.Resource {
 			"server": {
 				Type:        schema.TypeString,
 				Description: "The remote FortiAnalyzer.",
+				Computed:    true,
+			},
+			"server_cert_ca": {
+				Type:        schema.TypeString,
+				Description: "Mandatory CA on FortiGate in certificate chain of server.",
 				Computed:    true,
 			},
 			"source_ip": {

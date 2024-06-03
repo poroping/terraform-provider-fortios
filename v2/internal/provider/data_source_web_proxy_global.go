@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -87,6 +87,11 @@ func dataSourceWebProxyGlobal() *schema.Resource {
 					},
 				},
 			},
+			"log_policy_pending": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable logging sessions that are pending on policy matching.",
+				Computed:    true,
+			},
 			"max_message_length": {
 				Type:        schema.TypeInt,
 				Description: "Maximum length of HTTP message, not including body (16 - 256 Kbytes, default = 32).",
@@ -100,6 +105,11 @@ func dataSourceWebProxyGlobal() *schema.Resource {
 			"max_waf_body_cache_length": {
 				Type:        schema.TypeInt,
 				Description: "Maximum length of HTTP messages processed by Web Application Firewall (WAF) (10 - 1024 Kbytes, default = 32).",
+				Computed:    true,
+			},
+			"policy_category_deep_inspect": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable deep inspection for application level category policy matching.",
 				Computed:    true,
 			},
 			"proxy_fqdn": {

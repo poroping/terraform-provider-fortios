@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -58,6 +58,14 @@ func resourceUserLdap() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"same", "strip"}, false),
 
 				Description: "Account key processing operation, either keep or strip domain string of UPN in the token.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"account_key_upn_san": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"othername", "rfc822name", "dnsname"}, false),
+
+				Description: "Define SAN in certificate for user principle name matching.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -309,6 +317,14 @@ func resourceUserLdap() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"two_factor_filter": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 2047),
+
+				Description: "Filter used to synchronize users to FortiToken Cloud.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"two_factor_notification": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"email", "sms"}, false),
@@ -514,6 +530,14 @@ func refreshObjectUserLdap(d *schema.ResourceData, o *models.UserLdap, sv string
 
 		if err = d.Set("account_key_processing", v); err != nil {
 			return diag.Errorf("error reading account_key_processing: %v", err)
+		}
+	}
+
+	if o.AccountKeyUpnSan != nil {
+		v := *o.AccountKeyUpnSan
+
+		if err = d.Set("account_key_upn_san", v); err != nil {
+			return diag.Errorf("error reading account_key_upn_san: %v", err)
 		}
 	}
 
@@ -766,6 +790,14 @@ func refreshObjectUserLdap(d *schema.ResourceData, o *models.UserLdap, sv string
 		}
 	}
 
+	if o.TwoFactorFilter != nil {
+		v := *o.TwoFactorFilter
+
+		if err = d.Set("two_factor_filter", v); err != nil {
+			return diag.Errorf("error reading two_factor_filter: %v", err)
+		}
+	}
+
 	if o.TwoFactorNotification != nil {
 		v := *o.TwoFactorNotification
 
@@ -821,6 +853,15 @@ func getObjectUserLdap(d *schema.ResourceData, sv string) (*models.UserLdap, dia
 				diags = append(diags, e)
 			}
 			obj.AccountKeyProcessing = &v2
+		}
+	}
+	if v1, ok := d.GetOk("account_key_upn_san"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("account_key_upn_san", sv)
+				diags = append(diags, e)
+			}
+			obj.AccountKeyUpnSan = &v2
 		}
 	}
 	if v1, ok := d.GetOk("antiphish"); ok {
@@ -1102,6 +1143,15 @@ func getObjectUserLdap(d *schema.ResourceData, sv string) (*models.UserLdap, dia
 				diags = append(diags, e)
 			}
 			obj.TwoFactorAuthentication = &v2
+		}
+	}
+	if v1, ok := d.GetOk("two_factor_filter"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("two_factor_filter", sv)
+				diags = append(diags, e)
+			}
+			obj.TwoFactorFilter = &v2
 		}
 	}
 	if v1, ok := d.GetOk("two_factor_notification"); ok {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -63,7 +63,7 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 			},
 			"ap_country": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"--", "AF", "AL", "DZ", "AS", "AO", "AR", "AM", "AU", "AT", "AZ", "BS", "BH", "BD", "BB", "BY", "BE", "BZ", "BJ", "BM", "BT", "BO", "BA", "BW", "BR", "BN", "BG", "BF", "KH", "CM", "KY", "CF", "TD", "CL", "CN", "CX", "CO", "CG", "CD", "CR", "HR", "CY", "CZ", "DK", "DM", "DO", "EC", "EG", "SV", "ET", "EE", "GF", "PF", "FO", "FJ", "FI", "FR", "GE", "DE", "GH", "GI", "GR", "GL", "GD", "GP", "GU", "GT", "GY", "HT", "HN", "HK", "HU", "IS", "IN", "ID", "IQ", "IE", "IM", "IL", "IT", "CI", "JM", "JO", "KZ", "KE", "KR", "KW", "LA", "LV", "LB", "LS", "LY", "LI", "LT", "LU", "MO", "MK", "MG", "MW", "MY", "MV", "ML", "MT", "MH", "MQ", "MR", "MU", "YT", "MX", "FM", "MD", "MC", "MA", "MZ", "MM", "NA", "NP", "NL", "AN", "AW", "NZ", "NI", "NE", "NO", "MP", "OM", "PK", "PW", "PA", "PG", "PY", "PE", "PH", "PL", "PT", "PR", "QA", "RE", "RO", "RU", "RW", "BL", "KN", "LC", "MF", "PM", "VC", "SA", "SN", "RS", "ME", "SL", "SG", "SK", "SI", "ZA", "ES", "LK", "SE", "SR", "CH", "TW", "TZ", "TH", "TG", "TT", "TN", "TR", "TM", "AE", "TC", "UG", "UA", "GB", "US", "PS", "UY", "UZ", "VU", "VE", "VN", "VI", "WF", "YE", "ZM", "ZW", "JP", "CA"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"--", "AF", "AL", "DZ", "AS", "AO", "AR", "AM", "AU", "AT", "AZ", "BS", "BH", "BD", "BB", "BY", "BE", "BZ", "BJ", "BM", "BT", "BO", "BA", "BW", "BR", "BN", "BG", "BF", "KH", "CM", "KY", "CF", "TD", "CL", "CN", "CX", "CO", "CG", "CD", "CR", "HR", "CY", "CZ", "DK", "DJ", "DM", "DO", "EC", "EG", "SV", "ET", "EE", "GF", "PF", "FO", "FJ", "FI", "FR", "GA", "GE", "GM", "DE", "GH", "GI", "GR", "GL", "GD", "GP", "GU", "GT", "GY", "HT", "HN", "HK", "HU", "IS", "IN", "ID", "IQ", "IE", "IM", "IL", "IT", "CI", "JM", "JO", "KZ", "KE", "KR", "KW", "LA", "LV", "LB", "LS", "LR", "LY", "LI", "LT", "LU", "MO", "MK", "MG", "MW", "MY", "MV", "ML", "MT", "MH", "MQ", "MR", "MU", "YT", "MX", "FM", "MD", "MC", "MN", "MA", "MZ", "MM", "NA", "NP", "NL", "AN", "AW", "NZ", "NI", "NE", "NG", "NO", "MP", "OM", "PK", "PW", "PA", "PG", "PY", "PE", "PH", "PL", "PT", "PR", "QA", "RE", "RO", "RU", "RW", "BL", "KN", "LC", "MF", "PM", "VC", "SA", "SN", "RS", "ME", "SL", "SG", "SK", "SI", "SO", "ZA", "ES", "LK", "SR", "SZ", "SE", "CH", "TW", "TZ", "TH", "TG", "TT", "TN", "TR", "TM", "AE", "TC", "UG", "UA", "GB", "US", "PS", "UY", "UZ", "VU", "VE", "VN", "VI", "WF", "YE", "ZM", "ZW", "JP", "CA"}, false),
 
 				Description: "Country in which this WTP, FortiAP, or AP will operate (default = NA, automatically use the country configured for the current VDOM).",
 				Optional:    true,
@@ -294,7 +294,8 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 				Computed:    true,
 			},
 			"handoff_sta_thresh": {
-				Type: schema.TypeInt,
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(5, 60),
 
 				Description: "Threshold value for AP handoff.",
 				Optional:    true,
@@ -758,7 +759,7 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
-							Description: "Enable/disable use of one radio for dedicated dual-band scanning to detect RF characterization and wireless threat management.",
+							Description: "Enable/disable use of one radio for dedicated full-band scanning to detect RF characterization and wireless threat management.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -772,7 +773,7 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 						},
 						"type": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"AP-11N", "220B", "210B", "222B", "112B", "320B", "11C", "14C", "223B", "28C", "320C", "221C", "25D", "222C", "224D", "214B", "21D", "24D", "112D", "223C", "321C", "C220C", "C225C", "C23JD", "C24JE", "S321C", "S322C", "S323C", "S311C", "S313C", "S321CR", "S322CR", "S323CR", "S421E", "S422E", "S423E", "421E", "423E", "221E", "222E", "223E", "224E", "231E", "S221E", "S223E", "321E", "431F", "432F", "433F", "231F", "234F", "23JF", "831F", "U421E", "U422EV", "U423E", "U221EV", "U223EV", "U24JEV", "U321EV", "U323EV", "U431F", "U433F", "U231F", "U234F", "U432F"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"AP-11N", "220B", "210B", "222B", "112B", "320B", "11C", "14C", "223B", "28C", "320C", "221C", "25D", "222C", "224D", "214B", "21D", "24D", "112D", "223C", "321C", "C220C", "C225C", "C23JD", "C24JE", "S321C", "S322C", "S323C", "S311C", "S313C", "S321CR", "S322CR", "S323CR", "S421E", "S422E", "S423E", "421E", "423E", "221E", "222E", "223E", "224E", "231E", "S221E", "S223E", "321E", "431F", "431FL", "432F", "432FR", "433F", "433FL", "231F", "231FL", "234F", "23JF", "831F", "231G", "233G", "234G", "431G", "432G", "433G", "U421E", "U422EV", "U423E", "U221EV", "U223EV", "U24JEV", "U321EV", "U323EV", "U431F", "U433F", "U231F", "U234F", "U432F", "U231G", "U441G"}, false),
 
 							Description: "WTP, FortiAP or AP platform type. There are built-in WTP profiles for all supported FortiAP models. You can select a built-in profile and customize it or create a new profile.",
 							Optional:    true,
@@ -795,6 +796,14 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"80211d": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+							Description: "Enable/disable 802.11d countryie(default = enable).",
+							Optional:    true,
+							Computed:    true,
+						},
 						"airtime_fairness": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -921,7 +930,7 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 						},
 						"band": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"802.11a", "802.11b", "802.11g", "802.11n", "802.11n-5G", "802.11ac", "802.11ax-5G", "802.11ax", "802.11ac-2G", "802.11n,g-only", "802.11g-only", "802.11n-only", "802.11n-5G-only", "802.11ac,n-only", "802.11ac-only", "802.11ax,ac-only", "802.11ax,ac,n-only", "802.11ax-5G-only", "802.11ax,n-only", "802.11ax,n,g-only", "802.11ax-only"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"802.11a", "802.11b", "802.11g", "802.11n", "802.11n-5G", "802.11ac", "802.11ax-5G", "802.11ax", "802.11ac-2G", "802.11ax-6G", "802.11n,g-only", "802.11g-only", "802.11n-only", "802.11n-5G-only", "802.11ac,n-only", "802.11ac-only", "802.11ax,ac-only", "802.11ax,ac,n-only", "802.11ax-5G-only", "802.11ax,n-only", "802.11ax,n,g-only", "802.11ax-only"}, false),
 
 							Description: "WiFi band that Radio 1 operates on.",
 							Optional:    true,
@@ -1116,6 +1125,14 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{"disabled", "ap", "monitor", "sniffer", "sam"}, false),
 
 							Description: "Mode of radio 1. Radio 1 can be disabled, configured as an access point, a rogue AP monitor, a sniffer, or a station.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"optional_antenna": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"none", "FANT-04ABGN-0606-O-N", "FANT-04ABGN-1414-P-N", "FANT-04ABGN-8065-P-N", "FANT-04ABGN-0606-O-R", "FANT-04ABGN-0606-P-R", "FANT-10ACAX-1213-D-N", "FANT-08ABGN-1213-D-R"}, false),
+
+							Description: "Optional antenna used on FAP (default = none).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -1384,6 +1401,14 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"80211d": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+							Description: "Enable/disable 802.11d countryie(default = enable).",
+							Optional:    true,
+							Computed:    true,
+						},
 						"airtime_fairness": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -1510,7 +1535,7 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 						},
 						"band": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"802.11a", "802.11b", "802.11g", "802.11n", "802.11n-5G", "802.11ac", "802.11ax-5G", "802.11ax", "802.11ac-2G", "802.11n,g-only", "802.11g-only", "802.11n-only", "802.11n-5G-only", "802.11ac,n-only", "802.11ac-only", "802.11ax,ac-only", "802.11ax,ac,n-only", "802.11ax-5G-only", "802.11ax,n-only", "802.11ax,n,g-only", "802.11ax-only"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"802.11a", "802.11b", "802.11g", "802.11n", "802.11n-5G", "802.11ac", "802.11ax-5G", "802.11ax", "802.11ac-2G", "802.11ax-6G", "802.11n,g-only", "802.11g-only", "802.11n-only", "802.11n-5G-only", "802.11ac,n-only", "802.11ac-only", "802.11ax,ac-only", "802.11ax,ac,n-only", "802.11ax-5G-only", "802.11ax,n-only", "802.11ax,n,g-only", "802.11ax-only"}, false),
 
 							Description: "WiFi band that Radio 2 operates on.",
 							Optional:    true,
@@ -1705,6 +1730,14 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{"disabled", "ap", "monitor", "sniffer", "sam"}, false),
 
 							Description: "Mode of radio 2. Radio 2 can be disabled, configured as an access point, a rogue AP monitor, a sniffer, or a station.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"optional_antenna": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"none", "FANT-04ABGN-0606-O-N", "FANT-04ABGN-1414-P-N", "FANT-04ABGN-8065-P-N", "FANT-04ABGN-0606-O-R", "FANT-04ABGN-0606-P-R", "FANT-10ACAX-1213-D-N", "FANT-08ABGN-1213-D-R"}, false),
+
+							Description: "Optional antenna used on FAP (default = none).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -1973,6 +2006,14 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"80211d": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+							Description: "Enable/disable 802.11d countryie(default = enable).",
+							Optional:    true,
+							Computed:    true,
+						},
 						"airtime_fairness": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -2099,7 +2140,7 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 						},
 						"band": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"802.11a", "802.11b", "802.11g", "802.11n", "802.11n-5G", "802.11ac", "802.11ax-5G", "802.11ax", "802.11ac-2G", "802.11n,g-only", "802.11g-only", "802.11n-only", "802.11n-5G-only", "802.11ac,n-only", "802.11ac-only", "802.11ax,ac-only", "802.11ax,ac,n-only", "802.11ax-5G-only", "802.11ax,n-only", "802.11ax,n,g-only", "802.11ax-only"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"802.11a", "802.11b", "802.11g", "802.11n", "802.11n-5G", "802.11ac", "802.11ax-5G", "802.11ax", "802.11ac-2G", "802.11ax-6G", "802.11n,g-only", "802.11g-only", "802.11n-only", "802.11n-5G-only", "802.11ac,n-only", "802.11ac-only", "802.11ax,ac-only", "802.11ax,ac,n-only", "802.11ax-5G-only", "802.11ax,n-only", "802.11ax,n,g-only", "802.11ax-only"}, false),
 
 							Description: "WiFi band that Radio 3 operates on.",
 							Optional:    true,
@@ -2294,6 +2335,14 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{"disabled", "ap", "monitor", "sniffer", "sam"}, false),
 
 							Description: "Mode of radio 3. Radio 3 can be disabled, configured as an access point, a rogue AP monitor, a sniffer, or a station.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"optional_antenna": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"none", "FANT-04ABGN-0606-O-N", "FANT-04ABGN-1414-P-N", "FANT-04ABGN-8065-P-N", "FANT-04ABGN-0606-O-R", "FANT-04ABGN-0606-P-R", "FANT-10ACAX-1213-D-N", "FANT-08ABGN-1213-D-R"}, false),
+
+							Description: "Optional antenna used on FAP (default = none).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -2562,6 +2611,14 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 				Optional:    true, MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"80211d": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+							Description: "Enable/disable 802.11d countryie(default = enable).",
+							Optional:    true,
+							Computed:    true,
+						},
 						"airtime_fairness": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -2688,7 +2745,7 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 						},
 						"band": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"802.11a", "802.11b", "802.11g", "802.11n", "802.11n-5G", "802.11ac", "802.11ax-5G", "802.11ax", "802.11ac-2G", "802.11n,g-only", "802.11g-only", "802.11n-only", "802.11n-5G-only", "802.11ac,n-only", "802.11ac-only", "802.11ax,ac-only", "802.11ax,ac,n-only", "802.11ax-5G-only", "802.11ax,n-only", "802.11ax,n,g-only", "802.11ax-only"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"802.11a", "802.11b", "802.11g", "802.11n", "802.11n-5G", "802.11ac", "802.11ax-5G", "802.11ax", "802.11ac-2G", "802.11ax-6G", "802.11n,g-only", "802.11g-only", "802.11n-only", "802.11n-5G-only", "802.11ac,n-only", "802.11ac-only", "802.11ax,ac-only", "802.11ax,ac,n-only", "802.11ax-5G-only", "802.11ax,n-only", "802.11ax,n,g-only", "802.11ax-only"}, false),
 
 							Description: "WiFi band that Radio 3 operates on.",
 							Optional:    true,
@@ -2883,6 +2940,14 @@ func resourceWirelessControllerWtpProfile() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{"disabled", "ap", "monitor", "sniffer", "sam"}, false),
 
 							Description: "Mode of radio 3. Radio 3 can be disabled, configured as an access point, a rogue AP monitor, a sniffer, or a station.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"optional_antenna": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"none", "FANT-04ABGN-0606-O-N", "FANT-04ABGN-1414-P-N", "FANT-04ABGN-8065-P-N", "FANT-04ABGN-0606-O-R", "FANT-04ABGN-0606-P-R", "FANT-10ACAX-1213-D-N", "FANT-08ABGN-1213-D-R"}, false),
+
+							Description: "Optional antenna used on FAP (default = none).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -3754,6 +3819,10 @@ func flattenWirelessControllerWtpProfileRadio1(d *schema.ResourceData, v *models
 		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
+			if tmp := cfg.The80211d; tmp != nil {
+				v["80211d"] = *tmp
+			}
+
 			if tmp := cfg.AirtimeFairness; tmp != nil {
 				v["airtime_fairness"] = *tmp
 			}
@@ -3912,6 +3981,10 @@ func flattenWirelessControllerWtpProfileRadio1(d *schema.ResourceData, v *models
 
 			if tmp := cfg.Mode; tmp != nil {
 				v["mode"] = *tmp
+			}
+
+			if tmp := cfg.OptionalAntenna; tmp != nil {
+				v["optional_antenna"] = *tmp
 			}
 
 			if tmp := cfg.PowerLevel; tmp != nil {
@@ -4097,6 +4170,10 @@ func flattenWirelessControllerWtpProfileRadio2(d *schema.ResourceData, v *models
 		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
+			if tmp := cfg.The80211d; tmp != nil {
+				v["80211d"] = *tmp
+			}
+
 			if tmp := cfg.AirtimeFairness; tmp != nil {
 				v["airtime_fairness"] = *tmp
 			}
@@ -4255,6 +4332,10 @@ func flattenWirelessControllerWtpProfileRadio2(d *schema.ResourceData, v *models
 
 			if tmp := cfg.Mode; tmp != nil {
 				v["mode"] = *tmp
+			}
+
+			if tmp := cfg.OptionalAntenna; tmp != nil {
+				v["optional_antenna"] = *tmp
 			}
 
 			if tmp := cfg.PowerLevel; tmp != nil {
@@ -4440,6 +4521,10 @@ func flattenWirelessControllerWtpProfileRadio3(d *schema.ResourceData, v *models
 		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
+			if tmp := cfg.The80211d; tmp != nil {
+				v["80211d"] = *tmp
+			}
+
 			if tmp := cfg.AirtimeFairness; tmp != nil {
 				v["airtime_fairness"] = *tmp
 			}
@@ -4598,6 +4683,10 @@ func flattenWirelessControllerWtpProfileRadio3(d *schema.ResourceData, v *models
 
 			if tmp := cfg.Mode; tmp != nil {
 				v["mode"] = *tmp
+			}
+
+			if tmp := cfg.OptionalAntenna; tmp != nil {
+				v["optional_antenna"] = *tmp
 			}
 
 			if tmp := cfg.PowerLevel; tmp != nil {
@@ -4783,6 +4872,10 @@ func flattenWirelessControllerWtpProfileRadio4(d *schema.ResourceData, v *models
 		for i, cfg := range v2 {
 			_ = i
 			v := make(map[string]interface{})
+			if tmp := cfg.The80211d; tmp != nil {
+				v["80211d"] = *tmp
+			}
+
 			if tmp := cfg.AirtimeFairness; tmp != nil {
 				v["airtime_fairness"] = *tmp
 			}
@@ -4941,6 +5034,10 @@ func flattenWirelessControllerWtpProfileRadio4(d *schema.ResourceData, v *models
 
 			if tmp := cfg.Mode; tmp != nil {
 				v["mode"] = *tmp
+			}
+
+			if tmp := cfg.OptionalAntenna; tmp != nil {
+				v["optional_antenna"] = *tmp
 			}
 
 			if tmp := cfg.PowerLevel; tmp != nil {
@@ -6065,6 +6162,13 @@ func expandWirelessControllerWtpProfileRadio1(d *schema.ResourceData, v interfac
 		tmp := models.WirelessControllerWtpProfileRadio1{}
 		var pre_append string
 
+		pre_append = fmt.Sprintf("%s.%d.80211d", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.The80211d = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.airtime_fairness", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
@@ -6361,6 +6465,13 @@ func expandWirelessControllerWtpProfileRadio1(d *schema.ResourceData, v interfac
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.optional_antenna", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.OptionalAntenna = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.power_level", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(int); ok {
@@ -6649,6 +6760,13 @@ func expandWirelessControllerWtpProfileRadio2(d *schema.ResourceData, v interfac
 	for i := range l {
 		tmp := models.WirelessControllerWtpProfileRadio2{}
 		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.80211d", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.The80211d = &v2
+			}
+		}
 
 		pre_append = fmt.Sprintf("%s.%d.airtime_fairness", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
@@ -6946,6 +7064,13 @@ func expandWirelessControllerWtpProfileRadio2(d *schema.ResourceData, v interfac
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.optional_antenna", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.OptionalAntenna = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.power_level", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(int); ok {
@@ -7234,6 +7359,13 @@ func expandWirelessControllerWtpProfileRadio3(d *schema.ResourceData, v interfac
 	for i := range l {
 		tmp := models.WirelessControllerWtpProfileRadio3{}
 		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.80211d", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.The80211d = &v2
+			}
+		}
 
 		pre_append = fmt.Sprintf("%s.%d.airtime_fairness", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
@@ -7531,6 +7663,13 @@ func expandWirelessControllerWtpProfileRadio3(d *schema.ResourceData, v interfac
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.optional_antenna", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.OptionalAntenna = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.power_level", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(int); ok {
@@ -7819,6 +7958,13 @@ func expandWirelessControllerWtpProfileRadio4(d *schema.ResourceData, v interfac
 	for i := range l {
 		tmp := models.WirelessControllerWtpProfileRadio4{}
 		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.80211d", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.The80211d = &v2
+			}
+		}
 
 		pre_append = fmt.Sprintf("%s.%d.airtime_fairness", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
@@ -8113,6 +8259,13 @@ func expandWirelessControllerWtpProfileRadio4(d *schema.ResourceData, v interfac
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.Mode = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.optional_antenna", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.OptionalAntenna = &v2
 			}
 		}
 

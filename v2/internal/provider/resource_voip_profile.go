@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -55,9 +55,9 @@ func resourceVoipProfile() *schema.Resource {
 			},
 			"feature_set": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"flow", "proxy"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"ips", "voipd"}, false),
 
-				Description: "Flow or proxy inspection feature set.",
+				Description: "IPS or voipd (SIP-ALG) inspection feature set.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -339,6 +339,14 @@ func resourceVoipProfile() *schema.Resource {
 							Optional:    true,
 							Computed:    true,
 						},
+						"call_id_regex": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 511),
+
+							Description: "Validate PCRE regular expression for Call-Id header value.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"call_keepalive": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 10080),
@@ -367,6 +375,14 @@ func resourceVoipProfile() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
 
 							Description: "Fixup contact anyway even if contact's IP:port doesn't match session's IP:port.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"content_type_regex": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 511),
+
+							Description: "Validate PCRE regular expression for Content-Type header value.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -836,7 +852,7 @@ func resourceVoipProfile() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
 
-							Description: "Override i line to preserve original IPS (default: append).",
+							Description: "Override i line to preserve original IPs (default: append).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -1381,6 +1397,10 @@ func flattenVoipProfileSip(d *schema.ResourceData, v *models.VoipProfileSip, pre
 				v["bye_rate_track"] = *tmp
 			}
 
+			if tmp := cfg.CallIdRegex; tmp != nil {
+				v["call_id_regex"] = *tmp
+			}
+
 			if tmp := cfg.CallKeepalive; tmp != nil {
 				v["call_keepalive"] = *tmp
 			}
@@ -1395,6 +1415,10 @@ func flattenVoipProfileSip(d *schema.ResourceData, v *models.VoipProfileSip, pre
 
 			if tmp := cfg.ContactFixup; tmp != nil {
 				v["contact_fixup"] = *tmp
+			}
+
+			if tmp := cfg.ContentTypeRegex; tmp != nil {
+				v["content_type_regex"] = *tmp
 			}
 
 			if tmp := cfg.HntRestrictSourceIp; tmp != nil {
@@ -2077,6 +2101,13 @@ func expandVoipProfileSip(d *schema.ResourceData, v interface{}, pre string, sv 
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.call_id_regex", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.CallIdRegex = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.call_keepalive", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(int); ok {
@@ -2104,6 +2135,13 @@ func expandVoipProfileSip(d *schema.ResourceData, v interface{}, pre string, sv 
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.ContactFixup = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.content_type_regex", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.ContentTypeRegex = &v2
 			}
 		}
 

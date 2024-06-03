@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -171,7 +171,7 @@ func resourceVpnSslWebPortal() *schema.Resource {
 									},
 									"keyboard_layout": {
 										Type:         schema.TypeString,
-										ValidateFunc: validation.StringInSlice([]string{"ar-101", "ar-102", "ar-102-azerty", "can-mul", "cz", "cz-qwerty", "cz-pr", "da", "nl", "de", "de-ch", "de-ibm", "en-uk", "en-uk-ext", "en-us", "en-us-dvorak", "es", "es-var", "fi", "fi-sami", "fr", "fr-apple", "fr-ca", "fr-ch", "fr-be", "hr", "hu", "hu-101", "it", "it-142", "ja", "ko", "lt", "lt-ibm", "lt-std", "lav-std", "lav-leg", "mk", "mk-std", "no", "no-sami", "pol-214", "pol-pr", "pt", "pt-br", "pt-br-abnt2", "ru", "ru-mne", "ru-t", "sl", "sv", "sv-sami", "tuk", "tur-f", "tur-q", "zh-sym-sg-us", "zh-sym-us", "zh-tr-hk", "zh-tr-mo", "zh-tr-us"}, false),
+										ValidateFunc: validation.StringInSlice([]string{"ar-101", "ar-102", "ar-102-azerty", "can-mul", "cz", "cz-qwerty", "cz-pr", "da", "nl", "de", "de-ch", "de-ibm", "en-uk", "en-uk-ext", "en-us", "en-us-dvorak", "es", "es-var", "fi", "fi-sami", "fr", "fr-apple", "fr-ca", "fr-ch", "fr-be", "hr", "hu", "hu-101", "it", "it-142", "ja", "ko", "la-am", "lt", "lt-ibm", "lt-std", "lav-std", "lav-leg", "mk", "mk-std", "no", "no-sami", "pol-214", "pol-pr", "pt", "pt-br", "pt-br-abnt2", "ru", "ru-mne", "ru-t", "sl", "sv", "sv-sami", "tuk", "tur-f", "tur-q", "zh-sym-sg-us", "zh-sym-us", "zh-tr-hk", "zh-tr-mo", "zh-tr-us"}, false),
 
 										Description: "Keyboard layout.",
 										Optional:    true,
@@ -258,7 +258,7 @@ func resourceVpnSslWebPortal() *schema.Resource {
 									},
 									"security": {
 										Type:         schema.TypeString,
-										ValidateFunc: validation.StringInSlice([]string{"rdp", "nla", "tls", "any"}, false),
+										ValidateFunc: validation.StringInSlice([]string{"any", "rdp", "nla", "tls"}, false),
 
 										Description: "Security mode for RDP connection.",
 										Optional:    true,
@@ -336,6 +336,14 @@ func resourceVpnSslWebPortal() *schema.Resource {
 										Optional:    true,
 										Computed:    true,
 									},
+									"vnc_keyboard_layout": {
+										Type:         schema.TypeString,
+										ValidateFunc: validation.StringInSlice([]string{"default", "da", "nl", "en-uk", "en-uk-ext", "fi", "fr", "fr-be", "fr-ca-mul", "de", "de-ch", "it", "it-142", "pt", "pt-br-abnt2", "no", "gd", "es", "sv", "us-intl"}, false),
+
+										Description: "Keyboard layout.",
+										Optional:    true,
+										Computed:    true,
+									},
 									"width": {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(0, 65535),
@@ -357,6 +365,14 @@ func resourceVpnSslWebPortal() *schema.Resource {
 						},
 					},
 				},
+			},
+			"client_src_range": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Allow client to add source range for the tunnel traffic.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"clipboard": {
 				Type:         schema.TypeString,
@@ -397,6 +413,30 @@ func resourceVpnSslWebPortal() *schema.Resource {
 				Description: "Screen width (range from 0 - 65535, default = 1024).",
 				Optional:    true,
 				Computed:    true,
+			},
+			"dhcp_ip_overlap": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"use-new", "use-old"}, false),
+
+				Description: "Configure overlapping DHCP IP allocation assignment.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"dhcp_ra_giaddr": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.IsIPv4Address,
+
+				Description: "Relay agent gateway IP address to use in the giaddr field of DHCP requests.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"dhcp6_ra_linkaddr": {
+				Type:             schema.TypeString,
+				ValidateFunc:     validation.IsIPv6Address,
+				DiffSuppressFunc: suppressors.DiffIPEqual,
+				Description:      "Relay agent IPv6 link address to use in DHCP6 requests.",
+				Optional:         true,
+				Computed:         true,
 			},
 			"display_bookmark": {
 				Type:         schema.TypeString,
@@ -529,7 +569,7 @@ func resourceVpnSslWebPortal() *schema.Resource {
 			},
 			"ip_mode": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"range", "user-group"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"range", "user-group", "dhcp", "no-ip"}, false),
 
 				Description: "Method by which users of this SSL-VPN tunnel obtain IP addresses.",
 				Optional:    true,
@@ -1362,6 +1402,10 @@ func flattenVpnSslWebPortalBookmarkGroupBookmarks(d *schema.ResourceData, v *[]m
 				v["url"] = *tmp
 			}
 
+			if tmp := cfg.VncKeyboardLayout; tmp != nil {
+				v["vnc_keyboard_layout"] = *tmp
+			}
+
 			if tmp := cfg.Width; tmp != nil {
 				v["width"] = *tmp
 			}
@@ -1666,6 +1710,14 @@ func refreshObjectVpnSslWebPortal(d *schema.ResourceData, o *models.VpnSslWebPor
 		}
 	}
 
+	if o.ClientSrcRange != nil {
+		v := *o.ClientSrcRange
+
+		if err = d.Set("client_src_range", v); err != nil {
+			return diag.Errorf("error reading client_src_range: %v", err)
+		}
+	}
+
 	if o.Clipboard != nil {
 		v := *o.Clipboard
 
@@ -1703,6 +1755,30 @@ func refreshObjectVpnSslWebPortal(d *schema.ResourceData, o *models.VpnSslWebPor
 
 		if err = d.Set("default_window_width", v); err != nil {
 			return diag.Errorf("error reading default_window_width: %v", err)
+		}
+	}
+
+	if o.DhcpIpOverlap != nil {
+		v := *o.DhcpIpOverlap
+
+		if err = d.Set("dhcp_ip_overlap", v); err != nil {
+			return diag.Errorf("error reading dhcp_ip_overlap: %v", err)
+		}
+	}
+
+	if o.DhcpRaGiaddr != nil {
+		v := *o.DhcpRaGiaddr
+
+		if err = d.Set("dhcp_ra_giaddr", v); err != nil {
+			return diag.Errorf("error reading dhcp_ra_giaddr: %v", err)
+		}
+	}
+
+	if o.Dhcp6RaLinkaddr != nil {
+		v := *o.Dhcp6RaLinkaddr
+
+		if err = d.Set("dhcp6_ra_linkaddr", v); err != nil {
+			return diag.Errorf("error reading dhcp6_ra_linkaddr: %v", err)
 		}
 	}
 
@@ -2453,6 +2529,13 @@ func expandVpnSslWebPortalBookmarkGroupBookmarks(d *schema.ResourceData, v inter
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.vnc_keyboard_layout", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.VncKeyboardLayout = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.width", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(int); ok {
@@ -2828,6 +2911,15 @@ func getObjectVpnSslWebPortal(d *schema.ResourceData, sv string) (*models.VpnSsl
 			obj.BookmarkGroup = &[]models.VpnSslWebPortalBookmarkGroup{}
 		}
 	}
+	if v1, ok := d.GetOk("client_src_range"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("client_src_range", sv)
+				diags = append(diags, e)
+			}
+			obj.ClientSrcRange = &v2
+		}
+	}
 	if v1, ok := d.GetOk("clipboard"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "v6.4.7", "v7.0.0") {
@@ -2857,7 +2949,7 @@ func getObjectVpnSslWebPortal(d *schema.ResourceData, sv string) (*models.VpnSsl
 	}
 	if v1, ok := d.GetOk("default_window_height"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "v7.2.0", "") {
+			if !utils.CheckVer(sv, "v7.0.6", "") {
 				e := utils.AttributeVersionWarning("default_window_height", sv)
 				diags = append(diags, e)
 			}
@@ -2867,12 +2959,39 @@ func getObjectVpnSslWebPortal(d *schema.ResourceData, sv string) (*models.VpnSsl
 	}
 	if v1, ok := d.GetOk("default_window_width"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "v7.2.0", "") {
+			if !utils.CheckVer(sv, "v7.0.6", "") {
 				e := utils.AttributeVersionWarning("default_window_width", sv)
 				diags = append(diags, e)
 			}
 			tmp := int64(v2)
 			obj.DefaultWindowWidth = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("dhcp_ip_overlap"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.6", "v7.2.0") {
+				e := utils.AttributeVersionWarning("dhcp_ip_overlap", sv)
+				diags = append(diags, e)
+			}
+			obj.DhcpIpOverlap = &v2
+		}
+	}
+	if v1, ok := d.GetOk("dhcp_ra_giaddr"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("dhcp_ra_giaddr", sv)
+				diags = append(diags, e)
+			}
+			obj.DhcpRaGiaddr = &v2
+		}
+	}
+	if v1, ok := d.GetOk("dhcp6_ra_linkaddr"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("dhcp6_ra_linkaddr", sv)
+				diags = append(diags, e)
+			}
+			obj.Dhcp6RaLinkaddr = &v2
 		}
 	}
 	if v1, ok := d.GetOk("display_bookmark"); ok {

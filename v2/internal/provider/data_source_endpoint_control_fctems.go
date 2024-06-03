@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -61,6 +61,16 @@ func dataSourceEndpointControlFctems() *schema.Resource {
 				Description: "Cloud server type.",
 				Computed:    true,
 			},
+			"dirty_reason": {
+				Type:        schema.TypeString,
+				Description: "Dirty Reason for FortiClient EMS.",
+				Computed:    true,
+			},
+			"ems_id": {
+				Type:        schema.TypeInt,
+				Description: "EMS ID in order (1 - 7).",
+				Required:    true,
+			},
 			"fortinetone_cloud_authentication": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable authentication of FortiClient EMS Cloud through FortiCloud account.",
@@ -71,10 +81,20 @@ func dataSourceEndpointControlFctems() *schema.Resource {
 				Description: "FortiClient EMS HTTPS access port number. (1 - 65535, default: 443).",
 				Computed:    true,
 			},
+			"interface": {
+				Type:        schema.TypeString,
+				Description: "Specify outgoing interface to reach server.",
+				Computed:    true,
+			},
+			"interface_select_method": {
+				Type:        schema.TypeString,
+				Description: "Specify how to select outgoing interface to reach server.",
+				Computed:    true,
+			},
 			"name": {
 				Type:        schema.TypeString,
 				Description: "FortiClient Enterprise Management Server (EMS) name.",
-				Required:    true,
+				Computed:    true,
 			},
 			"out_of_sync_threshold": {
 				Type:        schema.TypeInt,
@@ -113,7 +133,7 @@ func dataSourceEndpointControlFctems() *schema.Resource {
 			},
 			"serial_number": {
 				Type:        schema.TypeString,
-				Description: "FortiClient EMS Serial Number.",
+				Description: "EMS Serial Number.",
 				Computed:    true,
 			},
 			"server": {
@@ -126,9 +146,24 @@ func dataSourceEndpointControlFctems() *schema.Resource {
 				Description: "REST API call source IP.",
 				Computed:    true,
 			},
+			"status": {
+				Type:        schema.TypeString,
+				Description: "Enable or disable this EMS configuration.",
+				Computed:    true,
+			},
 			"status_check_interval": {
 				Type:        schema.TypeInt,
 				Description: "FortiClient EMS call timeout in seconds (1 - 120 seconds, default = 5).",
+				Computed:    true,
+			},
+			"tenant_id": {
+				Type:        schema.TypeString,
+				Description: "EMS Tenant ID.",
+				Computed:    true,
+			},
+			"trust_ca_cn": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable trust of the EMS certificate issuer(CA) and common name(CN) for certificate auto-renewal.",
 				Computed:    true,
 			},
 			"websocket_override": {
@@ -153,7 +188,7 @@ func dataSourceEndpointControlFctemsRead(ctx context.Context, d *schema.Resource
 	}
 	urlparams.Vdom = vdomparam
 
-	i := d.Get("name")
+	i := d.Get("ems_id")
 	mkey := utils.ParseMkey(i)
 
 	o, err := c.Cmdb.ReadEndpointControlFctems(mkey, urlparams)

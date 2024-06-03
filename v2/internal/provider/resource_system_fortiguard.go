@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -109,6 +109,46 @@ func resourceSystemFortiguard() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"auto_firmware_upgrade": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable automatic patch-level firmware upgrade from FortiGuard. The FortiGate unit searches for new patches only in the same major and minor version.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"auto_firmware_upgrade_day": {
+				Type: schema.TypeString,
+
+				DiffSuppressFunc: suppressors.DiffFakeListEqual,
+				Description:      "Allowed day(s) of the week to install an automatic patch-level firmware upgrade from FortiGuard (default is none). Disallow any day of the week to use auto-firmware-upgrade-delay instead, which waits for designated days before installing an automatic patch-level firmware upgrade.",
+				Optional:         true,
+				Computed:         true,
+			},
+			"auto_firmware_upgrade_delay": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 14),
+
+				Description: "Delay of day(s) before installing an automatic patch-level firmware upgrade from FortiGuard (default = 3). Set it 0 to use auto-firmware-upgrade-day instead, which selects allowed day(s) of the week for installing an automatic patch-level firmware upgrade.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"auto_firmware_upgrade_end_hour": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 23),
+
+				Description: "End time in the designated time window for automatic patch-level firmware upgrade from FortiGuard in 24 hour time (0 ~ 23, default = 4). When the end time is smaller than the start time, the end time is interpreted as the next day. The actual upgrade time is selected randomly within the time window.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"auto_firmware_upgrade_start_hour": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 23),
+
+				Description: "Start time in the designated time window for automatic patch-level firmware upgrade from FortiGuard in 24 hour time (0 ~ 23, default = 2). The actual upgrade time is selected randomly within the time window.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"auto_join_forticloud": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -154,6 +194,14 @@ func resourceSystemFortiguard() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"fortinet", "aws", "debug"}, false),
 
 				Description: "Configure which of Fortinet's servers to provide FortiGuard services in FortiGuard's anycast network. Default is Fortinet.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"gui_prompt_auto_upgrade": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable prompting of automatic patch-level firmware upgrade recommendation.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -269,9 +317,9 @@ func resourceSystemFortiguard() *schema.Resource {
 			},
 			"proxy_server_ip": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.IsIPv4Address,
+				ValidateFunc: validation.StringLenBetween(0, 63),
 
-				Description: "IP address of the proxy server.",
+				Description: "Hostname or IP address of the proxy server.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -291,11 +339,19 @@ func resourceSystemFortiguard() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"sandbox_inline_scan": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable FortiCloud Sandbox inline-scan.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"sandbox_region": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
 
-				Description: "Cloud sandbox region.",
+				Description: "FortiCloud Sandbox region.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -675,6 +731,46 @@ func refreshObjectSystemFortiguard(d *schema.ResourceData, o *models.SystemForti
 		}
 	}
 
+	if o.AutoFirmwareUpgrade != nil {
+		v := *o.AutoFirmwareUpgrade
+
+		if err = d.Set("auto_firmware_upgrade", v); err != nil {
+			return diag.Errorf("error reading auto_firmware_upgrade: %v", err)
+		}
+	}
+
+	if o.AutoFirmwareUpgradeDay != nil {
+		v := *o.AutoFirmwareUpgradeDay
+
+		if err = d.Set("auto_firmware_upgrade_day", v); err != nil {
+			return diag.Errorf("error reading auto_firmware_upgrade_day: %v", err)
+		}
+	}
+
+	if o.AutoFirmwareUpgradeDelay != nil {
+		v := *o.AutoFirmwareUpgradeDelay
+
+		if err = d.Set("auto_firmware_upgrade_delay", v); err != nil {
+			return diag.Errorf("error reading auto_firmware_upgrade_delay: %v", err)
+		}
+	}
+
+	if o.AutoFirmwareUpgradeEndHour != nil {
+		v := *o.AutoFirmwareUpgradeEndHour
+
+		if err = d.Set("auto_firmware_upgrade_end_hour", v); err != nil {
+			return diag.Errorf("error reading auto_firmware_upgrade_end_hour: %v", err)
+		}
+	}
+
+	if o.AutoFirmwareUpgradeStartHour != nil {
+		v := *o.AutoFirmwareUpgradeStartHour
+
+		if err = d.Set("auto_firmware_upgrade_start_hour", v); err != nil {
+			return diag.Errorf("error reading auto_firmware_upgrade_start_hour: %v", err)
+		}
+	}
+
 	if o.AutoJoinForticloud != nil {
 		v := *o.AutoJoinForticloud
 
@@ -720,6 +816,14 @@ func refreshObjectSystemFortiguard(d *schema.ResourceData, o *models.SystemForti
 
 		if err = d.Set("fortiguard_anycast_source", v); err != nil {
 			return diag.Errorf("error reading fortiguard_anycast_source: %v", err)
+		}
+	}
+
+	if o.GuiPromptAutoUpgrade != nil {
+		v := *o.GuiPromptAutoUpgrade
+
+		if err = d.Set("gui_prompt_auto_upgrade", v); err != nil {
+			return diag.Errorf("error reading gui_prompt_auto_upgrade: %v", err)
 		}
 	}
 
@@ -857,6 +961,14 @@ func refreshObjectSystemFortiguard(d *schema.ResourceData, o *models.SystemForti
 
 		if err = d.Set("proxy_username", v); err != nil {
 			return diag.Errorf("error reading proxy_username: %v", err)
+		}
+	}
+
+	if o.SandboxInlineScan != nil {
+		v := *o.SandboxInlineScan
+
+		if err = d.Set("sandbox_inline_scan", v); err != nil {
+			return diag.Errorf("error reading sandbox_inline_scan: %v", err)
 		}
 	}
 
@@ -1114,9 +1226,57 @@ func getObjectSystemFortiguard(d *schema.ResourceData, sv string) (*models.Syste
 			obj.AnycastSdnsServerPort = &tmp
 		}
 	}
+	if v1, ok := d.GetOk("auto_firmware_upgrade"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("auto_firmware_upgrade", sv)
+				diags = append(diags, e)
+			}
+			obj.AutoFirmwareUpgrade = &v2
+		}
+	}
+	if v1, ok := d.GetOk("auto_firmware_upgrade_day"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("auto_firmware_upgrade_day", sv)
+				diags = append(diags, e)
+			}
+			obj.AutoFirmwareUpgradeDay = &v2
+		}
+	}
+	if v1, ok := d.GetOk("auto_firmware_upgrade_delay"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("auto_firmware_upgrade_delay", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.AutoFirmwareUpgradeDelay = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("auto_firmware_upgrade_end_hour"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("auto_firmware_upgrade_end_hour", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.AutoFirmwareUpgradeEndHour = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("auto_firmware_upgrade_start_hour"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("auto_firmware_upgrade_start_hour", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.AutoFirmwareUpgradeStartHour = &tmp
+		}
+	}
 	if v1, ok := d.GetOk("auto_join_forticloud"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.3", "") {
+			if !utils.CheckVer(sv, "v6.4.3", "v7.2.8") {
 				e := utils.AttributeVersionWarning("auto_join_forticloud", sv)
 				diags = append(diags, e)
 			}
@@ -1167,6 +1327,15 @@ func getObjectSystemFortiguard(d *schema.ResourceData, sv string) (*models.Syste
 				diags = append(diags, e)
 			}
 			obj.FortiguardAnycastSource = &v2
+		}
+	}
+	if v1, ok := d.GetOk("gui_prompt_auto_upgrade"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("gui_prompt_auto_upgrade", sv)
+				diags = append(diags, e)
+			}
+			obj.GuiPromptAutoUpgrade = &v2
 		}
 	}
 	if v1, ok := d.GetOk("interface"); ok {
@@ -1327,6 +1496,15 @@ func getObjectSystemFortiguard(d *schema.ResourceData, sv string) (*models.Syste
 				diags = append(diags, e)
 			}
 			obj.ProxyUsername = &v2
+		}
+	}
+	if v1, ok := d.GetOk("sandbox_inline_scan"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("sandbox_inline_scan", sv)
+				diags = append(diags, e)
+			}
+			obj.SandboxInlineScan = &v2
 		}
 	}
 	if v1, ok := d.GetOk("sandbox_region"); ok {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -53,6 +53,14 @@ func resourceLogFortianalyzerOverrideSetting() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"alt_server": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 127),
+
+				Description: "Alternate FortiAnalyzer.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"certificate": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
@@ -82,6 +90,14 @@ func resourceLogFortianalyzerOverrideSetting() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"high-medium", "high", "low"}, false),
 
 				Description: "Configure the level of SSL protection for secure communication with FortiAnalyzer.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"fallback_to_primary": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable this FortiGate unit to fallback to the primary FortiAnalyzer when it is available.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -187,6 +203,14 @@ func resourceLogFortianalyzerOverrideSetting() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 127),
 
 				Description: "The remote FortiAnalyzer.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"server_cert_ca": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 79),
+
+				Description: "Mandatory CA on FortiGate in certificate chain of server.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -438,6 +462,14 @@ func refreshObjectLogFortianalyzerOverrideSetting(d *schema.ResourceData, o *mod
 		}
 	}
 
+	if o.AltServer != nil {
+		v := *o.AltServer
+
+		if err = d.Set("alt_server", v); err != nil {
+			return diag.Errorf("error reading alt_server: %v", err)
+		}
+	}
+
 	if o.Certificate != nil {
 		v := *o.Certificate
 
@@ -467,6 +499,14 @@ func refreshObjectLogFortianalyzerOverrideSetting(d *schema.ResourceData, o *mod
 
 		if err = d.Set("enc_algorithm", v); err != nil {
 			return diag.Errorf("error reading enc_algorithm: %v", err)
+		}
+	}
+
+	if o.FallbackToPrimary != nil {
+		v := *o.FallbackToPrimary
+
+		if err = d.Set("fallback_to_primary", v); err != nil {
+			return diag.Errorf("error reading fallback_to_primary: %v", err)
 		}
 	}
 
@@ -561,6 +601,14 @@ func refreshObjectLogFortianalyzerOverrideSetting(d *schema.ResourceData, o *mod
 
 		if err = d.Set("server", v); err != nil {
 			return diag.Errorf("error reading server: %v", err)
+		}
+	}
+
+	if o.ServerCertCa != nil {
+		v := *o.ServerCertCa
+
+		if err = d.Set("server_cert_ca", v); err != nil {
+			return diag.Errorf("error reading server_cert_ca: %v", err)
 		}
 	}
 
@@ -668,6 +716,15 @@ func getObjectLogFortianalyzerOverrideSetting(d *schema.ResourceData, sv string)
 			obj.AccessConfig = &v2
 		}
 	}
+	if v1, ok := d.GetOk("alt_server"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("alt_server", sv)
+				diags = append(diags, e)
+			}
+			obj.AltServer = &v2
+		}
+	}
 	if v1, ok := d.GetOk("certificate"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -703,6 +760,15 @@ func getObjectLogFortianalyzerOverrideSetting(d *schema.ResourceData, sv string)
 				diags = append(diags, e)
 			}
 			obj.EncAlgorithm = &v2
+		}
+	}
+	if v1, ok := d.GetOk("fallback_to_primary"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("fallback_to_primary", sv)
+				diags = append(diags, e)
+			}
+			obj.FallbackToPrimary = &v2
 		}
 	}
 	if v1, ok := d.GetOk("hmac_algorithm"); ok {
@@ -822,6 +888,15 @@ func getObjectLogFortianalyzerOverrideSetting(d *schema.ResourceData, sv string)
 				diags = append(diags, e)
 			}
 			obj.Server = &v2
+		}
+	}
+	if v1, ok := d.GetOk("server_cert_ca"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("server_cert_ca", sv)
+				diags = append(diags, e)
+			}
+			obj.ServerCertCa = &v2
 		}
 	}
 	if v1, ok := d.GetOk("source_ip"); ok {

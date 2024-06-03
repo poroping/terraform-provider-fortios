@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -49,6 +49,14 @@ func resourceUserSaml() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable ADFS Claim for user/group attribute in assertion statement (default = disable).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"auth_url": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 255),
+
+				Description: "URL to verify authentication.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -348,6 +356,14 @@ func refreshObjectUserSaml(d *schema.ResourceData, o *models.UserSaml, sv string
 		}
 	}
 
+	if o.AuthUrl != nil {
+		v := *o.AuthUrl
+
+		if err = d.Set("auth_url", v); err != nil {
+			return diag.Errorf("error reading auth_url: %v", err)
+		}
+	}
+
 	if o.Cert != nil {
 		v := *o.Cert
 
@@ -490,6 +506,15 @@ func getObjectUserSaml(d *schema.ResourceData, sv string) (*models.UserSaml, dia
 				diags = append(diags, e)
 			}
 			obj.AdfsClaim = &v2
+		}
+	}
+	if v1, ok := d.GetOk("auth_url"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "v7.2.8") {
+				e := utils.AttributeVersionWarning("auth_url", sv)
+				diags = append(diags, e)
+			}
+			obj.AuthUrl = &v2
 		}
 	}
 	if v1, ok := d.GetOk("cert"); ok {

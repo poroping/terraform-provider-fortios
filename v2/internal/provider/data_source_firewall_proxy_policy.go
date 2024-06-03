@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -274,9 +274,80 @@ func dataSourceFirewallProxyPolicy() *schema.Resource {
 				Description: "When enabled, Internet Services match against any internet service EXCEPT the selected Internet Service.",
 				Computed:    true,
 			},
+			"internet_service6": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable use of Internet Services IPv6 for this policy. If enabled, destination IPv6 address and service are not used.",
+				Computed:    true,
+			},
+			"internet_service6_custom": {
+				Type:        schema.TypeList,
+				Description: "Custom Internet Service IPv6 name.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "Custom Internet Service IPv6 name.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service6_custom_group": {
+				Type:        schema.TypeList,
+				Description: "Custom Internet Service IPv6 group name.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "Custom Internet Service IPv6 group name.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service6_group": {
+				Type:        schema.TypeList,
+				Description: "Internet Service IPv6 group name.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "Internet Service IPv6 group name.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service6_name": {
+				Type:        schema.TypeList,
+				Description: "Internet Service IPv6 name.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "Internet Service IPv6 name.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service6_negate": {
+				Type:        schema.TypeString,
+				Description: "When enabled, Internet Services match against any internet service IPv6 EXCEPT the selected Internet Service IPv6.",
+				Computed:    true,
+			},
 			"ips_sensor": {
 				Type:        schema.TypeString,
 				Description: "Name of an existing IPS sensor.",
+				Computed:    true,
+			},
+			"ips_voip_filter": {
+				Type:        schema.TypeString,
+				Description: "Name of an existing VoIP (ips) profile.",
 				Computed:    true,
 			},
 			"logtraffic": {

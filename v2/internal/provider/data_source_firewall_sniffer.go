@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -71,14 +71,49 @@ func dataSourceFirewallSniffer() *schema.Resource {
 							Description: "Enable/disable this anomaly.",
 							Computed:    true,
 						},
+						"synproxy_tcp_mss": {
+							Type:        schema.TypeString,
+							Description: "Determine TCP maximum segment size (MSS) value for packets replied by syn proxy module.",
+							Computed:    true,
+						},
+						"synproxy_tcp_sack": {
+							Type:        schema.TypeString,
+							Description: "enable/disable TCP selective acknowledage (SACK) for packets replied by syn proxy module.",
+							Computed:    true,
+						},
+						"synproxy_tcp_timestamp": {
+							Type:        schema.TypeString,
+							Description: "enable/disable TCP timestamp option for packets replied by syn proxy module.",
+							Computed:    true,
+						},
+						"synproxy_tcp_window": {
+							Type:        schema.TypeString,
+							Description: "Determine TCP Window size for packets replied by syn proxy module.",
+							Computed:    true,
+						},
+						"synproxy_tcp_windowscale": {
+							Type:        schema.TypeString,
+							Description: "Determine TCP window scale option value for packets replied by syn proxy module.",
+							Computed:    true,
+						},
+						"synproxy_tos": {
+							Type:        schema.TypeString,
+							Description: "Determine TCP differentiated services code point value (type of service).",
+							Computed:    true,
+						},
+						"synproxy_ttl": {
+							Type:        schema.TypeString,
+							Description: "Determine Time to live (TTL) value for packets replied by syn proxy module.",
+							Computed:    true,
+						},
 						"threshold": {
 							Type:        schema.TypeInt,
-							Description: "Anomaly threshold. Number of detected instances per minute that triggers the anomaly action.",
+							Description: "Anomaly threshold. Number of detected instances (packets per second or concurrent session number) that triggers the anomaly action.",
 							Computed:    true,
 						},
 						"thresholddefault": {
 							Type:        schema.TypeInt,
-							Description: "Number of detected instances per minute which triggers action (1 - 2147483647, default = 1000). Note that each anomaly has a different threshold value assigned to it.",
+							Description: "Number of detected instances (packets per second or concurrent session number) which triggers action (1 - 2147483647, default = 1000). Note that each anomaly has a different threshold value assigned to it.",
 							Computed:    true,
 						},
 					},
@@ -231,6 +266,11 @@ func dataSourceFirewallSniffer() *schema.Resource {
 			"status": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable the active status of the sniffer.",
+				Computed:    true,
+			},
+			"uuid": {
+				Type:        schema.TypeString,
+				Description: "Universally Unique Identifier (UUID; automatically assigned but can be manually reset).",
 				Computed:    true,
 			},
 			"vlan": {

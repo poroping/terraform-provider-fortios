@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -186,6 +186,14 @@ func resourceVpnIpsecPhase2() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"tunnel-mode", "transport-mode"}, false),
 
 				Description: "ESP encapsulation mode.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"inbound_dscp_copy": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"phase1", "enable", "disable"}, false),
+
+				Description: "Enable/disable copying of the DSCP in the ESP header to the inner IP header.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -713,6 +721,14 @@ func refreshObjectVpnIpsecPhase2(d *schema.ResourceData, o *models.VpnIpsecPhase
 		}
 	}
 
+	if o.InboundDscpCopy != nil {
+		v := *o.InboundDscpCopy
+
+		if err = d.Set("inbound_dscp_copy", v); err != nil {
+			return diag.Errorf("error reading inbound_dscp_copy: %v", err)
+		}
+	}
+
 	if o.InitiatorTsNarrow != nil {
 		v := *o.InitiatorTsNarrow
 
@@ -1102,6 +1118,15 @@ func getObjectVpnIpsecPhase2(d *schema.ResourceData, sv string) (*models.VpnIpse
 				diags = append(diags, e)
 			}
 			obj.Encapsulation = &v2
+		}
+	}
+	if v1, ok := d.GetOk("inbound_dscp_copy"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.6", "v7.2.0") {
+				e := utils.AttributeVersionWarning("inbound_dscp_copy", sv)
+				diags = append(diags, e)
+			}
+			obj.InboundDscpCopy = &v2
 		}
 	}
 	if v1, ok := d.GetOk("initiator_ts_narrow"); ok {

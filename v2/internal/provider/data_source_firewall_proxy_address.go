@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -29,6 +29,20 @@ func dataSourceFirewallProxyAddress() *schema.Resource {
 				Description: "Specifies the vdom to which the dataSource will be applied when the FortiGate unit is running in VDOM mode. If you want to inherit the VDOM configuration of the provider, do not set this parameter.",
 				Optional:    true,
 				ForceNew:    true,
+			},
+			"application": {
+				Type:        schema.TypeList,
+				Description: "SaaS application.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "SaaS application name.",
+							Computed:    true,
+						},
+					},
+				},
 			},
 			"case_sensitivity": {
 				Type:        schema.TypeString,
@@ -174,6 +188,16 @@ func dataSourceFirewallProxyAddress() *schema.Resource {
 			"ua": {
 				Type:        schema.TypeString,
 				Description: "Names of browsers to be used as user agent.",
+				Computed:    true,
+			},
+			"ua_max_ver": {
+				Type:        schema.TypeString,
+				Description: "Maximum version of the user agent specified in dotted notation. For example, use 120 with the ua field set to \"chrome\" to require Google Chrome's maximum version must be 120.",
+				Computed:    true,
+			},
+			"ua_min_ver": {
+				Type:        schema.TypeString,
+				Description: "Minimum version of the user agent specified in dotted notation. For example, use 90.0.1 with the ua field set to \"chrome\" to require Google Chrome's minimum version must be 90.0.1.",
 				Computed:    true,
 			},
 			"uuid": {

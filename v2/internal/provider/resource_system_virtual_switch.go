@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.4.6,v7.0.2 schemas
+// Generated from templates using FortiOS v6.4.6,v7.0.2,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -492,7 +492,7 @@ func getObjectSystemVirtualSwitch(d *schema.ResourceData, sv string) (*models.Sy
 	}
 	if v1, ok := d.GetOk("span"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v7.0.2", "") {
+			if !utils.CheckVer(sv, "v7.0.2", "v7.2.8") {
 				e := utils.AttributeVersionWarning("span", sv)
 				diags = append(diags, e)
 			}
@@ -501,7 +501,7 @@ func getObjectSystemVirtualSwitch(d *schema.ResourceData, sv string) (*models.Sy
 	}
 	if v1, ok := d.GetOk("span_dest_port"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v7.0.2", "") {
+			if !utils.CheckVer(sv, "v7.0.2", "v7.2.8") {
 				e := utils.AttributeVersionWarning("span_dest_port", sv)
 				diags = append(diags, e)
 			}
@@ -510,7 +510,7 @@ func getObjectSystemVirtualSwitch(d *schema.ResourceData, sv string) (*models.Sy
 	}
 	if v1, ok := d.GetOk("span_direction"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v7.0.2", "") {
+			if !utils.CheckVer(sv, "v7.0.2", "v7.2.8") {
 				e := utils.AttributeVersionWarning("span_direction", sv)
 				diags = append(diags, e)
 			}
@@ -519,7 +519,7 @@ func getObjectSystemVirtualSwitch(d *schema.ResourceData, sv string) (*models.Sy
 	}
 	if v1, ok := d.GetOk("span_source_port"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v7.0.2", "") {
+			if !utils.CheckVer(sv, "v7.0.2", "v7.2.8") {
 				e := utils.AttributeVersionWarning("span_source_port", sv)
 				diags = append(diags, e)
 			}

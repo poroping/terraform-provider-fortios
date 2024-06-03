@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -9,6 +9,7 @@ package provider
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -38,9 +39,15 @@ func resourceSystemVdomNetflow() *schema.Resource {
 				Optional:    true,
 				ForceNew:    true,
 			},
+			"dynamic_sort_subtable": {
+				Type:        schema.TypeBool,
+				Description: "If set will sort table response by mkey",
+				Optional:    true,
+				Default:     false,
+			},
 			"collector_ip": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.IsIPv4Address,
+				ValidateFunc: validation.StringLenBetween(0, 63),
 
 				Description: "NetFlow collector IP address.",
 				Optional:    true,
@@ -53,6 +60,63 @@ func resourceSystemVdomNetflow() *schema.Resource {
 				Description: "NetFlow collector port number.",
 				Optional:    true,
 				Computed:    true,
+			},
+			"collectors": {
+				Type:        schema.TypeList,
+				Description: "Netflow collectors.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"collector_ip": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 63),
+
+							Description: "Collector IP.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"collector_port": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(0, 65535),
+
+							Description: "NetFlow collector port number.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"id": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(1, 6),
+
+							Description: "ID.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"interface": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 15),
+
+							Description: "Specify outgoing interface to reach server.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"interface_select_method": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"auto", "sdwan", "specify"}, false),
+
+							Description: "Specify how to select outgoing interface to reach server.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"source_ip": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 63),
+
+							Description: "Source IP address for communication with the NetFlow agent.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
 			},
 			"interface": {
 				Type:         schema.TypeString,
@@ -72,7 +136,7 @@ func resourceSystemVdomNetflow() *schema.Resource {
 			},
 			"source_ip": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.IsIPv4Address,
+				ValidateFunc: validation.StringLenBetween(0, 63),
 
 				Description: "Source IP address for communication with the NetFlow agent.",
 				Optional:    true,
@@ -239,6 +303,48 @@ func resourceSystemVdomNetflowRead(ctx context.Context, d *schema.ResourceData, 
 	return nil
 }
 
+func flattenSystemVdomNetflowCollectors(d *schema.ResourceData, v *[]models.SystemVdomNetflowCollectors, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.CollectorIp; tmp != nil {
+				v["collector_ip"] = *tmp
+			}
+
+			if tmp := cfg.CollectorPort; tmp != nil {
+				v["collector_port"] = *tmp
+			}
+
+			if tmp := cfg.Id; tmp != nil {
+				v["id"] = *tmp
+			}
+
+			if tmp := cfg.Interface; tmp != nil {
+				v["interface"] = *tmp
+			}
+
+			if tmp := cfg.InterfaceSelectMethod; tmp != nil {
+				v["interface_select_method"] = *tmp
+			}
+
+			if tmp := cfg.SourceIp; tmp != nil {
+				v["source_ip"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "id")
+	}
+
+	return flat
+}
+
 func refreshObjectSystemVdomNetflow(d *schema.ResourceData, o *models.SystemVdomNetflow, sv string, sort bool) diag.Diagnostics {
 	var err error
 
@@ -255,6 +361,12 @@ func refreshObjectSystemVdomNetflow(d *schema.ResourceData, o *models.SystemVdom
 
 		if err = d.Set("collector_port", v); err != nil {
 			return diag.Errorf("error reading collector_port: %v", err)
+		}
+	}
+
+	if o.Collectors != nil {
+		if err = d.Set("collectors", flattenSystemVdomNetflowCollectors(d, o.Collectors, "collectors", sort)); err != nil {
+			return diag.Errorf("error reading collectors: %v", err)
 		}
 	}
 
@@ -293,13 +405,74 @@ func refreshObjectSystemVdomNetflow(d *schema.ResourceData, o *models.SystemVdom
 	return nil
 }
 
+func expandSystemVdomNetflowCollectors(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemVdomNetflowCollectors, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.SystemVdomNetflowCollectors
+
+	for i := range l {
+		tmp := models.SystemVdomNetflowCollectors{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.collector_ip", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.CollectorIp = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.collector_port", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.CollectorPort = &v3
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.interface", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Interface = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.interface_select_method", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.InterfaceSelectMethod = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.source_ip", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.SourceIp = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
 func getObjectSystemVdomNetflow(d *schema.ResourceData, sv string) (*models.SystemVdomNetflow, diag.Diagnostics) {
 	obj := models.SystemVdomNetflow{}
 	diags := diag.Diagnostics{}
 
 	if v1, ok := d.GetOk("collector_ip"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.8") {
 				e := utils.AttributeVersionWarning("collector_ip", sv)
 				diags = append(diags, e)
 			}
@@ -308,7 +481,7 @@ func getObjectSystemVdomNetflow(d *schema.ResourceData, sv string) (*models.Syst
 	}
 	if v1, ok := d.GetOk("collector_port"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.8") {
 				e := utils.AttributeVersionWarning("collector_port", sv)
 				diags = append(diags, e)
 			}
@@ -316,9 +489,26 @@ func getObjectSystemVdomNetflow(d *schema.ResourceData, sv string) (*models.Syst
 			obj.CollectorPort = &tmp
 		}
 	}
+	if v, ok := d.GetOk("collectors"); ok {
+		if !utils.CheckVer(sv, "v7.2.8", "") {
+			e := utils.AttributeVersionWarning("collectors", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandSystemVdomNetflowCollectors(d, v, "collectors", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.Collectors = t
+		}
+	} else if d.HasChange("collectors") {
+		old, new := d.GetChange("collectors")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.Collectors = &[]models.SystemVdomNetflowCollectors{}
+		}
+	}
 	if v1, ok := d.GetOk("interface"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v7.0.1", "") {
+			if !utils.CheckVer(sv, "v7.0.1", "v7.2.8") {
 				e := utils.AttributeVersionWarning("interface", sv)
 				diags = append(diags, e)
 			}
@@ -327,7 +517,7 @@ func getObjectSystemVdomNetflow(d *schema.ResourceData, sv string) (*models.Syst
 	}
 	if v1, ok := d.GetOk("interface_select_method"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v7.0.1", "") {
+			if !utils.CheckVer(sv, "v7.0.1", "v7.2.8") {
 				e := utils.AttributeVersionWarning("interface_select_method", sv)
 				diags = append(diags, e)
 			}
@@ -336,7 +526,7 @@ func getObjectSystemVdomNetflow(d *schema.ResourceData, sv string) (*models.Syst
 	}
 	if v1, ok := d.GetOk("source_ip"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.8") {
 				e := utils.AttributeVersionWarning("source_ip", sv)
 				diags = append(diags, e)
 			}
@@ -359,6 +549,8 @@ func getObjectSystemVdomNetflow(d *schema.ResourceData, sv string) (*models.Syst
 func getEmptyObjectSystemVdomNetflow(d *schema.ResourceData, sv string) (*models.SystemVdomNetflow, diag.Diagnostics) {
 	obj := models.SystemVdomNetflow{}
 	diags := diag.Diagnostics{}
+
+	obj.Collectors = &[]models.SystemVdomNetflowCollectors{}
 
 	return &obj, diags
 }

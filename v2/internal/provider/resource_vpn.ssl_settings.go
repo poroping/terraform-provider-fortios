@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -551,6 +551,14 @@ func resourceVpnSslSettings() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"server_hostname": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 255),
+
+				Description: "Server hostname for HTTPS. When set, will be used for SSL VPN web proxy host header for any redirection.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"servercert": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
@@ -817,6 +825,14 @@ func resourceVpnSslSettings() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Add HTTP X-Content-Type-Options header.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"ztna_trusted_client": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable verification of device certificate for SSLVPN ZTNA session.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1620,6 +1636,14 @@ func refreshObjectVpnSslSettings(d *schema.ResourceData, o *models.VpnSslSetting
 		}
 	}
 
+	if o.ServerHostname != nil {
+		v := *o.ServerHostname
+
+		if err = d.Set("server_hostname", v); err != nil {
+			return diag.Errorf("error reading server_hostname: %v", err)
+		}
+	}
+
 	if o.Servercert != nil {
 		v := *o.Servercert
 
@@ -1831,6 +1855,14 @@ func refreshObjectVpnSslSettings(d *schema.ResourceData, o *models.VpnSslSetting
 
 		if err = d.Set("x_content_type_options", v); err != nil {
 			return diag.Errorf("error reading x_content_type_options: %v", err)
+		}
+	}
+
+	if o.ZtnaTrustedClient != nil {
+		v := *o.ZtnaTrustedClient
+
+		if err = d.Set("ztna_trusted_client", v); err != nil {
+			return diag.Errorf("error reading ztna_trusted_client: %v", err)
 		}
 	}
 
@@ -2628,6 +2660,15 @@ func getObjectVpnSslSettings(d *schema.ResourceData, sv string) (*models.VpnSslS
 			obj.SamlRedirectPort = &tmp
 		}
 	}
+	if v1, ok := d.GetOk("server_hostname"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("server_hostname", sv)
+				diags = append(diags, e)
+			}
+			obj.ServerHostname = &v2
+		}
+	}
 	if v1, ok := d.GetOk("servercert"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -2887,7 +2928,7 @@ func getObjectVpnSslSettings(d *schema.ResourceData, sv string) (*models.VpnSslS
 	}
 	if v1, ok := d.GetOk("web_mode_snat"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v7.2.0", "") {
+			if !utils.CheckVer(sv, "v7.0.6", "v7.2.8") {
 				e := utils.AttributeVersionWarning("web_mode_snat", sv)
 				diags = append(diags, e)
 			}
@@ -2919,6 +2960,15 @@ func getObjectVpnSslSettings(d *schema.ResourceData, sv string) (*models.VpnSslS
 				diags = append(diags, e)
 			}
 			obj.XContentTypeOptions = &v2
+		}
+	}
+	if v1, ok := d.GetOk("ztna_trusted_client"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("ztna_trusted_client", sv)
+				diags = append(diags, e)
+			}
+			obj.ZtnaTrustedClient = &v2
 		}
 	}
 	return &obj, diags

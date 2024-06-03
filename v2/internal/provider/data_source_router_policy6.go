@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -30,15 +30,48 @@ func dataSourceRouterPolicy6() *schema.Resource {
 				Optional:    true,
 				ForceNew:    true,
 			},
+			"action": {
+				Type:        schema.TypeString,
+				Description: "Action of the policy route.",
+				Computed:    true,
+			},
 			"comments": {
 				Type:        schema.TypeString,
 				Description: "Optional comments.",
 				Computed:    true,
 			},
 			"dst": {
-				Type:        schema.TypeString,
+				Type:        schema.TypeList,
 				Description: "Destination IPv6 prefix.",
 				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"addr6": {
+							Type:        schema.TypeString,
+							Description: "IPv6 address prefix.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"dst_negate": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable negating destination address match.",
+				Computed:    true,
+			},
+			"dstaddr": {
+				Type:        schema.TypeList,
+				Description: "Destination address name.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "Address/group name.",
+							Computed:    true,
+						},
+					},
+				},
 			},
 			"end_port": {
 				Type:        schema.TypeInt,
@@ -64,6 +97,39 @@ func dataSourceRouterPolicy6() *schema.Resource {
 					},
 				},
 			},
+			"input_device_negate": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable negation of input device match.",
+				Computed:    true,
+			},
+			"internet_service_custom": {
+				Type:        schema.TypeList,
+				Description: "Custom Destination Internet Service name.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "Custom Destination Internet Service name.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service_id": {
+				Type:        schema.TypeList,
+				Description: "Destination Internet Service ID.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"id": {
+							Type:        schema.TypeInt,
+							Description: "Destination Internet Service ID.",
+							Computed:    true,
+						},
+					},
+				},
+			},
 			"output_device": {
 				Type:        schema.TypeString,
 				Description: "Outgoing interface name.",
@@ -80,9 +146,37 @@ func dataSourceRouterPolicy6() *schema.Resource {
 				Computed:    true,
 			},
 			"src": {
-				Type:        schema.TypeString,
+				Type:        schema.TypeList,
 				Description: "Source IPv6 prefix.",
 				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"addr6": {
+							Type:        schema.TypeString,
+							Description: "IPv6 address prefix.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"src_negate": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable negating source address match.",
+				Computed:    true,
+			},
+			"srcaddr": {
+				Type:        schema.TypeList,
+				Description: "Source address name.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "Address/group name.",
+							Computed:    true,
+						},
+					},
+				},
 			},
 			"start_port": {
 				Type:        schema.TypeInt,

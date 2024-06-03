@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -33,6 +33,101 @@ func dataSourceSystemIpam() *schema.Resource {
 				Type:        schema.TypeString,
 				Description: "Configure IPAM pool subnet, Class A - Class B subnet.",
 				Computed:    true,
+			},
+			"pools": {
+				Type:        schema.TypeList,
+				Description: "Configure IPAM pools.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"description": {
+							Type:        schema.TypeString,
+							Description: "Description.",
+							Computed:    true,
+						},
+						"name": {
+							Type:        schema.TypeString,
+							Description: "IPAM pool name.",
+							Computed:    true,
+						},
+						"subnet": {
+							Type:        schema.TypeString,
+							Description: "Configure IPAM pool subnet, Class A - Class B subnet.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"rules": {
+				Type:        schema.TypeList,
+				Description: "Configure IPAM allocation rules.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"description": {
+							Type:        schema.TypeString,
+							Description: "Description.",
+							Computed:    true,
+						},
+						"device": {
+							Type:        schema.TypeList,
+							Description: "Configure serial number or wildcard of FortiGate to match.",
+							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"name": {
+										Type:        schema.TypeString,
+										Description: "FortiGate serial number or wildcard.",
+										Computed:    true,
+									},
+								},
+							},
+						},
+						"dhcp": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable DHCP server for matching IPAM interfaces.",
+							Computed:    true,
+						},
+						"interface": {
+							Type:        schema.TypeList,
+							Description: "Configure name or wildcard of interface to match.",
+							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"name": {
+										Type:        schema.TypeString,
+										Description: "Interface name or wildcard.",
+										Computed:    true,
+									},
+								},
+							},
+						},
+						"name": {
+							Type:        schema.TypeString,
+							Description: "IPAM rule name.",
+							Computed:    true,
+						},
+						"pool": {
+							Type:        schema.TypeList,
+							Description: "Configure name of IPAM pool to use.",
+							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"name": {
+										Type:        schema.TypeString,
+										Description: "Ipam pool name.",
+										Computed:    true,
+									},
+								},
+							},
+						},
+						"role": {
+							Type:        schema.TypeString,
+							Description: "Configure role of interface to match.",
+							Computed:    true,
+						},
+					},
+				},
 			},
 			"server_type": {
 				Type:        schema.TypeString,

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -38,9 +38,17 @@ func resourceFirewallInternetServiceAppend() *schema.Resource {
 				Optional:    true,
 				ForceNew:    true,
 			},
+			"addr_mode": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"ipv4", "ipv6", "both"}, false),
+
+				Description: "Address mode (IPv4 or IPv6).",
+				Optional:    true,
+				Computed:    true,
+			},
 			"append_port": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(1, 65535),
+				ValidateFunc: validation.IntBetween(0, 65535),
 
 				Description: "Appending TCP/UDP/SCTP destination port (1 to 65535).",
 				Optional:    true,
@@ -210,6 +218,14 @@ func resourceFirewallInternetServiceAppendRead(ctx context.Context, d *schema.Re
 func refreshObjectFirewallInternetServiceAppend(d *schema.ResourceData, o *models.FirewallInternetServiceAppend, sv string, sort bool) diag.Diagnostics {
 	var err error
 
+	if o.AddrMode != nil {
+		v := *o.AddrMode
+
+		if err = d.Set("addr_mode", v); err != nil {
+			return diag.Errorf("error reading addr_mode: %v", err)
+		}
+	}
+
 	if o.AppendPort != nil {
 		v := *o.AppendPort
 
@@ -233,6 +249,15 @@ func getObjectFirewallInternetServiceAppend(d *schema.ResourceData, sv string) (
 	obj := models.FirewallInternetServiceAppend{}
 	diags := diag.Diagnostics{}
 
+	if v1, ok := d.GetOk("addr_mode"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("addr_mode", sv)
+				diags = append(diags, e)
+			}
+			obj.AddrMode = &v2
+		}
+	}
 	if v1, ok := d.GetOk("append_port"); ok {
 		if v2, ok := v1.(int); ok {
 			if !utils.CheckVer(sv, "", "") {

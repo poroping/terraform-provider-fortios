@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -41,6 +41,11 @@ func dataSourceFirewallInternetServiceExtension() *schema.Resource {
 				Computed:    true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"addr_mode": {
+							Type:        schema.TypeString,
+							Description: "Address mode (IPv4 or IPv6).",
+							Computed:    true,
+						},
 						"id": {
 							Type:        schema.TypeInt,
 							Description: "Disable entry ID.",
@@ -48,13 +53,13 @@ func dataSourceFirewallInternetServiceExtension() *schema.Resource {
 						},
 						"ip_range": {
 							Type:        schema.TypeList,
-							Description: "IP ranges in the disable entry.",
+							Description: "IPv4 ranges in the disable entry.",
 							Computed:    true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"end_ip": {
 										Type:        schema.TypeString,
-										Description: "End IP address.",
+										Description: "End IPv4 address.",
 										Computed:    true,
 									},
 									"id": {
@@ -64,7 +69,31 @@ func dataSourceFirewallInternetServiceExtension() *schema.Resource {
 									},
 									"start_ip": {
 										Type:        schema.TypeString,
-										Description: "Start IP address.",
+										Description: "Start IPv4 address.",
+										Computed:    true,
+									},
+								},
+							},
+						},
+						"ip6_range": {
+							Type:        schema.TypeList,
+							Description: "IPv6 ranges in the disable entry.",
+							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"end_ip6": {
+										Type:        schema.TypeString,
+										Description: "End IPv6 address.",
+										Computed:    true,
+									},
+									"id": {
+										Type:        schema.TypeInt,
+										Description: "Disable entry range ID.",
+										Computed:    true,
+									},
+									"start_ip6": {
+										Type:        schema.TypeString,
+										Description: "Start IPv6 address.",
 										Computed:    true,
 									},
 								},
@@ -78,7 +107,7 @@ func dataSourceFirewallInternetServiceExtension() *schema.Resource {
 								Schema: map[string]*schema.Schema{
 									"end_port": {
 										Type:        schema.TypeInt,
-										Description: "Ending TCP/UDP/SCTP destination port (1 to 65535).",
+										Description: "Ending TCP/UDP/SCTP destination port (0 to 65535).",
 										Computed:    true,
 									},
 									"id": {
@@ -88,7 +117,7 @@ func dataSourceFirewallInternetServiceExtension() *schema.Resource {
 									},
 									"start_port": {
 										Type:        schema.TypeInt,
-										Description: "Starting TCP/UDP/SCTP destination port (1 to 65535).",
+										Description: "Starting TCP/UDP/SCTP destination port (0 to 65535).",
 										Computed:    true,
 									},
 								},
@@ -108,6 +137,11 @@ func dataSourceFirewallInternetServiceExtension() *schema.Resource {
 				Computed:    true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"addr_mode": {
+							Type:        schema.TypeString,
+							Description: "Address mode (IPv4 or IPv6).",
+							Computed:    true,
+						},
 						"dst": {
 							Type:        schema.TypeList,
 							Description: "Destination address or address group name.",
@@ -117,6 +151,20 @@ func dataSourceFirewallInternetServiceExtension() *schema.Resource {
 									"name": {
 										Type:        schema.TypeString,
 										Description: "Select the destination address or address group object from available options.",
+										Computed:    true,
+									},
+								},
+							},
+						},
+						"dst6": {
+							Type:        schema.TypeList,
+							Description: "Destination address6 or address6 group name.",
+							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"name": {
+										Type:        schema.TypeString,
+										Description: "Select the destination address6 or address group object from available options.",
 										Computed:    true,
 									},
 								},
@@ -135,7 +183,7 @@ func dataSourceFirewallInternetServiceExtension() *schema.Resource {
 								Schema: map[string]*schema.Schema{
 									"end_port": {
 										Type:        schema.TypeInt,
-										Description: "Integer value for ending TCP/UDP/SCTP destination port in range (1 to 65535).",
+										Description: "Integer value for ending TCP/UDP/SCTP destination port in range (0 to 65535).",
 										Computed:    true,
 									},
 									"id": {
@@ -145,7 +193,7 @@ func dataSourceFirewallInternetServiceExtension() *schema.Resource {
 									},
 									"start_port": {
 										Type:        schema.TypeInt,
-										Description: "Integer value for starting TCP/UDP/SCTP destination port in range (1 to 65535).",
+										Description: "Integer value for starting TCP/UDP/SCTP destination port in range (0 to 65535).",
 										Computed:    true,
 									},
 								},

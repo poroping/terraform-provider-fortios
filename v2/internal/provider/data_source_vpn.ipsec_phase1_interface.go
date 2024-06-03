@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -91,6 +91,11 @@ func dataSourceVpnIpsecPhase1Interface() *schema.Resource {
 				Description: "Authentication user group.",
 				Computed:    true,
 			},
+			"auto_discovery_crossover": {
+				Type:        schema.TypeString,
+				Description: "Allow/block set-up of short-cut tunnels between different network IDs.",
+				Computed:    true,
+			},
 			"auto_discovery_forwarder": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable forwarding auto-discovery short-cut messages.",
@@ -126,6 +131,11 @@ func dataSourceVpnIpsecPhase1Interface() *schema.Resource {
 				Description: "Enable/disable automatic initiation of IKE SA negotiation.",
 				Computed:    true,
 			},
+			"azure_ad_autoconnect": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable Azure AD Auto-Connect for FortiClient.",
+				Computed:    true,
+			},
 			"backup_gateway": {
 				Type:        schema.TypeList,
 				Description: "Instruct unity clients about the backup gateway address(es).",
@@ -148,6 +158,11 @@ func dataSourceVpnIpsecPhase1Interface() *schema.Resource {
 			"cert_id_validation": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable cross validation of peer ID and the identity in the peer's certificate as specified in RFC 4945.",
+				Computed:    true,
+			},
+			"cert_trust_store": {
+				Type:        schema.TypeString,
+				Description: "CA certificate trust store.",
 				Computed:    true,
 			},
 			"certificate": {
@@ -192,6 +207,16 @@ func dataSourceVpnIpsecPhase1Interface() *schema.Resource {
 			"default_gw_priority": {
 				Type:        schema.TypeInt,
 				Description: "Priority for default gateway route. A higher priority number signifies a less preferred route.",
+				Computed:    true,
+			},
+			"dev_id": {
+				Type:        schema.TypeString,
+				Description: "Device ID carried by the device ID notification.",
+				Computed:    true,
+			},
+			"dev_id_notification": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable device ID notification.",
 				Computed:    true,
 			},
 			"dhcp_ra_giaddr": {
@@ -259,6 +284,11 @@ func dataSourceVpnIpsecPhase1Interface() *schema.Resource {
 				Description: "IKEv2 EAP peer identity type.",
 				Computed:    true,
 			},
+			"ems_sn_check": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable verification of EMS serial number.",
+				Computed:    true,
+			},
 			"encap_local_gw4": {
 				Type:        schema.TypeString,
 				Description: "Local IPv4 address of GRE/VXLAN tunnel.",
@@ -297,6 +327,11 @@ func dataSourceVpnIpsecPhase1Interface() *schema.Resource {
 			"esn": {
 				Type:        schema.TypeString,
 				Description: "Extended sequence number (ESN) negotiation.",
+				Computed:    true,
+			},
+			"exchange_fgt_device_id": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable device identifier exchange with peer FortiGate units for use of VPN monitor data by FortiManager.",
 				Computed:    true,
 			},
 			"exchange_interface_ip": {
@@ -359,6 +394,11 @@ func dataSourceVpnIpsecPhase1Interface() *schema.Resource {
 				Description: "Timeout in milliseconds before sending Forward Error Correction packets (1 - 1000).",
 				Computed:    true,
 			},
+			"fgsp_sync": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable IPsec syncing of tunnels for FGSP IPsec.",
+				Computed:    true,
+			},
 			"forticlient_enforcement": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable FortiClient enforcement.",
@@ -405,6 +445,11 @@ func dataSourceVpnIpsecPhase1Interface() *schema.Resource {
 				Description: "IKE protocol version.",
 				Computed:    true,
 			},
+			"inbound_dscp_copy": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable copy the dscp in the ESP header to the inner IP Header.",
+				Computed:    true,
+			},
 			"include_local_lan": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable allow local LAN access on unity clients.",
@@ -414,6 +459,20 @@ func dataSourceVpnIpsecPhase1Interface() *schema.Resource {
 				Type:        schema.TypeString,
 				Description: "Local physical, aggregate, or VLAN outgoing interface.",
 				Computed:    true,
+			},
+			"internal_domain_list": {
+				Type:        schema.TypeList,
+				Description: "List of domains for which the client directs DNS queries to the internal DNS servers for resolution.  DNS servers are configured in the mode-cfg settings.  One or more internal domain names in quotes separated by spaces, like \"abc.com xyz.com 123.com\"",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"domain_name": {
+							Type:        schema.TypeString,
+							Description: "Domain name.",
+							Computed:    true,
+						},
+					},
+				},
 			},
 			"ip_delay_interval": {
 				Type:        schema.TypeInt,
@@ -588,6 +647,11 @@ func dataSourceVpnIpsecPhase1Interface() *schema.Resource {
 				Description: "Time to wait in seconds before phase 1 encryption key expires.",
 				Computed:    true,
 			},
+			"link_cost": {
+				Type:        schema.TypeInt,
+				Description: "VPN tunnel underlay link cost.",
+				Computed:    true,
+			},
 			"local_gw": {
 				Type:        schema.TypeString,
 				Description: "IPv4 address of the local gateway's external interface.",
@@ -693,6 +757,11 @@ func dataSourceVpnIpsecPhase1Interface() *schema.Resource {
 				Description: "Enable/disable offloading NPU.",
 				Computed:    true,
 			},
+			"packet_redistribution": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable packet distribution (RPS) on the IPsec interface.",
+				Computed:    true,
+			},
 			"passive_mode": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable IPsec passive mode for static tunnels.",
@@ -771,9 +840,59 @@ func dataSourceVpnIpsecPhase1Interface() *schema.Resource {
 				Description: "IPv4 address of the remote gateway's external interface.",
 				Computed:    true,
 			},
+			"remote_gw_country": {
+				Type:        schema.TypeString,
+				Description: "IPv4 addresses associated to a specific country.",
+				Computed:    true,
+			},
+			"remote_gw_end_ip": {
+				Type:        schema.TypeString,
+				Description: "Last IPv4 address in the range.",
+				Computed:    true,
+			},
+			"remote_gw_match": {
+				Type:        schema.TypeString,
+				Description: "Set type of IPv4 remote gateway address matching.",
+				Computed:    true,
+			},
+			"remote_gw_start_ip": {
+				Type:        schema.TypeString,
+				Description: "First IPv4 address in the range.",
+				Computed:    true,
+			},
+			"remote_gw_subnet": {
+				Type:        schema.TypeString,
+				Description: "IPv4 address and subnet mask.",
+				Computed:    true,
+			},
 			"remote_gw6": {
 				Type:        schema.TypeString,
 				Description: "IPv6 address of the remote gateway's external interface.",
+				Computed:    true,
+			},
+			"remote_gw6_country": {
+				Type:        schema.TypeString,
+				Description: "IPv6 addresses associated to a specific country.",
+				Computed:    true,
+			},
+			"remote_gw6_end_ip": {
+				Type:        schema.TypeString,
+				Description: "Last IPv6 address in the range.",
+				Computed:    true,
+			},
+			"remote_gw6_match": {
+				Type:        schema.TypeString,
+				Description: "Set type of IPv6 remote gateway address matching.",
+				Computed:    true,
+			},
+			"remote_gw6_start_ip": {
+				Type:        schema.TypeString,
+				Description: "First IPv6 address in the range.",
+				Computed:    true,
+			},
+			"remote_gw6_subnet": {
+				Type:        schema.TypeString,
+				Description: "IPv6 address and prefix.",
 				Computed:    true,
 			},
 			"remotegw_ddns": {
@@ -784,6 +903,11 @@ func dataSourceVpnIpsecPhase1Interface() *schema.Resource {
 			"rsa_signature_format": {
 				Type:        schema.TypeString,
 				Description: "Digital Signature Authentication RSA signature format.",
+				Computed:    true,
+			},
+			"rsa_signature_hash_override": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable IKEv2 RSA signature hash algorithm override.",
 				Computed:    true,
 			},
 			"save_password": {

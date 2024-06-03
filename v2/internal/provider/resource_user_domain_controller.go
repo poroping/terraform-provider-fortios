@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -89,6 +89,22 @@ func resourceUserDomainController() *schema.Resource {
 				ValidateFunc: validation.IntBetween(0, 65535),
 
 				Description: "Port number of AD LDS service (default = 389).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"change_detection": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable detection of a configuration change in the Active Directory server.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"change_detection_period": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(5, 10080),
+
+				Description: "Minutes to detect a configuration change in the Active Directory server (5 - 10080 minutes (7 days), default = 60).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -538,6 +554,22 @@ func refreshObjectUserDomainController(d *schema.ResourceData, o *models.UserDom
 		}
 	}
 
+	if o.ChangeDetection != nil {
+		v := *o.ChangeDetection
+
+		if err = d.Set("change_detection", v); err != nil {
+			return diag.Errorf("error reading change_detection: %v", err)
+		}
+	}
+
+	if o.ChangeDetectionPeriod != nil {
+		v := *o.ChangeDetectionPeriod
+
+		if err = d.Set("change_detection_period", v); err != nil {
+			return diag.Errorf("error reading change_detection_period: %v", err)
+		}
+	}
+
 	if o.DnsSrvLookup != nil {
 		v := *o.DnsSrvLookup
 
@@ -801,6 +833,25 @@ func getObjectUserDomainController(d *schema.ResourceData, sv string) (*models.U
 			}
 			tmp := int64(v2)
 			obj.AdldsPort = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("change_detection"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("change_detection", sv)
+				diags = append(diags, e)
+			}
+			obj.ChangeDetection = &v2
+		}
+	}
+	if v1, ok := d.GetOk("change_detection_period"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("change_detection_period", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.ChangeDetectionPeriod = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("dns_srv_lookup"); ok {

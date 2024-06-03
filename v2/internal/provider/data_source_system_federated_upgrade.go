@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -39,6 +39,11 @@ func dataSourceSystemFederatedUpgrade() *schema.Resource {
 				Description: "Reason for upgrade failure.",
 				Computed:    true,
 			},
+			"ha_reboot_controller": {
+				Type:        schema.TypeString,
+				Description: "Serial number of the FortiGate unit that will control the reboot process for the federated upgrade of the HA cluster.",
+				Computed:    true,
+			},
 			"next_path_index": {
 				Type:        schema.TypeInt,
 				Description: "The index of the next image to upgrade to.",
@@ -57,7 +62,12 @@ func dataSourceSystemFederatedUpgrade() *schema.Resource {
 						},
 						"device_type": {
 							Type:        schema.TypeString,
-							Description: "What type of device this node represents.",
+							Description: "Fortinet device type.",
+							Computed:    true,
+						},
+						"maximum_minutes": {
+							Type:        schema.TypeInt,
+							Description: "Maximum number of minutes to allow for immediate upgrade preparation.",
 							Computed:    true,
 						},
 						"serial": {
@@ -67,22 +77,22 @@ func dataSourceSystemFederatedUpgrade() *schema.Resource {
 						},
 						"setup_time": {
 							Type:        schema.TypeString,
-							Description: "When the upgrade was configured. Format hh:mm yyyy/mm/dd UTC.",
+							Description: "Upgrade preparation start time in UTC (hh:mm yyyy/mm/dd UTC).",
 							Computed:    true,
 						},
 						"time": {
 							Type:        schema.TypeString,
-							Description: "Scheduled time for the upgrade. Format hh:mm yyyy/mm/dd UTC.",
+							Description: "Scheduled upgrade execution time in UTC (hh:mm yyyy/mm/dd UTC).",
 							Computed:    true,
 						},
 						"timing": {
 							Type:        schema.TypeString,
-							Description: "Whether the upgrade should be run immediately, or at a scheduled time.",
+							Description: "Run immediately or at a scheduled time.",
 							Computed:    true,
 						},
 						"upgrade_path": {
 							Type:        schema.TypeString,
-							Description: "Image IDs to upgrade through.",
+							Description: "Fortinet OS image versions to upgrade through in major-minor-patch format, such as 7-0-4.",
 							Computed:    true,
 						},
 					},

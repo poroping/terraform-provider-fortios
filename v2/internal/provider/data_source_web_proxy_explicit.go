@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -37,6 +37,11 @@ func dataSourceWebProxyExplicit() *schema.Resource {
 			"ftp_over_http": {
 				Type:        schema.TypeString,
 				Description: "Enable to proxy FTP-over-HTTP sessions sent from a web browser.",
+				Computed:    true,
+			},
+			"http_connection_mode": {
+				Type:        schema.TypeString,
+				Description: "HTTP connection mode (default = static).",
 				Computed:    true,
 			},
 			"http_incoming_port": {
@@ -102,6 +107,11 @@ func dataSourceWebProxyExplicit() *schema.Resource {
 			"pac_file_server_status": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable Proxy Auto-Configuration (PAC) for users of this explicit proxy profile.",
+				Computed:    true,
+			},
+			"pac_file_through_https": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable to get Proxy Auto-Configuration (PAC) through HTTPS.",
 				Computed:    true,
 			},
 			"pac_file_url": {

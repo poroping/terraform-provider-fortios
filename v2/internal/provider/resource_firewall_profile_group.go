@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -124,6 +124,14 @@ func resourceFirewallProfileGroup() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"ips_voip_filter": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "Name of an existing VoIP (ips) profile.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
@@ -176,7 +184,7 @@ func resourceFirewallProfileGroup() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 
-				Description: "Name of an existing VoIP profile.",
+				Description: "Name of an existing VoIP (voipd) profile.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -436,6 +444,14 @@ func refreshObjectFirewallProfileGroup(d *schema.ResourceData, o *models.Firewal
 		}
 	}
 
+	if o.IpsVoipFilter != nil {
+		v := *o.IpsVoipFilter
+
+		if err = d.Set("ips_voip_filter", v); err != nil {
+			return diag.Errorf("error reading ips_voip_filter: %v", err)
+		}
+	}
+
 	if o.Name != nil {
 		v := *o.Name
 
@@ -603,6 +619,15 @@ func getObjectFirewallProfileGroup(d *schema.ResourceData, sv string) (*models.F
 				diags = append(diags, e)
 			}
 			obj.IpsSensor = &v2
+		}
+	}
+	if v1, ok := d.GetOk("ips_voip_filter"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("ips_voip_filter", sv)
+				diags = append(diags, e)
+			}
+			obj.IpsVoipFilter = &v2
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {

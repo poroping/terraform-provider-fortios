@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -134,6 +134,11 @@ func dataSourceSystemSettings() *schema.Resource {
 				Description: "Enable/disable denying TCP by sending an ICMP communication prohibited packet.",
 				Computed:    true,
 			},
+			"detect_unknown_esp": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable detection of unknown ESP packets (default = enable).",
+				Computed:    true,
+			},
 			"device": {
 				Type:        schema.TypeString,
 				Description: "Interface to use for management access for NAT mode.",
@@ -169,6 +174,11 @@ func dataSourceSystemSettings() *schema.Resource {
 				Description: "Timeout for discovered devices (1 - 365 days, default = 28).",
 				Computed:    true,
 			},
+			"dyn_addr_session_check": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable dirty session check caused by dynamic address updates.",
+				Computed:    true,
+			},
 			"ecmp_max_paths": {
 				Type:        schema.TypeInt,
 				Description: "Maximum number of Equal Cost Multi-Path (ECMP) next-hops. Set to 1 to disable ECMP routing (1 - 255, default = 255).",
@@ -179,9 +189,19 @@ func dataSourceSystemSettings() *schema.Resource {
 				Description: "Enable/disable using DNS to validate email addresses collected by a captive portal.",
 				Computed:    true,
 			},
+			"ext_resource_session_check": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable dirty session check caused by external resource updates.",
+				Computed:    true,
+			},
 			"firewall_session_dirty": {
 				Type:        schema.TypeString,
 				Description: "Select how to manage sessions affected by firewall policy configuration changes.",
+				Computed:    true,
+			},
+			"fqdn_session_check": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable dirty session check caused by FQDN updates.",
 				Computed:    true,
 			},
 			"fw_session_hairpin": {
@@ -202,6 +222,11 @@ func dataSourceSystemSettings() *schema.Resource {
 			"gui_advanced_policy": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable advanced policy configuration on the GUI.",
+				Computed:    true,
+			},
+			"gui_advanced_wireless_features": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable advanced wireless features in GUI.",
 				Computed:    true,
 			},
 			"gui_allow_unnamed_policy": {
@@ -241,6 +266,11 @@ func dataSourceSystemSettings() *schema.Resource {
 			"gui_dhcp_advanced": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable advanced DHCP options on the GUI.",
+				Computed:    true,
+			},
+			"gui_dlp_profile": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable Data Leak Prevention on the GUI.",
 				Computed:    true,
 			},
 			"gui_dns_database": {
@@ -370,7 +400,7 @@ func dataSourceSystemSettings() *schema.Resource {
 			},
 			"gui_ot": {
 				Type:        schema.TypeString,
-				Description: "Enable/disable Show Operational Technology Purdue Model.",
+				Description: "Enable/disable Operational technology features on the GUI.",
 				Computed:    true,
 			},
 			"gui_per_policy_disclaimer": {
@@ -386,6 +416,11 @@ func dataSourceSystemSettings() *schema.Resource {
 			"gui_policy_disclaimer": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable policy disclaimer on the GUI.",
+				Computed:    true,
+			},
+			"gui_proxy_inspection": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable the proxy features on the GUI.",
 				Computed:    true,
 			},
 			"gui_replacement_message_groups": {
@@ -518,6 +553,11 @@ func dataSourceSystemSettings() *schema.Resource {
 				Description: "Enable/disable implicitly allowing DNS traffic.",
 				Computed:    true,
 			},
+			"internet_service_database_cache": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable Internet Service database caching.",
+				Computed:    true,
+			},
 			"ip": {
 				Type:        schema.TypeString,
 				Description: "IP address and netmask.",
@@ -526,6 +566,11 @@ func dataSourceSystemSettings() *schema.Resource {
 			"ip6": {
 				Type:        schema.TypeString,
 				Description: "IPv6 address prefix for NAT mode.",
+				Computed:    true,
+			},
+			"lan_extension_controller_addr": {
+				Type:        schema.TypeString,
+				Description: "Controller IP address or FQDN to connect.",
 				Computed:    true,
 			},
 			"link_down_access": {
@@ -578,6 +623,21 @@ func dataSourceSystemSettings() *schema.Resource {
 				Description: "Enable/disable preventing the FortiGate from changing the TTL for forwarded multicast packets.",
 				Computed:    true,
 			},
+			"nat46_force_ipv4_packet_forwarding": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable mandatory IPv4 packet forwarding in NAT46.",
+				Computed:    true,
+			},
+			"nat46_generate_ipv6_fragment_header": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable NAT46 IPv6 fragment header generation.",
+				Computed:    true,
+			},
+			"nat64_force_ipv6_packet_forwarding": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable mandatory IPv6 packet forwarding in NAT64.",
+				Computed:    true,
+			},
 			"ngfw_mode": {
 				Type:        schema.TypeString,
 				Description: "Next Generation Firewall (NGFW) mode.",
@@ -586,6 +646,11 @@ func dataSourceSystemSettings() *schema.Resource {
 			"opmode": {
 				Type:        schema.TypeString,
 				Description: "Firewall operation mode (NAT or Transparent).",
+				Computed:    true,
+			},
+			"policy_offload_level": {
+				Type:        schema.TypeString,
+				Description: "Configure firewall policy offload level.",
 				Computed:    true,
 			},
 			"prp_trailer_action": {
@@ -665,7 +730,7 @@ func dataSourceSystemSettings() *schema.Resource {
 			},
 			"vdom_type": {
 				Type:        schema.TypeString,
-				Description: "VDOM type (traffic or admin).",
+				Description: "Vdom type (traffic, lan-extension or admin).",
 				Computed:    true,
 			},
 			"vpn_stats_log": {

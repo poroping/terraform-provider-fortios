@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -51,6 +51,14 @@ func resourceWanoptSettings() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 35),
 
 				Description: "Local host ID (must also be entered in the remote FortiGate's peer list).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"tunnel_optimization": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"memory-usage", "balanced", "throughput"}, false),
+
+				Description: "WANOpt tunnel optimization option.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -234,6 +242,14 @@ func refreshObjectWanoptSettings(d *schema.ResourceData, o *models.WanoptSetting
 		}
 	}
 
+	if o.TunnelOptimization != nil {
+		v := *o.TunnelOptimization
+
+		if err = d.Set("tunnel_optimization", v); err != nil {
+			return diag.Errorf("error reading tunnel_optimization: %v", err)
+		}
+	}
+
 	if o.TunnelSslAlgorithm != nil {
 		v := *o.TunnelSslAlgorithm
 
@@ -265,6 +281,15 @@ func getObjectWanoptSettings(d *schema.ResourceData, sv string) (*models.WanoptS
 				diags = append(diags, e)
 			}
 			obj.HostId = &v2
+		}
+	}
+	if v1, ok := d.GetOk("tunnel_optimization"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.6", "v7.2.0") {
+				e := utils.AttributeVersionWarning("tunnel_optimization", sv)
+				diags = append(diags, e)
+			}
+			obj.TunnelOptimization = &v2
 		}
 	}
 	if v1, ok := d.GetOk("tunnel_ssl_algorithm"); ok {

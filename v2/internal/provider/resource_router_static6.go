@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -109,6 +109,14 @@ func resourceRouterStatic6() *schema.Resource {
 				Optional:         true,
 				Computed:         true,
 			},
+			"dstaddr": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 79),
+
+				Description: "Name of firewall address or address group.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"dynamic_gateway": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -192,9 +200,17 @@ func resourceRouterStatic6() *schema.Resource {
 			},
 			"vrf": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(0, 63),
+				ValidateFunc: validation.IntBetween(0, 251),
 
 				Description: "Virtual Routing Forwarding ID.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"weight": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 255),
+
+				Description: "Administrative weight (0 - 255).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -436,6 +452,14 @@ func refreshObjectRouterStatic6(d *schema.ResourceData, o *models.RouterStatic6,
 		}
 	}
 
+	if o.Dstaddr != nil {
+		v := *o.Dstaddr
+
+		if err = d.Set("dstaddr", v); err != nil {
+			return diag.Errorf("error reading dstaddr: %v", err)
+		}
+	}
+
 	if o.DynamicGateway != nil {
 		v := *o.DynamicGateway
 
@@ -511,6 +535,14 @@ func refreshObjectRouterStatic6(d *schema.ResourceData, o *models.RouterStatic6,
 
 		if err = d.Set("vrf", v); err != nil {
 			return diag.Errorf("error reading vrf: %v", err)
+		}
+	}
+
+	if o.Weight != nil {
+		v := *o.Weight
+
+		if err = d.Set("weight", v); err != nil {
+			return diag.Errorf("error reading weight: %v", err)
 		}
 	}
 
@@ -608,6 +640,15 @@ func getObjectRouterStatic6(d *schema.ResourceData, sv string) (*models.RouterSt
 				diags = append(diags, e)
 			}
 			obj.Dst = &v2
+		}
+	}
+	if v1, ok := d.GetOk("dstaddr"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("dstaddr", sv)
+				diags = append(diags, e)
+			}
+			obj.Dstaddr = &v2
 		}
 	}
 	if v1, ok := d.GetOk("dynamic_gateway"); ok {
@@ -709,6 +750,16 @@ func getObjectRouterStatic6(d *schema.ResourceData, sv string) (*models.RouterSt
 			}
 			tmp := int64(v2)
 			obj.Vrf = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("weight"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("weight", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.Weight = &tmp
 		}
 	}
 	return &obj, diags

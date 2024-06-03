@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -128,6 +128,14 @@ func resourceWebProxyGlobal() *schema.Resource {
 					},
 				},
 			},
+			"log_policy_pending": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable logging sessions that are pending on policy matching.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"max_message_length": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(16, 256),
@@ -149,6 +157,14 @@ func resourceWebProxyGlobal() *schema.Resource {
 				ValidateFunc: validation.IntBetween(10, 1024),
 
 				Description: "Maximum length of HTTP messages processed by Web Application Firewall (WAF) (10 - 1024 Kbytes, default = 32).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"policy_category_deep_inspect": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable deep inspection for application level category policy matching.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -484,6 +500,14 @@ func refreshObjectWebProxyGlobal(d *schema.ResourceData, o *models.WebProxyGloba
 		}
 	}
 
+	if o.LogPolicyPending != nil {
+		v := *o.LogPolicyPending
+
+		if err = d.Set("log_policy_pending", v); err != nil {
+			return diag.Errorf("error reading log_policy_pending: %v", err)
+		}
+	}
+
 	if o.MaxMessageLength != nil {
 		v := *o.MaxMessageLength
 
@@ -505,6 +529,14 @@ func refreshObjectWebProxyGlobal(d *schema.ResourceData, o *models.WebProxyGloba
 
 		if err = d.Set("max_waf_body_cache_length", v); err != nil {
 			return diag.Errorf("error reading max_waf_body_cache_length: %v", err)
+		}
+	}
+
+	if o.PolicyCategoryDeepInspect != nil {
+		v := *o.PolicyCategoryDeepInspect
+
+		if err = d.Set("policy_category_deep_inspect", v); err != nil {
+			return diag.Errorf("error reading policy_category_deep_inspect: %v", err)
 		}
 	}
 
@@ -724,6 +756,15 @@ func getObjectWebProxyGlobal(d *schema.ResourceData, sv string) (*models.WebProx
 			obj.LearnClientIpSrcaddr6 = &[]models.WebProxyGlobalLearnClientIpSrcaddr6{}
 		}
 	}
+	if v1, ok := d.GetOk("log_policy_pending"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("log_policy_pending", sv)
+				diags = append(diags, e)
+			}
+			obj.LogPolicyPending = &v2
+		}
+	}
 	if v1, ok := d.GetOk("max_message_length"); ok {
 		if v2, ok := v1.(int); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -752,6 +793,15 @@ func getObjectWebProxyGlobal(d *schema.ResourceData, sv string) (*models.WebProx
 			}
 			tmp := int64(v2)
 			obj.MaxWafBodyCacheLength = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("policy_category_deep_inspect"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("policy_category_deep_inspect", sv)
+				diags = append(diags, e)
+			}
+			obj.PolicyCategoryDeepInspect = &v2
 		}
 	}
 	if v1, ok := d.GetOk("proxy_fqdn"); ok {

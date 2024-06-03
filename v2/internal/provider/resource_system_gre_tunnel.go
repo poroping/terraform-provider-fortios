@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -44,6 +44,14 @@ func resourceSystemGreTunnel() *schema.Resource {
 				Description: "If set the provider will overwrite existing resources with the same mkey instead of erroring. Useful for brownfield implementations. Use with caution!",
 				Optional:    true,
 				Default:     false,
+			},
+			"auto_asic_offload": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable automatic ASIC offloading.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"checksum_reception": {
 				Type:         schema.TypeString,
@@ -346,6 +354,14 @@ func resourceSystemGreTunnelRead(ctx context.Context, d *schema.ResourceData, me
 func refreshObjectSystemGreTunnel(d *schema.ResourceData, o *models.SystemGreTunnel, sv string, sort bool) diag.Diagnostics {
 	var err error
 
+	if o.AutoAsicOffload != nil {
+		v := *o.AutoAsicOffload
+
+		if err = d.Set("auto_asic_offload", v); err != nil {
+			return diag.Errorf("error reading auto_asic_offload: %v", err)
+		}
+	}
+
 	if o.ChecksumReception != nil {
 		v := *o.ChecksumReception
 
@@ -497,6 +513,15 @@ func getObjectSystemGreTunnel(d *schema.ResourceData, sv string) (*models.System
 	obj := models.SystemGreTunnel{}
 	diags := diag.Diagnostics{}
 
+	if v1, ok := d.GetOk("auto_asic_offload"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("auto_asic_offload", sv)
+				diags = append(diags, e)
+			}
+			obj.AutoAsicOffload = &v2
+		}
+	}
 	if v1, ok := d.GetOk("checksum_reception"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -80,6 +80,14 @@ func resourceCertificateCa() *schema.Resource {
 				Description: "Name.",
 				ForceNew:    true,
 				Required:    true,
+			},
+			"obsolete": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+				Description: "Enable/disable this CA as obsoleted.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"range": {
 				Type:         schema.TypeString,
@@ -321,6 +329,14 @@ func refreshObjectCertificateCa(d *schema.ResourceData, o *models.CertificateCa,
 		}
 	}
 
+	if o.Obsolete != nil {
+		v := *o.Obsolete
+
+		if err = d.Set("obsolete", v); err != nil {
+			return diag.Errorf("error reading obsolete: %v", err)
+		}
+	}
+
 	if o.Range != nil {
 		v := *o.Range
 
@@ -406,6 +422,15 @@ func getObjectCertificateCa(d *schema.ResourceData, sv string) (*models.Certific
 			obj.CaIdentifier = &v2
 		}
 	}
+	if v1, ok := d.GetOk("details"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("details", sv)
+				diags = append(diags, e)
+			}
+			obj.Details = &v2
+		}
+	}
 	if v1, ok := d.GetOk("name"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -413,6 +438,15 @@ func getObjectCertificateCa(d *schema.ResourceData, sv string) (*models.Certific
 				diags = append(diags, e)
 			}
 			obj.Name = &v2
+		}
+	}
+	if v1, ok := d.GetOk("obsolete"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("obsolete", sv)
+				diags = append(diags, e)
+			}
+			obj.Obsolete = &v2
 		}
 	}
 	if v1, ok := d.GetOk("range"); ok {

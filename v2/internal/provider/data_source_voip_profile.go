@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -37,7 +37,7 @@ func dataSourceVoipProfile() *schema.Resource {
 			},
 			"feature_set": {
 				Type:        schema.TypeString,
-				Description: "Flow or proxy inspection feature set.",
+				Description: "IPS or voipd (SIP-ALG) inspection feature set.",
 				Computed:    true,
 			},
 			"msrp": {
@@ -224,6 +224,11 @@ func dataSourceVoipProfile() *schema.Resource {
 							Description: "Track the packet protocol field.",
 							Computed:    true,
 						},
+						"call_id_regex": {
+							Type:        schema.TypeString,
+							Description: "Validate PCRE regular expression for Call-Id header value.",
+							Computed:    true,
+						},
 						"call_keepalive": {
 							Type:        schema.TypeInt,
 							Description: "Continue tracking calls with no RTP for this many minutes.",
@@ -242,6 +247,11 @@ func dataSourceVoipProfile() *schema.Resource {
 						"contact_fixup": {
 							Type:        schema.TypeString,
 							Description: "Fixup contact anyway even if contact's IP:port doesn't match session's IP:port.",
+							Computed:    true,
+						},
+						"content_type_regex": {
+							Type:        schema.TypeString,
+							Description: "Validate PCRE regular expression for Content-Type header value.",
 							Computed:    true,
 						},
 						"hnt_restrict_source_ip": {
@@ -541,7 +551,7 @@ func dataSourceVoipProfile() *schema.Resource {
 						},
 						"preserve_override": {
 							Type:        schema.TypeString,
-							Description: "Override i line to preserve original IPS (default: append).",
+							Description: "Override i line to preserve original IPs (default: append).",
 							Computed:    true,
 						},
 						"provisional_invite_expiry_time": {

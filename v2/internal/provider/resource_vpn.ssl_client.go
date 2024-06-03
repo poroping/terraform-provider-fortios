@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -80,6 +80,22 @@ func resourceVpnSslClient() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 15),
 
 				Description: "SSL interface to send/receive traffic over.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"ipv4_subnets": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 79),
+
+				Description: "IPv4 subnets that the client is protecting.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"ipv6_subnets": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 79),
+
+				Description: "IPv6 subnets that the client is protecting.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -363,6 +379,22 @@ func refreshObjectVpnSslClient(d *schema.ResourceData, o *models.VpnSslClient, s
 		}
 	}
 
+	if o.Ipv4Subnets != nil {
+		v := *o.Ipv4Subnets
+
+		if err = d.Set("ipv4_subnets", v); err != nil {
+			return diag.Errorf("error reading ipv4_subnets: %v", err)
+		}
+	}
+
+	if o.Ipv6Subnets != nil {
+		v := *o.Ipv6Subnets
+
+		if err = d.Set("ipv6_subnets", v); err != nil {
+			return diag.Errorf("error reading ipv6_subnets: %v", err)
+		}
+	}
+
 	if o.Name != nil {
 		v := *o.Name
 
@@ -496,6 +528,24 @@ func getObjectVpnSslClient(d *schema.ResourceData, sv string) (*models.VpnSslCli
 				diags = append(diags, e)
 			}
 			obj.Interface = &v2
+		}
+	}
+	if v1, ok := d.GetOk("ipv4_subnets"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("ipv4_subnets", sv)
+				diags = append(diags, e)
+			}
+			obj.Ipv4Subnets = &v2
+		}
+	}
+	if v1, ok := d.GetOk("ipv6_subnets"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("ipv6_subnets", sv)
+				diags = append(diags, e)
+			}
+			obj.Ipv6Subnets = &v2
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {

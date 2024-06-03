@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -100,7 +100,7 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 						},
 						"tx_period": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(4, 60),
+							ValidateFunc: validation.IntBetween(12, 60),
 
 							Description: "802.1X Tx period (seconds, default=30).",
 							Optional:    true,
@@ -165,6 +165,54 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 				Description: "DHCP snooping server access list.",
 				Optional:    true,
 				Computed:    true,
+			},
+			"dhcp_snooping_static_client": {
+				Type:        schema.TypeList,
+				Description: "Configure FortiSwitch DHCP snooping static clients.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"ip": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.IsIPv4Address,
+
+							Description: "Client static IP address.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"mac": {
+							Type: schema.TypeString,
+
+							Description: "Client MAC address.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"name": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 35),
+
+							Description: "Client name.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"port": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 15),
+
+							Description: "Interface name.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"vlan": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 15),
+
+							Description: "VLAN name.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
 			},
 			"directly_connected": {
 				Type:         schema.TypeInt,
@@ -785,6 +833,14 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 							Optional:    true,
 							Computed:    true,
 						},
+						"igmp_snooping_flood_reports": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+							Description: "Enable/disable flooding of IGMP reports to this interface when igmp-snooping enabled.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"igmps_flood_reports": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -929,6 +985,14 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 							Optional:    true,
 							Computed:    true,
 						},
+						"mcast_snooping_flood_traffic": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+							Description: "Enable/disable flooding of IGMP snooping traffic to this interface.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"mclag": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -1047,6 +1111,38 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 							ValidateFunc: validation.StringLenBetween(0, 35),
 
 							Description: "PoE maximum power.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"poe_mode_bt_cabable": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(0, 1),
+
+							Description: "PoE mode IEEE 802.3BT capable.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"poe_port_mode": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"ieee802-3af", "ieee802-3at", "ieee802-3bt"}, false),
+
+							Description: "Configure PoE port mode.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"poe_port_power": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"normal", "perpetual", "perpetual-fast"}, false),
+
+							Description: "Configure PoE port power.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"poe_port_priority": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"critical-priority", "high-priority", "low-priority", "medium-priority"}, false),
+
+							Description: "Configure PoE port priority.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -1172,7 +1268,7 @@ func resourceSwitchControllerManagedSwitch() *schema.Resource {
 						},
 						"speed": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"10half", "10full", "100half", "100full", "1000auto", "1000fiber", "1000full", "10000", "40000", "auto", "auto-module", "100FX-half", "100FX-full", "100000full", "2500auto", "25000full", "50000full", "10000cr", "10000sr", "100000sr4", "100000cr4", "25000cr4", "25000sr4", "5000full"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"10half", "10full", "100half", "100full", "1000full", "10000full", "auto", "1000auto", "1000full-fiber", "40000full", "auto-module", "100FX-half", "100FX-full", "100000full", "2500auto", "2500full", "25000full", "50000full", "10000cr", "10000sr", "100000sr4", "100000cr4", "40000sr4", "40000cr4", "40000auto", "25000cr", "25000sr", "50000cr", "50000sr", "5000auto"}, false),
 
 							Description: "Switch port speed; default and available settings depend on hardware.",
 							Optional:    true,
@@ -2191,6 +2287,44 @@ func flattenSwitchControllerManagedSwitchCustomCommand(d *schema.ResourceData, v
 	return flat
 }
 
+func flattenSwitchControllerManagedSwitchDhcpSnoopingStaticClient(d *schema.ResourceData, v *[]models.SwitchControllerManagedSwitchDhcpSnoopingStaticClient, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Ip; tmp != nil {
+				v["ip"] = *tmp
+			}
+
+			if tmp := cfg.Mac; tmp != nil {
+				v["mac"] = *tmp
+			}
+
+			if tmp := cfg.Name; tmp != nil {
+				v["name"] = *tmp
+			}
+
+			if tmp := cfg.Port; tmp != nil {
+				v["port"] = *tmp
+			}
+
+			if tmp := cfg.Vlan; tmp != nil {
+				v["vlan"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "name")
+	}
+
+	return flat
+}
+
 func flattenSwitchControllerManagedSwitchIgmpSnooping(d *schema.ResourceData, v *models.SwitchControllerManagedSwitchIgmpSnooping, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
@@ -2521,6 +2655,10 @@ func flattenSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v *[]mode
 				v["igmp_snooping"] = *tmp
 			}
 
+			if tmp := cfg.IgmpSnoopingFloodReports; tmp != nil {
+				v["igmp_snooping_flood_reports"] = *tmp
+			}
+
 			if tmp := cfg.IgmpsFloodReports; tmp != nil {
 				v["igmps_flood_reports"] = *tmp
 			}
@@ -2589,6 +2727,10 @@ func flattenSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v *[]mode
 				v["max_bundle"] = *tmp
 			}
 
+			if tmp := cfg.McastSnoopingFloodTraffic; tmp != nil {
+				v["mcast_snooping_flood_traffic"] = *tmp
+			}
+
 			if tmp := cfg.Mclag; tmp != nil {
 				v["mclag"] = *tmp
 			}
@@ -2643,6 +2785,22 @@ func flattenSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v *[]mode
 
 			if tmp := cfg.PoeMaxPower; tmp != nil {
 				v["poe_max_power"] = *tmp
+			}
+
+			if tmp := cfg.PoeModeBtCabable; tmp != nil {
+				v["poe_mode_bt_cabable"] = *tmp
+			}
+
+			if tmp := cfg.PoePortMode; tmp != nil {
+				v["poe_port_mode"] = *tmp
+			}
+
+			if tmp := cfg.PoePortPower; tmp != nil {
+				v["poe_port_power"] = *tmp
+			}
+
+			if tmp := cfg.PoePortPriority; tmp != nil {
+				v["poe_port_priority"] = *tmp
 			}
 
 			if tmp := cfg.PoePreStandardDetection; tmp != nil {
@@ -3366,6 +3524,12 @@ func refreshObjectSwitchControllerManagedSwitch(d *schema.ResourceData, o *model
 		}
 	}
 
+	if o.DhcpSnoopingStaticClient != nil {
+		if err = d.Set("dhcp_snooping_static_client", flattenSwitchControllerManagedSwitchDhcpSnoopingStaticClient(d, o.DhcpSnoopingStaticClient, "dhcp_snooping_static_client", sort)); err != nil {
+			return diag.Errorf("error reading dhcp_snooping_static_client: %v", err)
+		}
+	}
+
 	if o.DirectlyConnected != nil {
 		v := *o.DirectlyConnected
 
@@ -3806,6 +3970,58 @@ func expandSwitchControllerManagedSwitchCustomCommand(d *schema.ResourceData, v 
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.CommandName = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandSwitchControllerManagedSwitchDhcpSnoopingStaticClient(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SwitchControllerManagedSwitchDhcpSnoopingStaticClient, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.SwitchControllerManagedSwitchDhcpSnoopingStaticClient
+
+	for i := range l {
+		tmp := models.SwitchControllerManagedSwitchDhcpSnoopingStaticClient{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.ip", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Ip = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.mac", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Mac = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Name = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.port", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Port = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.vlan", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Vlan = &v2
 			}
 		}
 
@@ -4322,6 +4538,13 @@ func expandSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v interfac
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.igmp_snooping_flood_reports", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.IgmpSnoopingFloodReports = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.igmps_flood_reports", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
@@ -4447,6 +4670,13 @@ func expandSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v interfac
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.mcast_snooping_flood_traffic", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.McastSnoopingFloodTraffic = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.mclag", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
@@ -4551,6 +4781,35 @@ func expandSwitchControllerManagedSwitchPorts(d *schema.ResourceData, v interfac
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.PoeMaxPower = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.poe_mode_bt_cabable", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PoeModeBtCabable = &v3
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.poe_port_mode", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.PoePortMode = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.poe_port_power", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.PoePortPower = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.poe_port_priority", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.PoePortPriority = &v2
 			}
 		}
 
@@ -5615,6 +5874,23 @@ func getObjectSwitchControllerManagedSwitch(d *schema.ResourceData, sv string) (
 				diags = append(diags, e)
 			}
 			obj.DhcpServerAccessList = &v2
+		}
+	}
+	if v, ok := d.GetOk("dhcp_snooping_static_client"); ok {
+		if !utils.CheckVer(sv, "v7.2.8", "") {
+			e := utils.AttributeVersionWarning("dhcp_snooping_static_client", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandSwitchControllerManagedSwitchDhcpSnoopingStaticClient(d, v, "dhcp_snooping_static_client", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.DhcpSnoopingStaticClient = t
+		}
+	} else if d.HasChange("dhcp_snooping_static_client") {
+		old, new := d.GetChange("dhcp_snooping_static_client")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.DhcpSnoopingStaticClient = &[]models.SwitchControllerManagedSwitchDhcpSnoopingStaticClient{}
 		}
 	}
 	if v1, ok := d.GetOk("directly_connected"); ok {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -210,11 +210,35 @@ func resourceFirewallVip() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"http_multiplex_max_request": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 2147483647),
+
+				Description: "Maximum number of requests that a multiplex server can handle before disconnecting sessions (default = unlimited).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"http_multiplex_ttl": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 2147483647),
+
+				Description: "Time-to-live for idle connections to servers.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"http_redirect": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable redirection of HTTP to HTTPS.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"http_supported_max_version": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"http1", "http2"}, false),
+
+				Description: "Maximum supported HTTP versions. default = HTTP2",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -483,6 +507,14 @@ func resourceFirewallVip() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{"active", "standby", "disable"}, false),
 
 							Description: "Set the status of the real server to active so that it can accept traffic, or on standby or disabled so no traffic is sent.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"translate_host": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+							Description: "Enable/disable translation of hostname/IP from virtual server to real server.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -860,6 +892,14 @@ func resourceFirewallVip() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"ssl_server_renegotiation": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable secure renegotiation to comply with RFC 5746.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"ssl_server_session_state_max": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 10000),
@@ -1197,6 +1237,10 @@ func flattenFirewallVipRealservers(d *schema.ResourceData, v *[]models.FirewallV
 				v["status"] = *tmp
 			}
 
+			if tmp := cfg.TranslateHost; tmp != nil {
+				v["translate_host"] = *tmp
+			}
+
 			if tmp := cfg.Type; tmp != nil {
 				v["type"] = *tmp
 			}
@@ -1517,11 +1561,35 @@ func refreshObjectFirewallVip(d *schema.ResourceData, o *models.FirewallVip, sv 
 		}
 	}
 
+	if o.HttpMultiplexMaxRequest != nil {
+		v := *o.HttpMultiplexMaxRequest
+
+		if err = d.Set("http_multiplex_max_request", v); err != nil {
+			return diag.Errorf("error reading http_multiplex_max_request: %v", err)
+		}
+	}
+
+	if o.HttpMultiplexTtl != nil {
+		v := *o.HttpMultiplexTtl
+
+		if err = d.Set("http_multiplex_ttl", v); err != nil {
+			return diag.Errorf("error reading http_multiplex_ttl: %v", err)
+		}
+	}
+
 	if o.HttpRedirect != nil {
 		v := *o.HttpRedirect
 
 		if err = d.Set("http_redirect", v); err != nil {
 			return diag.Errorf("error reading http_redirect: %v", err)
+		}
+	}
+
+	if o.HttpSupportedMaxVersion != nil {
+		v := *o.HttpSupportedMaxVersion
+
+		if err = d.Set("http_supported_max_version", v); err != nil {
+			return diag.Errorf("error reading http_supported_max_version: %v", err)
 		}
 	}
 
@@ -1949,6 +2017,14 @@ func refreshObjectFirewallVip(d *schema.ResourceData, o *models.FirewallVip, sv 
 		}
 	}
 
+	if o.SslServerRenegotiation != nil {
+		v := *o.SslServerRenegotiation
+
+		if err = d.Set("ssl_server_renegotiation", v); err != nil {
+			return diag.Errorf("error reading ssl_server_renegotiation: %v", err)
+		}
+	}
+
 	if o.SslServerSessionStateMax != nil {
 		v := *o.SslServerSessionStateMax
 
@@ -2181,6 +2257,13 @@ func expandFirewallVipRealservers(d *schema.ResourceData, v interface{}, pre str
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.Status = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.translate_host", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.TranslateHost = &v2
 			}
 		}
 
@@ -2566,6 +2649,26 @@ func getObjectFirewallVip(d *schema.ResourceData, sv string) (*models.FirewallVi
 			obj.HttpMultiplex = &v2
 		}
 	}
+	if v1, ok := d.GetOk("http_multiplex_max_request"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("http_multiplex_max_request", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.HttpMultiplexMaxRequest = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("http_multiplex_ttl"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("http_multiplex_ttl", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.HttpMultiplexTtl = &tmp
+		}
+	}
 	if v1, ok := d.GetOk("http_redirect"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -2573,6 +2676,15 @@ func getObjectFirewallVip(d *schema.ResourceData, sv string) (*models.FirewallVi
 				diags = append(diags, e)
 			}
 			obj.HttpRedirect = &v2
+		}
+	}
+	if v1, ok := d.GetOk("http_supported_max_version"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("http_supported_max_version", sv)
+				diags = append(diags, e)
+			}
+			obj.HttpSupportedMaxVersion = &v2
 		}
 	}
 	if v1, ok := d.GetOk("https_cookie_secure"); ok {
@@ -3139,6 +3251,15 @@ func getObjectFirewallVip(d *schema.ResourceData, sv string) (*models.FirewallVi
 				diags = append(diags, e)
 			}
 			obj.SslServerMinVersion = &v2
+		}
+	}
+	if v1, ok := d.GetOk("ssl_server_renegotiation"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("ssl_server_renegotiation", sv)
+				diags = append(diags, e)
+			}
+			obj.SslServerRenegotiation = &v2
 		}
 	}
 	if v1, ok := d.GetOk("ssl_server_session_state_max"); ok {

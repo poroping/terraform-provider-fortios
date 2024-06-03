@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -50,6 +50,14 @@ func resourceSystemSsoForticloudAdmin() *schema.Resource {
 				Description: "If set will sort table response by mkey",
 				Optional:    true,
 				Default:     false,
+			},
+			"accprofile": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "FortiCloud SSO admin user access profile.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"name": {
 				Type:         schema.TypeString,
@@ -258,6 +266,14 @@ func flattenSystemSsoForticloudAdminVdom(d *schema.ResourceData, v *[]models.Sys
 func refreshObjectSystemSsoForticloudAdmin(d *schema.ResourceData, o *models.SystemSsoForticloudAdmin, sv string, sort bool) diag.Diagnostics {
 	var err error
 
+	if o.Accprofile != nil {
+		v := *o.Accprofile
+
+		if err = d.Set("accprofile", v); err != nil {
+			return diag.Errorf("error reading accprofile: %v", err)
+		}
+	}
+
 	if o.Name != nil {
 		v := *o.Name
 
@@ -303,6 +319,15 @@ func getObjectSystemSsoForticloudAdmin(d *schema.ResourceData, sv string) (*mode
 	obj := models.SystemSsoForticloudAdmin{}
 	diags := diag.Diagnostics{}
 
+	if v1, ok := d.GetOk("accprofile"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("accprofile", sv)
+				diags = append(diags, e)
+			}
+			obj.Accprofile = &v2
+		}
+	}
 	if v1, ok := d.GetOk("name"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {

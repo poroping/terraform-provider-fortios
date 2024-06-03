@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -76,10 +76,27 @@ func resourceSystemVirtualWirePair() *schema.Resource {
 				ForceNew:    true,
 				Required:    true,
 			},
+			"outer_vlan_id": {
+				Type:        schema.TypeList,
+				Description: "Outer VLAN ID.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"vlanid": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(1, 4094),
+
+							Description: "VLAN ID (1 - 4094).",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
+			},
 			"vlan_filter": {
 				Type: schema.TypeString,
 
-				Description: "Set VLAN filters.",
+				Description: "VLAN ranges to allow",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -270,6 +287,28 @@ func flattenSystemVirtualWirePairMember(d *schema.ResourceData, v *[]models.Syst
 	return flat
 }
 
+func flattenSystemVirtualWirePairOuterVlanId(d *schema.ResourceData, v *[]models.SystemVirtualWirePairOuterVlanId, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Vlanid; tmp != nil {
+				v["vlanid"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "vlanid")
+	}
+
+	return flat
+}
+
 func refreshObjectSystemVirtualWirePair(d *schema.ResourceData, o *models.SystemVirtualWirePair, sv string, sort bool) diag.Diagnostics {
 	var err error
 
@@ -284,6 +323,12 @@ func refreshObjectSystemVirtualWirePair(d *schema.ResourceData, o *models.System
 
 		if err = d.Set("name", v); err != nil {
 			return diag.Errorf("error reading name: %v", err)
+		}
+	}
+
+	if o.OuterVlanId != nil {
+		if err = d.Set("outer_vlan_id", flattenSystemVirtualWirePairOuterVlanId(d, o.OuterVlanId, "outer_vlan_id", sort)); err != nil {
+			return diag.Errorf("error reading outer_vlan_id: %v", err)
 		}
 	}
 
@@ -330,6 +375,31 @@ func expandSystemVirtualWirePairMember(d *schema.ResourceData, v interface{}, pr
 	return &result, nil
 }
 
+func expandSystemVirtualWirePairOuterVlanId(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemVirtualWirePairOuterVlanId, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.SystemVirtualWirePairOuterVlanId
+
+	for i := range l {
+		tmp := models.SystemVirtualWirePairOuterVlanId{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.vlanid", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Vlanid = &v3
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
 func getObjectSystemVirtualWirePair(d *schema.ResourceData, sv string) (*models.SystemVirtualWirePair, diag.Diagnostics) {
 	obj := models.SystemVirtualWirePair{}
 	diags := diag.Diagnostics{}
@@ -358,6 +428,23 @@ func getObjectSystemVirtualWirePair(d *schema.ResourceData, sv string) (*models.
 				diags = append(diags, e)
 			}
 			obj.Name = &v2
+		}
+	}
+	if v, ok := d.GetOk("outer_vlan_id"); ok {
+		if !utils.CheckVer(sv, "v7.2.8", "") {
+			e := utils.AttributeVersionWarning("outer_vlan_id", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandSystemVirtualWirePairOuterVlanId(d, v, "outer_vlan_id", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.OuterVlanId = t
+		}
+	} else if d.HasChange("outer_vlan_id") {
+		old, new := d.GetChange("outer_vlan_id")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.OuterVlanId = &[]models.SystemVirtualWirePairOuterVlanId{}
 		}
 	}
 	if v1, ok := d.GetOk("vlan_filter"); ok {

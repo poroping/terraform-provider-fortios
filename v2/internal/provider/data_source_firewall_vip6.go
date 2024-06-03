@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -189,6 +189,11 @@ func dataSourceFirewallVip6() *schema.Resource {
 				Description: "Enable/disable DNAT66.",
 				Computed:    true,
 			},
+			"ndp_reply": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable this FortiGate unit's ability to respond to NDP requests for this virtual IP address (default = enable).",
+				Computed:    true,
+			},
 			"outlook_web_access": {
 				Type:        schema.TypeString,
 				Description: "Enable to add the Front-End-Https header for Microsoft Outlook Web Access.",
@@ -272,6 +277,11 @@ func dataSourceFirewallVip6() *schema.Resource {
 						"status": {
 							Type:        schema.TypeString,
 							Description: "Set the status of the real server to active so that it can accept traffic, or on standby or disabled so no traffic is sent.",
+							Computed:    true,
+						},
+						"translate_host": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable translation of hostname/IP from virtual server to real server.",
 							Computed:    true,
 						},
 						"weight": {
@@ -492,6 +502,11 @@ func dataSourceFirewallVip6() *schema.Resource {
 			"ssl_server_min_version": {
 				Type:        schema.TypeString,
 				Description: "Lowest SSL/TLS version acceptable from a server. Use the client setting by default.",
+				Computed:    true,
+			},
+			"ssl_server_renegotiation": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable secure renegotiation to comply with RFC 5746.",
 				Computed:    true,
 			},
 			"ssl_server_session_state_max": {

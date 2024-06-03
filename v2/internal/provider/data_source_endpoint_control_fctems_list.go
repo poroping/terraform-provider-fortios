@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -35,11 +35,11 @@ func dataSourceEndpointControlFctemsList() *schema.Resource {
 				Optional:    true,
 				ForceNew:    true,
 			},
-			"namelist": {
+			"ems_idlist": {
 				Type:        schema.TypeList,
 				Description: "List of results",
 				Computed:    true,
-				Elem:        &schema.Schema{Type: schema.TypeString},
+				Elem:        &schema.Schema{Type: schema.TypeInt},
 			},
 		},
 	}
@@ -68,7 +68,7 @@ func dataSourceEndpointControlFctemsListRead(ctx context.Context, d *schema.Reso
 	}
 	urlparams.Filter = &filter
 
-	format := []string{"name"}
+	format := []string{"ems-id"}
 	urlparams.Format = &format
 
 	o, err := c.Cmdb.ListEndpointControlFctems(urlparams)
@@ -86,13 +86,13 @@ func dataSourceEndpointControlFctemsListRead(ctx context.Context, d *schema.Reso
 		return nil
 	}
 
-	results := []string{}
+	results := []int{}
 	for _, v := range *o {
-		v2 := v.Name
-		results = append(results, *v2)
+		v2 := v.EmsId
+		results = append(results, int(*v2))
 	}
 
-	d.Set("namelist", results)
+	d.Set("ems_idlist", results)
 
 	d.SetId("DataSourceEndpointControlFctemsList" + setfilter)
 

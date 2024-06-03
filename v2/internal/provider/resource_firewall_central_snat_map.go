@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -92,6 +92,13 @@ func resourceFirewallCentralSnatMap() *schema.Resource {
 						},
 					},
 				},
+			},
+			"dst_port": {
+				Type: schema.TypeString,
+
+				Description: "Destination port or port range (1 to 65535, 0 means any port).",
+				Optional:    true,
+				Computed:    true,
 			},
 			"dstintf": {
 				Type:        schema.TypeList,
@@ -628,6 +635,14 @@ func refreshObjectFirewallCentralSnatMap(d *schema.ResourceData, o *models.Firew
 		}
 	}
 
+	if o.DstPort != nil {
+		v := *o.DstPort
+
+		if err = d.Set("dst_port", v); err != nil {
+			return diag.Errorf("error reading dst_port: %v", err)
+		}
+	}
+
 	if o.Dstintf != nil {
 		if err = d.Set("dstintf", flattenFirewallCentralSnatMapDstintf(d, o.Dstintf, "dstintf", sort)); err != nil {
 			return diag.Errorf("error reading dstintf: %v", err)
@@ -984,6 +999,15 @@ func getObjectFirewallCentralSnatMap(d *schema.ResourceData, sv string) (*models
 		old, new := d.GetChange("dst_addr6")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
 			obj.DstAddr6 = &[]models.FirewallCentralSnatMapDstAddr6{}
+		}
+	}
+	if v1, ok := d.GetOk("dst_port"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("dst_port", sv)
+				diags = append(diags, e)
+			}
+			obj.DstPort = &v2
 		}
 	}
 	if v, ok := d.GetOk("dstintf"); ok {

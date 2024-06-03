@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.6,v7.0.2 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.6,v7.0.2,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -57,7 +57,7 @@ func resourceSystemNpu() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 79),
 
-				Description: "Affinity setting for management deamons (hexadecimal value up to 256 bits in the format of xxxxxxxxxxxxxxxx).",
+				Description: "Affinity setting for management daemons (hexadecimal value up to 256 bits in the format of xxxxxxxxxxxxxxxx).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -71,7 +71,7 @@ func resourceSystemNpu() *schema.Resource {
 			},
 			"default_qos_type": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"policing", "shaping"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"policing", "shaping", "policing-enhanced"}, false),
 
 				Description: "Set default QoS type.",
 				Optional:    true,
@@ -87,7 +87,7 @@ func resourceSystemNpu() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"global", "local"}, false),
 
-							Description: "Set DoS meter npu offloading mode.",
+							Description: "Set DoS meter NPU offloading mode.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -95,7 +95,7 @@ func resourceSystemNpu() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
-							Description: "Enable/Disable inserting DoS meter id to session table.",
+							Description: "Enable/disable insertion of DoS meter ID to session table.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -167,7 +167,7 @@ func resourceSystemNpu() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						"iport": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"EIF0", "EIF1", "EIF2", "EIF3", "EIF4", "EIF5", "EIF6", "EIF7", "HTX0", "HTX1", "SSE0", "SSE1", "SSE2", "SSE3", "RLT", "DFR", "IPSECI", "IPSECO", "IPTI", "IPTO", "VEP0", "VEP2", "VEP4", "VEP6", "IVS", "L2TI1", "L2TO", "L2TI0", "PLE", "SPATH", "QTM"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"eif0", "eif1", "eif2", "eif3", "eif4", "eif5", "eif6", "eif7", "htx0", "htx1", "sse0", "sse1", "sse2", "sse3", "rlt", "dfr", "ipseci", "ipseco", "ipti", "ipto", "vep0", "vep2", "vep4", "vep6", "ivs", "l2ti1", "l2to", "l2ti0", "ple", "spath", "qtm"}, false),
 
 							Description: "Set NPU DSW DTS in port.",
 							Optional:    true,
@@ -183,7 +183,7 @@ func resourceSystemNpu() *schema.Resource {
 						},
 						"oport": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"EIF0", "EIF1", "EIF2", "EIF3", "EIF4", "EIF5", "EIF6", "EIF7", "HRX", "SSE0", "SSE1", "SSE2", "SSE3", "RLT", "DFR", "IPSECI", "IPSECO", "IPTI", "IPTO", "VEP0", "VEP2", "VEP4", "VEP6", "IVS", "L2TI1", "L2TO", "L2TI0", "PLE", "SYNK", "NSS", "TSK", "QTM"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"eif0", "eif1", "eif2", "eif3", "eif4", "eif5", "eif6", "eif7", "hrx", "sse0", "sse1", "sse2", "sse3", "rlt", "dfr", "ipseci", "ipseco", "ipti", "ipto", "vep0", "vep2", "vep4", "vep6", "ivs", "l2ti1", "l2to", "l2ti0", "ple", "sync", "nss", "tsk", "qtm"}, false),
 
 							Description: "Set NPU DSW DTS out port.",
 							Optional:    true,
@@ -193,7 +193,7 @@ func resourceSystemNpu() *schema.Resource {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 32),
 
-							Description: "Set NPU DSW DTS profile id.",
+							Description: "Set NPU DSW DTS profile ID.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -201,7 +201,7 @@ func resourceSystemNpu() *schema.Resource {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 4095),
 
-							Description: "Set NPU DSW DTS queue id select(0 - reset to default).",
+							Description: "Set NPU DSW DTS queue ID select (0 - reset to default).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -422,6 +422,14 @@ func resourceSystemNpu() *schema.Resource {
 							Optional:    true,
 							Computed:    true,
 						},
+						"sctp_csum_err": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"allow", "drop", "trap-to-host"}, false),
+
+							Description: "Invalid IPv4 SCTP checksum anomalies.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"tcp_csum_err": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"drop", "trap-to-host"}, false),
@@ -529,17 +537,17 @@ func resourceSystemNpu() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						"all_protocol": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(0, 40000000),
+							ValidateFunc: validation.IntBetween(0, 32000000),
 
-							Description: "Maximum packet rate of each host queue except high priority traffic(1K - 40M pps, default = 400K pps), set 0 to disable.",
+							Description: "Maximum packet rate of each host queue except high priority traffic(1K - 32M pps, default = 400K pps), set 0 to disable.",
 							Optional:    true,
 							Computed:    true,
 						},
 						"arp_max": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1000, 40000000),
+							ValidateFunc: validation.IntBetween(1000, 32000000),
 
-							Description: "Maximum ARP packet rate (1K - 40M pps, default = 20K pps).",
+							Description: "Maximum ARP packet rate (1K - 32M pps, default = 5K pps). Entry is valid when ARP is removed from high-priority traffic.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -553,97 +561,97 @@ func resourceSystemNpu() *schema.Resource {
 						},
 						"esp_max": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1000, 40000000),
+							ValidateFunc: validation.IntBetween(1000, 32000000),
 
-							Description: "Maximum ESP packet rate (1K - 40M pps, default = 20K pps).",
+							Description: "Maximum ESP packet rate (1K - 32M pps, default = 5K pps).",
 							Optional:    true,
 							Computed:    true,
 						},
 						"high_priority": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1000, 40000000),
+							ValidateFunc: validation.IntBetween(1000, 32000000),
 
-							Description: "Maximum packet rate for high priority traffic packets (1K - 40M pps, default = 400K pps).",
+							Description: "Maximum packet rate for high priority traffic packets (1K - 32M pps, default = 400K pps).",
 							Optional:    true,
 							Computed:    true,
 						},
 						"icmp_max": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1000, 40000000),
+							ValidateFunc: validation.IntBetween(1000, 32000000),
 
-							Description: "Maximum ICMP packet rate (1K - 40M pps, default = 20K pps).",
+							Description: "Maximum ICMP packet rate (1K - 32M pps, default = 5K pps).",
 							Optional:    true,
 							Computed:    true,
 						},
 						"ip_frag_max": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1000, 40000000),
+							ValidateFunc: validation.IntBetween(1000, 32000000),
 
-							Description: "Maximum fragmented IP packet rate (1K - 40M pps, default = 20K pps).",
+							Description: "Maximum fragmented IP packet rate (1K - 32M pps, default = 5K pps).",
 							Optional:    true,
 							Computed:    true,
 						},
 						"ip_others_max": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1000, 40000000),
+							ValidateFunc: validation.IntBetween(1000, 32000000),
 
-							Description: "Maximum IP packet rate for other packets (packet types that cannot be set with other options) (1K - 1G pps, default = 20K pps).",
+							Description: "Maximum IP packet rate for other packets (packet types that cannot be set with other options) (1K - 32G pps, default = 5K pps).",
 							Optional:    true,
 							Computed:    true,
 						},
 						"l2_others_max": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1000, 40000000),
+							ValidateFunc: validation.IntBetween(1000, 32000000),
 
-							Description: "Maximum L2 packet rate for L2 packets that are not ARP packets (1K - 40M pps, default = 20K pps).",
+							Description: "Maximum L2 packet rate for L2 packets that are not ARP packets (1K - 32M pps, default = 5K pps).",
 							Optional:    true,
 							Computed:    true,
 						},
 						"sctp_max": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1000, 40000000),
+							ValidateFunc: validation.IntBetween(1000, 32000000),
 
-							Description: "Maximum SCTP packet rate (1K - 40M pps, default = 20K pps).",
+							Description: "Maximum SCTP packet rate (1K - 32M pps, default = 5K pps).",
 							Optional:    true,
 							Computed:    true,
 						},
 						"tcp_max": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1000, 40000000),
+							ValidateFunc: validation.IntBetween(1000, 32000000),
 
-							Description: "Maximum TCP packet rate (1K - 40M pps, default = 40K pps).",
+							Description: "Maximum TCP packet rate (1K - 32M pps, default = 40K pps).",
 							Optional:    true,
 							Computed:    true,
 						},
 						"tcpfin_rst_max": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1000, 40000000),
+							ValidateFunc: validation.IntBetween(1000, 32000000),
 
-							Description: "Maximum TCP carries FIN or RST flags packet rate (1K - 40M pps, default = 40K pps).",
+							Description: "Maximum TCP carries FIN or RST flags packet rate (1K - 32M pps, default = 40K pps).",
 							Optional:    true,
 							Computed:    true,
 						},
 						"tcpsyn_ack_max": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1000, 40000000),
+							ValidateFunc: validation.IntBetween(1000, 32000000),
 
-							Description: "Maximum TCP carries SYN and ACK flags packet rate (1K - 40M pps, default = 40K pps).",
+							Description: "Maximum TCP carries SYN and ACK flags packet rate (1K - 32M pps, default = 40K pps).",
 							Optional:    true,
 							Computed:    true,
 						},
 						"tcpsyn_max": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1000, 40000000),
+							ValidateFunc: validation.IntBetween(1000, 32000000),
 
-							Description: "Maximum TCP SYN packet rate (1K - 40M pps, default = 40K pps).",
+							Description: "Maximum TCP SYN packet rate (1K - 40M pps, default = 32K pps).",
 							Optional:    true,
 							Computed:    true,
 						},
 						"udp_max": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1000, 40000000),
+							ValidateFunc: validation.IntBetween(1000, 32000000),
 
-							Description: "Maximum UDP packet rate (1K - 40M pps, default = 40K pps).",
+							Description: "Maximum UDP packet rate (1K - 32M pps, default = 40K pps).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -666,6 +674,14 @@ func resourceSystemNpu() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"htx_icmp_csum_chk": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"drop", "pass"}, false),
+
+				Description: "Set HTX icmp csum checking mode.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"inbound_dscp_copy_port": {
 				Type:        schema.TypeList,
 				Description: "Physical interfaces that support inbound-dscp-copy.",
@@ -682,6 +698,14 @@ func resourceSystemNpu() *schema.Resource {
 						},
 					},
 				},
+			},
+			"ip_fragment_offload": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+				Description: "Enable/disable NP7 NPU IP fragment offload.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"ip_reassembly": {
 				Type:        schema.TypeList,
@@ -764,7 +788,7 @@ func resourceSystemNpu() *schema.Resource {
 			},
 			"ipsec_ob_np_sel": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"RR", "Packet", "Hash"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"rr", "Packet", "Hash"}, false),
 
 				Description: "IPsec NP selection for OB SA offloading.",
 				Optional:    true,
@@ -972,7 +996,7 @@ func resourceSystemNpu() *schema.Resource {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(0, 65535),
 
-										Description: "Destination Port.",
+										Description: "Destination port.",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -980,7 +1004,7 @@ func resourceSystemNpu() *schema.Resource {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 
-										Description: "IP Service Name.",
+										Description: "IP service name.",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -988,7 +1012,7 @@ func resourceSystemNpu() *schema.Resource {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(0, 255),
 
-										Description: "IP Protocol.",
+										Description: "IP protocol.",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -996,7 +1020,7 @@ func resourceSystemNpu() *schema.Resource {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(0, 11),
 
-										Description: "Queue Number.",
+										Description: "Queue number.",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -1004,7 +1028,7 @@ func resourceSystemNpu() *schema.Resource {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(0, 65535),
 
-										Description: "Source Port.",
+										Description: "Source port.",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -1012,7 +1036,7 @@ func resourceSystemNpu() *schema.Resource {
 										Type:         schema.TypeInt,
 										ValidateFunc: validation.IntBetween(0, 15),
 
-										Description: "Class Weight.",
+										Description: "Class weight.",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -1638,7 +1662,7 @@ func resourceSystemNpu() *schema.Resource {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringInSlice([]string{"none", "priority", "round-robin"}, false),
 
-										Description: "Scheduler Mode.",
+										Description: "Scheduler mode.",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -1646,7 +1670,7 @@ func resourceSystemNpu() *schema.Resource {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringLenBetween(0, 35),
 
-										Description: "Scheduler Name.",
+										Description: "Scheduler name.",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -1664,11 +1688,27 @@ func resourceSystemNpu() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"npu_group_effective_scope": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 255),
+
+				Description: "npu-group-effective-scope defines under which npu-group cmds such as list/purge will be excecuted. Default scope is for all four HS-ok groups. (0-3, default = 255).",
+				Optional:    true,
+				Computed:    true,
+			},
 			"pba_eim": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"disallow", "allow"}, false),
 
 				Description: "Configure option for PBA(non-overload)/EIM combination.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"per_policy_accounting": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+				Description: "Set per-policy accounting.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1684,7 +1724,7 @@ func resourceSystemNpu() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"disable", "dos-offload"}, false),
 
-				Description: "Firewall Policy Offload Level(DISABLE/DOS/FULL).",
+				Description: "Configure firewall policy offload level.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1723,7 +1763,7 @@ func resourceSystemNpu() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 15),
 
-							Description: "Set npu interface port to NPU group map.",
+							Description: "Set NPU interface port for NPU group mapping.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -1778,6 +1818,14 @@ func resourceSystemNpu() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"qtm_buf_mode": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"6ch", "4ch"}, false),
+
+				Description: "QTM channel configuration for packet buffer.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"rdp_offload": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -1799,6 +1847,14 @@ func resourceSystemNpu() *schema.Resource {
 				ValidateFunc: validation.IntBetween(1, 10),
 
 				Description: "Session accounting update interval (1 - 10 sec, default 5 sec).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"shaping_stats": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+				Description: "Enable/disable NP7 traffic shaping statistics (default = disable).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -2294,6 +2350,10 @@ func flattenSystemNpuFpAnomaly(d *schema.ResourceData, v *models.SystemNpuFpAnom
 
 			if tmp := cfg.Ipv6Unknopt; tmp != nil {
 				v["ipv6_unknopt"] = *tmp
+			}
+
+			if tmp := cfg.SctpCsumErr; tmp != nil {
+				v["sctp_csum_err"] = *tmp
 			}
 
 			if tmp := cfg.TcpCsumErr; tmp != nil {
@@ -3281,9 +3341,25 @@ func refreshObjectSystemNpu(d *schema.ResourceData, o *models.SystemNpu, sv stri
 		}
 	}
 
+	if o.HtxIcmpCsumChk != nil {
+		v := *o.HtxIcmpCsumChk
+
+		if err = d.Set("htx_icmp_csum_chk", v); err != nil {
+			return diag.Errorf("error reading htx_icmp_csum_chk: %v", err)
+		}
+	}
+
 	if o.InboundDscpCopyPort != nil {
 		if err = d.Set("inbound_dscp_copy_port", flattenSystemNpuInboundDscpCopyPort(d, o.InboundDscpCopyPort, "inbound_dscp_copy_port", sort)); err != nil {
 			return diag.Errorf("error reading inbound_dscp_copy_port: %v", err)
+		}
+	}
+
+	if o.IpFragmentOffload != nil {
+		v := *o.IpFragmentOffload
+
+		if err = d.Set("ip_fragment_offload", v); err != nil {
+			return diag.Errorf("error reading ip_fragment_offload: %v", err)
 		}
 	}
 
@@ -3407,11 +3483,27 @@ func refreshObjectSystemNpu(d *schema.ResourceData, o *models.SystemNpu, sv stri
 		}
 	}
 
+	if o.NpuGroupEffectiveScope != nil {
+		v := *o.NpuGroupEffectiveScope
+
+		if err = d.Set("npu_group_effective_scope", v); err != nil {
+			return diag.Errorf("error reading npu_group_effective_scope: %v", err)
+		}
+	}
+
 	if o.PbaEim != nil {
 		v := *o.PbaEim
 
 		if err = d.Set("pba_eim", v); err != nil {
 			return diag.Errorf("error reading pba_eim: %v", err)
+		}
+	}
+
+	if o.PerPolicyAccounting != nil {
+		v := *o.PerPolicyAccounting
+
+		if err = d.Set("per_policy_accounting", v); err != nil {
+			return diag.Errorf("error reading per_policy_accounting: %v", err)
 		}
 	}
 
@@ -3459,6 +3551,14 @@ func refreshObjectSystemNpu(d *schema.ResourceData, o *models.SystemNpu, sv stri
 		}
 	}
 
+	if o.QtmBufMode != nil {
+		v := *o.QtmBufMode
+
+		if err = d.Set("qtm_buf_mode", v); err != nil {
+			return diag.Errorf("error reading qtm_buf_mode: %v", err)
+		}
+	}
+
 	if o.RdpOffload != nil {
 		v := *o.RdpOffload
 
@@ -3480,6 +3580,14 @@ func refreshObjectSystemNpu(d *schema.ResourceData, o *models.SystemNpu, sv stri
 
 		if err = d.Set("session_acct_interval", v); err != nil {
 			return diag.Errorf("error reading session_acct_interval: %v", err)
+		}
+	}
+
+	if o.ShapingStats != nil {
+		v := *o.ShapingStats
+
+		if err = d.Set("shaping_stats", v); err != nil {
+			return diag.Errorf("error reading shaping_stats: %v", err)
 		}
 	}
 
@@ -3863,6 +3971,13 @@ func expandSystemNpuFpAnomaly(d *schema.ResourceData, v interface{}, pre string,
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.Ipv6Unknopt = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.sctp_csum_err", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.SctpCsumErr = &v2
 			}
 		}
 
@@ -5412,6 +5527,15 @@ func getObjectSystemNpu(d *schema.ResourceData, sv string) (*models.SystemNpu, d
 			obj.HtabMsgQueue = &v2
 		}
 	}
+	if v1, ok := d.GetOk("htx_icmp_csum_chk"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("htx_icmp_csum_chk", sv)
+				diags = append(diags, e)
+			}
+			obj.HtxIcmpCsumChk = &v2
+		}
+	}
 	if v, ok := d.GetOk("inbound_dscp_copy_port"); ok {
 		if !utils.CheckVer(sv, "v6.4.6", "v7.0.2") {
 			e := utils.AttributeVersionWarning("inbound_dscp_copy_port", sv)
@@ -5427,6 +5551,15 @@ func getObjectSystemNpu(d *schema.ResourceData, sv string) (*models.SystemNpu, d
 		old, new := d.GetChange("inbound_dscp_copy_port")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
 			obj.InboundDscpCopyPort = &[]models.SystemNpuInboundDscpCopyPort{}
+		}
+	}
+	if v1, ok := d.GetOk("ip_fragment_offload"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("ip_fragment_offload", sv)
+				diags = append(diags, e)
+			}
+			obj.IpFragmentOffload = &v2
 		}
 	}
 	if v, ok := d.GetOk("ip_reassembly"); ok {
@@ -5592,6 +5725,16 @@ func getObjectSystemNpu(d *schema.ResourceData, sv string) (*models.SystemNpu, d
 			obj.Np6CpsOptimizationMode = &v2
 		}
 	}
+	if v1, ok := d.GetOk("npu_group_effective_scope"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("npu_group_effective_scope", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.NpuGroupEffectiveScope = &tmp
+		}
+	}
 	if v1, ok := d.GetOk("pba_eim"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "v6.4.6", "v7.0.2") {
@@ -5599,6 +5742,15 @@ func getObjectSystemNpu(d *schema.ResourceData, sv string) (*models.SystemNpu, d
 				diags = append(diags, e)
 			}
 			obj.PbaEim = &v2
+		}
+	}
+	if v1, ok := d.GetOk("per_policy_accounting"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("per_policy_accounting", sv)
+				diags = append(diags, e)
+			}
+			obj.PerPolicyAccounting = &v2
 		}
 	}
 	if v1, ok := d.GetOk("per_session_accounting"); ok {
@@ -5679,6 +5831,15 @@ func getObjectSystemNpu(d *schema.ResourceData, sv string) (*models.SystemNpu, d
 			obj.QosMode = &v2
 		}
 	}
+	if v1, ok := d.GetOk("qtm_buf_mode"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("qtm_buf_mode", sv)
+				diags = append(diags, e)
+			}
+			obj.QtmBufMode = &v2
+		}
+	}
 	if v1, ok := d.GetOk("rdp_offload"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "v6.4.6") {
@@ -5705,6 +5866,15 @@ func getObjectSystemNpu(d *schema.ResourceData, sv string) (*models.SystemNpu, d
 			}
 			tmp := int64(v2)
 			obj.SessionAcctInterval = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("shaping_stats"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("shaping_stats", sv)
+				diags = append(diags, e)
+			}
+			obj.ShapingStats = &v2
 		}
 	}
 	if v1, ok := d.GetOk("sse_backpressure"); ok {

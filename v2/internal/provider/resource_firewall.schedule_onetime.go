@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -59,6 +59,13 @@ func resourceFirewallScheduleOnetime() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"end_utc": {
+				Type: schema.TypeString,
+
+				Description: "Schedule end date and time, in epoch format.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"expiration_days": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 100),
@@ -87,6 +94,13 @@ func resourceFirewallScheduleOnetime() *schema.Resource {
 				Type: schema.TypeString,
 
 				Description: "Schedule start date and time, format hh:mm yyyy/mm/dd.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"start_utc": {
+				Type: schema.TypeString,
+
+				Description: "Schedule start date and time, in epoch format.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -266,6 +280,14 @@ func refreshObjectFirewallScheduleOnetime(d *schema.ResourceData, o *models.Fire
 		}
 	}
 
+	if o.EndUtc != nil {
+		v := *o.EndUtc
+
+		if err = d.Set("end_utc", v); err != nil {
+			return diag.Errorf("error reading end_utc: %v", err)
+		}
+	}
+
 	if o.ExpirationDays != nil {
 		v := *o.ExpirationDays
 
@@ -298,6 +320,14 @@ func refreshObjectFirewallScheduleOnetime(d *schema.ResourceData, o *models.Fire
 		}
 	}
 
+	if o.StartUtc != nil {
+		v := *o.StartUtc
+
+		if err = d.Set("start_utc", v); err != nil {
+			return diag.Errorf("error reading start_utc: %v", err)
+		}
+	}
+
 	return nil
 }
 
@@ -322,6 +352,15 @@ func getObjectFirewallScheduleOnetime(d *schema.ResourceData, sv string) (*model
 				diags = append(diags, e)
 			}
 			obj.End = &v2
+		}
+	}
+	if v1, ok := d.GetOk("end_utc"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("end_utc", sv)
+				diags = append(diags, e)
+			}
+			obj.EndUtc = &v2
 		}
 	}
 	if v1, ok := d.GetOk("expiration_days"); ok {
@@ -359,6 +398,15 @@ func getObjectFirewallScheduleOnetime(d *schema.ResourceData, sv string) (*model
 				diags = append(diags, e)
 			}
 			obj.Start = &v2
+		}
+	}
+	if v1, ok := d.GetOk("start_utc"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("start_utc", sv)
+				diags = append(diags, e)
+			}
+			obj.StartUtc = &v2
 		}
 	}
 	return &obj, diags

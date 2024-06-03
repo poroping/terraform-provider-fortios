@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -381,11 +381,103 @@ func resourceFirewallProxyPolicy() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"internet_service6": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable use of Internet Services IPv6 for this policy. If enabled, destination IPv6 address and service are not used.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"internet_service6_custom": {
+				Type:        schema.TypeList,
+				Description: "Custom Internet Service IPv6 name.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 79),
+
+							Description: "Custom Internet Service IPv6 name.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service6_custom_group": {
+				Type:        schema.TypeList,
+				Description: "Custom Internet Service IPv6 group name.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 79),
+
+							Description: "Custom Internet Service IPv6 group name.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service6_group": {
+				Type:        schema.TypeList,
+				Description: "Internet Service IPv6 group name.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 79),
+
+							Description: "Internet Service IPv6 group name.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service6_name": {
+				Type:        schema.TypeList,
+				Description: "Internet Service IPv6 name.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 79),
+
+							Description: "Internet Service IPv6 name.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service6_negate": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "When enabled, Internet Services match against any internet service IPv6 EXCEPT the selected Internet Service IPv6.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"ips_sensor": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
 
 				Description: "Name of an existing IPS sensor.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"ips_voip_filter": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "Name of an existing VoIP (ips) profile.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -464,7 +556,7 @@ func resourceFirewallProxyPolicy() *schema.Resource {
 			},
 			"proxy": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"explicit-web", "transparent-web", "ftp", "ssh", "ssh-tunnel", "access-proxy", "wanopt"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"explicit-web", "transparent-web", "ftp", "ssh", "ssh-tunnel", "access-proxy"}, false),
 
 				Description: "Type of explicit proxy.",
 				Optional:    true,
@@ -1154,6 +1246,94 @@ func flattenFirewallProxyPolicyInternetServiceName(d *schema.ResourceData, v *[]
 	return flat
 }
 
+func flattenFirewallProxyPolicyInternetService6Custom(d *schema.ResourceData, v *[]models.FirewallProxyPolicyInternetService6Custom, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Name; tmp != nil {
+				v["name"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "name")
+	}
+
+	return flat
+}
+
+func flattenFirewallProxyPolicyInternetService6CustomGroup(d *schema.ResourceData, v *[]models.FirewallProxyPolicyInternetService6CustomGroup, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Name; tmp != nil {
+				v["name"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "name")
+	}
+
+	return flat
+}
+
+func flattenFirewallProxyPolicyInternetService6Group(d *schema.ResourceData, v *[]models.FirewallProxyPolicyInternetService6Group, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Name; tmp != nil {
+				v["name"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "name")
+	}
+
+	return flat
+}
+
+func flattenFirewallProxyPolicyInternetService6Name(d *schema.ResourceData, v *[]models.FirewallProxyPolicyInternetService6Name, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Name; tmp != nil {
+				v["name"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "name")
+	}
+
+	return flat
+}
+
 func flattenFirewallProxyPolicyPoolname(d *schema.ResourceData, v *[]models.FirewallProxyPolicyPoolname, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
@@ -1521,11 +1701,59 @@ func refreshObjectFirewallProxyPolicy(d *schema.ResourceData, o *models.Firewall
 		}
 	}
 
+	if o.InternetService6 != nil {
+		v := *o.InternetService6
+
+		if err = d.Set("internet_service6", v); err != nil {
+			return diag.Errorf("error reading internet_service6: %v", err)
+		}
+	}
+
+	if o.InternetService6Custom != nil {
+		if err = d.Set("internet_service6_custom", flattenFirewallProxyPolicyInternetService6Custom(d, o.InternetService6Custom, "internet_service6_custom", sort)); err != nil {
+			return diag.Errorf("error reading internet_service6_custom: %v", err)
+		}
+	}
+
+	if o.InternetService6CustomGroup != nil {
+		if err = d.Set("internet_service6_custom_group", flattenFirewallProxyPolicyInternetService6CustomGroup(d, o.InternetService6CustomGroup, "internet_service6_custom_group", sort)); err != nil {
+			return diag.Errorf("error reading internet_service6_custom_group: %v", err)
+		}
+	}
+
+	if o.InternetService6Group != nil {
+		if err = d.Set("internet_service6_group", flattenFirewallProxyPolicyInternetService6Group(d, o.InternetService6Group, "internet_service6_group", sort)); err != nil {
+			return diag.Errorf("error reading internet_service6_group: %v", err)
+		}
+	}
+
+	if o.InternetService6Name != nil {
+		if err = d.Set("internet_service6_name", flattenFirewallProxyPolicyInternetService6Name(d, o.InternetService6Name, "internet_service6_name", sort)); err != nil {
+			return diag.Errorf("error reading internet_service6_name: %v", err)
+		}
+	}
+
+	if o.InternetService6Negate != nil {
+		v := *o.InternetService6Negate
+
+		if err = d.Set("internet_service6_negate", v); err != nil {
+			return diag.Errorf("error reading internet_service6_negate: %v", err)
+		}
+	}
+
 	if o.IpsSensor != nil {
 		v := *o.IpsSensor
 
 		if err = d.Set("ips_sensor", v); err != nil {
 			return diag.Errorf("error reading ips_sensor: %v", err)
+		}
+	}
+
+	if o.IpsVoipFilter != nil {
+		v := *o.IpsVoipFilter
+
+		if err = d.Set("ips_voip_filter", v); err != nil {
+			return diag.Errorf("error reading ips_voip_filter: %v", err)
 		}
 	}
 
@@ -2087,6 +2315,102 @@ func expandFirewallProxyPolicyInternetServiceName(d *schema.ResourceData, v inte
 	return &result, nil
 }
 
+func expandFirewallProxyPolicyInternetService6Custom(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallProxyPolicyInternetService6Custom, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.FirewallProxyPolicyInternetService6Custom
+
+	for i := range l {
+		tmp := models.FirewallProxyPolicyInternetService6Custom{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Name = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandFirewallProxyPolicyInternetService6CustomGroup(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallProxyPolicyInternetService6CustomGroup, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.FirewallProxyPolicyInternetService6CustomGroup
+
+	for i := range l {
+		tmp := models.FirewallProxyPolicyInternetService6CustomGroup{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Name = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandFirewallProxyPolicyInternetService6Group(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallProxyPolicyInternetService6Group, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.FirewallProxyPolicyInternetService6Group
+
+	for i := range l {
+		tmp := models.FirewallProxyPolicyInternetService6Group{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Name = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandFirewallProxyPolicyInternetService6Name(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallProxyPolicyInternetService6Name, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.FirewallProxyPolicyInternetService6Name
+
+	for i := range l {
+		tmp := models.FirewallProxyPolicyInternetService6Name{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Name = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
 func expandFirewallProxyPolicyPoolname(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallProxyPolicyPoolname, error) {
 	l := v.([]interface{})
 	if len(l) == 0 || l[0] == nil {
@@ -2608,6 +2932,92 @@ func getObjectFirewallProxyPolicy(d *schema.ResourceData, sv string) (*models.Fi
 			obj.InternetServiceNegate = &v2
 		}
 	}
+	if v1, ok := d.GetOk("internet_service6"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("internet_service6", sv)
+				diags = append(diags, e)
+			}
+			obj.InternetService6 = &v2
+		}
+	}
+	if v, ok := d.GetOk("internet_service6_custom"); ok {
+		if !utils.CheckVer(sv, "v7.2.8", "") {
+			e := utils.AttributeVersionWarning("internet_service6_custom", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandFirewallProxyPolicyInternetService6Custom(d, v, "internet_service6_custom", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.InternetService6Custom = t
+		}
+	} else if d.HasChange("internet_service6_custom") {
+		old, new := d.GetChange("internet_service6_custom")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.InternetService6Custom = &[]models.FirewallProxyPolicyInternetService6Custom{}
+		}
+	}
+	if v, ok := d.GetOk("internet_service6_custom_group"); ok {
+		if !utils.CheckVer(sv, "v7.2.8", "") {
+			e := utils.AttributeVersionWarning("internet_service6_custom_group", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandFirewallProxyPolicyInternetService6CustomGroup(d, v, "internet_service6_custom_group", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.InternetService6CustomGroup = t
+		}
+	} else if d.HasChange("internet_service6_custom_group") {
+		old, new := d.GetChange("internet_service6_custom_group")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.InternetService6CustomGroup = &[]models.FirewallProxyPolicyInternetService6CustomGroup{}
+		}
+	}
+	if v, ok := d.GetOk("internet_service6_group"); ok {
+		if !utils.CheckVer(sv, "v7.2.8", "") {
+			e := utils.AttributeVersionWarning("internet_service6_group", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandFirewallProxyPolicyInternetService6Group(d, v, "internet_service6_group", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.InternetService6Group = t
+		}
+	} else if d.HasChange("internet_service6_group") {
+		old, new := d.GetChange("internet_service6_group")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.InternetService6Group = &[]models.FirewallProxyPolicyInternetService6Group{}
+		}
+	}
+	if v, ok := d.GetOk("internet_service6_name"); ok {
+		if !utils.CheckVer(sv, "v7.2.8", "") {
+			e := utils.AttributeVersionWarning("internet_service6_name", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandFirewallProxyPolicyInternetService6Name(d, v, "internet_service6_name", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.InternetService6Name = t
+		}
+	} else if d.HasChange("internet_service6_name") {
+		old, new := d.GetChange("internet_service6_name")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.InternetService6Name = &[]models.FirewallProxyPolicyInternetService6Name{}
+		}
+	}
+	if v1, ok := d.GetOk("internet_service6_negate"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("internet_service6_negate", sv)
+				diags = append(diags, e)
+			}
+			obj.InternetService6Negate = &v2
+		}
+	}
 	if v1, ok := d.GetOk("ips_sensor"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -2615,6 +3025,15 @@ func getObjectFirewallProxyPolicy(d *schema.ResourceData, sv string) (*models.Fi
 				diags = append(diags, e)
 			}
 			obj.IpsSensor = &v2
+		}
+	}
+	if v1, ok := d.GetOk("ips_voip_filter"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("ips_voip_filter", sv)
+				diags = append(diags, e)
+			}
+			obj.IpsVoipFilter = &v2
 		}
 	}
 	if v1, ok := d.GetOk("logtraffic"); ok {
@@ -2930,7 +3349,7 @@ func getObjectFirewallProxyPolicy(d *schema.ResourceData, sv string) (*models.Fi
 	}
 	if v1, ok := d.GetOk("voip_profile"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v7.0.0", "") {
+			if !utils.CheckVer(sv, "v7.0.0", "v7.2.8") {
 				e := utils.AttributeVersionWarning("voip_profile", sv)
 				diags = append(diags, e)
 			}
@@ -2948,7 +3367,7 @@ func getObjectFirewallProxyPolicy(d *schema.ResourceData, sv string) (*models.Fi
 	}
 	if v1, ok := d.GetOk("webcache"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.8") {
 				e := utils.AttributeVersionWarning("webcache", sv)
 				diags = append(diags, e)
 			}
@@ -2957,7 +3376,7 @@ func getObjectFirewallProxyPolicy(d *schema.ResourceData, sv string) (*models.Fi
 	}
 	if v1, ok := d.GetOk("webcache_https"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.8") {
 				e := utils.AttributeVersionWarning("webcache_https", sv)
 				diags = append(diags, e)
 			}

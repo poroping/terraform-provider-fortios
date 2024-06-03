@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -39,9 +39,19 @@ func dataSourceSystemGlobal() *schema.Resource {
 				Description: "Console login timeout that overrides the admin timeout value (15 - 300 seconds, default = 0, which disables the timeout).",
 				Computed:    true,
 			},
+			"admin_forticloud_sso_default_profile": {
+				Type:        schema.TypeString,
+				Description: "Override access profile.",
+				Computed:    true,
+			},
 			"admin_forticloud_sso_login": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable FortiCloud admin login via SSO.",
+				Computed:    true,
+			},
+			"admin_host": {
+				Type:        schema.TypeString,
+				Description: "Administrative host for HTTP and HTTPS. When set, will be used in lieu of the client's Host header for any redirection.",
 				Computed:    true,
 			},
 			"admin_hsts_max_age": {
@@ -334,6 +344,16 @@ func dataSourceSystemGlobal() *schema.Resource {
 				Description: "Enable/disable daylight saving time.",
 				Computed:    true,
 			},
+			"early_tcp_npu_session": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable early TCP NPU session.",
+				Computed:    true,
+			},
+			"edit_vdom_prompt": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable edit new VDOM prompt.",
+				Computed:    true,
+			},
 			"extender_controller_reserved_network": {
 				Type:        schema.TypeString,
 				Description: "Configure reserved network subnet for managed LAN extension FortiExtender units. This is available when the FortiExtender daemon is running.",
@@ -384,6 +404,11 @@ func dataSourceSystemGlobal() *schema.Resource {
 				Description: "Enable/disable FortiExtender CAPWAP lockdown.",
 				Computed:    true,
 			},
+			"fortiextender_provision_on_authorization": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable automatic provisioning of latest FortiExtender firmware on authorization.",
+				Computed:    true,
+			},
 			"fortiextender_vlan_mode": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable FortiExtender VLAN mode.",
@@ -407,6 +432,16 @@ func dataSourceSystemGlobal() *schema.Resource {
 			"gui_allow_default_hostname": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable the factory default hostname warning on the GUI setup wizard.",
+				Computed:    true,
+			},
+			"gui_app_detection_sdwan": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable Allow app-detection based SD-WAN.",
+				Computed:    true,
+			},
+			"gui_auto_upgrade_setup_warning": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable the automatic patch upgrade setup prompt on the GUI.",
 				Computed:    true,
 			},
 			"gui_cdn_usage": {
@@ -469,6 +504,11 @@ func dataSourceSystemGlobal() *schema.Resource {
 				Description: "Enable/disable displaying FortiGate Cloud Sandbox on the GUI.",
 				Computed:    true,
 			},
+			"gui_fortiguard_resource_fetch": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable retrieving static GUI resources from FortiGuard. Disabling it will improve GUI load time for air-gapped environments.",
+				Computed:    true,
+			},
 			"gui_fortisandbox_cloud": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable displaying FortiSandbox Cloud on the GUI.",
@@ -529,9 +569,19 @@ func dataSourceSystemGlobal() *schema.Resource {
 				Description: "FortiGate unit's hostname. Most models will truncate names longer than 24 characters. Some models support hostnames up to 35 characters.",
 				Computed:    true,
 			},
+			"hyper_scale_vdom_num": {
+				Type:        schema.TypeInt,
+				Description: "Number of VDOMs for hyper scale license.",
+				Computed:    true,
+			},
 			"igmp_state_limit": {
 				Type:        schema.TypeInt,
 				Description: "Maximum number of IGMP memberships (96 - 64000, default = 3200).",
+				Computed:    true,
+			},
+			"interface_subnet_usage": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable allowing use of interface-subnet setting in firewall addresses (default = enable).",
 				Computed:    true,
 			},
 			"internet_service_database": {
@@ -542,6 +592,11 @@ func dataSourceSystemGlobal() *schema.Resource {
 			"interval": {
 				Type:        schema.TypeInt,
 				Description: "Dead gateway detection interval.",
+				Computed:    true,
+			},
+			"ip_fragment_mem_thresholds": {
+				Type:        schema.TypeInt,
+				Description: "Maximum memory (MB) used to reassemble IPv4/IPv6 fragments.",
 				Computed:    true,
 			},
 			"ip_src_port_range": {
@@ -569,6 +624,11 @@ func dataSourceSystemGlobal() *schema.Resource {
 				Description: "Enable/disable offloading (hardware acceleration) of HMAC processing for IPsec VPN.",
 				Computed:    true,
 			},
+			"ipsec_round_robin": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable round-robin redistribution to multiple CPUs for IPsec VPN traffic.",
+				Computed:    true,
+			},
 			"ipsec_soft_dec_async": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable software decryption asynchronization (using multiple CPUs to do decryption) for IPsec VPN traffic.",
@@ -582,6 +642,21 @@ func dataSourceSystemGlobal() *schema.Resource {
 			"ipv6_allow_anycast_probe": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable IPv6 address probe through Anycast.",
+				Computed:    true,
+			},
+			"ipv6_allow_local_in_silent_drop": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable silent drop of IPv6 local-in traffic.",
+				Computed:    true,
+			},
+			"ipv6_allow_local_in_slient_drop": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable silent drop of IPv6 local-in traffic.",
+				Computed:    true,
+			},
+			"ipv6_allow_multicast_probe": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable IPv6 address probe through Multicast.",
 				Computed:    true,
 			},
 			"ipv6_allow_traffic_redirect": {
@@ -612,6 +687,11 @@ func dataSourceSystemGlobal() *schema.Resource {
 			"lldp_transmission": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable Link Layer Discovery Protocol (LLDP) transmission.",
+				Computed:    true,
+			},
+			"log_single_cpu_high": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable logging the event of a single CPU core reaching CPU usage threshold.",
 				Computed:    true,
 			},
 			"log_ssl_connection": {
@@ -686,7 +766,7 @@ func dataSourceSystemGlobal() *schema.Resource {
 			},
 			"miglog_affinity": {
 				Type:        schema.TypeString,
-				Description: "Affinity setting for logging (64-bit hexadecimal value in the format of xxxxxxxxxxxxxxxx).",
+				Description: "Affinity setting for logging (hexadecimal value up to 256 bits in the format of xxxxxxxxxxxxxxxx).",
 				Computed:    true,
 			},
 			"miglogd_children": {
@@ -702,6 +782,11 @@ func dataSourceSystemGlobal() *schema.Resource {
 			"ndp_max_entry": {
 				Type:        schema.TypeInt,
 				Description: "Maximum number of NDP table entries (set to 65,536 or higher; if set to 0, kernel holds 65,536 entries).",
+				Computed:    true,
+			},
+			"npu_neighbor_update": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable sending of ARP/ICMP6 probing packets to update neighbors for offloaded sessions.",
 				Computed:    true,
 			},
 			"per_user_bal": {
@@ -764,6 +849,16 @@ func dataSourceSystemGlobal() *schema.Resource {
 				Description: "Enable/disable using content processor (CP8 or CP9) hardware acceleration to encrypt and decrypt IPsec and SSL traffic.",
 				Computed:    true,
 			},
+			"proxy_hardware_acceleration": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable email proxy hardware acceleration.",
+				Computed:    true,
+			},
+			"proxy_keep_alive_mode": {
+				Type:        schema.TypeString,
+				Description: "Control if users must re-authenticate after a session is closed, traffic has been idle, or from the point at which the user was authenticated.",
+				Computed:    true,
+			},
 			"proxy_kxp_hardware_acceleration": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable using the content processor to accelerate KXP traffic.",
@@ -772,6 +867,11 @@ func dataSourceSystemGlobal() *schema.Resource {
 			"proxy_re_authentication_mode": {
 				Type:        schema.TypeString,
 				Description: "Control if users must re-authenticate after a session is closed, traffic has been idle, or from the point at which the user was first created.",
+				Computed:    true,
+			},
+			"proxy_re_authentication_time": {
+				Type:        schema.TypeInt,
+				Description: "The time limit that users must re-authenticate if proxy-keep-alive-mode is set to re-authenticate (1  - 86400 sec, default=30s.",
 				Computed:    true,
 			},
 			"proxy_resource_mode": {
@@ -844,19 +944,29 @@ func dataSourceSystemGlobal() *schema.Resource {
 				Description: "Enable/disable sending of path maximum transmission unit (PMTU) - ICMP destination unreachable packet and to support PMTUD protocol on your network to reduce fragmentation of packets.",
 				Computed:    true,
 			},
+			"sflowd_max_children_num": {
+				Type:        schema.TypeInt,
+				Description: "Maximum number of sflowd child processes allowed to run.",
+				Computed:    true,
+			},
 			"snat_route_change": {
 				Type:        schema.TypeString,
-				Description: "Enable/disable the ability to change the static NAT route.",
+				Description: "Enable/disable the ability to change the source NAT route.",
 				Computed:    true,
 			},
 			"special_file_23_support": {
 				Type:        schema.TypeString,
-				Description: "Enable/disable detection of those special format files when using Data Leak Protection.",
+				Description: "Enable/disable detection of those special format files when using Data Leak Prevention.",
 				Computed:    true,
 			},
 			"speedtest_server": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable speed test server.",
+				Computed:    true,
+			},
+			"split_port": {
+				Type:        schema.TypeString,
+				Description: "Split port(s) to multiple 10Gbps ports.",
 				Computed:    true,
 			},
 			"ssd_trim_date": {
@@ -951,7 +1061,7 @@ func dataSourceSystemGlobal() *schema.Resource {
 			},
 			"sslvpn_plugin_version_check": {
 				Type:        schema.TypeString,
-				Description: "Enable/disable checking browser's plugin version by SSL-VPN.",
+				Description: "sslvpn-plugin-version-check",
 				Computed:    true,
 			},
 			"strict_dirty_session_check": {
@@ -977,6 +1087,11 @@ func dataSourceSystemGlobal() *schema.Resource {
 			"sys_perf_log_interval": {
 				Type:        schema.TypeInt,
 				Description: "Time in minutes between updates of performance statistics logging. (1 - 15 min, default = 5, 0 = disabled).",
+				Computed:    true,
+			},
+			"syslog_affinity": {
+				Type:        schema.TypeString,
+				Description: "Affinity setting for syslog (hexadecimal value up to 256 bits in the format of xxxxxxxxxxxxxxxx).",
 				Computed:    true,
 			},
 			"tcp_halfclose_timer": {
@@ -1086,12 +1201,17 @@ func dataSourceSystemGlobal() *schema.Resource {
 			},
 			"vdom_mode": {
 				Type:        schema.TypeString,
-				Description: "Enable/disable support for split/multiple virtual domains (VDOMs).",
+				Description: "Enable/disable support for multiple virtual domains (VDOMs).",
 				Computed:    true,
 			},
 			"vip_arp_range": {
 				Type:        schema.TypeString,
 				Description: "Controls the number of ARPs that the FortiGate sends for a Virtual IP (VIP) address range.",
+				Computed:    true,
+			},
+			"virtual_switch_vlan": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable virtual switch VLAN.",
 				Computed:    true,
 			},
 			"wad_affinity": {
@@ -1112,6 +1232,21 @@ func dataSourceSystemGlobal() *schema.Resource {
 			"wad_memory_change_granularity": {
 				Type:        schema.TypeInt,
 				Description: "Minimum percentage change in system memory usage detected by the wad daemon prior to adjusting TCP window size for any active connection.",
+				Computed:    true,
+			},
+			"wad_restart_end_time": {
+				Type:        schema.TypeString,
+				Description: "WAD workers daily restart end time (hh:mm).",
+				Computed:    true,
+			},
+			"wad_restart_mode": {
+				Type:        schema.TypeString,
+				Description: "WAD worker restart mode (default = none).",
+				Computed:    true,
+			},
+			"wad_restart_start_time": {
+				Type:        schema.TypeString,
+				Description: "WAD workers daily restart time (hh:mm).",
 				Computed:    true,
 			},
 			"wad_source_affinity": {

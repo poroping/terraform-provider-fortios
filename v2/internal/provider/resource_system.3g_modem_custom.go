@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.6,v7.0.2 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.6,v7.0.2,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -80,7 +80,7 @@ func resourceSystem3gModemCustom() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 
-				Description: "USB modeswitch arguments. e.g: '-v 1410 -p 9030 -V 1410 -P 9032 -u 3'",
+				Description: "USB modeswitch arguments. For example: '-v 1410 -p 9030 -V 1410 -P 9032 -u 3'.",
 				Optional:    true,
 				Computed:    true,
 			},

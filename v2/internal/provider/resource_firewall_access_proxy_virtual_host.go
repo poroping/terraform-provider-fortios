@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -67,6 +67,14 @@ func resourceFirewallAccessProxyVirtualHost() *schema.Resource {
 				Description: "Virtual host name.",
 				ForceNew:    true,
 				Required:    true,
+			},
+			"replacemsg_group": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "Access-proxy-virtual-host replacement message override group.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"ssl_certificate": {
 				Type:         schema.TypeString,
@@ -260,6 +268,14 @@ func refreshObjectFirewallAccessProxyVirtualHost(d *schema.ResourceData, o *mode
 		}
 	}
 
+	if o.ReplacemsgGroup != nil {
+		v := *o.ReplacemsgGroup
+
+		if err = d.Set("replacemsg_group", v); err != nil {
+			return diag.Errorf("error reading replacemsg_group: %v", err)
+		}
+	}
+
 	if o.SslCertificate != nil {
 		v := *o.SslCertificate
 
@@ -300,6 +316,15 @@ func getObjectFirewallAccessProxyVirtualHost(d *schema.ResourceData, sv string) 
 				diags = append(diags, e)
 			}
 			obj.Name = &v2
+		}
+	}
+	if v1, ok := d.GetOk("replacemsg_group"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("replacemsg_group", sv)
+				diags = append(diags, e)
+			}
+			obj.ReplacemsgGroup = &v2
 		}
 	}
 	if v1, ok := d.GetOk("ssl_certificate"); ok {

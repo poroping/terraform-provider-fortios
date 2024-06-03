@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -184,6 +184,29 @@ func resourceSystemCsf() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"file_mgmt": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable Security Fabric daemon file management.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"file_quota": {
+				Type: schema.TypeInt,
+
+				Description: "Maximum amount of memory that can be used by the daemon files (in bytes).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"file_quota_warning": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(1, 99),
+
+				Description: "Warn when the set percentage of quota has been used.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"forticloud_account_enforcement": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -237,6 +260,14 @@ func resourceSystemCsf() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"default", "local"}, false),
 
 				Description: "SAML setting configuration synchronization.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"source_ip": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.IsIPv4Address,
+
+				Description: "Source IP address for communication with the upstream FortiGate.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -294,6 +325,14 @@ func resourceSystemCsf() *schema.Resource {
 							Optional:         true,
 							Computed:         true,
 						},
+						"index": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(1, 1024),
+
+							Description: "Index of the downstream in tree.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"name": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
@@ -318,6 +357,22 @@ func resourceSystemCsf() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 255),
 
 				Description: "IP/FQDN of the FortiGate upstream from this FortiGate in the Security Fabric.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"upstream_interface": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 15),
+
+				Description: "Specify outgoing interface to reach server.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"upstream_interface_select_method": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"auto", "sdwan", "specify"}, false),
+
+				Description: "Specify how to select outgoing interface to reach server.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -581,6 +636,10 @@ func flattenSystemCsfTrustedList(d *schema.ResourceData, v *[]models.SystemCsfTr
 				v["ha_members"] = *tmp
 			}
 
+			if tmp := cfg.Index; tmp != nil {
+				v["index"] = *tmp
+			}
+
 			if tmp := cfg.Name; tmp != nil {
 				v["name"] = *tmp
 			}
@@ -679,6 +738,30 @@ func refreshObjectSystemCsf(d *schema.ResourceData, o *models.SystemCsf, sv stri
 		}
 	}
 
+	if o.FileMgmt != nil {
+		v := *o.FileMgmt
+
+		if err = d.Set("file_mgmt", v); err != nil {
+			return diag.Errorf("error reading file_mgmt: %v", err)
+		}
+	}
+
+	if o.FileQuota != nil {
+		v := *o.FileQuota
+
+		if err = d.Set("file_quota", v); err != nil {
+			return diag.Errorf("error reading file_quota: %v", err)
+		}
+	}
+
+	if o.FileQuotaWarning != nil {
+		v := *o.FileQuotaWarning
+
+		if err = d.Set("file_quota_warning", v); err != nil {
+			return diag.Errorf("error reading file_quota_warning: %v", err)
+		}
+	}
+
 	if o.ForticloudAccountEnforcement != nil {
 		v := *o.ForticloudAccountEnforcement
 
@@ -736,6 +819,14 @@ func refreshObjectSystemCsf(d *schema.ResourceData, o *models.SystemCsf, sv stri
 		}
 	}
 
+	if o.SourceIp != nil {
+		v := *o.SourceIp
+
+		if err = d.Set("source_ip", v); err != nil {
+			return diag.Errorf("error reading source_ip: %v", err)
+		}
+	}
+
 	if o.Status != nil {
 		v := *o.Status
 
@@ -755,6 +846,22 @@ func refreshObjectSystemCsf(d *schema.ResourceData, o *models.SystemCsf, sv stri
 
 		if err = d.Set("upstream", v); err != nil {
 			return diag.Errorf("error reading upstream: %v", err)
+		}
+	}
+
+	if o.UpstreamInterface != nil {
+		v := *o.UpstreamInterface
+
+		if err = d.Set("upstream_interface", v); err != nil {
+			return diag.Errorf("error reading upstream_interface: %v", err)
+		}
+	}
+
+	if o.UpstreamInterfaceSelectMethod != nil {
+		v := *o.UpstreamInterfaceSelectMethod
+
+		if err = d.Set("upstream_interface_select_method", v); err != nil {
+			return diag.Errorf("error reading upstream_interface_select_method: %v", err)
 		}
 	}
 
@@ -908,6 +1015,14 @@ func expandSystemCsfTrustedList(d *schema.ResourceData, v interface{}, pre strin
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.index", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Index = &v3
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
@@ -1038,6 +1153,35 @@ func getObjectSystemCsf(d *schema.ResourceData, sv string) (*models.SystemCsf, d
 			obj.FabricWorkers = &tmp
 		}
 	}
+	if v1, ok := d.GetOk("file_mgmt"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("file_mgmt", sv)
+				diags = append(diags, e)
+			}
+			obj.FileMgmt = &v2
+		}
+	}
+	if v1, ok := d.GetOk("file_quota"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("file_quota", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.FileQuota = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("file_quota_warning"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("file_quota_warning", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.FileQuotaWarning = &tmp
+		}
+	}
 	if v1, ok := d.GetOk("forticloud_account_enforcement"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "v7.0.4", "") {
@@ -1102,6 +1246,15 @@ func getObjectSystemCsf(d *schema.ResourceData, sv string) (*models.SystemCsf, d
 			obj.SamlConfigurationSync = &v2
 		}
 	}
+	if v1, ok := d.GetOk("source_ip"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("source_ip", sv)
+				diags = append(diags, e)
+			}
+			obj.SourceIp = &v2
+		}
+	}
 	if v1, ok := d.GetOk("status"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -1135,6 +1288,24 @@ func getObjectSystemCsf(d *schema.ResourceData, sv string) (*models.SystemCsf, d
 				diags = append(diags, e)
 			}
 			obj.Upstream = &v2
+		}
+	}
+	if v1, ok := d.GetOk("upstream_interface"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("upstream_interface", sv)
+				diags = append(diags, e)
+			}
+			obj.UpstreamInterface = &v2
+		}
+	}
+	if v1, ok := d.GetOk("upstream_interface_select_method"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("upstream_interface_select_method", sv)
+				diags = append(diags, e)
+			}
+			obj.UpstreamInterfaceSelectMethod = &v2
 		}
 	}
 	if v1, ok := d.GetOk("upstream_ip"); ok {

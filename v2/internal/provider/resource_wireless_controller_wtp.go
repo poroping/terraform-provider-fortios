@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -74,6 +74,22 @@ func resourceWirelessControllerWtp() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 35),
 
 				Description: "AP local configuration profile name.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"ble_major_id": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 65535),
+
+				Description: "Override BLE Major ID.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"ble_minor_id": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 65535),
+
+				Description: "Override BLE Minor ID.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -451,7 +467,7 @@ func resourceWirelessControllerWtp() *schema.Resource {
 						},
 						"band": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"802.11a", "802.11b", "802.11g", "802.11n", "802.11n-5G", "802.11ac", "802.11ax-5G", "802.11ax", "802.11ac-2G", "802.11n,g-only", "802.11g-only", "802.11n-only", "802.11n-5G-only", "802.11ac,n-only", "802.11ac-only", "802.11ax,ac-only", "802.11ax,ac,n-only", "802.11ax-5G-only", "802.11ax,n-only", "802.11ax,n,g-only", "802.11ax-only"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"802.11a", "802.11b", "802.11g", "802.11n", "802.11n-5G", "802.11ac", "802.11ax-5G", "802.11ax", "802.11ac-2G", "802.11ax-6G", "802.11n,g-only", "802.11g-only", "802.11n-only", "802.11n-5G-only", "802.11ac,n-only", "802.11ac-only", "802.11ax,ac-only", "802.11ax,ac,n-only", "802.11ax-5G-only", "802.11ax,n-only", "802.11ax,n,g-only", "802.11ax-only"}, false),
 
 							Description: "WiFi band that Radio 1 operates on.",
 							Optional:    true,
@@ -620,7 +636,7 @@ func resourceWirelessControllerWtp() *schema.Resource {
 						},
 						"band": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"802.11a", "802.11b", "802.11g", "802.11n", "802.11n-5G", "802.11ac", "802.11ax-5G", "802.11ax", "802.11ac-2G", "802.11n,g-only", "802.11g-only", "802.11n-only", "802.11n-5G-only", "802.11ac,n-only", "802.11ac-only", "802.11ax,ac-only", "802.11ax,ac,n-only", "802.11ax-5G-only", "802.11ax,n-only", "802.11ax,n,g-only", "802.11ax-only"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"802.11a", "802.11b", "802.11g", "802.11n", "802.11n-5G", "802.11ac", "802.11ax-5G", "802.11ax", "802.11ac-2G", "802.11ax-6G", "802.11n,g-only", "802.11g-only", "802.11n-only", "802.11n-5G-only", "802.11ac,n-only", "802.11ac-only", "802.11ax,ac-only", "802.11ax,ac,n-only", "802.11ax-5G-only", "802.11ax,n-only", "802.11ax,n,g-only", "802.11ax-only"}, false),
 
 							Description: "WiFi band that Radio 2 operates on.",
 							Optional:    true,
@@ -789,7 +805,7 @@ func resourceWirelessControllerWtp() *schema.Resource {
 						},
 						"band": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"802.11a", "802.11b", "802.11g", "802.11n", "802.11n-5G", "802.11ac", "802.11ax-5G", "802.11ax", "802.11ac-2G", "802.11n,g-only", "802.11g-only", "802.11n-only", "802.11n-5G-only", "802.11ac,n-only", "802.11ac-only", "802.11ax,ac-only", "802.11ax,ac,n-only", "802.11ax-5G-only", "802.11ax,n-only", "802.11ax,n,g-only", "802.11ax-only"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"802.11a", "802.11b", "802.11g", "802.11n", "802.11n-5G", "802.11ac", "802.11ax-5G", "802.11ax", "802.11ac-2G", "802.11ax-6G", "802.11n,g-only", "802.11g-only", "802.11n-only", "802.11n-5G-only", "802.11ac,n-only", "802.11ac-only", "802.11ax,ac-only", "802.11ax,ac,n-only", "802.11ax-5G-only", "802.11ax,n-only", "802.11ax,n,g-only", "802.11ax-only"}, false),
 
 							Description: "WiFi band that Radio 3 operates on.",
 							Optional:    true,
@@ -958,7 +974,7 @@ func resourceWirelessControllerWtp() *schema.Resource {
 						},
 						"band": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"802.11a", "802.11b", "802.11g", "802.11n", "802.11n-5G", "802.11ac", "802.11ax-5G", "802.11ax", "802.11ac-2G", "802.11n,g-only", "802.11g-only", "802.11n-only", "802.11n-5G-only", "802.11ac,n-only", "802.11ac-only", "802.11ax,ac-only", "802.11ax,ac,n-only", "802.11ax-5G-only", "802.11ax,n-only", "802.11ax,n,g-only", "802.11ax-only"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"802.11a", "802.11b", "802.11g", "802.11n", "802.11n-5G", "802.11ac", "802.11ax-5G", "802.11ax", "802.11ac-2G", "802.11ax-6G", "802.11n,g-only", "802.11g-only", "802.11n-only", "802.11n-5G-only", "802.11ac,n-only", "802.11ac-only", "802.11ax,ac-only", "802.11ax,ac,n-only", "802.11ax-5G-only", "802.11ax,n-only", "802.11ax,n,g-only", "802.11ax-only"}, false),
 
 							Description: "WiFi band that Radio 4 operates on.",
 							Optional:    true,
@@ -2036,6 +2052,22 @@ func refreshObjectWirelessControllerWtp(d *schema.ResourceData, o *models.Wirele
 
 		if err = d.Set("apcfg_profile", v); err != nil {
 			return diag.Errorf("error reading apcfg_profile: %v", err)
+		}
+	}
+
+	if o.BleMajorId != nil {
+		v := *o.BleMajorId
+
+		if err = d.Set("ble_major_id", v); err != nil {
+			return diag.Errorf("error reading ble_major_id: %v", err)
+		}
+	}
+
+	if o.BleMinorId != nil {
+		v := *o.BleMinorId
+
+		if err = d.Set("ble_minor_id", v); err != nil {
+			return diag.Errorf("error reading ble_minor_id: %v", err)
 		}
 	}
 
@@ -3375,6 +3407,26 @@ func getObjectWirelessControllerWtp(d *schema.ResourceData, sv string) (*models.
 				diags = append(diags, e)
 			}
 			obj.ApcfgProfile = &v2
+		}
+	}
+	if v1, ok := d.GetOk("ble_major_id"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("ble_major_id", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.BleMajorId = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("ble_minor_id"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("ble_minor_id", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.BleMinorId = &tmp
 		}
 	}
 	if v1, ok := d.GetOk("bonjour_profile"); ok {

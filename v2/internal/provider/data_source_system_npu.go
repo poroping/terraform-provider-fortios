@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.6,v7.0.2 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.6,v7.0.2,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -36,7 +36,7 @@ func dataSourceSystemNpu() *schema.Resource {
 			},
 			"dedicated_management_affinity": {
 				Type:        schema.TypeString,
-				Description: "Affinity setting for management deamons (hexadecimal value up to 256 bits in the format of xxxxxxxxxxxxxxxx).",
+				Description: "Affinity setting for management daemons (hexadecimal value up to 256 bits in the format of xxxxxxxxxxxxxxxx).",
 				Computed:    true,
 			},
 			"dedicated_management_cpu": {
@@ -57,12 +57,12 @@ func dataSourceSystemNpu() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						"npu_dos_meter_mode": {
 							Type:        schema.TypeString,
-							Description: "Set DoS meter npu offloading mode.",
+							Description: "Set DoS meter NPU offloading mode.",
 							Computed:    true,
 						},
 						"npu_dos_tpe_mode": {
 							Type:        schema.TypeString,
-							Description: "Enable/Disable inserting DoS meter id to session table.",
+							Description: "Enable/disable insertion of DoS meter ID to session table.",
 							Computed:    true,
 						},
 					},
@@ -130,12 +130,12 @@ func dataSourceSystemNpu() *schema.Resource {
 						},
 						"profile_id": {
 							Type:        schema.TypeInt,
-							Description: "Set NPU DSW DTS profile id.",
+							Description: "Set NPU DSW DTS profile ID.",
 							Computed:    true,
 						},
 						"queue_select": {
 							Type:        schema.TypeInt,
-							Description: "Set NPU DSW DTS queue id select(0 - reset to default).",
+							Description: "Set NPU DSW DTS queue ID select (0 - reset to default).",
 							Computed:    true,
 						},
 					},
@@ -277,6 +277,11 @@ func dataSourceSystemNpu() *schema.Resource {
 							Description: "Unknown option anomalies.",
 							Computed:    true,
 						},
+						"sctp_csum_err": {
+							Type:        schema.TypeString,
+							Description: "Invalid IPv4 SCTP checksum anomalies.",
+							Computed:    true,
+						},
 						"tcp_csum_err": {
 							Type:        schema.TypeString,
 							Description: "Invalid IPv4 TCP checksum anomalies.",
@@ -348,12 +353,12 @@ func dataSourceSystemNpu() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						"all_protocol": {
 							Type:        schema.TypeInt,
-							Description: "Maximum packet rate of each host queue except high priority traffic(1K - 40M pps, default = 400K pps), set 0 to disable.",
+							Description: "Maximum packet rate of each host queue except high priority traffic(1K - 32M pps, default = 400K pps), set 0 to disable.",
 							Computed:    true,
 						},
 						"arp_max": {
 							Type:        schema.TypeInt,
-							Description: "Maximum ARP packet rate (1K - 40M pps, default = 20K pps).",
+							Description: "Maximum ARP packet rate (1K - 32M pps, default = 5K pps). Entry is valid when ARP is removed from high-priority traffic.",
 							Computed:    true,
 						},
 						"enable_shaper": {
@@ -363,62 +368,62 @@ func dataSourceSystemNpu() *schema.Resource {
 						},
 						"esp_max": {
 							Type:        schema.TypeInt,
-							Description: "Maximum ESP packet rate (1K - 40M pps, default = 20K pps).",
+							Description: "Maximum ESP packet rate (1K - 32M pps, default = 5K pps).",
 							Computed:    true,
 						},
 						"high_priority": {
 							Type:        schema.TypeInt,
-							Description: "Maximum packet rate for high priority traffic packets (1K - 40M pps, default = 400K pps).",
+							Description: "Maximum packet rate for high priority traffic packets (1K - 32M pps, default = 400K pps).",
 							Computed:    true,
 						},
 						"icmp_max": {
 							Type:        schema.TypeInt,
-							Description: "Maximum ICMP packet rate (1K - 40M pps, default = 20K pps).",
+							Description: "Maximum ICMP packet rate (1K - 32M pps, default = 5K pps).",
 							Computed:    true,
 						},
 						"ip_frag_max": {
 							Type:        schema.TypeInt,
-							Description: "Maximum fragmented IP packet rate (1K - 40M pps, default = 20K pps).",
+							Description: "Maximum fragmented IP packet rate (1K - 32M pps, default = 5K pps).",
 							Computed:    true,
 						},
 						"ip_others_max": {
 							Type:        schema.TypeInt,
-							Description: "Maximum IP packet rate for other packets (packet types that cannot be set with other options) (1K - 1G pps, default = 20K pps).",
+							Description: "Maximum IP packet rate for other packets (packet types that cannot be set with other options) (1K - 32G pps, default = 5K pps).",
 							Computed:    true,
 						},
 						"l2_others_max": {
 							Type:        schema.TypeInt,
-							Description: "Maximum L2 packet rate for L2 packets that are not ARP packets (1K - 40M pps, default = 20K pps).",
+							Description: "Maximum L2 packet rate for L2 packets that are not ARP packets (1K - 32M pps, default = 5K pps).",
 							Computed:    true,
 						},
 						"sctp_max": {
 							Type:        schema.TypeInt,
-							Description: "Maximum SCTP packet rate (1K - 40M pps, default = 20K pps).",
+							Description: "Maximum SCTP packet rate (1K - 32M pps, default = 5K pps).",
 							Computed:    true,
 						},
 						"tcp_max": {
 							Type:        schema.TypeInt,
-							Description: "Maximum TCP packet rate (1K - 40M pps, default = 40K pps).",
+							Description: "Maximum TCP packet rate (1K - 32M pps, default = 40K pps).",
 							Computed:    true,
 						},
 						"tcpfin_rst_max": {
 							Type:        schema.TypeInt,
-							Description: "Maximum TCP carries FIN or RST flags packet rate (1K - 40M pps, default = 40K pps).",
+							Description: "Maximum TCP carries FIN or RST flags packet rate (1K - 32M pps, default = 40K pps).",
 							Computed:    true,
 						},
 						"tcpsyn_ack_max": {
 							Type:        schema.TypeInt,
-							Description: "Maximum TCP carries SYN and ACK flags packet rate (1K - 40M pps, default = 40K pps).",
+							Description: "Maximum TCP carries SYN and ACK flags packet rate (1K - 32M pps, default = 40K pps).",
 							Computed:    true,
 						},
 						"tcpsyn_max": {
 							Type:        schema.TypeInt,
-							Description: "Maximum TCP SYN packet rate (1K - 40M pps, default = 40K pps).",
+							Description: "Maximum TCP SYN packet rate (1K - 40M pps, default = 32K pps).",
 							Computed:    true,
 						},
 						"udp_max": {
 							Type:        schema.TypeInt,
-							Description: "Maximum UDP packet rate (1K - 40M pps, default = 40K pps).",
+							Description: "Maximum UDP packet rate (1K - 32M pps, default = 40K pps).",
 							Computed:    true,
 						},
 					},
@@ -434,6 +439,11 @@ func dataSourceSystemNpu() *schema.Resource {
 				Description: "Set hash table message queue mode.",
 				Computed:    true,
 			},
+			"htx_icmp_csum_chk": {
+				Type:        schema.TypeString,
+				Description: "Set HTX icmp csum checking mode.",
+				Computed:    true,
+			},
 			"inbound_dscp_copy_port": {
 				Type:        schema.TypeList,
 				Description: "Physical interfaces that support inbound-dscp-copy.",
@@ -447,6 +457,11 @@ func dataSourceSystemNpu() *schema.Resource {
 						},
 					},
 				},
+			},
+			"ip_fragment_offload": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable NP7 NPU IP fragment offload.",
+				Computed:    true,
 			},
 			"ip_reassembly": {
 				Type:        schema.TypeList,
@@ -648,32 +663,32 @@ func dataSourceSystemNpu() *schema.Resource {
 								Schema: map[string]*schema.Schema{
 									"dport": {
 										Type:        schema.TypeInt,
-										Description: "Destination Port.",
+										Description: "Destination port.",
 										Computed:    true,
 									},
 									"name": {
 										Type:        schema.TypeString,
-										Description: "IP Service Name.",
+										Description: "IP service name.",
 										Computed:    true,
 									},
 									"protocol": {
 										Type:        schema.TypeInt,
-										Description: "IP Protocol.",
+										Description: "IP protocol.",
 										Computed:    true,
 									},
 									"queue": {
 										Type:        schema.TypeInt,
-										Description: "Queue Number.",
+										Description: "Queue number.",
 										Computed:    true,
 									},
 									"sport": {
 										Type:        schema.TypeInt,
-										Description: "Source Port.",
+										Description: "Source port.",
 										Computed:    true,
 									},
 									"weight": {
 										Type:        schema.TypeInt,
-										Description: "Class Weight.",
+										Description: "Class weight.",
 										Computed:    true,
 									},
 								},
@@ -1071,12 +1086,12 @@ func dataSourceSystemNpu() *schema.Resource {
 								Schema: map[string]*schema.Schema{
 									"mode": {
 										Type:        schema.TypeString,
-										Description: "Scheduler Mode.",
+										Description: "Scheduler mode.",
 										Computed:    true,
 									},
 									"name": {
 										Type:        schema.TypeString,
-										Description: "Scheduler Name.",
+										Description: "Scheduler name.",
 										Computed:    true,
 									},
 								},
@@ -1090,9 +1105,19 @@ func dataSourceSystemNpu() *schema.Resource {
 				Description: "Enable/disable NP6 connection per second (CPS) optimization mode.",
 				Computed:    true,
 			},
+			"npu_group_effective_scope": {
+				Type:        schema.TypeInt,
+				Description: "npu-group-effective-scope defines under which npu-group cmds such as list/purge will be excecuted. Default scope is for all four HS-ok groups. (0-3, default = 255).",
+				Computed:    true,
+			},
 			"pba_eim": {
 				Type:        schema.TypeString,
 				Description: "Configure option for PBA(non-overload)/EIM combination.",
+				Computed:    true,
+			},
+			"per_policy_accounting": {
+				Type:        schema.TypeString,
+				Description: "Set per-policy accounting.",
 				Computed:    true,
 			},
 			"per_session_accounting": {
@@ -1102,7 +1127,7 @@ func dataSourceSystemNpu() *schema.Resource {
 			},
 			"policy_offload_level": {
 				Type:        schema.TypeString,
-				Description: "Firewall Policy Offload Level(DISABLE/DOS/FULL).",
+				Description: "Configure firewall policy offload level.",
 				Computed:    true,
 			},
 			"port_cpu_map": {
@@ -1132,7 +1157,7 @@ func dataSourceSystemNpu() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						"interface": {
 							Type:        schema.TypeString,
-							Description: "Set npu interface port to NPU group map.",
+							Description: "Set NPU interface port for NPU group mapping.",
 							Computed:    true,
 						},
 						"npu_group_index": {
@@ -1172,6 +1197,11 @@ func dataSourceSystemNpu() *schema.Resource {
 				Description: "QoS mode on switch and NP.",
 				Computed:    true,
 			},
+			"qtm_buf_mode": {
+				Type:        schema.TypeString,
+				Description: "QTM channel configuration for packet buffer.",
+				Computed:    true,
+			},
 			"rdp_offload": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable rdp offload.",
@@ -1185,6 +1215,11 @@ func dataSourceSystemNpu() *schema.Resource {
 			"session_acct_interval": {
 				Type:        schema.TypeInt,
 				Description: "Session accounting update interval (1 - 10 sec, default 5 sec).",
+				Computed:    true,
+			},
+			"shaping_stats": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable NP7 traffic shaping statistics (default = disable).",
 				Computed:    true,
 			},
 			"sse_backpressure": {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -38,6 +38,11 @@ func dataSourceSystemInterface() *schema.Resource {
 			"aggregate": {
 				Type:        schema.TypeString,
 				Description: "Aggregate interface.",
+				Computed:    true,
+			},
+			"aggregate_type": {
+				Type:        schema.TypeString,
+				Description: "Type of aggregation.",
 				Computed:    true,
 			},
 			"algorithm": {
@@ -502,6 +507,11 @@ func dataSourceSystemInterface() *schema.Resource {
 				Description: "Transparent mode forward domain.",
 				Computed:    true,
 			},
+			"forward_error_correction": {
+				Type:        schema.TypeString,
+				Description: "Configure forward error correction (FEC).",
+				Computed:    true,
+			},
 			"gwdetect": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable detect gateway alive for first.",
@@ -539,7 +549,7 @@ func dataSourceSystemInterface() *schema.Resource {
 			},
 			"inbandwidth": {
 				Type:        schema.TypeInt,
-				Description: "Bandwidth limit for incoming traffic (0 - 16776000 kbps), 0 means unlimited.",
+				Description: "Bandwidth limit for incoming traffic (0 - 100000000 kbps), 0 means unlimited.",
 				Computed:    true,
 			},
 			"ingress_cos": {
@@ -675,6 +685,11 @@ func dataSourceSystemInterface() *schema.Resource {
 						"dhcp6_relay_service": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable DHCPv6 relay.",
+							Computed:    true,
+						},
+						"dhcp6_relay_source_interface": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable use of address on this interface as the source address of the relay message.",
 							Computed:    true,
 						},
 						"dhcp6_relay_type": {
@@ -1015,6 +1030,11 @@ func dataSourceSystemInterface() *schema.Resource {
 				Description: "Enable/disable l2 forwarding.",
 				Computed:    true,
 			},
+			"lacp_ha_secondary": {
+				Type:        schema.TypeString,
+				Description: "LACP HA secondary member.",
+				Computed:    true,
+			},
 			"lacp_ha_slave": {
 				Type:        schema.TypeString,
 				Description: "LACP HA slave.",
@@ -1154,9 +1174,14 @@ func dataSourceSystemInterface() *schema.Resource {
 				Description: "Enable/disable NetFlow on this interface and set the data that NetFlow collects (rx, tx, or both).",
 				Computed:    true,
 			},
+			"np_qos_profile": {
+				Type:        schema.TypeInt,
+				Description: "NP QoS profile ID.",
+				Computed:    true,
+			},
 			"outbandwidth": {
 				Type:        schema.TypeInt,
-				Description: "Bandwidth limit for outgoing traffic (0 - 16776000 kbps), 0 means unlimited.",
+				Description: "Bandwidth limit for outgoing traffic (0 - 100000000 kbps).",
 				Computed:    true,
 			},
 			"padt_retry_timeout": {
@@ -1335,6 +1360,21 @@ func dataSourceSystemInterface() *schema.Resource {
 					},
 				},
 			},
+			"security_8021x_dynamic_vlan_id": {
+				Type:        schema.TypeInt,
+				Description: "VLAN ID for virtual switch.",
+				Computed:    true,
+			},
+			"security_8021x_master": {
+				Type:        schema.TypeString,
+				Description: "802.1X master virtual-switch.",
+				Computed:    true,
+			},
+			"security_8021x_mode": {
+				Type:        schema.TypeString,
+				Description: "802.1X mode.",
+				Computed:    true,
+			},
 			"security_exempt_list": {
 				Type:        schema.TypeString,
 				Description: "Name of security-exempt-list.",
@@ -1412,6 +1452,16 @@ func dataSourceSystemInterface() *schema.Resource {
 			"status": {
 				Type:        schema.TypeString,
 				Description: "Bring the interface up or shut the interface down.",
+				Computed:    true,
+			},
+			"stp": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable STP.",
+				Computed:    true,
+			},
+			"stp_ha_secondary": {
+				Type:        schema.TypeString,
+				Description: "Control STP behavior on HA secondary.",
 				Computed:    true,
 			},
 			"stpforward": {
@@ -1519,6 +1569,11 @@ func dataSourceSystemInterface() *schema.Resource {
 				Description: "Integrated FortiLink settings for managed FortiSwitch.",
 				Computed:    true,
 			},
+			"switch_controller_netflow_collect": {
+				Type:        schema.TypeString,
+				Description: "NetFlow collection and processing.",
+				Computed:    true,
+			},
 			"switch_controller_rspan_mode": {
 				Type:        schema.TypeString,
 				Description: "Stop Layer2 MAC learning and interception of BPDUs and other packets on this interface.",
@@ -1580,6 +1635,11 @@ func dataSourceSystemInterface() *schema.Resource {
 			"tcp_mss": {
 				Type:        schema.TypeInt,
 				Description: "TCP maximum segment size. 0 means do not change segment size.",
+				Computed:    true,
+			},
+			"trunk": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable VLAN trunk.",
 				Computed:    true,
 			},
 			"trust_ip_1": {

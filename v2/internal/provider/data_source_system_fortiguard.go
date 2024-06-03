@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -74,6 +74,31 @@ func dataSourceSystemFortiguard() *schema.Resource {
 				Description: "Port to connect to on the FortiGuard anycast DNS rating server.",
 				Computed:    true,
 			},
+			"auto_firmware_upgrade": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable automatic patch-level firmware upgrade from FortiGuard. The FortiGate unit searches for new patches only in the same major and minor version.",
+				Computed:    true,
+			},
+			"auto_firmware_upgrade_day": {
+				Type:        schema.TypeString,
+				Description: "Allowed day(s) of the week to install an automatic patch-level firmware upgrade from FortiGuard (default is none). Disallow any day of the week to use auto-firmware-upgrade-delay instead, which waits for designated days before installing an automatic patch-level firmware upgrade.",
+				Computed:    true,
+			},
+			"auto_firmware_upgrade_delay": {
+				Type:        schema.TypeInt,
+				Description: "Delay of day(s) before installing an automatic patch-level firmware upgrade from FortiGuard (default = 3). Set it 0 to use auto-firmware-upgrade-day instead, which selects allowed day(s) of the week for installing an automatic patch-level firmware upgrade.",
+				Computed:    true,
+			},
+			"auto_firmware_upgrade_end_hour": {
+				Type:        schema.TypeInt,
+				Description: "End time in the designated time window for automatic patch-level firmware upgrade from FortiGuard in 24 hour time (0 ~ 23, default = 4). When the end time is smaller than the start time, the end time is interpreted as the next day. The actual upgrade time is selected randomly within the time window.",
+				Computed:    true,
+			},
+			"auto_firmware_upgrade_start_hour": {
+				Type:        schema.TypeInt,
+				Description: "Start time in the designated time window for automatic patch-level firmware upgrade from FortiGuard in 24 hour time (0 ~ 23, default = 2). The actual upgrade time is selected randomly within the time window.",
+				Computed:    true,
+			},
 			"auto_join_forticloud": {
 				Type:        schema.TypeString,
 				Description: "Automatically connect to and login to FortiCloud.",
@@ -102,6 +127,11 @@ func dataSourceSystemFortiguard() *schema.Resource {
 			"fortiguard_anycast_source": {
 				Type:        schema.TypeString,
 				Description: "Configure which of Fortinet's servers to provide FortiGuard services in FortiGuard's anycast network. Default is Fortinet.",
+				Computed:    true,
+			},
+			"gui_prompt_auto_upgrade": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable prompting of automatic patch-level firmware upgrade recommendation.",
 				Computed:    true,
 			},
 			"interface": {
@@ -177,7 +207,7 @@ func dataSourceSystemFortiguard() *schema.Resource {
 			},
 			"proxy_server_ip": {
 				Type:        schema.TypeString,
-				Description: "IP address of the proxy server.",
+				Description: "Hostname or IP address of the proxy server.",
 				Computed:    true,
 			},
 			"proxy_server_port": {
@@ -190,9 +220,14 @@ func dataSourceSystemFortiguard() *schema.Resource {
 				Description: "Proxy user name.",
 				Computed:    true,
 			},
+			"sandbox_inline_scan": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable FortiCloud Sandbox inline-scan.",
+				Computed:    true,
+			},
 			"sandbox_region": {
 				Type:        schema.TypeString,
-				Description: "Cloud sandbox region.",
+				Description: "FortiCloud Sandbox region.",
 				Computed:    true,
 			},
 			"sdns_options": {

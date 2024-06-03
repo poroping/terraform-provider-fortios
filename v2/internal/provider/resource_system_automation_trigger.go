@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -61,7 +61,7 @@ func resourceSystemAutomationTrigger() *schema.Resource {
 			},
 			"event_type": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"ioc", "event-log", "reboot", "low-memory", "high-cpu", "license-near-expiry", "ha-failover", "config-change", "security-rating-summary", "virus-ips-db-updated", "faz-event", "incoming-webhook", "fabric-event", "ips-logs", "anomaly-logs", "virus-logs", "ssh-logs", "webfilter-violation", "traffic-violation"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"ioc", "event-log", "reboot", "low-memory", "high-cpu", "license-near-expiry", "local-cert-near-expiry", "ha-failover", "config-change", "security-rating-summary", "virus-ips-db-updated", "faz-event", "incoming-webhook", "fabric-event", "ips-logs", "anomaly-logs", "virus-logs", "ssh-logs", "webfilter-violation", "traffic-violation"}, false),
 
 				Description: "Event type.",
 				Optional:    true,
@@ -196,6 +196,13 @@ func resourceSystemAutomationTrigger() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"trigger_datetime": {
+				Type: schema.TypeString,
+
+				Description: "Trigger date and time (YYYY-MM-DD HH:MM:SS).",
+				Optional:    true,
+				Computed:    true,
+			},
 			"trigger_day": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 31),
@@ -206,7 +213,7 @@ func resourceSystemAutomationTrigger() *schema.Resource {
 			},
 			"trigger_frequency": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"hourly", "daily", "weekly", "monthly"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"hourly", "daily", "weekly", "monthly", "once"}, false),
 
 				Description: "Scheduled trigger frequency (default = daily).",
 				Optional:    true,
@@ -603,6 +610,14 @@ func refreshObjectSystemAutomationTrigger(d *schema.ResourceData, o *models.Syst
 		}
 	}
 
+	if o.TriggerDatetime != nil {
+		v := *o.TriggerDatetime
+
+		if err = d.Set("trigger_datetime", v); err != nil {
+			return diag.Errorf("error reading trigger_datetime: %v", err)
+		}
+	}
+
 	if o.TriggerDay != nil {
 		v := *o.TriggerDay
 
@@ -834,7 +849,7 @@ func getObjectSystemAutomationTrigger(d *schema.ResourceData, sv string) (*model
 	}
 	if v1, ok := d.GetOk("ioc_level"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.8") {
 				e := utils.AttributeVersionWarning("ioc_level", sv)
 				diags = append(diags, e)
 			}
@@ -892,6 +907,15 @@ func getObjectSystemAutomationTrigger(d *schema.ResourceData, sv string) (*model
 				diags = append(diags, e)
 			}
 			obj.Serial = &v2
+		}
+	}
+	if v1, ok := d.GetOk("trigger_datetime"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("trigger_datetime", sv)
+				diags = append(diags, e)
+			}
+			obj.TriggerDatetime = &v2
 		}
 	}
 	if v1, ok := d.GetOk("trigger_day"); ok {

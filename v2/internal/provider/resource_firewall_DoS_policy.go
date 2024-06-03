@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -59,7 +59,7 @@ func resourceFirewallDoSPolicy() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						"action": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"pass", "block"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"pass", "block", "proxy"}, false),
 
 							Description: "Action taken when the threshold is reached.",
 							Optional:    true,
@@ -112,18 +112,74 @@ func resourceFirewallDoSPolicy() *schema.Resource {
 							Optional:    true,
 							Computed:    true,
 						},
+						"synproxy_tcp_mss": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"0", "256", "512", "1024", "1300", "1360", "1460", "1500"}, false),
+
+							Description: "Determine TCP maximum segment size (MSS) value for packets replied by syn proxy module.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"synproxy_tcp_sack": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+							Description: "enable/disable TCP selective acknowledage (SACK) for packets replied by syn proxy module.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"synproxy_tcp_timestamp": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+							Description: "enable/disable TCP timestamp option for packets replied by syn proxy module.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"synproxy_tcp_window": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"4096", "8192", "16384", "32768"}, false),
+
+							Description: "Determine TCP Window size for packets replied by syn proxy module.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"synproxy_tcp_windowscale": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"}, false),
+
+							Description: "Determine TCP window scale option value for packets replied by syn proxy module.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"synproxy_tos": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"0", "10", "12", "14", "18", "20", "22", "26", "28", "30", "34", "36", "38", "40", "46", "255"}, false),
+
+							Description: "Determine TCP differentiated services code point value (type of service).",
+							Optional:    true,
+							Computed:    true,
+						},
+						"synproxy_ttl": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"32", "64", "128", "255"}, false),
+
+							Description: "Determine Time to live (TTL) value for packets replied by syn proxy module.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"threshold": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 2147483647),
 
-							Description: "Anomaly threshold. Number of detected instances per minute that triggers the anomaly action.",
+							Description: "Anomaly threshold. Number of detected instances (packets per second or concurrent session number) that triggers the anomaly action.",
 							Optional:    true,
 							Computed:    true,
 						},
 						"thresholddefault": {
 							Type: schema.TypeInt,
 
-							Description: "Number of detected instances per minute which triggers action (1 - 2147483647, default = 1000). Note that each anomaly has a different threshold value assigned to it.",
+							Description: "Number of detected instances (packets per second or concurrent session number) which triggers action (1 - 2147483647, default = 1000). Note that each anomaly has a different threshold value assigned to it.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -414,6 +470,34 @@ func flattenFirewallDoSPolicyAnomaly(d *schema.ResourceData, v *[]models.Firewal
 				v["status"] = *tmp
 			}
 
+			if tmp := cfg.SynproxyTcpMss; tmp != nil {
+				v["synproxy_tcp_mss"] = *tmp
+			}
+
+			if tmp := cfg.SynproxyTcpSack; tmp != nil {
+				v["synproxy_tcp_sack"] = *tmp
+			}
+
+			if tmp := cfg.SynproxyTcpTimestamp; tmp != nil {
+				v["synproxy_tcp_timestamp"] = *tmp
+			}
+
+			if tmp := cfg.SynproxyTcpWindow; tmp != nil {
+				v["synproxy_tcp_window"] = *tmp
+			}
+
+			if tmp := cfg.SynproxyTcpWindowscale; tmp != nil {
+				v["synproxy_tcp_windowscale"] = *tmp
+			}
+
+			if tmp := cfg.SynproxyTos; tmp != nil {
+				v["synproxy_tos"] = *tmp
+			}
+
+			if tmp := cfg.SynproxyTtl; tmp != nil {
+				v["synproxy_ttl"] = *tmp
+			}
+
 			if tmp := cfg.Threshold; tmp != nil {
 				v["threshold"] = *tmp
 			}
@@ -627,6 +711,55 @@ func expandFirewallDoSPolicyAnomaly(d *schema.ResourceData, v interface{}, pre s
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.Status = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.synproxy_tcp_mss", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.SynproxyTcpMss = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.synproxy_tcp_sack", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.SynproxyTcpSack = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.synproxy_tcp_timestamp", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.SynproxyTcpTimestamp = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.synproxy_tcp_window", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.SynproxyTcpWindow = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.synproxy_tcp_windowscale", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.SynproxyTcpWindowscale = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.synproxy_tos", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.SynproxyTos = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.synproxy_ttl", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.SynproxyTtl = &v2
 			}
 		}
 

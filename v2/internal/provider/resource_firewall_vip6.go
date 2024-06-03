@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -295,6 +295,14 @@ func resourceFirewallVip6() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"ndp_reply": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+				Description: "Enable/disable this FortiGate unit's ability to respond to NDP requests for this virtual IP address (default = enable).",
+				Optional:    true,
+				Computed:    true,
+			},
 			"outlook_web_access": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
@@ -416,6 +424,14 @@ func resourceFirewallVip6() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{"active", "standby", "disable"}, false),
 
 							Description: "Set the status of the real server to active so that it can accept traffic, or on standby or disabled so no traffic is sent.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"translate_host": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+							Description: "Enable/disable translation of hostname/IP from virtual server to real server.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -751,6 +767,14 @@ func resourceFirewallVip6() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"ssl_server_renegotiation": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable secure renegotiation to comply with RFC 5746.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"ssl_server_session_state_max": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 10000),
@@ -1030,6 +1054,10 @@ func flattenFirewallVip6Realservers(d *schema.ResourceData, v *[]models.Firewall
 
 			if tmp := cfg.Status; tmp != nil {
 				v["status"] = *tmp
+			}
+
+			if tmp := cfg.TranslateHost; tmp != nil {
+				v["translate_host"] = *tmp
 			}
 
 			if tmp := cfg.Weight; tmp != nil {
@@ -1392,6 +1420,14 @@ func refreshObjectFirewallVip6(d *schema.ResourceData, o *models.FirewallVip6, s
 		}
 	}
 
+	if o.NdpReply != nil {
+		v := *o.NdpReply
+
+		if err = d.Set("ndp_reply", v); err != nil {
+			return diag.Errorf("error reading ndp_reply: %v", err)
+		}
+	}
+
 	if o.OutlookWebAccess != nil {
 		v := *o.OutlookWebAccess
 
@@ -1688,6 +1724,14 @@ func refreshObjectFirewallVip6(d *schema.ResourceData, o *models.FirewallVip6, s
 		}
 	}
 
+	if o.SslServerRenegotiation != nil {
+		v := *o.SslServerRenegotiation
+
+		if err = d.Set("ssl_server_renegotiation", v); err != nil {
+			return diag.Errorf("error reading ssl_server_renegotiation: %v", err)
+		}
+	}
+
 	if o.SslServerSessionStateMax != nil {
 		v := *o.SslServerSessionStateMax
 
@@ -1860,6 +1904,13 @@ func expandFirewallVip6Realservers(d *schema.ResourceData, v interface{}, pre st
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.translate_host", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.TranslateHost = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.weight", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(int); ok {
@@ -2014,7 +2065,7 @@ func getObjectFirewallVip6(d *schema.ResourceData, sv string) (*models.FirewallV
 	}
 	if v1, ok := d.GetOk("arp_reply"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.8") {
 				e := utils.AttributeVersionWarning("arp_reply", sv)
 				diags = append(diags, e)
 			}
@@ -2284,6 +2335,15 @@ func getObjectFirewallVip6(d *schema.ResourceData, sv string) (*models.FirewallV
 				diags = append(diags, e)
 			}
 			obj.Nat66 = &v2
+		}
+	}
+	if v1, ok := d.GetOk("ndp_reply"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("ndp_reply", sv)
+				diags = append(diags, e)
+			}
+			obj.NdpReply = &v2
 		}
 	}
 	if v1, ok := d.GetOk("outlook_web_access"); ok {
@@ -2663,6 +2723,15 @@ func getObjectFirewallVip6(d *schema.ResourceData, sv string) (*models.FirewallV
 				diags = append(diags, e)
 			}
 			obj.SslServerMinVersion = &v2
+		}
+	}
+	if v1, ok := d.GetOk("ssl_server_renegotiation"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("ssl_server_renegotiation", sv)
+				diags = append(diags, e)
+			}
+			obj.SslServerRenegotiation = &v2
 		}
 	}
 	if v1, ok := d.GetOk("ssl_server_session_state_max"); ok {

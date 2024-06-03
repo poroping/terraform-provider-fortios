@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -107,6 +107,40 @@ func dataSourceSwitchControllerManagedSwitch() *schema.Resource {
 				Type:        schema.TypeString,
 				Description: "DHCP snooping server access list.",
 				Computed:    true,
+			},
+			"dhcp_snooping_static_client": {
+				Type:        schema.TypeList,
+				Description: "Configure FortiSwitch DHCP snooping static clients.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"ip": {
+							Type:        schema.TypeString,
+							Description: "Client static IP address.",
+							Computed:    true,
+						},
+						"mac": {
+							Type:        schema.TypeString,
+							Description: "Client MAC address.",
+							Computed:    true,
+						},
+						"name": {
+							Type:        schema.TypeString,
+							Description: "Client name.",
+							Computed:    true,
+						},
+						"port": {
+							Type:        schema.TypeString,
+							Description: "Interface name.",
+							Computed:    true,
+						},
+						"vlan": {
+							Type:        schema.TypeString,
+							Description: "VLAN name.",
+							Computed:    true,
+						},
+					},
+				},
 			},
 			"directly_connected": {
 				Type:        schema.TypeInt,
@@ -530,6 +564,11 @@ func dataSourceSwitchControllerManagedSwitch() *schema.Resource {
 							Description: "Set IGMP snooping mode for the physical port interface.",
 							Computed:    true,
 						},
+						"igmp_snooping_flood_reports": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable flooding of IGMP reports to this interface when igmp-snooping enabled.",
+							Computed:    true,
+						},
 						"igmps_flood_reports": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable flooding of IGMP reports to this interface when igmp-snooping enabled.",
@@ -624,6 +663,11 @@ func dataSourceSwitchControllerManagedSwitch() *schema.Resource {
 							Description: "Maximum size of LAG bundle (1 - 24, default = 24).",
 							Computed:    true,
 						},
+						"mcast_snooping_flood_traffic": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable flooding of IGMP snooping traffic to this interface.",
+							Computed:    true,
+						},
 						"mclag": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable multi-chassis link aggregation (MCLAG).",
@@ -701,6 +745,26 @@ func dataSourceSwitchControllerManagedSwitch() *schema.Resource {
 						"poe_max_power": {
 							Type:        schema.TypeString,
 							Description: "PoE maximum power.",
+							Computed:    true,
+						},
+						"poe_mode_bt_cabable": {
+							Type:        schema.TypeInt,
+							Description: "PoE mode IEEE 802.3BT capable.",
+							Computed:    true,
+						},
+						"poe_port_mode": {
+							Type:        schema.TypeString,
+							Description: "Configure PoE port mode.",
+							Computed:    true,
+						},
+						"poe_port_power": {
+							Type:        schema.TypeString,
+							Description: "Configure PoE port power.",
+							Computed:    true,
+						},
+						"poe_port_priority": {
+							Type:        schema.TypeString,
+							Description: "Configure PoE port priority.",
 							Computed:    true,
 						},
 						"poe_pre_standard_detection": {

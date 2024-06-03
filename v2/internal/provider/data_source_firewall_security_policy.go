@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -128,7 +128,7 @@ func dataSourceFirewallSecurityPolicy() *schema.Resource {
 			},
 			"dstaddr_negate": {
 				Type:        schema.TypeString,
-				Description: "When enabled dstaddr/dstaddr6 specifies what the destination address must NOT be.",
+				Description: "When enabled dstaddr specifies what the destination address must NOT be.",
 				Computed:    true,
 			},
 			"dstaddr4": {
@@ -158,6 +158,11 @@ func dataSourceFirewallSecurityPolicy() *schema.Resource {
 						},
 					},
 				},
+			},
+			"dstaddr6_negate": {
+				Type:        schema.TypeString,
+				Description: "When enabled dstaddr6 specifies what the destination address must NOT be.",
+				Computed:    true,
 			},
 			"dstintf": {
 				Type:        schema.TypeList,
@@ -223,7 +228,7 @@ func dataSourceFirewallSecurityPolicy() *schema.Resource {
 			},
 			"internet_service": {
 				Type:        schema.TypeString,
-				Description: "Enable/disable use of Internet Services for this policy. If enabled, destination address and service are not used.",
+				Description: "Enable/disable use of Internet Services for this policy. If enabled, destination address, service and default application port enforcement are not used.",
 				Computed:    true,
 			},
 			"internet_service_custom": {
@@ -381,9 +386,146 @@ func dataSourceFirewallSecurityPolicy() *schema.Resource {
 				Description: "When enabled internet-service-src specifies what the service must NOT be.",
 				Computed:    true,
 			},
+			"internet_service6": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable use of IPv6 Internet Services for this policy. If enabled, destination address, service and default application port enforcement are not used.",
+				Computed:    true,
+			},
+			"internet_service6_custom": {
+				Type:        schema.TypeList,
+				Description: "Custom IPv6 Internet Service name.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "Custom IPv6 Internet Service name.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service6_custom_group": {
+				Type:        schema.TypeList,
+				Description: "Custom IPv6 Internet Service group name.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "Custom IPv6 Internet Service group name.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service6_group": {
+				Type:        schema.TypeList,
+				Description: "Internet Service group name.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "Internet Service group name.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service6_name": {
+				Type:        schema.TypeList,
+				Description: "IPv6 Internet Service name.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "IPv6 Internet Service name.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service6_negate": {
+				Type:        schema.TypeString,
+				Description: "When enabled internet-service6 specifies what the service must NOT be.",
+				Computed:    true,
+			},
+			"internet_service6_src": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable use of IPv6 Internet Services in source for this policy. If enabled, source address is not used.",
+				Computed:    true,
+			},
+			"internet_service6_src_custom": {
+				Type:        schema.TypeList,
+				Description: "Custom IPv6 Internet Service source name.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "Custom Internet Service name.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service6_src_custom_group": {
+				Type:        schema.TypeList,
+				Description: "Custom Internet Service6 source group name.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "Custom Internet Service6 group name.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service6_src_group": {
+				Type:        schema.TypeList,
+				Description: "Internet Service6 source group name.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "Internet Service group name.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service6_src_name": {
+				Type:        schema.TypeList,
+				Description: "IPv6 Internet Service source name.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:        schema.TypeString,
+							Description: "Internet Service name.",
+							Computed:    true,
+						},
+					},
+				},
+			},
+			"internet_service6_src_negate": {
+				Type:        schema.TypeString,
+				Description: "When enabled internet-service6-src specifies what the service must NOT be.",
+				Computed:    true,
+			},
 			"ips_sensor": {
 				Type:        schema.TypeString,
 				Description: "Name of an existing IPS sensor.",
+				Computed:    true,
+			},
+			"ips_voip_filter": {
+				Type:        schema.TypeString,
+				Description: "Name of an existing VoIP (ips) profile.",
 				Computed:    true,
 			},
 			"learning_mode": {
@@ -486,7 +628,7 @@ func dataSourceFirewallSecurityPolicy() *schema.Resource {
 			},
 			"srcaddr_negate": {
 				Type:        schema.TypeString,
-				Description: "When enabled srcaddr/srcaddr6 specifies what the source address must NOT be.",
+				Description: "When enabled srcaddr specifies what the source address must NOT be.",
 				Computed:    true,
 			},
 			"srcaddr4": {
@@ -516,6 +658,11 @@ func dataSourceFirewallSecurityPolicy() *schema.Resource {
 						},
 					},
 				},
+			},
+			"srcaddr6_negate": {
+				Type:        schema.TypeString,
+				Description: "When enabled srcaddr6 specifies what the source address must NOT be.",
+				Computed:    true,
 			},
 			"srcintf": {
 				Type:        schema.TypeList,
@@ -577,7 +724,7 @@ func dataSourceFirewallSecurityPolicy() *schema.Resource {
 			},
 			"voip_profile": {
 				Type:        schema.TypeString,
-				Description: "Name of an existing VoIP profile.",
+				Description: "Name of an existing VoIP (voipd) profile.",
 				Computed:    true,
 			},
 			"webfilter_profile": {

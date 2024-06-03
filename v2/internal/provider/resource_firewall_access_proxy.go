@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -52,12 +52,37 @@ func resourceFirewallAccessProxy() *schema.Resource {
 				Optional:    true,
 				Default:     false,
 			},
+			"add_vhost_domain_to_dnsdb": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable adding vhost/domain to dnsdb for ztna dox tunnel.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"api_gateway": {
 				Type:        schema.TypeList,
 				Description: "Set IPv4 API Gateway.",
 				Optional:    true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"application": {
+							Type:        schema.TypeList,
+							Description: "SaaS application controlled by this Access Proxy.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"name": {
+										Type:         schema.TypeString,
+										ValidateFunc: validation.StringLenBetween(0, 79),
+
+										Description: "SaaS application name.",
+										Optional:    true,
+										Computed:    true,
+									},
+								},
+							},
+						},
 						"http_cookie_age": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 525600),
@@ -269,6 +294,14 @@ func resourceFirewallAccessProxy() *schema.Resource {
 										Optional:    true,
 										Computed:    true,
 									},
+									"translate_host": {
+										Type:         schema.TypeString,
+										ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+										Description: "Enable/disable translation of hostname/IP from virtual server to real server.",
+										Optional:    true,
+										Computed:    true,
+									},
 									"type": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringInSlice([]string{"tcp-forwarding", "ssh"}, false),
@@ -306,7 +339,7 @@ func resourceFirewallAccessProxy() *schema.Resource {
 						},
 						"service": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"http", "https", "tcp-forwarding", "samlsp", "web-portal"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"http", "https", "tcp-forwarding", "samlsp", "web-portal", "saas"}, false),
 
 							Description: "Service.",
 							Optional:    true,
@@ -376,6 +409,14 @@ func resourceFirewallAccessProxy() *schema.Resource {
 							Optional:    true,
 							Computed:    true,
 						},
+						"ssl_renegotiation": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+							Description: "Enable/disable secure renegotiation to comply with RFC 5746.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"ssl_vpn_web_portal": {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringLenBetween(0, 35),
@@ -417,6 +458,23 @@ func resourceFirewallAccessProxy() *schema.Resource {
 				Optional:    true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"application": {
+							Type:        schema.TypeList,
+							Description: "SaaS application controlled by this Access Proxy.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"name": {
+										Type:         schema.TypeString,
+										ValidateFunc: validation.StringLenBetween(0, 79),
+
+										Description: "SaaS application name.",
+										Optional:    true,
+										Computed:    true,
+									},
+								},
+							},
+						},
 						"http_cookie_age": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 525600),
@@ -628,6 +686,14 @@ func resourceFirewallAccessProxy() *schema.Resource {
 										Optional:    true,
 										Computed:    true,
 									},
+									"translate_host": {
+										Type:         schema.TypeString,
+										ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+										Description: "Enable/disable translation of hostname/IP from virtual server to real server.",
+										Optional:    true,
+										Computed:    true,
+									},
 									"type": {
 										Type:         schema.TypeString,
 										ValidateFunc: validation.StringInSlice([]string{"tcp-forwarding", "ssh"}, false),
@@ -665,7 +731,7 @@ func resourceFirewallAccessProxy() *schema.Resource {
 						},
 						"service": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"http", "https", "tcp-forwarding", "samlsp", "web-portal"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"http", "https", "tcp-forwarding", "samlsp", "web-portal", "saas"}, false),
 
 							Description: "Service.",
 							Optional:    true,
@@ -732,6 +798,14 @@ func resourceFirewallAccessProxy() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{"tls-1.0", "tls-1.1", "tls-1.2", "tls-1.3"}, false),
 
 							Description: "Lowest SSL/TLS version acceptable from a server.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"ssl_renegotiation": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+							Description: "Enable/disable secure renegotiation to comply with RFC 5746.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -804,9 +878,17 @@ func resourceFirewallAccessProxy() *schema.Resource {
 			},
 			"empty_cert_action": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"accept", "block"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"accept", "block", "accept-unmanageable"}, false),
 
 				Description: "Action of an empty client certificate.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"http_supported_max_version": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"http1", "http2"}, false),
+
+				Description: "Maximum supported HTTP versions. default = HTTP2",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -996,6 +1078,38 @@ func resourceFirewallAccessProxy() *schema.Resource {
 					},
 				},
 			},
+			"svr_pool_multiplex": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable server pool multiplexing. Share connected server in HTTP, HTTPS, and web-portal api-gateway.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"svr_pool_server_max_request": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 2147483647),
+
+				Description: "Maximum number of requests that servers in server pool handle before disconnecting (default = unlimited).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"svr_pool_ttl": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 2147483647),
+
+				Description: "Time-to-live in the server pool for idle connections to servers.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"user_agent_detect": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+				Description: "Enable/disable to detect device type by HTTP user-agent if no client certificate provided.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"vip": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 79),
@@ -1168,6 +1282,10 @@ func flattenFirewallAccessProxyApiGateway(d *schema.ResourceData, v *[]models.Fi
 		for i, cfg := range *v {
 			_ = i
 			v := make(map[string]interface{})
+			if tmp := cfg.Application; tmp != nil {
+				v["application"] = flattenFirewallAccessProxyApiGatewayApplication(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "application"), sort)
+			}
+
 			if tmp := cfg.HttpCookieAge; tmp != nil {
 				v["http_cookie_age"] = *tmp
 			}
@@ -1244,6 +1362,10 @@ func flattenFirewallAccessProxyApiGateway(d *schema.ResourceData, v *[]models.Fi
 				v["ssl_min_version"] = *tmp
 			}
 
+			if tmp := cfg.SslRenegotiation; tmp != nil {
+				v["ssl_renegotiation"] = *tmp
+			}
+
 			if tmp := cfg.SslVpnWebPortal; tmp != nil {
 				v["ssl_vpn_web_portal"] = *tmp
 			}
@@ -1266,6 +1388,28 @@ func flattenFirewallAccessProxyApiGateway(d *schema.ResourceData, v *[]models.Fi
 
 	if sort {
 		utils.SortSubtable(flat, "id")
+	}
+
+	return flat
+}
+
+func flattenFirewallAccessProxyApiGatewayApplication(d *schema.ResourceData, v *[]models.FirewallAccessProxyApiGatewayApplication, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Name; tmp != nil {
+				v["name"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "name")
 	}
 
 	return flat
@@ -1336,6 +1480,10 @@ func flattenFirewallAccessProxyApiGatewayRealservers(d *schema.ResourceData, v *
 
 			if tmp := cfg.Status; tmp != nil {
 				v["status"] = *tmp
+			}
+
+			if tmp := cfg.TranslateHost; tmp != nil {
+				v["translate_host"] = *tmp
 			}
 
 			if tmp := cfg.Type; tmp != nil {
@@ -1416,6 +1564,10 @@ func flattenFirewallAccessProxyApiGateway6(d *schema.ResourceData, v *[]models.F
 		for i, cfg := range *v {
 			_ = i
 			v := make(map[string]interface{})
+			if tmp := cfg.Application; tmp != nil {
+				v["application"] = flattenFirewallAccessProxyApiGateway6Application(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "application"), sort)
+			}
+
 			if tmp := cfg.HttpCookieAge; tmp != nil {
 				v["http_cookie_age"] = *tmp
 			}
@@ -1492,6 +1644,10 @@ func flattenFirewallAccessProxyApiGateway6(d *schema.ResourceData, v *[]models.F
 				v["ssl_min_version"] = *tmp
 			}
 
+			if tmp := cfg.SslRenegotiation; tmp != nil {
+				v["ssl_renegotiation"] = *tmp
+			}
+
 			if tmp := cfg.SslVpnWebPortal; tmp != nil {
 				v["ssl_vpn_web_portal"] = *tmp
 			}
@@ -1514,6 +1670,28 @@ func flattenFirewallAccessProxyApiGateway6(d *schema.ResourceData, v *[]models.F
 
 	if sort {
 		utils.SortSubtable(flat, "id")
+	}
+
+	return flat
+}
+
+func flattenFirewallAccessProxyApiGateway6Application(d *schema.ResourceData, v *[]models.FirewallAccessProxyApiGateway6Application, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Name; tmp != nil {
+				v["name"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "name")
 	}
 
 	return flat
@@ -1584,6 +1762,10 @@ func flattenFirewallAccessProxyApiGateway6Realservers(d *schema.ResourceData, v 
 
 			if tmp := cfg.Status; tmp != nil {
 				v["status"] = *tmp
+			}
+
+			if tmp := cfg.TranslateHost; tmp != nil {
+				v["translate_host"] = *tmp
 			}
 
 			if tmp := cfg.Type; tmp != nil {
@@ -1779,6 +1961,14 @@ func flattenFirewallAccessProxyServerPubkeyAuthSettingsCertExtension(d *schema.R
 func refreshObjectFirewallAccessProxy(d *schema.ResourceData, o *models.FirewallAccessProxy, sv string, sort bool) diag.Diagnostics {
 	var err error
 
+	if o.AddVhostDomainToDnsdb != nil {
+		v := *o.AddVhostDomainToDnsdb
+
+		if err = d.Set("add_vhost_domain_to_dnsdb", v); err != nil {
+			return diag.Errorf("error reading add_vhost_domain_to_dnsdb: %v", err)
+		}
+	}
+
 	if o.ApiGateway != nil {
 		if err = d.Set("api_gateway", flattenFirewallAccessProxyApiGateway(d, o.ApiGateway, "api_gateway", sort)); err != nil {
 			return diag.Errorf("error reading api_gateway: %v", err)
@@ -1831,6 +2021,14 @@ func refreshObjectFirewallAccessProxy(d *schema.ResourceData, o *models.Firewall
 		}
 	}
 
+	if o.HttpSupportedMaxVersion != nil {
+		v := *o.HttpSupportedMaxVersion
+
+		if err = d.Set("http_supported_max_version", v); err != nil {
+			return diag.Errorf("error reading http_supported_max_version: %v", err)
+		}
+	}
+
 	if o.LdbMethod != nil {
 		v := *o.LdbMethod
 
@@ -1877,6 +2075,38 @@ func refreshObjectFirewallAccessProxy(d *schema.ResourceData, o *models.Firewall
 		}
 	}
 
+	if o.SvrPoolMultiplex != nil {
+		v := *o.SvrPoolMultiplex
+
+		if err = d.Set("svr_pool_multiplex", v); err != nil {
+			return diag.Errorf("error reading svr_pool_multiplex: %v", err)
+		}
+	}
+
+	if o.SvrPoolServerMaxRequest != nil {
+		v := *o.SvrPoolServerMaxRequest
+
+		if err = d.Set("svr_pool_server_max_request", v); err != nil {
+			return diag.Errorf("error reading svr_pool_server_max_request: %v", err)
+		}
+	}
+
+	if o.SvrPoolTtl != nil {
+		v := *o.SvrPoolTtl
+
+		if err = d.Set("svr_pool_ttl", v); err != nil {
+			return diag.Errorf("error reading svr_pool_ttl: %v", err)
+		}
+	}
+
+	if o.UserAgentDetect != nil {
+		v := *o.UserAgentDetect
+
+		if err = d.Set("user_agent_detect", v); err != nil {
+			return diag.Errorf("error reading user_agent_detect: %v", err)
+		}
+	}
+
 	if o.Vip != nil {
 		v := *o.Vip
 
@@ -1899,6 +2129,16 @@ func expandFirewallAccessProxyApiGateway(d *schema.ResourceData, v interface{}, 
 	for i := range l {
 		tmp := models.FirewallAccessProxyApiGateway{}
 		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.application", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			v2, _ := expandFirewallAccessProxyApiGatewayApplication(d, v1, pre_append, sv)
+			// if err != nil {
+			// 	v2 := &[]models.FirewallAccessProxyApiGatewayApplication
+			// 	}
+			tmp.Application = v2
+
+		}
 
 		pre_append = fmt.Sprintf("%s.%d.http_cookie_age", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
@@ -2042,6 +2282,13 @@ func expandFirewallAccessProxyApiGateway(d *schema.ResourceData, v interface{}, 
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.ssl_renegotiation", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.SslRenegotiation = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.ssl_vpn_web_portal", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
@@ -2067,6 +2314,30 @@ func expandFirewallAccessProxyApiGateway(d *schema.ResourceData, v interface{}, 
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.VirtualHost = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandFirewallAccessProxyApiGatewayApplication(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallAccessProxyApiGatewayApplication, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.FirewallAccessProxyApiGatewayApplication
+
+	for i := range l {
+		tmp := models.FirewallAccessProxyApiGatewayApplication{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Name = &v2
 			}
 		}
 
@@ -2197,6 +2468,13 @@ func expandFirewallAccessProxyApiGatewayRealservers(d *schema.ResourceData, v in
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.translate_host", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.TranslateHost = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.type", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
@@ -2291,6 +2569,16 @@ func expandFirewallAccessProxyApiGateway6(d *schema.ResourceData, v interface{},
 	for i := range l {
 		tmp := models.FirewallAccessProxyApiGateway6{}
 		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.application", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			v2, _ := expandFirewallAccessProxyApiGateway6Application(d, v1, pre_append, sv)
+			// if err != nil {
+			// 	v2 := &[]models.FirewallAccessProxyApiGateway6Application
+			// 	}
+			tmp.Application = v2
+
+		}
 
 		pre_append = fmt.Sprintf("%s.%d.http_cookie_age", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
@@ -2434,6 +2722,13 @@ func expandFirewallAccessProxyApiGateway6(d *schema.ResourceData, v interface{},
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.ssl_renegotiation", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.SslRenegotiation = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.ssl_vpn_web_portal", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
@@ -2459,6 +2754,30 @@ func expandFirewallAccessProxyApiGateway6(d *schema.ResourceData, v interface{},
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.VirtualHost = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandFirewallAccessProxyApiGateway6Application(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallAccessProxyApiGateway6Application, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.FirewallAccessProxyApiGateway6Application
+
+	for i := range l {
+		tmp := models.FirewallAccessProxyApiGateway6Application{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Name = &v2
 			}
 		}
 
@@ -2586,6 +2905,13 @@ func expandFirewallAccessProxyApiGateway6Realservers(d *schema.ResourceData, v i
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.Status = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.translate_host", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.TranslateHost = &v2
 			}
 		}
 
@@ -2852,6 +3178,15 @@ func getObjectFirewallAccessProxy(d *schema.ResourceData, sv string) (*models.Fi
 	obj := models.FirewallAccessProxy{}
 	diags := diag.Diagnostics{}
 
+	if v1, ok := d.GetOk("add_vhost_domain_to_dnsdb"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("add_vhost_domain_to_dnsdb", sv)
+				diags = append(diags, e)
+			}
+			obj.AddVhostDomainToDnsdb = &v2
+		}
+	}
 	if v, ok := d.GetOk("api_gateway"); ok {
 		if !utils.CheckVer(sv, "", "") {
 			e := utils.AttributeVersionWarning("api_gateway", sv)
@@ -2931,6 +3266,15 @@ func getObjectFirewallAccessProxy(d *schema.ResourceData, sv string) (*models.Fi
 			obj.EmptyCertAction = &v2
 		}
 	}
+	if v1, ok := d.GetOk("http_supported_max_version"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("http_supported_max_version", sv)
+				diags = append(diags, e)
+			}
+			obj.HttpSupportedMaxVersion = &v2
+		}
+	}
 	if v1, ok := d.GetOk("ldb_method"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "v7.0.1") {
@@ -2999,6 +3343,44 @@ func getObjectFirewallAccessProxy(d *schema.ResourceData, sv string) (*models.Fi
 		old, new := d.GetChange("server_pubkey_auth_settings")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
 			obj.ServerPubkeyAuthSettings = &models.FirewallAccessProxyServerPubkeyAuthSettings{}
+		}
+	}
+	if v1, ok := d.GetOk("svr_pool_multiplex"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("svr_pool_multiplex", sv)
+				diags = append(diags, e)
+			}
+			obj.SvrPoolMultiplex = &v2
+		}
+	}
+	if v1, ok := d.GetOk("svr_pool_server_max_request"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("svr_pool_server_max_request", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.SvrPoolServerMaxRequest = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("svr_pool_ttl"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("svr_pool_ttl", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.SvrPoolTtl = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("user_agent_detect"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("user_agent_detect", sv)
+				diags = append(diags, e)
+			}
+			obj.UserAgentDetect = &v2
 		}
 	}
 	if v1, ok := d.GetOk("vip"); ok {

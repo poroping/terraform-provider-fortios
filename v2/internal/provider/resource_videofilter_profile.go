@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -61,6 +61,14 @@ func resourceVideofilterProfile() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"default_action": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"allow", "monitor", "block"}, false),
+
+				Description: "Video filter default action.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"fortiguard_category": {
 				Type:        schema.TypeList,
 				Description: "Configure FortiGuard categories.",
@@ -108,6 +116,14 @@ func resourceVideofilterProfile() *schema.Resource {
 						},
 					},
 				},
+			},
+			"log": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable logging.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"name": {
 				Type:         schema.TypeString,
@@ -393,11 +409,27 @@ func refreshObjectVideofilterProfile(d *schema.ResourceData, o *models.Videofilt
 		}
 	}
 
+	if o.DefaultAction != nil {
+		v := *o.DefaultAction
+
+		if err = d.Set("default_action", v); err != nil {
+			return diag.Errorf("error reading default_action: %v", err)
+		}
+	}
+
 	if _, ok := d.GetOk("fortiguard_category"); ok {
 		if o.FortiguardCategory != nil {
 			if err = d.Set("fortiguard_category", flattenVideofilterProfileFortiguardCategory(d, o.FortiguardCategory, "fortiguard_category", sort)); err != nil {
 				return diag.Errorf("error reading fortiguard_category: %v", err)
 			}
+		}
+	}
+
+	if o.Log != nil {
+		v := *o.Log
+
+		if err = d.Set("log", v); err != nil {
+			return diag.Errorf("error reading log: %v", err)
 		}
 	}
 
@@ -556,6 +588,15 @@ func getObjectVideofilterProfile(d *schema.ResourceData, sv string) (*models.Vid
 			obj.Dailymotion = &v2
 		}
 	}
+	if v1, ok := d.GetOk("default_action"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("default_action", sv)
+				diags = append(diags, e)
+			}
+			obj.DefaultAction = &v2
+		}
+	}
 	if v, ok := d.GetOk("fortiguard_category"); ok {
 		if !utils.CheckVer(sv, "", "") {
 			e := utils.AttributeVersionWarning("fortiguard_category", sv)
@@ -571,6 +612,15 @@ func getObjectVideofilterProfile(d *schema.ResourceData, sv string) (*models.Vid
 		old, new := d.GetChange("fortiguard_category")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
 			obj.FortiguardCategory = &models.VideofilterProfileFortiguardCategory{}
+		}
+	}
+	if v1, ok := d.GetOk("log"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("log", sv)
+				diags = append(diags, e)
+			}
+			obj.Log = &v2
 		}
 	}
 	if v1, ok := d.GetOk("name"); ok {

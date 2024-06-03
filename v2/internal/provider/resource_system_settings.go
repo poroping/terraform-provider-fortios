@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -215,6 +215,14 @@ func resourceSystemSettings() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"detect_unknown_esp": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable detection of unknown ESP packets (default = enable).",
+				Optional:    true,
+				Computed:    true,
+			},
 			"device": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
@@ -271,6 +279,14 @@ func resourceSystemSettings() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"dyn_addr_session_check": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable dirty session check caused by dynamic address updates.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"ecmp_max_paths": {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(1, 255),
@@ -287,11 +303,27 @@ func resourceSystemSettings() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"ext_resource_session_check": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable dirty session check caused by external resource updates.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"firewall_session_dirty": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"check-all", "check-new", "check-policy-option"}, false),
 
 				Description: "Select how to manage sessions affected by firewall policy configuration changes.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"fqdn_session_check": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable dirty session check caused by FQDN updates.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -324,6 +356,14 @@ func resourceSystemSettings() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable advanced policy configuration on the GUI.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"gui_advanced_wireless_features": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable advanced wireless features in GUI.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -381,6 +421,14 @@ func resourceSystemSettings() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable advanced DHCP options on the GUI.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"gui_dlp_profile": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable Data Leak Prevention on the GUI.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -588,7 +636,7 @@ func resourceSystemSettings() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
-				Description: "Enable/disable Show Operational Technology Purdue Model.",
+				Description: "Enable/disable Operational technology features on the GUI.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -613,6 +661,14 @@ func resourceSystemSettings() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable policy disclaimer on the GUI.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"gui_proxy_inspection": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable the proxy features on the GUI.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -824,6 +880,14 @@ func resourceSystemSettings() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"internet_service_database_cache": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+				Description: "Enable/disable Internet Service database caching.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"ip": {
 				Type:         schema.TypeString,
 				ValidateFunc: validators.FortiValidateIPv4ClassnetHost,
@@ -839,6 +903,14 @@ func resourceSystemSettings() *schema.Resource {
 				Description:      "IPv6 address prefix for NAT mode.",
 				Optional:         true,
 				Computed:         true,
+			},
+			"lan_extension_controller_addr": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 255),
+
+				Description: "Controller IP address or FQDN to connect.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"link_down_access": {
 				Type:         schema.TypeString,
@@ -919,6 +991,30 @@ func resourceSystemSettings() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"nat46_force_ipv4_packet_forwarding": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable mandatory IPv4 packet forwarding in NAT46.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"nat46_generate_ipv6_fragment_header": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable NAT46 IPv6 fragment header generation.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"nat64_force_ipv6_packet_forwarding": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable mandatory IPv6 packet forwarding in NAT64.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"ngfw_mode": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"profile-based", "policy-based"}, false),
@@ -932,6 +1028,14 @@ func resourceSystemSettings() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"nat", "transparent"}, false),
 
 				Description: "Firewall operation mode (NAT or Transparent).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"policy_offload_level": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "dos-offload"}, false),
+
+				Description: "Configure firewall policy offload level.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1057,9 +1161,9 @@ func resourceSystemSettings() *schema.Resource {
 			},
 			"vdom_type": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"traffic", "admin"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"traffic", "lan-extension", "admin"}, false),
 
-				Description: "VDOM type (traffic or admin).",
+				Description: "Vdom type (traffic, lan-extension or admin).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1432,6 +1536,14 @@ func refreshObjectSystemSettings(d *schema.ResourceData, o *models.SystemSetting
 		}
 	}
 
+	if o.DetectUnknownEsp != nil {
+		v := *o.DetectUnknownEsp
+
+		if err = d.Set("detect_unknown_esp", v); err != nil {
+			return diag.Errorf("error reading detect_unknown_esp: %v", err)
+		}
+	}
+
 	if o.Device != nil {
 		v := *o.Device
 
@@ -1488,6 +1600,14 @@ func refreshObjectSystemSettings(d *schema.ResourceData, o *models.SystemSetting
 		}
 	}
 
+	if o.DynAddrSessionCheck != nil {
+		v := *o.DynAddrSessionCheck
+
+		if err = d.Set("dyn_addr_session_check", v); err != nil {
+			return diag.Errorf("error reading dyn_addr_session_check: %v", err)
+		}
+	}
+
 	if o.EcmpMaxPaths != nil {
 		v := *o.EcmpMaxPaths
 
@@ -1504,11 +1624,27 @@ func refreshObjectSystemSettings(d *schema.ResourceData, o *models.SystemSetting
 		}
 	}
 
+	if o.ExtResourceSessionCheck != nil {
+		v := *o.ExtResourceSessionCheck
+
+		if err = d.Set("ext_resource_session_check", v); err != nil {
+			return diag.Errorf("error reading ext_resource_session_check: %v", err)
+		}
+	}
+
 	if o.FirewallSessionDirty != nil {
 		v := *o.FirewallSessionDirty
 
 		if err = d.Set("firewall_session_dirty", v); err != nil {
 			return diag.Errorf("error reading firewall_session_dirty: %v", err)
+		}
+	}
+
+	if o.FqdnSessionCheck != nil {
+		v := *o.FqdnSessionCheck
+
+		if err = d.Set("fqdn_session_check", v); err != nil {
+			return diag.Errorf("error reading fqdn_session_check: %v", err)
 		}
 	}
 
@@ -1541,6 +1677,14 @@ func refreshObjectSystemSettings(d *schema.ResourceData, o *models.SystemSetting
 
 		if err = d.Set("gui_advanced_policy", v); err != nil {
 			return diag.Errorf("error reading gui_advanced_policy: %v", err)
+		}
+	}
+
+	if o.GuiAdvancedWirelessFeatures != nil {
+		v := *o.GuiAdvancedWirelessFeatures
+
+		if err = d.Set("gui_advanced_wireless_features", v); err != nil {
+			return diag.Errorf("error reading gui_advanced_wireless_features: %v", err)
 		}
 	}
 
@@ -1587,6 +1731,14 @@ func refreshObjectSystemSettings(d *schema.ResourceData, o *models.SystemSetting
 
 		if err = d.Set("gui_dhcp_advanced", v); err != nil {
 			return diag.Errorf("error reading gui_dhcp_advanced: %v", err)
+		}
+	}
+
+	if o.GuiDlpProfile != nil {
+		v := *o.GuiDlpProfile
+
+		if err = d.Set("gui_dlp_profile", v); err != nil {
+			return diag.Errorf("error reading gui_dlp_profile: %v", err)
 		}
 	}
 
@@ -1822,6 +1974,14 @@ func refreshObjectSystemSettings(d *schema.ResourceData, o *models.SystemSetting
 		}
 	}
 
+	if o.GuiProxyInspection != nil {
+		v := *o.GuiProxyInspection
+
+		if err = d.Set("gui_proxy_inspection", v); err != nil {
+			return diag.Errorf("error reading gui_proxy_inspection: %v", err)
+		}
+	}
+
 	if o.GuiReplacementMessageGroups != nil {
 		v := *o.GuiReplacementMessageGroups
 
@@ -2030,6 +2190,14 @@ func refreshObjectSystemSettings(d *schema.ResourceData, o *models.SystemSetting
 		}
 	}
 
+	if o.InternetServiceDatabaseCache != nil {
+		v := *o.InternetServiceDatabaseCache
+
+		if err = d.Set("internet_service_database_cache", v); err != nil {
+			return diag.Errorf("error reading internet_service_database_cache: %v", err)
+		}
+	}
+
 	if o.Ip != nil {
 		v := *o.Ip
 		if current, ok := d.GetOk("ip"); ok {
@@ -2048,6 +2216,14 @@ func refreshObjectSystemSettings(d *schema.ResourceData, o *models.SystemSetting
 
 		if err = d.Set("ip6", v); err != nil {
 			return diag.Errorf("error reading ip6: %v", err)
+		}
+	}
+
+	if o.LanExtensionControllerAddr != nil {
+		v := *o.LanExtensionControllerAddr
+
+		if err = d.Set("lan_extension_controller_addr", v); err != nil {
+			return diag.Errorf("error reading lan_extension_controller_addr: %v", err)
 		}
 	}
 
@@ -2131,6 +2307,30 @@ func refreshObjectSystemSettings(d *schema.ResourceData, o *models.SystemSetting
 		}
 	}
 
+	if o.Nat46ForceIpv4PacketForwarding != nil {
+		v := *o.Nat46ForceIpv4PacketForwarding
+
+		if err = d.Set("nat46_force_ipv4_packet_forwarding", v); err != nil {
+			return diag.Errorf("error reading nat46_force_ipv4_packet_forwarding: %v", err)
+		}
+	}
+
+	if o.Nat46GenerateIpv6FragmentHeader != nil {
+		v := *o.Nat46GenerateIpv6FragmentHeader
+
+		if err = d.Set("nat46_generate_ipv6_fragment_header", v); err != nil {
+			return diag.Errorf("error reading nat46_generate_ipv6_fragment_header: %v", err)
+		}
+	}
+
+	if o.Nat64ForceIpv6PacketForwarding != nil {
+		v := *o.Nat64ForceIpv6PacketForwarding
+
+		if err = d.Set("nat64_force_ipv6_packet_forwarding", v); err != nil {
+			return diag.Errorf("error reading nat64_force_ipv6_packet_forwarding: %v", err)
+		}
+	}
+
 	if o.NgfwMode != nil {
 		v := *o.NgfwMode
 
@@ -2144,6 +2344,14 @@ func refreshObjectSystemSettings(d *schema.ResourceData, o *models.SystemSetting
 
 		if err = d.Set("opmode", v); err != nil {
 			return diag.Errorf("error reading opmode: %v", err)
+		}
+	}
+
+	if o.PolicyOffloadLevel != nil {
+		v := *o.PolicyOffloadLevel
+
+		if err = d.Set("policy_offload_level", v); err != nil {
+			return diag.Errorf("error reading policy_offload_level: %v", err)
 		}
 	}
 
@@ -2523,6 +2731,15 @@ func getObjectSystemSettings(d *schema.ResourceData, sv string) (*models.SystemS
 			obj.DenyTcpWithIcmp = &v2
 		}
 	}
+	if v1, ok := d.GetOk("detect_unknown_esp"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("detect_unknown_esp", sv)
+				diags = append(diags, e)
+			}
+			obj.DetectUnknownEsp = &v2
+		}
+	}
 	if v1, ok := d.GetOk("device"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -2587,6 +2804,15 @@ func getObjectSystemSettings(d *schema.ResourceData, sv string) (*models.SystemS
 			obj.DiscoveredDeviceTimeout = &tmp
 		}
 	}
+	if v1, ok := d.GetOk("dyn_addr_session_check"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("dyn_addr_session_check", sv)
+				diags = append(diags, e)
+			}
+			obj.DynAddrSessionCheck = &v2
+		}
+	}
 	if v1, ok := d.GetOk("ecmp_max_paths"); ok {
 		if v2, ok := v1.(int); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -2606,6 +2832,15 @@ func getObjectSystemSettings(d *schema.ResourceData, sv string) (*models.SystemS
 			obj.EmailPortalCheckDns = &v2
 		}
 	}
+	if v1, ok := d.GetOk("ext_resource_session_check"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("ext_resource_session_check", sv)
+				diags = append(diags, e)
+			}
+			obj.ExtResourceSessionCheck = &v2
+		}
+	}
 	if v1, ok := d.GetOk("firewall_session_dirty"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -2613,6 +2848,15 @@ func getObjectSystemSettings(d *schema.ResourceData, sv string) (*models.SystemS
 				diags = append(diags, e)
 			}
 			obj.FirewallSessionDirty = &v2
+		}
+	}
+	if v1, ok := d.GetOk("fqdn_session_check"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("fqdn_session_check", sv)
+				diags = append(diags, e)
+			}
+			obj.FqdnSessionCheck = &v2
 		}
 	}
 	if v1, ok := d.GetOk("fw_session_hairpin"); ok {
@@ -2649,6 +2893,15 @@ func getObjectSystemSettings(d *schema.ResourceData, sv string) (*models.SystemS
 				diags = append(diags, e)
 			}
 			obj.GuiAdvancedPolicy = &v2
+		}
+	}
+	if v1, ok := d.GetOk("gui_advanced_wireless_features"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("gui_advanced_wireless_features", sv)
+				diags = append(diags, e)
+			}
+			obj.GuiAdvancedWirelessFeatures = &v2
 		}
 	}
 	if v1, ok := d.GetOk("gui_allow_unnamed_policy"); ok {
@@ -2711,6 +2964,15 @@ func getObjectSystemSettings(d *schema.ResourceData, sv string) (*models.SystemS
 				diags = append(diags, e)
 			}
 			obj.GuiDhcpAdvanced = &v2
+		}
+	}
+	if v1, ok := d.GetOk("gui_dlp_profile"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("gui_dlp_profile", sv)
+				diags = append(diags, e)
+			}
+			obj.GuiDlpProfile = &v2
 		}
 	}
 	if v1, ok := d.GetOk("gui_dns_database"); ok {
@@ -2886,7 +3148,7 @@ func getObjectSystemSettings(d *schema.ResourceData, sv string) (*models.SystemS
 	}
 	if v1, ok := d.GetOk("gui_local_reports"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.8") {
 				e := utils.AttributeVersionWarning("gui_local_reports", sv)
 				diags = append(diags, e)
 			}
@@ -2972,6 +3234,15 @@ func getObjectSystemSettings(d *schema.ResourceData, sv string) (*models.SystemS
 				diags = append(diags, e)
 			}
 			obj.GuiPolicyDisclaimer = &v2
+		}
+	}
+	if v1, ok := d.GetOk("gui_proxy_inspection"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("gui_proxy_inspection", sv)
+				diags = append(diags, e)
+			}
+			obj.GuiProxyInspection = &v2
 		}
 	}
 	if v1, ok := d.GetOk("gui_replacement_message_groups"); ok {
@@ -3093,7 +3364,7 @@ func getObjectSystemSettings(d *schema.ResourceData, sv string) (*models.SystemS
 	}
 	if v1, ok := d.GetOk("gui_wanopt_cache"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.8") {
 				e := utils.AttributeVersionWarning("gui_wanopt_cache", sv)
 				diags = append(diags, e)
 			}
@@ -3209,6 +3480,15 @@ func getObjectSystemSettings(d *schema.ResourceData, sv string) (*models.SystemS
 			obj.ImplicitAllowDns = &v2
 		}
 	}
+	if v1, ok := d.GetOk("internet_service_database_cache"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("internet_service_database_cache", sv)
+				diags = append(diags, e)
+			}
+			obj.InternetServiceDatabaseCache = &v2
+		}
+	}
 	if v1, ok := d.GetOk("ip"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -3225,6 +3505,15 @@ func getObjectSystemSettings(d *schema.ResourceData, sv string) (*models.SystemS
 				diags = append(diags, e)
 			}
 			obj.Ip6 = &v2
+		}
+	}
+	if v1, ok := d.GetOk("lan_extension_controller_addr"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("lan_extension_controller_addr", sv)
+				diags = append(diags, e)
+			}
+			obj.LanExtensionControllerAddr = &v2
 		}
 	}
 	if v1, ok := d.GetOk("link_down_access"); ok {
@@ -3318,6 +3607,33 @@ func getObjectSystemSettings(d *schema.ResourceData, sv string) (*models.SystemS
 			obj.MulticastTtlNotchange = &v2
 		}
 	}
+	if v1, ok := d.GetOk("nat46_force_ipv4_packet_forwarding"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("nat46_force_ipv4_packet_forwarding", sv)
+				diags = append(diags, e)
+			}
+			obj.Nat46ForceIpv4PacketForwarding = &v2
+		}
+	}
+	if v1, ok := d.GetOk("nat46_generate_ipv6_fragment_header"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.6", "v7.2.0") {
+				e := utils.AttributeVersionWarning("nat46_generate_ipv6_fragment_header", sv)
+				diags = append(diags, e)
+			}
+			obj.Nat46GenerateIpv6FragmentHeader = &v2
+		}
+	}
+	if v1, ok := d.GetOk("nat64_force_ipv6_packet_forwarding"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("nat64_force_ipv6_packet_forwarding", sv)
+				diags = append(diags, e)
+			}
+			obj.Nat64ForceIpv6PacketForwarding = &v2
+		}
+	}
 	if v1, ok := d.GetOk("ngfw_mode"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -3334,6 +3650,15 @@ func getObjectSystemSettings(d *schema.ResourceData, sv string) (*models.SystemS
 				diags = append(diags, e)
 			}
 			obj.Opmode = &v2
+		}
+	}
+	if v1, ok := d.GetOk("policy_offload_level"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("policy_offload_level", sv)
+				diags = append(diags, e)
+			}
+			obj.PolicyOffloadLevel = &v2
 		}
 	}
 	if v1, ok := d.GetOk("prp_trailer_action"); ok {

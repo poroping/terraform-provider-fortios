@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -474,6 +474,15 @@ func getObjectSystemAcme(d *schema.ResourceData, sv string) (*models.SystemAcme,
 	obj := models.SystemAcme{}
 	diags := diag.Diagnostics{}
 
+	if v1, ok := d.GetOk("acc_details"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("acc_details", sv)
+				diags = append(diags, e)
+			}
+			obj.AccDetails = &v2
+		}
+	}
 	if v, ok := d.GetOk("accounts"); ok {
 		if !utils.CheckVer(sv, "", "") {
 			e := utils.AttributeVersionWarning("accounts", sv)
@@ -510,7 +519,7 @@ func getObjectSystemAcme(d *schema.ResourceData, sv string) (*models.SystemAcme,
 	}
 	if v1, ok := d.GetOk("source_ip"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v7.2.0", "") {
+			if !utils.CheckVer(sv, "v7.0.6", "") {
 				e := utils.AttributeVersionWarning("source_ip", sv)
 				diags = append(diags, e)
 			}
@@ -519,11 +528,20 @@ func getObjectSystemAcme(d *schema.ResourceData, sv string) (*models.SystemAcme,
 	}
 	if v1, ok := d.GetOk("source_ip6"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v7.2.0", "") {
+			if !utils.CheckVer(sv, "v7.0.6", "") {
 				e := utils.AttributeVersionWarning("source_ip6", sv)
 				diags = append(diags, e)
 			}
 			obj.SourceIp6 = &v2
+		}
+	}
+	if v1, ok := d.GetOk("status"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("status", sv)
+				diags = append(diags, e)
+			}
+			obj.Status = &v2
 		}
 	}
 	return &obj, diags

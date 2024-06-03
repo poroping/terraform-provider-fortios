@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -123,6 +123,21 @@ func dataSourceSystemCsf() *schema.Resource {
 				Description: "Number of worker processes for Security Fabric daemon.",
 				Computed:    true,
 			},
+			"file_mgmt": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable Security Fabric daemon file management.",
+				Computed:    true,
+			},
+			"file_quota": {
+				Type:        schema.TypeInt,
+				Description: "Maximum amount of memory that can be used by the daemon files (in bytes).",
+				Computed:    true,
+			},
+			"file_quota_warning": {
+				Type:        schema.TypeInt,
+				Description: "Warn when the set percentage of quota has been used.",
+				Computed:    true,
+			},
 			"forticloud_account_enforcement": {
 				Type:        schema.TypeString,
 				Description: "Fabric FortiCloud account unification.",
@@ -157,6 +172,11 @@ func dataSourceSystemCsf() *schema.Resource {
 			"saml_configuration_sync": {
 				Type:        schema.TypeString,
 				Description: "SAML setting configuration synchronization.",
+				Computed:    true,
+			},
+			"source_ip": {
+				Type:        schema.TypeString,
+				Description: "Source IP address for communication with the upstream FortiGate.",
 				Computed:    true,
 			},
 			"status": {
@@ -195,6 +215,11 @@ func dataSourceSystemCsf() *schema.Resource {
 							Description: "HA members.",
 							Computed:    true,
 						},
+						"index": {
+							Type:        schema.TypeInt,
+							Description: "Index of the downstream in tree.",
+							Computed:    true,
+						},
 						"name": {
 							Type:        schema.TypeString,
 							Description: "Name.",
@@ -211,6 +236,16 @@ func dataSourceSystemCsf() *schema.Resource {
 			"upstream": {
 				Type:        schema.TypeString,
 				Description: "IP/FQDN of the FortiGate upstream from this FortiGate in the Security Fabric.",
+				Computed:    true,
+			},
+			"upstream_interface": {
+				Type:        schema.TypeString,
+				Description: "Specify outgoing interface to reach server.",
+				Computed:    true,
+			},
+			"upstream_interface_select_method": {
+				Type:        schema.TypeString,
+				Description: "Specify how to select outgoing interface to reach server.",
 				Computed:    true,
 			},
 			"upstream_ip": {

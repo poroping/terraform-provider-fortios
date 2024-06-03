@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -37,6 +37,14 @@ func resourceSystemSnmpSysinfo() *schema.Resource {
 				Description: "Specifies the vdom to which the resource will be applied when the FortiGate unit is running in VDOM mode. If you want to inherit the VDOM configuration of the provider, do not set this parameter.",
 				Optional:    true,
 				ForceNew:    true,
+			},
+			"append_index": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable allowance of appending VDOM or interface index in some RFC tables.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"contact_info": {
 				Type:         schema.TypeString,
@@ -266,6 +274,14 @@ func resourceSystemSnmpSysinfoRead(ctx context.Context, d *schema.ResourceData, 
 func refreshObjectSystemSnmpSysinfo(d *schema.ResourceData, o *models.SystemSnmpSysinfo, sv string, sort bool) diag.Diagnostics {
 	var err error
 
+	if o.AppendIndex != nil {
+		v := *o.AppendIndex
+
+		if err = d.Set("append_index", v); err != nil {
+			return diag.Errorf("error reading append_index: %v", err)
+		}
+	}
+
 	if o.ContactInfo != nil {
 		v := *o.ContactInfo
 
@@ -345,6 +361,15 @@ func getObjectSystemSnmpSysinfo(d *schema.ResourceData, sv string) (*models.Syst
 	obj := models.SystemSnmpSysinfo{}
 	diags := diag.Diagnostics{}
 
+	if v1, ok := d.GetOk("append_index"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("append_index", sv)
+				diags = append(diags, e)
+			}
+			obj.AppendIndex = &v2
+		}
+	}
 	if v1, ok := d.GetOk("contact_info"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {

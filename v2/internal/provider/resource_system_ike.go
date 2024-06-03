@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -642,7 +642,7 @@ func resourceSystemIke() *schema.Resource {
 			},
 			"dh_worker_count": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(1, 32),
+				ValidateFunc: validation.IntBetween(1, 16),
 
 				Description: "Number of Diffie-Hellman workers to start.",
 				Optional:    true,

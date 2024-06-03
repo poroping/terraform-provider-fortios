@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -477,7 +477,7 @@ func resourceAntivirusProfile() *schema.Resource {
 			},
 			"fortisandbox_max_upload": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(1, 26214),
+				ValidateFunc: validation.IntBetween(1, 2414),
 
 				Description: "Maximum size of files that can be uploaded to FortiSandbox.",
 				Optional:    true,
@@ -703,6 +703,14 @@ func resourceAntivirusProfile() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
 
 							Description: "Enable/disable quarantine for infected files.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"unknown_content_encoding": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"block", "inspect", "bypass"}, false),
+
+							Description: "Configure the action the FortiGate unit will take on unknown content-encoding.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -1886,6 +1894,10 @@ func flattenAntivirusProfileHttp(d *schema.ResourceData, v *models.AntivirusProf
 
 			if tmp := cfg.Quarantine; tmp != nil {
 				v["quarantine"] = *tmp
+			}
+
+			if tmp := cfg.UnknownContentEncoding; tmp != nil {
+				v["unknown_content_encoding"] = *tmp
 			}
 
 			flat = append(flat, v)
@@ -3114,6 +3126,13 @@ func expandAntivirusProfileHttp(d *schema.ResourceData, v interface{}, pre strin
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.Quarantine = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.unknown_content_encoding", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.UnknownContentEncoding = &v2
 			}
 		}
 

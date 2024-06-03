@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -186,6 +186,14 @@ func resourceFirewallLocalInPolicy() *schema.Resource {
 				Type: schema.TypeString,
 
 				Description: "Universally Unique Identifier (UUID; automatically assigned but can be manually reset).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"virtual_patch": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable virtual patching.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -521,6 +529,14 @@ func refreshObjectFirewallLocalInPolicy(d *schema.ResourceData, o *models.Firewa
 		}
 	}
 
+	if o.VirtualPatch != nil {
+		v := *o.VirtualPatch
+
+		if err = d.Set("virtual_patch", v); err != nil {
+			return diag.Errorf("error reading virtual_patch: %v", err)
+		}
+	}
+
 	return nil
 }
 
@@ -749,6 +765,15 @@ func getObjectFirewallLocalInPolicy(d *schema.ResourceData, sv string) (*models.
 				diags = append(diags, e)
 			}
 			obj.Uuid = &v2
+		}
+	}
+	if v1, ok := d.GetOk("virtual_patch"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("virtual_patch", sv)
+				diags = append(diags, e)
+			}
+			obj.VirtualPatch = &v2
 		}
 	}
 	return &obj, diags

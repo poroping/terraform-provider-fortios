@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -113,6 +113,22 @@ func resourceRouterRouteMap() *schema.Resource {
 							Optional:    true,
 							Computed:    true,
 						},
+						"match_extcommunity": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 35),
+
+							Description: "Match BGP extended community list.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"match_extcommunity_exact": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+							Description: "Enable/disable exact matching of extended communities.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"match_flags": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 65535),
@@ -193,7 +209,7 @@ func resourceRouterRouteMap() *schema.Resource {
 						},
 						"match_vrf": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(0, 63),
+							ValidateFunc: validation.IntBetween(0, 251),
 
 							Description: "Match VRF ID.",
 							Optional:    true,
@@ -640,6 +656,14 @@ func flattenRouterRouteMapRule(d *schema.ResourceData, v *[]models.RouterRouteMa
 				v["match_community_exact"] = *tmp
 			}
 
+			if tmp := cfg.MatchExtcommunity; tmp != nil {
+				v["match_extcommunity"] = *tmp
+			}
+
+			if tmp := cfg.MatchExtcommunityExact; tmp != nil {
+				v["match_extcommunity_exact"] = *tmp
+			}
+
 			if tmp := cfg.MatchFlags; tmp != nil {
 				v["match_flags"] = *tmp
 			}
@@ -968,6 +992,20 @@ func expandRouterRouteMapRule(d *schema.ResourceData, v interface{}, pre string,
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.MatchCommunityExact = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.match_extcommunity", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.MatchExtcommunity = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.match_extcommunity_exact", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.MatchExtcommunityExact = &v2
 			}
 		}
 

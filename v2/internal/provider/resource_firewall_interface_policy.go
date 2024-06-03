@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -243,6 +243,13 @@ func resourceFirewallInterfacePolicy() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable this policy.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"uuid": {
+				Type: schema.TypeString,
+
+				Description: "Universally Unique Identifier (UUID; automatically assigned but can be manually reset).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -650,6 +657,14 @@ func refreshObjectFirewallInterfacePolicy(d *schema.ResourceData, o *models.Fire
 		}
 	}
 
+	if o.Uuid != nil {
+		v := *o.Uuid
+
+		if err = d.Set("uuid", v); err != nil {
+			return diag.Errorf("error reading uuid: %v", err)
+		}
+	}
+
 	if o.WebfilterProfile != nil {
 		v := *o.WebfilterProfile
 
@@ -957,6 +972,15 @@ func getObjectFirewallInterfacePolicy(d *schema.ResourceData, sv string) (*model
 				diags = append(diags, e)
 			}
 			obj.Status = &v2
+		}
+	}
+	if v1, ok := d.GetOk("uuid"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("uuid", sv)
+				diags = append(diags, e)
+			}
+			obj.Uuid = &v2
 		}
 	}
 	if v1, ok := d.GetOk("webfilter_profile"); ok {

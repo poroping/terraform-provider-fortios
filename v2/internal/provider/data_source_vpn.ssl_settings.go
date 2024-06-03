@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -368,6 +368,11 @@ func dataSourceVpnSslSettings() *schema.Resource {
 				Description: "SAML local redirect port in the machine running FortiClient (0 - 65535). 0 is to disable redirection on FGT side.",
 				Computed:    true,
 			},
+			"server_hostname": {
+				Type:        schema.TypeString,
+				Description: "Server hostname for HTTPS. When set, will be used for SSL VPN web proxy host header for any redirection.",
+				Computed:    true,
+			},
 			"servercert": {
 				Type:        schema.TypeString,
 				Description: "Name of the server certificate to be used for SSL-VPNs.",
@@ -551,6 +556,11 @@ func dataSourceVpnSslSettings() *schema.Resource {
 			"x_content_type_options": {
 				Type:        schema.TypeString,
 				Description: "Add HTTP X-Content-Type-Options header.",
+				Computed:    true,
+			},
+			"ztna_trusted_client": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable verification of device certificate for SSLVPN ZTNA session.",
 				Computed:    true,
 			},
 		},

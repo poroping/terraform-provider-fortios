@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -138,6 +138,14 @@ func resourceVpnIpsecPhase1() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable automatic initiation of IKE SA negotiation.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"azure_ad_autoconnect": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable Azure AD Auto-Connect for FortiClient.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -414,6 +422,14 @@ func resourceVpnIpsecPhase1() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"fgsp_sync": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable IPsec syncing of tunnels for FGSP IPsec.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"forticlient_enforcement": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -486,6 +502,14 @@ func resourceVpnIpsecPhase1() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"inbound_dscp_copy": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable copy the dscp in the ESP header to the inner IP Header.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"include_local_lan": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
@@ -501,6 +525,23 @@ func resourceVpnIpsecPhase1() *schema.Resource {
 				Description: "Local physical, aggregate, or VLAN outgoing interface.",
 				Optional:    true,
 				Computed:    true,
+			},
+			"internal_domain_list": {
+				Type:        schema.TypeList,
+				Description: "List of domains for which the client directs DNS queries to the internal DNS servers for resolution.  DNS servers are configured in the mode-cfg settings.  One or more internal domain names in quotes separated by spaces, like \"abc.com xyz.com 123.com\"",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"domain_name": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 79),
+
+							Description: "Domain name.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
 			},
 			"ip_delay_interval": {
 				Type:         schema.TypeInt,
@@ -990,6 +1031,14 @@ func resourceVpnIpsecPhase1() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"rsa_signature_hash_override": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable IKEv2 RSA signature hash algorithm override.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"save_password": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
@@ -1271,6 +1320,28 @@ func flattenVpnIpsecPhase1Certificate(d *schema.ResourceData, v *[]models.VpnIps
 	return flat
 }
 
+func flattenVpnIpsecPhase1InternalDomainList(d *schema.ResourceData, v *[]models.VpnIpsecPhase1InternalDomainList, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.DomainName; tmp != nil {
+				v["domain_name"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "domain_name")
+	}
+
+	return flat
+}
+
 func flattenVpnIpsecPhase1Ipv4ExcludeRange(d *schema.ResourceData, v *[]models.VpnIpsecPhase1Ipv4ExcludeRange, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
@@ -1420,6 +1491,14 @@ func refreshObjectVpnIpsecPhase1(d *schema.ResourceData, o *models.VpnIpsecPhase
 
 		if err = d.Set("auto_negotiate", v); err != nil {
 			return diag.Errorf("error reading auto_negotiate: %v", err)
+		}
+	}
+
+	if o.AzureAdAutoconnect != nil {
+		v := *o.AzureAdAutoconnect
+
+		if err = d.Set("azure_ad_autoconnect", v); err != nil {
+			return diag.Errorf("error reading azure_ad_autoconnect: %v", err)
 		}
 	}
 
@@ -1675,6 +1754,14 @@ func refreshObjectVpnIpsecPhase1(d *schema.ResourceData, o *models.VpnIpsecPhase
 		}
 	}
 
+	if o.FgspSync != nil {
+		v := *o.FgspSync
+
+		if err = d.Set("fgsp_sync", v); err != nil {
+			return diag.Errorf("error reading fgsp_sync: %v", err)
+		}
+	}
+
 	if o.ForticlientEnforcement != nil {
 		v := *o.ForticlientEnforcement
 
@@ -1748,6 +1835,14 @@ func refreshObjectVpnIpsecPhase1(d *schema.ResourceData, o *models.VpnIpsecPhase
 		}
 	}
 
+	if o.InboundDscpCopy != nil {
+		v := *o.InboundDscpCopy
+
+		if err = d.Set("inbound_dscp_copy", v); err != nil {
+			return diag.Errorf("error reading inbound_dscp_copy: %v", err)
+		}
+	}
+
 	if o.IncludeLocalLan != nil {
 		v := *o.IncludeLocalLan
 
@@ -1761,6 +1856,12 @@ func refreshObjectVpnIpsecPhase1(d *schema.ResourceData, o *models.VpnIpsecPhase
 
 		if err = d.Set("interface", v); err != nil {
 			return diag.Errorf("error reading interface: %v", err)
+		}
+	}
+
+	if o.InternalDomainList != nil {
+		if err = d.Set("internal_domain_list", flattenVpnIpsecPhase1InternalDomainList(d, o.InternalDomainList, "internal_domain_list", sort)); err != nil {
+			return diag.Errorf("error reading internal_domain_list: %v", err)
 		}
 	}
 
@@ -2203,6 +2304,14 @@ func refreshObjectVpnIpsecPhase1(d *schema.ResourceData, o *models.VpnIpsecPhase
 		}
 	}
 
+	if o.RsaSignatureHashOverride != nil {
+		v := *o.RsaSignatureHashOverride
+
+		if err = d.Set("rsa_signature_hash_override", v); err != nil {
+			return diag.Errorf("error reading rsa_signature_hash_override: %v", err)
+		}
+	}
+
 	if o.SavePassword != nil {
 		v := *o.SavePassword
 
@@ -2326,6 +2435,30 @@ func expandVpnIpsecPhase1Certificate(d *schema.ResourceData, v interface{}, pre 
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.Name = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandVpnIpsecPhase1InternalDomainList(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.VpnIpsecPhase1InternalDomainList, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.VpnIpsecPhase1InternalDomainList
+
+	for i := range l {
+		tmp := models.VpnIpsecPhase1InternalDomainList{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.domain_name", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.DomainName = &v2
 			}
 		}
 
@@ -2513,6 +2646,15 @@ func getObjectVpnIpsecPhase1(d *schema.ResourceData, sv string) (*models.VpnIpse
 				diags = append(diags, e)
 			}
 			obj.AutoNegotiate = &v2
+		}
+	}
+	if v1, ok := d.GetOk("azure_ad_autoconnect"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("azure_ad_autoconnect", sv)
+				diags = append(diags, e)
+			}
+			obj.AzureAdAutoconnect = &v2
 		}
 	}
 	if v, ok := d.GetOk("backup_gateway"); ok {
@@ -2825,6 +2967,15 @@ func getObjectVpnIpsecPhase1(d *schema.ResourceData, sv string) (*models.VpnIpse
 			obj.FecSendTimeout = &tmp
 		}
 	}
+	if v1, ok := d.GetOk("fgsp_sync"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("fgsp_sync", sv)
+				diags = append(diags, e)
+			}
+			obj.FgspSync = &v2
+		}
+	}
 	if v1, ok := d.GetOk("forticlient_enforcement"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -2908,6 +3059,15 @@ func getObjectVpnIpsecPhase1(d *schema.ResourceData, sv string) (*models.VpnIpse
 			obj.IkeVersion = &v2
 		}
 	}
+	if v1, ok := d.GetOk("inbound_dscp_copy"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.0.6", "v7.2.0") {
+				e := utils.AttributeVersionWarning("inbound_dscp_copy", sv)
+				diags = append(diags, e)
+			}
+			obj.InboundDscpCopy = &v2
+		}
+	}
 	if v1, ok := d.GetOk("include_local_lan"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -2924,6 +3084,23 @@ func getObjectVpnIpsecPhase1(d *schema.ResourceData, sv string) (*models.VpnIpse
 				diags = append(diags, e)
 			}
 			obj.Interface = &v2
+		}
+	}
+	if v, ok := d.GetOk("internal_domain_list"); ok {
+		if !utils.CheckVer(sv, "v7.2.8", "") {
+			e := utils.AttributeVersionWarning("internal_domain_list", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandVpnIpsecPhase1InternalDomainList(d, v, "internal_domain_list", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.InternalDomainList = t
+		}
+	} else if d.HasChange("internal_domain_list") {
+		old, new := d.GetChange("internal_domain_list")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.InternalDomainList = &[]models.VpnIpsecPhase1InternalDomainList{}
 		}
 	}
 	if v1, ok := d.GetOk("ip_delay_interval"); ok {
@@ -3442,6 +3619,15 @@ func getObjectVpnIpsecPhase1(d *schema.ResourceData, sv string) (*models.VpnIpse
 				diags = append(diags, e)
 			}
 			obj.RsaSignatureFormat = &v2
+		}
+	}
+	if v1, ok := d.GetOk("rsa_signature_hash_override"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("rsa_signature_hash_override", sv)
+				diags = append(diags, e)
+			}
+			obj.RsaSignatureHashOverride = &v2
 		}
 	}
 	if v1, ok := d.GetOk("save_password"); ok {

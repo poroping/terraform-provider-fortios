@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -155,6 +155,14 @@ func resourceLogEventfilter() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable WAN optimization event logging.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"webproxy": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable web proxy event logging.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -442,6 +450,14 @@ func refreshObjectLogEventfilter(d *schema.ResourceData, o *models.LogEventfilte
 		}
 	}
 
+	if o.Webproxy != nil {
+		v := *o.Webproxy
+
+		if err = d.Set("webproxy", v); err != nil {
+			return diag.Errorf("error reading webproxy: %v", err)
+		}
+	}
+
 	if o.WirelessActivity != nil {
 		v := *o.WirelessActivity
 
@@ -590,6 +606,15 @@ func getObjectLogEventfilter(d *schema.ResourceData, sv string) (*models.LogEven
 				diags = append(diags, e)
 			}
 			obj.WanOpt = &v2
+		}
+	}
+	if v1, ok := d.GetOk("webproxy"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("webproxy", sv)
+				diags = append(diags, e)
+			}
+			obj.Webproxy = &v2
 		}
 	}
 	if v1, ok := d.GetOk("wireless_activity"); ok {

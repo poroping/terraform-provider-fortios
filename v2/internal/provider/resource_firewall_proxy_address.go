@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -51,6 +51,23 @@ func resourceFirewallProxyAddress() *schema.Resource {
 				Description: "If set will sort table response by mkey",
 				Optional:    true,
 				Default:     false,
+			},
+			"application": {
+				Type:        schema.TypeList,
+				Description: "SaaS application.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 79),
+
+							Description: "SaaS application name.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
 			},
 			"case_sensitivity": {
 				Type:         schema.TypeString,
@@ -174,7 +191,7 @@ func resourceFirewallProxyAddress() *schema.Resource {
 			},
 			"name": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 35),
+				ValidateFunc: validation.StringLenBetween(0, 79),
 
 				Description: "Address name.",
 				ForceNew:    true,
@@ -248,7 +265,7 @@ func resourceFirewallProxyAddress() *schema.Resource {
 			},
 			"type": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"host-regex", "url", "category", "method", "ua", "header", "src-advanced", "dst-advanced"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"host-regex", "url", "category", "method", "ua", "header", "src-advanced", "dst-advanced", "saas"}, false),
 
 				Description: "Proxy address type.",
 				Optional:    true,
@@ -261,6 +278,22 @@ func resourceFirewallProxyAddress() *schema.Resource {
 				Description:      "Names of browsers to be used as user agent.",
 				Optional:         true,
 				Computed:         true,
+			},
+			"ua_max_ver": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 63),
+
+				Description: "Maximum version of the user agent specified in dotted notation. For example, use 120 with the ua field set to \"chrome\" to require Google Chrome's maximum version must be 120.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"ua_min_ver": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 63),
+
+				Description: "Minimum version of the user agent specified in dotted notation. For example, use 90.0.1 with the ua field set to \"chrome\" to require Google Chrome's minimum version must be 90.0.1.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"uuid": {
 				Type: schema.TypeString,
@@ -434,6 +467,28 @@ func resourceFirewallProxyAddressRead(ctx context.Context, d *schema.ResourceDat
 	return nil
 }
 
+func flattenFirewallProxyAddressApplication(d *schema.ResourceData, v *[]models.FirewallProxyAddressApplication, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Name; tmp != nil {
+				v["name"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "name")
+	}
+
+	return flat
+}
+
 func flattenFirewallProxyAddressCategory(d *schema.ResourceData, v *[]models.FirewallProxyAddressCategory, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
@@ -544,6 +599,12 @@ func flattenFirewallProxyAddressTaggingTags(d *schema.ResourceData, v *[]models.
 
 func refreshObjectFirewallProxyAddress(d *schema.ResourceData, o *models.FirewallProxyAddress, sv string, sort bool) diag.Diagnostics {
 	var err error
+
+	if o.Application != nil {
+		if err = d.Set("application", flattenFirewallProxyAddressApplication(d, o.Application, "application", sort)); err != nil {
+			return diag.Errorf("error reading application: %v", err)
+		}
+	}
 
 	if o.CaseSensitivity != nil {
 		v := *o.CaseSensitivity
@@ -675,6 +736,22 @@ func refreshObjectFirewallProxyAddress(d *schema.ResourceData, o *models.Firewal
 		}
 	}
 
+	if o.UaMaxVer != nil {
+		v := *o.UaMaxVer
+
+		if err = d.Set("ua_max_ver", v); err != nil {
+			return diag.Errorf("error reading ua_max_ver: %v", err)
+		}
+	}
+
+	if o.UaMinVer != nil {
+		v := *o.UaMinVer
+
+		if err = d.Set("ua_min_ver", v); err != nil {
+			return diag.Errorf("error reading ua_min_ver: %v", err)
+		}
+	}
+
 	if o.Uuid != nil {
 		v := *o.Uuid
 
@@ -692,6 +769,30 @@ func refreshObjectFirewallProxyAddress(d *schema.ResourceData, o *models.Firewal
 	}
 
 	return nil
+}
+
+func expandFirewallProxyAddressApplication(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallProxyAddressApplication, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.FirewallProxyAddressApplication
+
+	for i := range l {
+		tmp := models.FirewallProxyAddressApplication{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.name", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Name = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
 }
 
 func expandFirewallProxyAddressCategory(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.FirewallProxyAddressCategory, error) {
@@ -834,6 +935,23 @@ func getObjectFirewallProxyAddress(d *schema.ResourceData, sv string) (*models.F
 	obj := models.FirewallProxyAddress{}
 	diags := diag.Diagnostics{}
 
+	if v, ok := d.GetOk("application"); ok {
+		if !utils.CheckVer(sv, "v7.2.1", "") {
+			e := utils.AttributeVersionWarning("application", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandFirewallProxyAddressApplication(d, v, "application", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.Application = t
+		}
+	} else if d.HasChange("application") {
+		old, new := d.GetChange("application")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.Application = &[]models.FirewallProxyAddressApplication{}
+		}
+	}
 	if v1, ok := d.GetOk("case_sensitivity"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -1010,6 +1128,24 @@ func getObjectFirewallProxyAddress(d *schema.ResourceData, sv string) (*models.F
 				diags = append(diags, e)
 			}
 			obj.Ua = &v2
+		}
+	}
+	if v1, ok := d.GetOk("ua_max_ver"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("ua_max_ver", sv)
+				diags = append(diags, e)
+			}
+			obj.UaMaxVer = &v2
+		}
+	}
+	if v1, ok := d.GetOk("ua_min_ver"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("ua_min_ver", sv)
+				diags = append(diags, e)
+			}
+			obj.UaMinVer = &v2
 		}
 	}
 	if v1, ok := d.GetOk("uuid"); ok {

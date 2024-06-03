@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -29,6 +29,16 @@ func dataSourceLogTacacsaccountingSetting() *schema.Resource {
 				Optional:    true,
 				ForceNew:    true,
 			},
+			"interface": {
+				Type:        schema.TypeString,
+				Description: "Specify outgoing interface to reach server.",
+				Computed:    true,
+			},
+			"interface_select_method": {
+				Type:        schema.TypeString,
+				Description: "Specify how to select outgoing interface to reach server.",
+				Computed:    true,
+			},
 			"server": {
 				Type:        schema.TypeString,
 				Description: "Address of TACACS+ server.",
@@ -39,6 +49,11 @@ func dataSourceLogTacacsaccountingSetting() *schema.Resource {
 				Description: "Key to access the TACACS+ server.",
 				Computed:    true,
 				Sensitive:   true,
+			},
+			"source_ip": {
+				Type:        schema.TypeString,
+				Description: "Source IP address for communication to TACACS+ server.",
+				Computed:    true,
 			},
 			"status": {
 				Type:        schema.TypeString,

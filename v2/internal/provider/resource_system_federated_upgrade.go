@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -55,9 +55,17 @@ func resourceSystemFederatedUpgrade() *schema.Resource {
 			},
 			"failure_reason": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"none", "internal", "timeout", "device-type-unsupported", "download-failed", "device-missing", "version-unavailable", "staging-failed", "reboot-failed", "device-not-reconnected", "node-not-ready", "no-final-confirmation", "no-confirmation-query"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"none", "internal", "timeout", "device-type-unsupported", "download-failed", "device-missing", "version-unavailable", "staging-failed", "reboot-failed", "device-not-reconnected", "node-not-ready", "no-final-confirmation", "no-confirmation-query", "config-error-log-nonempty", "node-failed"}, false),
 
 				Description: "Reason for upgrade failure.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"ha_reboot_controller": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 79),
+
+				Description: "Serial number of the FortiGate unit that will control the reboot process for the federated upgrade of the HA cluster.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -85,9 +93,17 @@ func resourceSystemFederatedUpgrade() *schema.Resource {
 						},
 						"device_type": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"fortigate", "fortiswitch", "fortiap"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"fortigate", "fortiswitch", "fortiap", "fortiextender"}, false),
 
-							Description: "What type of device this node represents.",
+							Description: "Fortinet device type.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"maximum_minutes": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(5, 10080),
+
+							Description: "Maximum number of minutes to allow for immediate upgrade preparation.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -102,14 +118,14 @@ func resourceSystemFederatedUpgrade() *schema.Resource {
 						"setup_time": {
 							Type: schema.TypeString,
 
-							Description: "When the upgrade was configured. Format hh:mm yyyy/mm/dd UTC.",
+							Description: "Upgrade preparation start time in UTC (hh:mm yyyy/mm/dd UTC).",
 							Optional:    true,
 							Computed:    true,
 						},
 						"time": {
 							Type: schema.TypeString,
 
-							Description: "Scheduled time for the upgrade. Format hh:mm yyyy/mm/dd UTC.",
+							Description: "Scheduled upgrade execution time in UTC (hh:mm yyyy/mm/dd UTC).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -117,14 +133,14 @@ func resourceSystemFederatedUpgrade() *schema.Resource {
 							Type:         schema.TypeString,
 							ValidateFunc: validation.StringInSlice([]string{"immediate", "scheduled"}, false),
 
-							Description: "Whether the upgrade should be run immediately, or at a scheduled time.",
+							Description: "Run immediately or at a scheduled time.",
 							Optional:    true,
 							Computed:    true,
 						},
 						"upgrade_path": {
 							Type: schema.TypeString,
 
-							Description: "Image IDs to upgrade through.",
+							Description: "Fortinet OS image versions to upgrade through in major-minor-patch format, such as 7-0-4.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -133,7 +149,7 @@ func resourceSystemFederatedUpgrade() *schema.Resource {
 			},
 			"status": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"disabled", "initialized", "downloading", "device-disconnected", "ready", "staging", "final-check", "upgrade-devices", "cancelled", "confirmed", "done", "failed"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"disabled", "initialized", "downloading", "device-disconnected", "ready", "coordinating", "staging", "final-check", "upgrade-devices", "cancelled", "confirmed", "done", "failed"}, false),
 
 				Description: "Current status of the upgrade.",
 				Optional:    true,
@@ -314,6 +330,10 @@ func flattenSystemFederatedUpgradeNodeList(d *schema.ResourceData, v *[]models.S
 				v["device_type"] = *tmp
 			}
 
+			if tmp := cfg.MaximumMinutes; tmp != nil {
+				v["maximum_minutes"] = *tmp
+			}
+
 			if tmp := cfg.Serial; tmp != nil {
 				v["serial"] = *tmp
 			}
@@ -361,6 +381,14 @@ func refreshObjectSystemFederatedUpgrade(d *schema.ResourceData, o *models.Syste
 
 		if err = d.Set("failure_reason", v); err != nil {
 			return diag.Errorf("error reading failure_reason: %v", err)
+		}
+	}
+
+	if o.HaRebootController != nil {
+		v := *o.HaRebootController
+
+		if err = d.Set("ha_reboot_controller", v); err != nil {
+			return diag.Errorf("error reading ha_reboot_controller: %v", err)
 		}
 	}
 
@@ -420,6 +448,14 @@ func expandSystemFederatedUpgradeNodeList(d *schema.ResourceData, v interface{},
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.DeviceType = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.maximum_minutes", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.MaximumMinutes = &v3
 			}
 		}
 
@@ -483,6 +519,15 @@ func getObjectSystemFederatedUpgrade(d *schema.ResourceData, sv string) (*models
 				diags = append(diags, e)
 			}
 			obj.FailureReason = &v2
+		}
+	}
+	if v1, ok := d.GetOk("ha_reboot_controller"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("ha_reboot_controller", sv)
+				diags = append(diags, e)
+			}
+			obj.HaRebootController = &v2
 		}
 	}
 	if v1, ok := d.GetOk("next_path_index"); ok {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -495,7 +495,7 @@ func dataSourceWirelessControllerWtpProfile() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						"ddscan": {
 							Type:        schema.TypeString,
-							Description: "Enable/disable use of one radio for dedicated dual-band scanning to detect RF characterization and wireless threat management.",
+							Description: "Enable/disable use of one radio for dedicated full-band scanning to detect RF characterization and wireless threat management.",
 							Computed:    true,
 						},
 						"mode": {
@@ -522,6 +522,11 @@ func dataSourceWirelessControllerWtpProfile() *schema.Resource {
 				Computed:    true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"80211d": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable 802.11d countryie(default = enable).",
+							Computed:    true,
+						},
 						"airtime_fairness": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable airtime fairness (default = disable).",
@@ -731,6 +736,11 @@ func dataSourceWirelessControllerWtpProfile() *schema.Resource {
 							Description: "Mode of radio 1. Radio 1 can be disabled, configured as an access point, a rogue AP monitor, a sniffer, or a station.",
 							Computed:    true,
 						},
+						"optional_antenna": {
+							Type:        schema.TypeString,
+							Description: "Optional antenna used on FAP (default = none).",
+							Computed:    true,
+						},
 						"power_level": {
 							Type:        schema.TypeInt,
 							Description: "Radio EIRP power level as a percentage of the maximum EIRP power (0 - 100, default = 100).",
@@ -906,6 +916,11 @@ func dataSourceWirelessControllerWtpProfile() *schema.Resource {
 				Computed:    true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"80211d": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable 802.11d countryie(default = enable).",
+							Computed:    true,
+						},
 						"airtime_fairness": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable airtime fairness (default = disable).",
@@ -1115,6 +1130,11 @@ func dataSourceWirelessControllerWtpProfile() *schema.Resource {
 							Description: "Mode of radio 2. Radio 2 can be disabled, configured as an access point, a rogue AP monitor, a sniffer, or a station.",
 							Computed:    true,
 						},
+						"optional_antenna": {
+							Type:        schema.TypeString,
+							Description: "Optional antenna used on FAP (default = none).",
+							Computed:    true,
+						},
 						"power_level": {
 							Type:        schema.TypeInt,
 							Description: "Radio EIRP power level as a percentage of the maximum EIRP power (0 - 100, default = 100).",
@@ -1290,6 +1310,11 @@ func dataSourceWirelessControllerWtpProfile() *schema.Resource {
 				Computed:    true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"80211d": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable 802.11d countryie(default = enable).",
+							Computed:    true,
+						},
 						"airtime_fairness": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable airtime fairness (default = disable).",
@@ -1497,6 +1522,11 @@ func dataSourceWirelessControllerWtpProfile() *schema.Resource {
 						"mode": {
 							Type:        schema.TypeString,
 							Description: "Mode of radio 3. Radio 3 can be disabled, configured as an access point, a rogue AP monitor, a sniffer, or a station.",
+							Computed:    true,
+						},
+						"optional_antenna": {
+							Type:        schema.TypeString,
+							Description: "Optional antenna used on FAP (default = none).",
 							Computed:    true,
 						},
 						"power_level": {
@@ -1674,6 +1704,11 @@ func dataSourceWirelessControllerWtpProfile() *schema.Resource {
 				Computed:    true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"80211d": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable 802.11d countryie(default = enable).",
+							Computed:    true,
+						},
 						"airtime_fairness": {
 							Type:        schema.TypeString,
 							Description: "Enable/disable airtime fairness (default = disable).",
@@ -1881,6 +1916,11 @@ func dataSourceWirelessControllerWtpProfile() *schema.Resource {
 						"mode": {
 							Type:        schema.TypeString,
 							Description: "Mode of radio 3. Radio 3 can be disabled, configured as an access point, a rogue AP monitor, a sniffer, or a station.",
+							Computed:    true,
+						},
+						"optional_antenna": {
+							Type:        schema.TypeString,
+							Description: "Optional antenna used on FAP (default = none).",
 							Computed:    true,
 						},
 						"power_level": {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -97,6 +97,14 @@ func resourceFirewallAddress6() *schema.Resource {
 				Type: schema.TypeString,
 
 				Description: "Last MAC address in the range.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"epg_name": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 255),
+
+				Description: "Endpoint group name.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -198,6 +206,14 @@ func resourceFirewallAddress6() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"sdn_tag": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 15),
+
+				Description: "SDN Tag.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"start_ip": {
 				Type:             schema.TypeString,
 				ValidateFunc:     validation.IsIPv6Address,
@@ -293,6 +309,14 @@ func resourceFirewallAddress6() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 63),
 
 				Description: "IPv6 address template.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"tenant": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "Tenant.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -653,6 +677,14 @@ func refreshObjectFirewallAddress6(d *schema.ResourceData, o *models.FirewallAdd
 		}
 	}
 
+	if o.EpgName != nil {
+		v := *o.EpgName
+
+		if err = d.Set("epg_name", v); err != nil {
+			return diag.Errorf("error reading epg_name: %v", err)
+		}
+	}
+
 	if o.FabricObject != nil {
 		v := *o.FabricObject
 
@@ -729,6 +761,14 @@ func refreshObjectFirewallAddress6(d *schema.ResourceData, o *models.FirewallAdd
 		}
 	}
 
+	if o.SdnTag != nil {
+		v := *o.SdnTag
+
+		if err = d.Set("sdn_tag", v); err != nil {
+			return diag.Errorf("error reading sdn_tag: %v", err)
+		}
+	}
+
 	if o.StartIp != nil {
 		v := *o.StartIp
 
@@ -762,6 +802,14 @@ func refreshObjectFirewallAddress6(d *schema.ResourceData, o *models.FirewallAdd
 
 		if err = d.Set("template", v); err != nil {
 			return diag.Errorf("error reading template: %v", err)
+		}
+	}
+
+	if o.Tenant != nil {
+		v := *o.Tenant
+
+		if err = d.Set("tenant", v); err != nil {
+			return diag.Errorf("error reading tenant: %v", err)
 		}
 	}
 
@@ -1003,6 +1051,15 @@ func getObjectFirewallAddress6(d *schema.ResourceData, sv string) (*models.Firew
 			obj.EndMac = &v2
 		}
 	}
+	if v1, ok := d.GetOk("epg_name"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("epg_name", sv)
+				diags = append(diags, e)
+			}
+			obj.EpgName = &v2
+		}
+	}
 	if v1, ok := d.GetOk("fabric_object"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "v6.4.5", "") {
@@ -1109,6 +1166,15 @@ func getObjectFirewallAddress6(d *schema.ResourceData, sv string) (*models.Firew
 			obj.Sdn = &v2
 		}
 	}
+	if v1, ok := d.GetOk("sdn_tag"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("sdn_tag", sv)
+				diags = append(diags, e)
+			}
+			obj.SdnTag = &v2
+		}
+	}
 	if v1, ok := d.GetOk("start_ip"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -1168,6 +1234,15 @@ func getObjectFirewallAddress6(d *schema.ResourceData, sv string) (*models.Firew
 				diags = append(diags, e)
 			}
 			obj.Template = &v2
+		}
+	}
+	if v1, ok := d.GetOk("tenant"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("tenant", sv)
+				diags = append(diags, e)
+			}
+			obj.Tenant = &v2
 		}
 	}
 	if v1, ok := d.GetOk("type"); ok {

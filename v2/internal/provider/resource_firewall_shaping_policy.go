@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -584,6 +584,13 @@ func resourceFirewallShapingPolicy() *schema.Resource {
 						},
 					},
 				},
+			},
+			"uuid": {
+				Type: schema.TypeString,
+
+				Description: "Universally Unique Identifier (UUID; automatically assigned but can be manually reset).",
+				Optional:    true,
+				Computed:    true,
 			},
 		},
 	}
@@ -1538,6 +1545,14 @@ func refreshObjectFirewallShapingPolicy(d *schema.ResourceData, o *models.Firewa
 	if o.Users != nil {
 		if err = d.Set("users", flattenFirewallShapingPolicyUsers(d, o.Users, "users", sort)); err != nil {
 			return diag.Errorf("error reading users: %v", err)
+		}
+	}
+
+	if o.Uuid != nil {
+		v := *o.Uuid
+
+		if err = d.Set("uuid", v); err != nil {
+			return diag.Errorf("error reading uuid: %v", err)
 		}
 	}
 
@@ -2667,6 +2682,15 @@ func getObjectFirewallShapingPolicy(d *schema.ResourceData, sv string) (*models.
 		old, new := d.GetChange("users")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
 			obj.Users = &[]models.FirewallShapingPolicyUsers{}
+		}
+	}
+	if v1, ok := d.GetOk("uuid"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("uuid", sv)
+				diags = append(diags, e)
+			}
+			obj.Uuid = &v2
 		}
 	}
 	return &obj, diags

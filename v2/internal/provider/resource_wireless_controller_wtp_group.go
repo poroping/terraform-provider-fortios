@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -51,6 +51,14 @@ func resourceWirelessControllerWtpGroup() *schema.Resource {
 				Optional:    true,
 				Default:     false,
 			},
+			"ble_major_id": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 65535),
+
+				Description: "Override BLE Major ID.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
@@ -61,7 +69,7 @@ func resourceWirelessControllerWtpGroup() *schema.Resource {
 			},
 			"platform_type": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"AP-11N", "220B", "210B", "222B", "112B", "320B", "11C", "14C", "223B", "28C", "320C", "221C", "25D", "222C", "224D", "214B", "21D", "24D", "112D", "223C", "321C", "C220C", "C225C", "C23JD", "C24JE", "S321C", "S322C", "S323C", "S311C", "S313C", "S321CR", "S322CR", "S323CR", "S421E", "S422E", "S423E", "421E", "423E", "221E", "222E", "223E", "224E", "231E", "S221E", "S223E", "321E", "431F", "432F", "433F", "231F", "234F", "23JF", "831F", "U421E", "U422EV", "U423E", "U221EV", "U223EV", "U24JEV", "U321EV", "U323EV", "U431F", "U433F", "U231F", "U234F", "U432F"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"AP-11N", "220B", "210B", "222B", "112B", "320B", "11C", "14C", "223B", "28C", "320C", "221C", "25D", "222C", "224D", "214B", "21D", "24D", "112D", "223C", "321C", "C220C", "C225C", "C23JD", "C24JE", "S321C", "S322C", "S323C", "S311C", "S313C", "S321CR", "S322CR", "S323CR", "S421E", "S422E", "S423E", "421E", "423E", "221E", "222E", "223E", "224E", "231E", "S221E", "S223E", "321E", "431F", "431FL", "432F", "432FR", "433F", "433FL", "231F", "231FL", "234F", "23JF", "831F", "231G", "233G", "234G", "431G", "432G", "433G", "U421E", "U422EV", "U423E", "U221EV", "U223EV", "U24JEV", "U321EV", "U323EV", "U431F", "U433F", "U231F", "U234F", "U432F", "U231G", "U441G"}, false),
 
 				Description: "FortiAP models to define the WTP group platform type.",
 				Optional:    true,
@@ -266,6 +274,14 @@ func flattenWirelessControllerWtpGroupWtps(d *schema.ResourceData, v *[]models.W
 func refreshObjectWirelessControllerWtpGroup(d *schema.ResourceData, o *models.WirelessControllerWtpGroup, sv string, sort bool) diag.Diagnostics {
 	var err error
 
+	if o.BleMajorId != nil {
+		v := *o.BleMajorId
+
+		if err = d.Set("ble_major_id", v); err != nil {
+			return diag.Errorf("error reading ble_major_id: %v", err)
+		}
+	}
+
 	if o.Name != nil {
 		v := *o.Name
 
@@ -319,6 +335,16 @@ func getObjectWirelessControllerWtpGroup(d *schema.ResourceData, sv string) (*mo
 	obj := models.WirelessControllerWtpGroup{}
 	diags := diag.Diagnostics{}
 
+	if v1, ok := d.GetOk("ble_major_id"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("ble_major_id", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.BleMajorId = &tmp
+		}
+	}
 	if v1, ok := d.GetOk("name"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {

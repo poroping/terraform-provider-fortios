@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -152,8 +152,8 @@ func dataSourceRouterBgp() *schema.Resource {
 				Computed:    true,
 			},
 			"as": {
-				Type:        schema.TypeInt,
-				Description: "Router AS number, valid from 1 to 4294967295, 0 to disable BGP.",
+				Type:        schema.TypeString,
+				Description: "Router AS number, asplain/asdot/asdot+ format, 0 to disable BGP.",
 				Computed:    true,
 			},
 			"bestpath_as_path_ignore": {
@@ -515,7 +515,7 @@ func dataSourceRouterBgp() *schema.Resource {
 											Schema: map[string]*schema.Schema{
 												"name": {
 													Type:        schema.TypeString,
-													Description: "route map",
+													Description: "Route map.",
 													Computed:    true,
 												},
 											},
@@ -548,7 +548,7 @@ func dataSourceRouterBgp() *schema.Resource {
 											Schema: map[string]*schema.Schema{
 												"name": {
 													Type:        schema.TypeString,
-													Description: "route map",
+													Description: "Route map.",
 													Computed:    true,
 												},
 											},
@@ -673,7 +673,7 @@ func dataSourceRouterBgp() *schema.Resource {
 							Computed:    true,
 						},
 						"local_as": {
-							Type:        schema.TypeInt,
+							Type:        schema.TypeString,
 							Description: "Local AS number of neighbor.",
 							Computed:    true,
 						},
@@ -804,7 +804,7 @@ func dataSourceRouterBgp() *schema.Resource {
 							Computed:    true,
 						},
 						"remote_as": {
-							Type:        schema.TypeInt,
+							Type:        schema.TypeString,
 							Description: "AS number of neighbor.",
 							Computed:    true,
 						},
@@ -1238,7 +1238,7 @@ func dataSourceRouterBgp() *schema.Resource {
 							Computed:    true,
 						},
 						"local_as": {
-							Type:        schema.TypeInt,
+							Type:        schema.TypeString,
 							Description: "Local AS number of neighbor.",
 							Computed:    true,
 						},
@@ -1337,6 +1337,12 @@ func dataSourceRouterBgp() *schema.Resource {
 							Description: "Enable/disable sending of open messages to this neighbor.",
 							Computed:    true,
 						},
+						"password": {
+							Type:        schema.TypeString,
+							Description: "Password used in MD5 authentication.",
+							Computed:    true,
+							Sensitive:   true,
+						},
 						"prefix_list_in": {
 							Type:        schema.TypeString,
 							Description: "IPv4 Inbound filter for updates from this neighbor.",
@@ -1368,7 +1374,7 @@ func dataSourceRouterBgp() *schema.Resource {
 							Computed:    true,
 						},
 						"remote_as": {
-							Type:        schema.TypeInt,
+							Type:        schema.TypeString,
 							Description: "AS number of neighbor.",
 							Computed:    true,
 						},
@@ -1671,6 +1677,11 @@ func dataSourceRouterBgp() *schema.Resource {
 					},
 				},
 			},
+			"recursive_inherit_priority": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable priority inheritance for recursive resolution.",
+				Computed:    true,
+			},
 			"recursive_next_hop": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable recursive resolution of next-hop using BGP route.",
@@ -1801,7 +1812,7 @@ func dataSourceRouterBgp() *schema.Resource {
 									},
 									"vrf": {
 										Type:        schema.TypeString,
-										Description: "Target VRF ID (0 - 63).",
+										Description: "Target VRF ID (0 - 251).",
 										Computed:    true,
 									},
 								},
@@ -1819,7 +1830,7 @@ func dataSourceRouterBgp() *schema.Resource {
 						},
 						"vrf": {
 							Type:        schema.TypeString,
-							Description: "Origin VRF ID (0 - 63).",
+							Description: "Origin VRF ID (0 - 251).",
 							Computed:    true,
 						},
 					},
@@ -1925,7 +1936,7 @@ func dataSourceRouterBgp() *schema.Resource {
 									},
 									"vrf": {
 										Type:        schema.TypeString,
-										Description: "Target VRF ID (0 - 63).",
+										Description: "Target VRF ID (0 - 251).",
 										Computed:    true,
 									},
 								},
@@ -1933,7 +1944,7 @@ func dataSourceRouterBgp() *schema.Resource {
 						},
 						"vrf": {
 							Type:        schema.TypeString,
-							Description: "Origin VRF ID (0 - 63).",
+							Description: "Origin VRF ID (0 - 251).",
 							Computed:    true,
 						},
 					},

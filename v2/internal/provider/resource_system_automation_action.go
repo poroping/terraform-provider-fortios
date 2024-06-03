@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -61,7 +61,7 @@ func resourceSystemAutomationAction() *schema.Resource {
 			},
 			"action_type": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"email", "fortiexplorer-notification", "alert", "disable-ssid", "quarantine", "quarantine-forticlient", "quarantine-nsx", "quarantine-fortinac", "ban-ip", "aws-lambda", "azure-function", "google-cloud-function", "alicloud-function", "webhook", "cli-script", "slack-notification", "microsoft-teams-notification"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"email", "fortiexplorer-notification", "alert", "disable-ssid", "system-actions", "quarantine", "quarantine-forticlient", "quarantine-nsx", "quarantine-fortinac", "ban-ip", "aws-lambda", "azure-function", "google-cloud-function", "alicloud-function", "webhook", "cli-script", "slack-notification", "microsoft-teams-notification"}, false),
 
 				Description: "Action type.",
 				Optional:    true,
@@ -349,6 +349,38 @@ func resourceSystemAutomationAction() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"http_headers": {
+				Type:        schema.TypeList,
+				Description: "Request headers.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"id": {
+							Type: schema.TypeInt,
+
+							Description: "Entry ID.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"key": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 1023),
+
+							Description: "Request header key.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"value": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 4095),
+
+							Description: "Request header value.",
+							Optional:    true,
+							Computed:    true,
+						},
+					},
+				},
+			},
 			"message": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 4095),
@@ -467,6 +499,14 @@ func resourceSystemAutomationAction() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 255),
 
 				Description: "NSX security tag.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"system_action": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"reboot", "shutdown", "backup-config"}, false),
+
+				Description: "System action type.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -698,6 +738,36 @@ func flattenSystemAutomationActionHeaders(d *schema.ResourceData, v *[]models.Sy
 
 	if sort {
 		utils.SortSubtable(flat, "header")
+	}
+
+	return flat
+}
+
+func flattenSystemAutomationActionHttpHeaders(d *schema.ResourceData, v *[]models.SystemAutomationActionHttpHeaders, prefix string, sort bool) interface{} {
+	flat := make([]map[string]interface{}, 0)
+
+	if v != nil {
+		for i, cfg := range *v {
+			_ = i
+			v := make(map[string]interface{})
+			if tmp := cfg.Id; tmp != nil {
+				v["id"] = *tmp
+			}
+
+			if tmp := cfg.Key; tmp != nil {
+				v["key"] = *tmp
+			}
+
+			if tmp := cfg.Value; tmp != nil {
+				v["value"] = *tmp
+			}
+
+			flat = append(flat, v)
+		}
+	}
+
+	if sort {
+		utils.SortSubtable(flat, "id")
 	}
 
 	return flat
@@ -1007,6 +1077,12 @@ func refreshObjectSystemAutomationAction(d *schema.ResourceData, o *models.Syste
 		}
 	}
 
+	if o.HttpHeaders != nil {
+		if err = d.Set("http_headers", flattenSystemAutomationActionHttpHeaders(d, o.HttpHeaders, "http_headers", sort)); err != nil {
+			return diag.Errorf("error reading http_headers: %v", err)
+		}
+	}
+
 	if o.Message != nil {
 		v := *o.Message
 
@@ -1117,6 +1193,14 @@ func refreshObjectSystemAutomationAction(d *schema.ResourceData, o *models.Syste
 		}
 	}
 
+	if o.SystemAction != nil {
+		v := *o.SystemAction
+
+		if err = d.Set("system_action", v); err != nil {
+			return diag.Errorf("error reading system_action: %v", err)
+		}
+	}
+
 	if o.Timeout != nil {
 		v := *o.Timeout
 
@@ -1192,6 +1276,45 @@ func expandSystemAutomationActionHeaders(d *schema.ResourceData, v interface{}, 
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.Header = &v2
+			}
+		}
+
+		result = append(result, tmp)
+	}
+	return &result, nil
+}
+
+func expandSystemAutomationActionHttpHeaders(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.SystemAutomationActionHttpHeaders, error) {
+	l := v.([]interface{})
+	if len(l) == 0 || l[0] == nil {
+		return nil, nil
+	}
+
+	var result []models.SystemAutomationActionHttpHeaders
+
+	for i := range l {
+		tmp := models.SystemAutomationActionHttpHeaders{}
+		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.Id = &v3
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.key", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Key = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.value", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Value = &v2
 			}
 		}
 
@@ -1535,7 +1658,7 @@ func getObjectSystemAutomationAction(d *schema.ResourceData, sv string) (*models
 		}
 	}
 	if v, ok := d.GetOk("headers"); ok {
-		if !utils.CheckVer(sv, "", "") {
+		if !utils.CheckVer(sv, "", "v7.0.6") {
 			e := utils.AttributeVersionWarning("headers", sv)
 			diags = append(diags, e)
 		}
@@ -1558,6 +1681,23 @@ func getObjectSystemAutomationAction(d *schema.ResourceData, sv string) (*models
 				diags = append(diags, e)
 			}
 			obj.HttpBody = &v2
+		}
+	}
+	if v, ok := d.GetOk("http_headers"); ok {
+		if !utils.CheckVer(sv, "v7.0.6", "v7.2.0") {
+			e := utils.AttributeVersionWarning("http_headers", sv)
+			diags = append(diags, e)
+		}
+		t, err := expandSystemAutomationActionHttpHeaders(d, v, "http_headers", sv)
+		if err != nil {
+			return &obj, diag.FromErr(err)
+		} else if t != nil {
+			obj.HttpHeaders = t
+		}
+	} else if d.HasChange("http_headers") {
+		old, new := d.GetChange("http_headers")
+		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
+			obj.HttpHeaders = &[]models.SystemAutomationActionHttpHeaders{}
 		}
 	}
 	if v1, ok := d.GetOk("message"); ok {
@@ -1695,6 +1835,15 @@ func getObjectSystemAutomationAction(d *schema.ResourceData, sv string) (*models
 				diags = append(diags, e)
 			}
 			obj.SecurityTag = &v2
+		}
+	}
+	if v1, ok := d.GetOk("system_action"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("system_action", sv)
+				diags = append(diags, e)
+			}
+			obj.SystemAction = &v2
 		}
 	}
 	if v1, ok := d.GetOk("timeout"); ok {

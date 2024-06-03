@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -40,6 +40,11 @@ func dataSourceFirewallScheduleOnetime() *schema.Resource {
 				Description: "Schedule end date and time, format hh:mm yyyy/mm/dd.",
 				Computed:    true,
 			},
+			"end_utc": {
+				Type:        schema.TypeString,
+				Description: "Schedule end date and time, in epoch format.",
+				Computed:    true,
+			},
 			"expiration_days": {
 				Type:        schema.TypeInt,
 				Description: "Write an event log message this many days before the schedule expires.",
@@ -58,6 +63,11 @@ func dataSourceFirewallScheduleOnetime() *schema.Resource {
 			"start": {
 				Type:        schema.TypeString,
 				Description: "Schedule start date and time, format hh:mm yyyy/mm/dd.",
+				Computed:    true,
+			},
+			"start_utc": {
+				Type:        schema.TypeString,
+				Description: "Schedule start date and time, in epoch format.",
 				Computed:    true,
 			},
 		},

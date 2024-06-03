@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -30,12 +30,31 @@ func dataSourceFirewallAccessProxy6() *schema.Resource {
 				Optional:    true,
 				ForceNew:    true,
 			},
+			"add_vhost_domain_to_dnsdb": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable adding vhost/domain to dnsdb for ztna dox tunnel.",
+				Computed:    true,
+			},
 			"api_gateway": {
 				Type:        schema.TypeList,
 				Description: "Set IPv4 API Gateway.",
 				Computed:    true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"application": {
+							Type:        schema.TypeList,
+							Description: "SaaS application controlled by this Access Proxy.",
+							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"name": {
+										Type:        schema.TypeString,
+										Description: "SaaS application name.",
+										Computed:    true,
+									},
+								},
+							},
+						},
 						"http_cookie_age": {
 							Type:        schema.TypeInt,
 							Description: "Time in minutes that client web browsers should keep a cookie. Default is 60 minutes. 0 = no time limit.",
@@ -176,6 +195,11 @@ func dataSourceFirewallAccessProxy6() *schema.Resource {
 										Description: "Set the status of the real server to active so that it can accept traffic, or on standby or disabled so no traffic is sent.",
 										Computed:    true,
 									},
+									"translate_host": {
+										Type:        schema.TypeString,
+										Description: "Enable/disable translation of hostname/IP from virtual server to real server.",
+										Computed:    true,
+									},
 									"type": {
 										Type:        schema.TypeString,
 										Description: "TCP forwarding server type.",
@@ -248,6 +272,11 @@ func dataSourceFirewallAccessProxy6() *schema.Resource {
 							Description: "Lowest SSL/TLS version acceptable from a server.",
 							Computed:    true,
 						},
+						"ssl_renegotiation": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable secure renegotiation to comply with RFC 5746.",
+							Computed:    true,
+						},
 						"ssl_vpn_web_portal": {
 							Type:        schema.TypeString,
 							Description: "SSL-VPN web portal.",
@@ -277,6 +306,20 @@ func dataSourceFirewallAccessProxy6() *schema.Resource {
 				Computed:    true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"application": {
+							Type:        schema.TypeList,
+							Description: "SaaS application controlled by this Access Proxy.",
+							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"name": {
+										Type:        schema.TypeString,
+										Description: "SaaS application name.",
+										Computed:    true,
+									},
+								},
+							},
+						},
 						"http_cookie_age": {
 							Type:        schema.TypeInt,
 							Description: "Time in minutes that client web browsers should keep a cookie. Default is 60 minutes. 0 = no time limit.",
@@ -417,6 +460,11 @@ func dataSourceFirewallAccessProxy6() *schema.Resource {
 										Description: "Set the status of the real server to active so that it can accept traffic, or on standby or disabled so no traffic is sent.",
 										Computed:    true,
 									},
+									"translate_host": {
+										Type:        schema.TypeString,
+										Description: "Enable/disable translation of hostname/IP from virtual server to real server.",
+										Computed:    true,
+									},
 									"type": {
 										Type:        schema.TypeString,
 										Description: "TCP forwarding server type.",
@@ -489,6 +537,11 @@ func dataSourceFirewallAccessProxy6() *schema.Resource {
 							Description: "Lowest SSL/TLS version acceptable from a server.",
 							Computed:    true,
 						},
+						"ssl_renegotiation": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable secure renegotiation to comply with RFC 5746.",
+							Computed:    true,
+						},
 						"ssl_vpn_web_portal": {
 							Type:        schema.TypeString,
 							Description: "SSL-VPN web portal.",
@@ -537,6 +590,11 @@ func dataSourceFirewallAccessProxy6() *schema.Resource {
 				Description: "Action of an empty client certificate.",
 				Computed:    true,
 			},
+			"http_supported_max_version": {
+				Type:        schema.TypeString,
+				Description: "Maximum supported HTTP versions. default = HTTP2",
+				Computed:    true,
+			},
 			"log_blocked_traffic": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable logging of blocked traffic.",
@@ -546,6 +604,26 @@ func dataSourceFirewallAccessProxy6() *schema.Resource {
 				Type:        schema.TypeString,
 				Description: "Access Proxy name.",
 				Required:    true,
+			},
+			"svr_pool_multiplex": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable server pool multiplexing. Share connected server in HTTP, HTTPS, and web-portal api-gateway.",
+				Computed:    true,
+			},
+			"svr_pool_server_max_request": {
+				Type:        schema.TypeInt,
+				Description: "Maximum number of requests that servers in server pool handle before disconnecting (default = unlimited).",
+				Computed:    true,
+			},
+			"svr_pool_ttl": {
+				Type:        schema.TypeInt,
+				Description: "Time-to-live in the server pool for idle connections to servers.",
+				Computed:    true,
+			},
+			"user_agent_detect": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable to detect device type by HTTP user-agent if no client certificate provided.",
+				Computed:    true,
 			},
 			"vip": {
 				Type:        schema.TypeString,

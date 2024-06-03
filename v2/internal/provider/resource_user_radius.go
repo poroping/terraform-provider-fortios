@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -213,6 +213,30 @@ func resourceUserRadius() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"mac_case": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"uppercase", "lowercase"}, false),
+
+				Description: "MAC authentication case (default = lowercase).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"mac_password_delimiter": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"hyphen", "single-hyphen", "colon", "none"}, false),
+
+				Description: "MAC authentication password delimiter (default = hyphen).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"mac_username_delimiter": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"hyphen", "single-hyphen", "colon", "none"}, false),
+
+				Description: "MAC authentication username delimiter (default = hyphen).",
+				Optional:    true,
+				Computed:    true,
+			},
 			"name": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
@@ -220,6 +244,22 @@ func resourceUserRadius() *schema.Resource {
 				Description: "RADIUS server entry name.",
 				ForceNew:    true,
 				Required:    true,
+			},
+			"nas_id": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 255),
+
+				Description: "Custom NAS identifier.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"nas_id_type": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"legacy", "custom", "hostname"}, false),
+
+				Description: "NAS identifier type configuration (default = legacy).",
+				Optional:    true,
+				Computed:    true,
 			},
 			"nas_ip": {
 				Type:         schema.TypeString,
@@ -791,11 +831,51 @@ func refreshObjectUserRadius(d *schema.ResourceData, o *models.UserRadius, sv st
 		}
 	}
 
+	if o.MacCase != nil {
+		v := *o.MacCase
+
+		if err = d.Set("mac_case", v); err != nil {
+			return diag.Errorf("error reading mac_case: %v", err)
+		}
+	}
+
+	if o.MacPasswordDelimiter != nil {
+		v := *o.MacPasswordDelimiter
+
+		if err = d.Set("mac_password_delimiter", v); err != nil {
+			return diag.Errorf("error reading mac_password_delimiter: %v", err)
+		}
+	}
+
+	if o.MacUsernameDelimiter != nil {
+		v := *o.MacUsernameDelimiter
+
+		if err = d.Set("mac_username_delimiter", v); err != nil {
+			return diag.Errorf("error reading mac_username_delimiter: %v", err)
+		}
+	}
+
 	if o.Name != nil {
 		v := *o.Name
 
 		if err = d.Set("name", v); err != nil {
 			return diag.Errorf("error reading name: %v", err)
+		}
+	}
+
+	if o.NasId != nil {
+		v := *o.NasId
+
+		if err = d.Set("nas_id", v); err != nil {
+			return diag.Errorf("error reading nas_id: %v", err)
+		}
+	}
+
+	if o.NasIdType != nil {
+		v := *o.NasIdType
+
+		if err = d.Set("nas_id_type", v); err != nil {
+			return diag.Errorf("error reading nas_id_type: %v", err)
 		}
 	}
 
@@ -1281,6 +1361,33 @@ func getObjectUserRadius(d *schema.ResourceData, sv string) (*models.UserRadius,
 			obj.InterfaceSelectMethod = &v2
 		}
 	}
+	if v1, ok := d.GetOk("mac_case"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("mac_case", sv)
+				diags = append(diags, e)
+			}
+			obj.MacCase = &v2
+		}
+	}
+	if v1, ok := d.GetOk("mac_password_delimiter"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("mac_password_delimiter", sv)
+				diags = append(diags, e)
+			}
+			obj.MacPasswordDelimiter = &v2
+		}
+	}
+	if v1, ok := d.GetOk("mac_username_delimiter"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("mac_username_delimiter", sv)
+				diags = append(diags, e)
+			}
+			obj.MacUsernameDelimiter = &v2
+		}
+	}
 	if v1, ok := d.GetOk("name"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -1288,6 +1395,24 @@ func getObjectUserRadius(d *schema.ResourceData, sv string) (*models.UserRadius,
 				diags = append(diags, e)
 			}
 			obj.Name = &v2
+		}
+	}
+	if v1, ok := d.GetOk("nas_id"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("nas_id", sv)
+				diags = append(diags, e)
+			}
+			obj.NasId = &v2
+		}
+	}
+	if v1, ok := d.GetOk("nas_id_type"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("nas_id_type", sv)
+				diags = append(diags, e)
+			}
+			obj.NasIdType = &v2
 		}
 	}
 	if v1, ok := d.GetOk("nas_ip"); ok {

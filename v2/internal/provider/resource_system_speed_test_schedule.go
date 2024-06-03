@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -73,6 +73,14 @@ func resourceSystemSpeedTestSchedule() *schema.Resource {
 				Description: "Interface name.",
 				ForceNew:    true,
 				Required:    true,
+			},
+			"mode": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"UDP", "TCP", "Auto"}, false),
+
+				Description: "Protocol Auto(default), TCP or UDP used for speed test.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"schedules": {
 				Type:        schema.TypeList,
@@ -361,6 +369,14 @@ func refreshObjectSystemSpeedTestSchedule(d *schema.ResourceData, o *models.Syst
 		}
 	}
 
+	if o.Mode != nil {
+		v := *o.Mode
+
+		if err = d.Set("mode", v); err != nil {
+			return diag.Errorf("error reading mode: %v", err)
+		}
+	}
+
 	if o.Schedules != nil {
 		if err = d.Set("schedules", flattenSystemSpeedTestScheduleSchedules(d, o.Schedules, "schedules", sort)); err != nil {
 			return diag.Errorf("error reading schedules: %v", err)
@@ -487,6 +503,15 @@ func getObjectSystemSpeedTestSchedule(d *schema.ResourceData, sv string) (*model
 				diags = append(diags, e)
 			}
 			obj.Interface = &v2
+		}
+	}
+	if v1, ok := d.GetOk("mode"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("mode", sv)
+				diags = append(diags, e)
+			}
+			obj.Mode = &v2
 		}
 	}
 	if v, ok := d.GetOk("schedules"); ok {

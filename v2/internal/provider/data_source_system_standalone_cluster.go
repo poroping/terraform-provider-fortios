@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -28,6 +28,141 @@ func dataSourceSystemStandaloneCluster() *schema.Resource {
 				Description: "Specifies the vdom to which the dataSource will be applied when the FortiGate unit is running in VDOM mode. If you want to inherit the VDOM configuration of the provider, do not set this parameter.",
 				Optional:    true,
 				ForceNew:    true,
+			},
+			"cluster_peer": {
+				Type:        schema.TypeList,
+				Description: "Configure FortiGate Session Life Support Protocol (FGSP) session synchronization.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"down_intfs_before_sess_sync": {
+							Type:        schema.TypeList,
+							Description: "List of interfaces to be turned down before session synchronization is complete.",
+							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"name": {
+										Type:        schema.TypeString,
+										Description: "Interface name.",
+										Computed:    true,
+									},
+								},
+							},
+						},
+						"hb_interval": {
+							Type:        schema.TypeInt,
+							Description: "Heartbeat interval (1 - 20 (100*ms). Increase to reduce false positives.",
+							Computed:    true,
+						},
+						"hb_lost_threshold": {
+							Type:        schema.TypeInt,
+							Description: "Lost heartbeat threshold (1 - 60). Increase to reduce false positives.",
+							Computed:    true,
+						},
+						"ipsec_tunnel_sync": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable IPsec tunnel synchronization.",
+							Computed:    true,
+						},
+						"peerip": {
+							Type:        schema.TypeString,
+							Description: "IP address of the interface on the peer unit that is used for the session synchronization link.",
+							Computed:    true,
+						},
+						"peervd": {
+							Type:        schema.TypeString,
+							Description: "VDOM that contains the session synchronization link interface on the peer unit. Usually both peers would have the same peervd.",
+							Computed:    true,
+						},
+						"secondary_add_ipsec_routes": {
+							Type:        schema.TypeString,
+							Description: "Enable/disable IKE route announcement on the backup unit.",
+							Computed:    true,
+						},
+						"session_sync_filter": {
+							Type:        schema.TypeList,
+							Description: "Add one or more filters if you only want to synchronize some sessions. Use the filter to configure the types of sessions to synchronize.",
+							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"custom_service": {
+										Type:        schema.TypeList,
+										Description: "Only sessions using these custom services are synchronized. Use source and destination port ranges to define these custom services.",
+										Computed:    true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												"dst_port_range": {
+													Type:        schema.TypeString,
+													Description: "Custom service destination port range.",
+													Computed:    true,
+												},
+												"id": {
+													Type:        schema.TypeInt,
+													Description: "Custom service ID.",
+													Computed:    true,
+												},
+												"src_port_range": {
+													Type:        schema.TypeString,
+													Description: "Custom service source port range.",
+													Computed:    true,
+												},
+											},
+										},
+									},
+									"dstaddr": {
+										Type:        schema.TypeString,
+										Description: "Only sessions to this IPv4 address are synchronized.",
+										Computed:    true,
+									},
+									"dstaddr6": {
+										Type:        schema.TypeString,
+										Description: "Only sessions to this IPv6 address are synchronized.",
+										Computed:    true,
+									},
+									"dstintf": {
+										Type:        schema.TypeString,
+										Description: "Only sessions to this interface are synchronized.",
+										Computed:    true,
+									},
+									"srcaddr": {
+										Type:        schema.TypeString,
+										Description: "Only sessions from this IPv4 address are synchronized.",
+										Computed:    true,
+									},
+									"srcaddr6": {
+										Type:        schema.TypeString,
+										Description: "Only sessions from this IPv6 address are synchronized.",
+										Computed:    true,
+									},
+									"srcintf": {
+										Type:        schema.TypeString,
+										Description: "Only sessions from this interface are synchronized.",
+										Computed:    true,
+									},
+								},
+							},
+						},
+						"sync_id": {
+							Type:        schema.TypeInt,
+							Description: "Sync ID.",
+							Computed:    true,
+						},
+						"syncvd": {
+							Type:        schema.TypeList,
+							Description: "Sessions from these VDOMs are synchronized using this session synchronization configuration.",
+							Computed:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"name": {
+										Type:        schema.TypeString,
+										Description: "VDOM name.",
+										Computed:    true,
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 			"encryption": {
 				Type:        schema.TypeString,

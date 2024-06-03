@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -43,6 +43,45 @@ func dataSourceSystemNetflow() *schema.Resource {
 				Type:        schema.TypeInt,
 				Description: "NetFlow collector port number.",
 				Computed:    true,
+			},
+			"collectors": {
+				Type:        schema.TypeList,
+				Description: "Netflow collectors.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"collector_ip": {
+							Type:        schema.TypeString,
+							Description: "Collector IP.",
+							Computed:    true,
+						},
+						"collector_port": {
+							Type:        schema.TypeInt,
+							Description: "NetFlow collector port number.",
+							Computed:    true,
+						},
+						"id": {
+							Type:        schema.TypeInt,
+							Description: "ID.",
+							Computed:    true,
+						},
+						"interface": {
+							Type:        schema.TypeString,
+							Description: "Specify outgoing interface to reach server.",
+							Computed:    true,
+						},
+						"interface_select_method": {
+							Type:        schema.TypeString,
+							Description: "Specify how to select outgoing interface to reach server.",
+							Computed:    true,
+						},
+						"source_ip": {
+							Type:        schema.TypeString,
+							Description: "Source IP address for communication with the NetFlow agent.",
+							Computed:    true,
+						},
+					},
+				},
 			},
 			"inactive_flow_timeout": {
 				Type:        schema.TypeInt,

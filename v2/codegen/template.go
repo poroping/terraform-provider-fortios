@@ -520,6 +520,7 @@ func typeLookup(s string) string {
 		"uuid":                   "string",
 		"ether-type":             "string",
 		"datetime":               "string",
+		"key":                    "string",
 	}
 	s, ok := m[s]
 	if !ok {

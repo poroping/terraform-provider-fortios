@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -113,7 +113,7 @@ func resourceSystemHa() *schema.Resource {
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntBetween(0, 1023),
 
-				Description: "HA group ID  (0 - 1023;  or 0 - 7 when vcluster is enabled). Must be the same for all members.",
+				Description: "HA group ID  (0 - 1023;  or 0 - 7 when there are more than 2 vclusters). Must be the same for all members.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -129,7 +129,7 @@ func resourceSystemHa() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
-				Description: "Enable/disable using ha-mgmt interface for syslog, SNMP, remote authentication (RADIUS), FortiAnalyzer, FortiSandbox, sFlow, and Netflow.",
+				Description: "Enable/disable using ha-mgmt interface for syslog, remote authentication (RADIUS), FortiAnalyzer, FortiSandbox, sFlow, and Netflow.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -506,7 +506,7 @@ func resourceSystemHa() *schema.Resource {
 			},
 			"schedule": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"none", "hub", "leastconnection", "round-robin", "weight-round-robin", "random", "ip", "ipport"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"none", "leastconnection", "round-robin", "weight-round-robin", "random", "ip", "ipport"}, false),
 
 				Description: "Type of A-A load balancing. Use none if you have external load balancers.",
 				Optional:    true,
@@ -820,6 +820,14 @@ func resourceSystemHa() *schema.Resource {
 							Description:      "Interfaces to check for remote IP monitoring.",
 							Optional:         true,
 							Computed:         true,
+						},
+						"pingserver_secondary_force_reset": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+							Description: "Enable to force the cluster to negotiate after a remote IP monitoring failover.",
+							Optional:    true,
+							Computed:    true,
 						},
 						"pingserver_slave_force_reset": {
 							Type:         schema.TypeString,
@@ -1202,6 +1210,10 @@ func flattenSystemHaVcluster(d *schema.ResourceData, v *[]models.SystemHaVcluste
 
 			if tmp := cfg.PingserverMonitorInterface; tmp != nil {
 				v["pingserver_monitor_interface"] = *tmp
+			}
+
+			if tmp := cfg.PingserverSecondaryForceReset; tmp != nil {
+				v["pingserver_secondary_force_reset"] = *tmp
 			}
 
 			if tmp := cfg.PingserverSlaveForceReset; tmp != nil {
@@ -2128,6 +2140,13 @@ func expandSystemHaVcluster(d *schema.ResourceData, v interface{}, pre string, s
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.pingserver_secondary_force_reset", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.PingserverSecondaryForceReset = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.pingserver_slave_force_reset", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
@@ -2790,7 +2809,7 @@ func getObjectSystemHa(d *schema.ResourceData, sv string) (*models.SystemHa, dia
 	}
 	if v1, ok := d.GetOk("ssd_failover"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.8") {
 				e := utils.AttributeVersionWarning("ssd_failover", sv)
 				diags = append(diags, e)
 			}
@@ -2815,6 +2834,15 @@ func getObjectSystemHa(d *schema.ResourceData, sv string) (*models.SystemHa, dia
 			obj.StandaloneMgmtVdom = &v2
 		}
 	}
+	if v1, ok := d.GetOk("status"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("status", sv)
+				diags = append(diags, e)
+			}
+			obj.Status = &v2
+		}
+	}
 	if v1, ok := d.GetOk("sync_config"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -2835,7 +2863,7 @@ func getObjectSystemHa(d *schema.ResourceData, sv string) (*models.SystemHa, dia
 	}
 	if v1, ok := d.GetOk("unicast_gateway"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v7.0.0", "") {
+			if !utils.CheckVer(sv, "v7.0.0", "v7.2.8") {
 				e := utils.AttributeVersionWarning("unicast_gateway", sv)
 				diags = append(diags, e)
 			}
@@ -2844,7 +2872,7 @@ func getObjectSystemHa(d *schema.ResourceData, sv string) (*models.SystemHa, dia
 	}
 	if v1, ok := d.GetOk("unicast_hb"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.0", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "v7.2.8") {
 				e := utils.AttributeVersionWarning("unicast_hb", sv)
 				diags = append(diags, e)
 			}
@@ -2853,7 +2881,7 @@ func getObjectSystemHa(d *schema.ResourceData, sv string) (*models.SystemHa, dia
 	}
 	if v1, ok := d.GetOk("unicast_hb_netmask"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.0", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "v7.2.8") {
 				e := utils.AttributeVersionWarning("unicast_hb_netmask", sv)
 				diags = append(diags, e)
 			}
@@ -2862,7 +2890,7 @@ func getObjectSystemHa(d *schema.ResourceData, sv string) (*models.SystemHa, dia
 	}
 	if v1, ok := d.GetOk("unicast_hb_peerip"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.0", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "v7.2.8") {
 				e := utils.AttributeVersionWarning("unicast_hb_peerip", sv)
 				diags = append(diags, e)
 			}
@@ -2870,7 +2898,7 @@ func getObjectSystemHa(d *schema.ResourceData, sv string) (*models.SystemHa, dia
 		}
 	}
 	if v, ok := d.GetOk("unicast_peers"); ok {
-		if !utils.CheckVer(sv, "v7.0.0", "") {
+		if !utils.CheckVer(sv, "v7.0.0", "v7.2.8") {
 			e := utils.AttributeVersionWarning("unicast_peers", sv)
 			diags = append(diags, e)
 		}
@@ -2888,7 +2916,7 @@ func getObjectSystemHa(d *schema.ResourceData, sv string) (*models.SystemHa, dia
 	}
 	if v1, ok := d.GetOk("unicast_status"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v7.0.0", "") {
+			if !utils.CheckVer(sv, "v7.0.0", "v7.2.8") {
 				e := utils.AttributeVersionWarning("unicast_status", sv)
 				diags = append(diags, e)
 			}

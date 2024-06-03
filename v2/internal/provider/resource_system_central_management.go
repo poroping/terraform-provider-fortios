@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -121,6 +121,14 @@ func resourceSystemCentralManagement() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"8890", "443"}, false),
 
 				Description: "Port used to communicate with FortiManager that is acting as a FortiGuard update server.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"fortigate_cloud_sso_default_profile": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 35),
+
+				Description: "Override access profile.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -537,6 +545,14 @@ func refreshObjectSystemCentralManagement(d *schema.ResourceData, o *models.Syst
 		}
 	}
 
+	if o.FortigateCloudSsoDefaultProfile != nil {
+		v := *o.FortigateCloudSsoDefaultProfile
+
+		if err = d.Set("fortigate_cloud_sso_default_profile", v); err != nil {
+			return diag.Errorf("error reading fortigate_cloud_sso_default_profile: %v", err)
+		}
+	}
+
 	if o.IncludeDefaultServers != nil {
 		v := *o.IncludeDefaultServers
 
@@ -778,6 +794,15 @@ func getObjectSystemCentralManagement(d *schema.ResourceData, sv string) (*model
 				diags = append(diags, e)
 			}
 			obj.FmgUpdatePort = &v2
+		}
+	}
+	if v1, ok := d.GetOk("fortigate_cloud_sso_default_profile"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("fortigate_cloud_sso_default_profile", sv)
+				diags = append(diags, e)
+			}
+			obj.FortigateCloudSsoDefaultProfile = &v2
 		}
 	}
 	if v1, ok := d.GetOk("include_default_servers"); ok {

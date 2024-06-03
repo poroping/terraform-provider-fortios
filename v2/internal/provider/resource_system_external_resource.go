@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -108,6 +108,14 @@ func resourceSystemExternalResource() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"server_identity_check": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"none", "basic", "full"}, false),
+
+				Description: "Certificate verification option.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"source_ip": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPv4Address,
@@ -132,9 +140,17 @@ func resourceSystemExternalResource() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"update_method": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"feed", "push"}, false),
+
+				Description: "External resource update method.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"user_agent": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringLenBetween(0, 127),
+				ValidateFunc: validation.StringLenBetween(0, 255),
 
 				Description: "HTTP User-Agent header (default = 'curl/7.58.0').",
 				Optional:    true,
@@ -380,6 +396,14 @@ func refreshObjectSystemExternalResource(d *schema.ResourceData, o *models.Syste
 		}
 	}
 
+	if o.ServerIdentityCheck != nil {
+		v := *o.ServerIdentityCheck
+
+		if err = d.Set("server_identity_check", v); err != nil {
+			return diag.Errorf("error reading server_identity_check: %v", err)
+		}
+	}
+
 	if o.SourceIp != nil {
 		v := *o.SourceIp
 
@@ -401,6 +425,14 @@ func refreshObjectSystemExternalResource(d *schema.ResourceData, o *models.Syste
 
 		if err = d.Set("type", v); err != nil {
 			return diag.Errorf("error reading type: %v", err)
+		}
+	}
+
+	if o.UpdateMethod != nil {
+		v := *o.UpdateMethod
+
+		if err = d.Set("update_method", v); err != nil {
+			return diag.Errorf("error reading update_method: %v", err)
 		}
 	}
 
@@ -509,6 +541,15 @@ func getObjectSystemExternalResource(d *schema.ResourceData, sv string) (*models
 			obj.Resource = &v2
 		}
 	}
+	if v1, ok := d.GetOk("server_identity_check"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("server_identity_check", sv)
+				diags = append(diags, e)
+			}
+			obj.ServerIdentityCheck = &v2
+		}
+	}
 	if v1, ok := d.GetOk("source_ip"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -534,6 +575,15 @@ func getObjectSystemExternalResource(d *schema.ResourceData, sv string) (*models
 				diags = append(diags, e)
 			}
 			obj.Type = &v2
+		}
+	}
+	if v1, ok := d.GetOk("update_method"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("update_method", sv)
+				diags = append(diags, e)
+			}
+			obj.UpdateMethod = &v2
 		}
 	}
 	if v1, ok := d.GetOk("user_agent"); ok {

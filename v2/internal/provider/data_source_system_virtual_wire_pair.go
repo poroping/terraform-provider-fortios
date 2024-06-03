@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -49,9 +49,23 @@ func dataSourceSystemVirtualWirePair() *schema.Resource {
 				Description: "Virtual-wire-pair name. Must be a unique interface name.",
 				Required:    true,
 			},
+			"outer_vlan_id": {
+				Type:        schema.TypeList,
+				Description: "Outer VLAN ID.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"vlanid": {
+							Type:        schema.TypeInt,
+							Description: "VLAN ID (1 - 4094).",
+							Computed:    true,
+						},
+					},
+				},
+			},
 			"vlan_filter": {
 				Type:        schema.TypeString,
-				Description: "Set VLAN filters.",
+				Description: "VLAN ranges to allow",
 				Computed:    true,
 			},
 			"wildcard_vlan": {

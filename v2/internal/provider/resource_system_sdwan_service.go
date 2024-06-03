@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -56,6 +56,14 @@ func resourceSystemSdwanService() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"ipv4", "ipv6"}, false),
 
 				Description: "Address mode (IPv4 or IPv6).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"agent_exclusive": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Set/unset the service as agent use exclusively.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -838,6 +846,14 @@ func refreshObjectSystemSdwanService(d *schema.ResourceData, o *models.SystemSdw
 		}
 	}
 
+	if o.AgentExclusive != nil {
+		v := *o.AgentExclusive
+
+		if err = d.Set("agent_exclusive", v); err != nil {
+			return diag.Errorf("error reading agent_exclusive: %v", err)
+		}
+	}
+
 	if o.BandwidthWeight != nil {
 		v := *o.BandwidthWeight
 
@@ -1254,6 +1270,15 @@ func getObjectSystemSdwanService(d *schema.ResourceData, sv string) (*models.Sys
 				diags = append(diags, e)
 			}
 			obj.AddrMode = &v2
+		}
+	}
+	if v1, ok := d.GetOk("agent_exclusive"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("agent_exclusive", sv)
+				diags = append(diags, e)
+			}
+			obj.AgentExclusive = &v2
 		}
 	}
 	if v1, ok := d.GetOk("bandwidth_weight"); ok {

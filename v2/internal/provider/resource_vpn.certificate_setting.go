@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -38,6 +38,14 @@ func resourceVpnCertificateSetting() *schema.Resource {
 				Description: "Specifies the vdom to which the resource will be applied when the FortiGate unit is running in VDOM mode. If you want to inherit the VDOM configuration of the provider, do not set this parameter.",
 				Optional:    true,
 				ForceNew:    true,
+			},
+			"cert_expire_warning": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 100),
+
+				Description: "Number of days before a certificate expires to send a warning. Set to 0 to disable sending of the warning (0 - 100, default = 14).",
+				Optional:    true,
+				Computed:    true,
 			},
 			"certname_dsa1024": {
 				Type:         schema.TypeString,
@@ -237,6 +245,46 @@ func resourceVpnCertificateSetting() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
 
 				Description: "Enable/disable receiving certificates using the OCSP.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"proxy": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 127),
+
+				Description: "Proxy server FQDN or IP for OCSP/CA queries during certificate verification.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"proxy_password": {
+				Type: schema.TypeString,
+
+				Description: "Proxy server password.",
+				Optional:    true,
+				Computed:    true,
+				Sensitive:   true,
+			},
+			"proxy_port": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(1, 65535),
+
+				Description: "Proxy server port (1 - 65535, default = 8080).",
+				Optional:    true,
+				Computed:    true,
+			},
+			"proxy_username": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 63),
+
+				Description: "Proxy server user name.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"source_ip": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 63),
+
+				Description: "Source IP address for dynamic AIA and OCSP queries.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -471,6 +519,14 @@ func flattenVpnCertificateSettingCrlVerification(d *schema.ResourceData, v *mode
 func refreshObjectVpnCertificateSetting(d *schema.ResourceData, o *models.VpnCertificateSetting, sv string, sort bool) diag.Diagnostics {
 	var err error
 
+	if o.CertExpireWarning != nil {
+		v := *o.CertExpireWarning
+
+		if err = d.Set("cert_expire_warning", v); err != nil {
+			return diag.Errorf("error reading cert_expire_warning: %v", err)
+		}
+	}
+
 	if o.CertnameDsa1024 != nil {
 		v := *o.CertnameDsa1024
 
@@ -647,6 +703,47 @@ func refreshObjectVpnCertificateSetting(d *schema.ResourceData, o *models.VpnCer
 		}
 	}
 
+	if o.Proxy != nil {
+		v := *o.Proxy
+
+		if err = d.Set("proxy", v); err != nil {
+			return diag.Errorf("error reading proxy: %v", err)
+		}
+	}
+
+	if o.ProxyPassword != nil {
+		v := *o.ProxyPassword
+
+		if v == "ENC XXXX" {
+		} else if err = d.Set("proxy_password", v); err != nil {
+			return diag.Errorf("error reading proxy_password: %v", err)
+		}
+	}
+
+	if o.ProxyPort != nil {
+		v := *o.ProxyPort
+
+		if err = d.Set("proxy_port", v); err != nil {
+			return diag.Errorf("error reading proxy_port: %v", err)
+		}
+	}
+
+	if o.ProxyUsername != nil {
+		v := *o.ProxyUsername
+
+		if err = d.Set("proxy_username", v); err != nil {
+			return diag.Errorf("error reading proxy_username: %v", err)
+		}
+	}
+
+	if o.SourceIp != nil {
+		v := *o.SourceIp
+
+		if err = d.Set("source_ip", v); err != nil {
+			return diag.Errorf("error reading source_ip: %v", err)
+		}
+	}
+
 	if o.SslMinProtoVersion != nil {
 		v := *o.SslMinProtoVersion
 
@@ -740,6 +837,16 @@ func getObjectVpnCertificateSetting(d *schema.ResourceData, sv string) (*models.
 	obj := models.VpnCertificateSetting{}
 	diags := diag.Diagnostics{}
 
+	if v1, ok := d.GetOk("cert_expire_warning"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("cert_expire_warning", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.CertExpireWarning = &tmp
+		}
+	}
 	if v1, ok := d.GetOk("certname_dsa1024"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -946,6 +1053,52 @@ func getObjectVpnCertificateSetting(d *schema.ResourceData, sv string) (*models.
 			obj.OcspStatus = &v2
 		}
 	}
+	if v1, ok := d.GetOk("proxy"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("proxy", sv)
+				diags = append(diags, e)
+			}
+			obj.Proxy = &v2
+		}
+	}
+	if v1, ok := d.GetOk("proxy_password"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("proxy_password", sv)
+				diags = append(diags, e)
+			}
+			obj.ProxyPassword = &v2
+		}
+	}
+	if v1, ok := d.GetOk("proxy_port"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("proxy_port", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.ProxyPort = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("proxy_username"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("proxy_username", sv)
+				diags = append(diags, e)
+			}
+			obj.ProxyUsername = &v2
+		}
+	}
+	if v1, ok := d.GetOk("source_ip"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("source_ip", sv)
+				diags = append(diags, e)
+			}
+			obj.SourceIp = &v2
+		}
+	}
 	if v1, ok := d.GetOk("ssl_min_proto_version"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -957,7 +1110,7 @@ func getObjectVpnCertificateSetting(d *schema.ResourceData, sv string) (*models.
 	}
 	if v1, ok := d.GetOk("ssl_ocsp_source_ip"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.8") {
 				e := utils.AttributeVersionWarning("ssl_ocsp_source_ip", sv)
 				diags = append(diags, e)
 			}

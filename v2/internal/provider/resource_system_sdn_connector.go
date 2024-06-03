@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -56,6 +56,14 @@ func resourceSystemSdnConnector() *schema.Resource {
 				ValidateFunc: validation.StringLenBetween(0, 31),
 
 				Description: "AWS / ACS access key ID.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"alt_resource_ip": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+				Description: "Enable/disable AWS alternative resource IP.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -121,6 +129,14 @@ func resourceSystemSdnConnector() *schema.Resource {
 				Optional:    true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"external_id": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringLenBetween(0, 1399),
+
+							Description: "AWS external ID.",
+							Optional:    true,
+							Computed:    true,
+						},
 						"region_list": {
 							Type:        schema.TypeList,
 							Description: "AWS region name list.",
@@ -237,7 +253,7 @@ func resourceSystemSdnConnector() *schema.Resource {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 127),
 
-				Description: "Group name of computers.",
+				Description: "Full path group name of computers.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -492,6 +508,22 @@ func resourceSystemSdnConnector() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"server_ca_cert": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 127),
+
+				Description: "Trust only those servers whose certificate is directly/indirectly signed by this certificate.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"server_cert": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 127),
+
+				Description: "Trust servers that contain this certificate only.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"server_list": {
 				Type:        schema.TypeList,
 				Description: "Server address list of the remote SDN connector.",
@@ -551,7 +583,7 @@ func resourceSystemSdnConnector() *schema.Resource {
 			},
 			"type": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"aci", "alicloud", "aws", "azure", "gcp", "nsx", "nuage", "oci", "openstack", "kubernetes", "vmware", "sepm", "aci-direct", "ibm", "nutanix"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"aci", "alicloud", "aws", "azure", "gcp", "nsx", "nuage", "oci", "openstack", "kubernetes", "vmware", "sepm", "aci-direct", "ibm", "nutanix", "sap"}, false),
 
 				Description: "Type of SDN connector.",
 				Optional:    true,
@@ -793,6 +825,10 @@ func flattenSystemSdnConnectorExternalAccountList(d *schema.ResourceData, v *[]m
 		for i, cfg := range *v {
 			_ = i
 			v := make(map[string]interface{})
+			if tmp := cfg.ExternalId; tmp != nil {
+				v["external_id"] = *tmp
+			}
+
 			if tmp := cfg.RegionList; tmp != nil {
 				v["region_list"] = flattenSystemSdnConnectorExternalAccountListRegionList(d, tmp, fmt.Sprintf("%s.%d.%s", prefix, i, "region_list"), sort)
 			}
@@ -1101,6 +1137,14 @@ func refreshObjectSystemSdnConnector(d *schema.ResourceData, o *models.SystemSdn
 		}
 	}
 
+	if o.AltResourceIp != nil {
+		v := *o.AltResourceIp
+
+		if err = d.Set("alt_resource_ip", v); err != nil {
+			return diag.Errorf("error reading alt_resource_ip: %v", err)
+		}
+	}
+
 	if o.ApiKey != nil {
 		v := *o.ApiKey
 
@@ -1347,6 +1391,22 @@ func refreshObjectSystemSdnConnector(d *schema.ResourceData, o *models.SystemSdn
 		}
 	}
 
+	if o.ServerCaCert != nil {
+		v := *o.ServerCaCert
+
+		if err = d.Set("server_ca_cert", v); err != nil {
+			return diag.Errorf("error reading server_ca_cert: %v", err)
+		}
+	}
+
+	if o.ServerCert != nil {
+		v := *o.ServerCert
+
+		if err = d.Set("server_cert", v); err != nil {
+			return diag.Errorf("error reading server_cert: %v", err)
+		}
+	}
+
 	if o.ServerList != nil {
 		if err = d.Set("server_list", flattenSystemSdnConnectorServerList(d, o.ServerList, "server_list", sort)); err != nil {
 			return diag.Errorf("error reading server_list: %v", err)
@@ -1488,6 +1548,13 @@ func expandSystemSdnConnectorExternalAccountList(d *schema.ResourceData, v inter
 	for i := range l {
 		tmp := models.SystemSdnConnectorExternalAccountList{}
 		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.external_id", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.ExternalId = &v2
+			}
+		}
 
 		pre_append = fmt.Sprintf("%s.%d.region_list", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
@@ -1860,6 +1927,15 @@ func getObjectSystemSdnConnector(d *schema.ResourceData, sv string) (*models.Sys
 			obj.AccessKey = &v2
 		}
 	}
+	if v1, ok := d.GetOk("alt_resource_ip"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("alt_resource_ip", sv)
+				diags = append(diags, e)
+			}
+			obj.AltResourceIp = &v2
+		}
+	}
 	if v1, ok := d.GetOk("api_key"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "v6.4.2", "") {
@@ -2203,6 +2279,24 @@ func getObjectSystemSdnConnector(d *schema.ResourceData, sv string) (*models.Sys
 				diags = append(diags, e)
 			}
 			obj.Server = &v2
+		}
+	}
+	if v1, ok := d.GetOk("server_ca_cert"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("server_ca_cert", sv)
+				diags = append(diags, e)
+			}
+			obj.ServerCaCert = &v2
+		}
+	}
+	if v1, ok := d.GetOk("server_cert"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("server_cert", sv)
+				diags = append(diags, e)
+			}
+			obj.ServerCert = &v2
 		}
 	}
 	if v, ok := d.GetOk("server_list"); ok {

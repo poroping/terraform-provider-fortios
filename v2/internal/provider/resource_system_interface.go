@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -76,9 +76,17 @@ func resourceSystemInterface() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"aggregate_type": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"physical", "vxlan"}, false),
+
+				Description: "Type of aggregation.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"algorithm": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"L2", "L3", "L4"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"L2", "L3", "L4", "Source-MAC"}, false),
 
 				Description: "Frame distribution algorithm.",
 				Optional:    true,
@@ -702,7 +710,7 @@ func resourceSystemInterface() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						"name": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringLenBetween(0, 79),
+							ValidateFunc: validation.StringLenBetween(0, 15),
 
 							Description: "Names of the non-virtual interface.",
 							Optional:    true,
@@ -783,6 +791,14 @@ func resourceSystemInterface() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"forward_error_correction": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"none", "disable", "cl91-rs-fec", "cl74-fc-fec", "auto"}, false),
+
+				Description: "Configure forward error correction (FEC).",
+				Optional:    true,
+				Computed:    true,
+			},
 			"gwdetect": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -841,9 +857,9 @@ func resourceSystemInterface() *schema.Resource {
 			},
 			"inbandwidth": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(0, 16776000),
+				ValidateFunc: validation.IntBetween(0, 100000000),
 
-				Description: "Bandwidth limit for incoming traffic (0 - 16776000 kbps), 0 means unlimited.",
+				Description: "Bandwidth limit for incoming traffic (0 - 100000000 kbps), 0 means unlimited.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -1045,6 +1061,14 @@ func resourceSystemInterface() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
 
 							Description: "Enable/disable DHCPv6 relay.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"dhcp6_relay_source_interface": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+							Description: "Enable/disable use of address on this interface as the source address of the relay message.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -1553,6 +1577,14 @@ func resourceSystemInterface() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"lacp_ha_secondary": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "LACP HA secondary member.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"lacp_ha_slave": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
@@ -1664,7 +1696,7 @@ func resourceSystemInterface() *schema.Resource {
 			},
 			"mediatype": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"serdes-sfp", "sgmii-sfp", "serdes-copper-sfp"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"none", "gmii", "sgmii", "sr", "lr", "cr", "sr2", "lr2", "cr2", "sr4", "lr4", "cr4", "sr8", "lr8", "cr8"}, false),
 
 				Description: "Select SFP media interface type",
 				Optional:    true,
@@ -1766,11 +1798,19 @@ func resourceSystemInterface() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"np_qos_profile": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 15),
+
+				Description: "NP QoS profile ID.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"outbandwidth": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(0, 16776000),
+				ValidateFunc: validation.IntBetween(0, 100000000),
 
-				Description: "Bandwidth limit for outgoing traffic (0 - 16776000 kbps), 0 means unlimited.",
+				Description: "Bandwidth limit for outgoing traffic (0 - 100000000 kbps).",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -2042,6 +2082,30 @@ func resourceSystemInterface() *schema.Resource {
 					},
 				},
 			},
+			"security_8021x_dynamic_vlan_id": {
+				Type:         schema.TypeInt,
+				ValidateFunc: validation.IntBetween(0, 4094),
+
+				Description: "VLAN ID for virtual switch.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"security_8021x_master": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 15),
+
+				Description: "802.1X master virtual-switch.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"security_8021x_mode": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"default", "dynamic-vlan", "fallback", "slave"}, false),
+
+				Description: "802.1X mode.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"security_exempt_list": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
@@ -2133,7 +2197,7 @@ func resourceSystemInterface() *schema.Resource {
 			},
 			"speed": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"auto", "10full", "10half", "100full", "100half", "1000full", "1000auto"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"auto", "10full", "10half", "100full", "100half", "100auto", "1000full", "1000auto", "2500auto", "5000auto", "10000full", "10000auto", "25000full", "25000auto", "40000full", "40000auto", "50000full", "50000auto", "100Gfull", "100Gauto", "200Gfull", "200Gauto", "400Gfull", "400Gauto"}, false),
 
 				Description: "Interface speed. The default setting and the options available depend on the interface hardware.",
 				Optional:    true,
@@ -2160,6 +2224,22 @@ func resourceSystemInterface() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"up", "down"}, false),
 
 				Description: "Bring the interface up or shut the interface down.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"stp": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+				Description: "Enable/disable STP.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"stp_ha_secondary": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "enable", "priority-adjust"}, false),
+
+				Description: "Control STP behavior on HA secondary.",
 				Optional:    true,
 				Computed:    true,
 			},
@@ -2328,6 +2408,14 @@ func resourceSystemInterface() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"switch_controller_netflow_collect": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
+
+				Description: "NetFlow collection and processing.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"switch_controller_rspan_mode": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"disable", "enable"}, false),
@@ -2417,6 +2505,14 @@ func resourceSystemInterface() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"trunk": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable/disable VLAN trunk.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"trust_ip_1": {
 				Type:         schema.TypeString,
 				ValidateFunc: validators.FortiValidateIPv4ClassnetAny,
@@ -2467,7 +2563,7 @@ func resourceSystemInterface() *schema.Resource {
 			},
 			"type": {
 				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"physical", "vlan", "aggregate", "redundant", "tunnel", "vdom-link", "loopback", "switch", "vap-switch", "wl-mesh", "fext-wan", "vxlan", "geneve", "hdlc", "switch-vlan", "emac-vlan", "ssl", "lan-extension"}, false),
+				ValidateFunc: validation.StringInSlice([]string{"physical", "vlan", "aggregate", "redundant", "tunnel", "vdom-link", "loopback", "switch", "hard-switch", "vap-switch", "wl-mesh", "fext-wan", "vxlan", "geneve", "hdlc", "switch-vlan", "emac-vlan", "ssl", "lan-extension"}, false),
 
 				Description: "Interface type.",
 				Optional:    true,
@@ -2523,7 +2619,7 @@ func resourceSystemInterface() *schema.Resource {
 			},
 			"vrf": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(0, 63),
+				ValidateFunc: validation.IntBetween(0, 251),
 
 				Description: "Virtual Routing Forwarding ID.",
 				Optional:    true,
@@ -3057,6 +3153,10 @@ func flattenSystemInterfaceIpv6(d *schema.ResourceData, v *models.SystemInterfac
 
 			if tmp := cfg.Dhcp6RelayService; tmp != nil {
 				v["dhcp6_relay_service"] = *tmp
+			}
+
+			if tmp := cfg.Dhcp6RelaySourceInterface; tmp != nil {
+				v["dhcp6_relay_source_interface"] = *tmp
 			}
 
 			if tmp := cfg.Dhcp6RelayType; tmp != nil {
@@ -3705,6 +3805,14 @@ func refreshObjectSystemInterface(d *schema.ResourceData, o *models.SystemInterf
 		}
 	}
 
+	if o.AggregateType != nil {
+		v := *o.AggregateType
+
+		if err = d.Set("aggregate_type", v); err != nil {
+			return diag.Errorf("error reading aggregate_type: %v", err)
+		}
+	}
+
 	if o.Algorithm != nil {
 		v := *o.Algorithm
 
@@ -4284,6 +4392,14 @@ func refreshObjectSystemInterface(d *schema.ResourceData, o *models.SystemInterf
 		}
 	}
 
+	if o.ForwardErrorCorrection != nil {
+		v := *o.ForwardErrorCorrection
+
+		if err = d.Set("forward_error_correction", v); err != nil {
+			return diag.Errorf("error reading forward_error_correction: %v", err)
+		}
+	}
+
 	if o.Gwdetect != nil {
 		v := *o.Gwdetect
 
@@ -4446,6 +4562,14 @@ func refreshObjectSystemInterface(d *schema.ResourceData, o *models.SystemInterf
 
 		if err = d.Set("l2forward", v); err != nil {
 			return diag.Errorf("error reading l2forward: %v", err)
+		}
+	}
+
+	if o.LacpHaSecondary != nil {
+		v := *o.LacpHaSecondary
+
+		if err = d.Set("lacp_ha_secondary", v); err != nil {
+			return diag.Errorf("error reading lacp_ha_secondary: %v", err)
 		}
 	}
 
@@ -4657,6 +4781,14 @@ func refreshObjectSystemInterface(d *schema.ResourceData, o *models.SystemInterf
 
 		if err = d.Set("netflow_sampler", v); err != nil {
 			return diag.Errorf("error reading netflow_sampler: %v", err)
+		}
+	}
+
+	if o.NpQosProfile != nil {
+		v := *o.NpQosProfile
+
+		if err = d.Set("np_qos_profile", v); err != nil {
+			return diag.Errorf("error reading np_qos_profile: %v", err)
 		}
 	}
 
@@ -4881,6 +5013,30 @@ func refreshObjectSystemInterface(d *schema.ResourceData, o *models.SystemInterf
 		}
 	}
 
+	if o.Security8021xDynamicVlanId != nil {
+		v := *o.Security8021xDynamicVlanId
+
+		if err = d.Set("security_8021x_dynamic_vlan_id", v); err != nil {
+			return diag.Errorf("error reading security_8021x_dynamic_vlan_id: %v", err)
+		}
+	}
+
+	if o.Security8021xMaster != nil {
+		v := *o.Security8021xMaster
+
+		if err = d.Set("security_8021x_master", v); err != nil {
+			return diag.Errorf("error reading security_8021x_master: %v", err)
+		}
+	}
+
+	if o.Security8021xMode != nil {
+		v := *o.Security8021xMode
+
+		if err = d.Set("security_8021x_mode", v); err != nil {
+			return diag.Errorf("error reading security_8021x_mode: %v", err)
+		}
+	}
+
 	if o.SecurityExemptList != nil {
 		v := *o.SecurityExemptList
 
@@ -4988,6 +5144,22 @@ func refreshObjectSystemInterface(d *schema.ResourceData, o *models.SystemInterf
 
 		if err = d.Set("status", v); err != nil {
 			return diag.Errorf("error reading status: %v", err)
+		}
+	}
+
+	if o.Stp != nil {
+		v := *o.Stp
+
+		if err = d.Set("stp", v); err != nil {
+			return diag.Errorf("error reading stp: %v", err)
+		}
+	}
+
+	if o.StpHaSecondary != nil {
+		v := *o.StpHaSecondary
+
+		if err = d.Set("stp_ha_secondary", v); err != nil {
+			return diag.Errorf("error reading stp_ha_secondary: %v", err)
 		}
 	}
 
@@ -5159,6 +5331,14 @@ func refreshObjectSystemInterface(d *schema.ResourceData, o *models.SystemInterf
 		}
 	}
 
+	if o.SwitchControllerNetflowCollect != nil {
+		v := *o.SwitchControllerNetflowCollect
+
+		if err = d.Set("switch_controller_netflow_collect", v); err != nil {
+			return diag.Errorf("error reading switch_controller_netflow_collect: %v", err)
+		}
+	}
+
 	if o.SwitchControllerRspanMode != nil {
 		v := *o.SwitchControllerRspanMode
 
@@ -5210,6 +5390,14 @@ func refreshObjectSystemInterface(d *schema.ResourceData, o *models.SystemInterf
 
 		if err = d.Set("tcp_mss", v); err != nil {
 			return diag.Errorf("error reading tcp_mss: %v", err)
+		}
+	}
+
+	if o.Trunk != nil {
+		v := *o.Trunk
+
+		if err = d.Set("trunk", v); err != nil {
+			return diag.Errorf("error reading trunk: %v", err)
 		}
 	}
 
@@ -5655,6 +5843,13 @@ func expandSystemInterfaceIpv6(d *schema.ResourceData, v interface{}, pre string
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.Dhcp6RelayService = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.dhcp6_relay_source_interface", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.Dhcp6RelaySourceInterface = &v2
 			}
 		}
 
@@ -6632,6 +6827,15 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 			obj.Aggregate = &v2
 		}
 	}
+	if v1, ok := d.GetOk("aggregate_type"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("aggregate_type", sv)
+				diags = append(diags, e)
+			}
+			obj.AggregateType = &v2
+		}
+	}
 	if v1, ok := d.GetOk("algorithm"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -6815,6 +7019,15 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 			}
 			tmp := int64(v2)
 			obj.Color = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("cross_check"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("cross_check", sv)
+				diags = append(diags, e)
+			}
+			obj.CrossCheck = &v2
 		}
 	}
 	if v1, ok := d.GetOk("dedicated_to"); ok {
@@ -7174,7 +7387,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 	}
 	if v1, ok := d.GetOk("eip"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "v6.4.0", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "v7.2.8") {
 				e := utils.AttributeVersionWarning("eip", sv)
 				diags = append(diags, e)
 			}
@@ -7335,6 +7548,24 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 			}
 			tmp := int64(v2)
 			obj.ForwardDomain = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("forward_error_correction"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("forward_error_correction", sv)
+				diags = append(diags, e)
+			}
+			obj.ForwardErrorCorrection = &v2
+		}
+	}
+	if v1, ok := d.GetOk("group"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("group", sv)
+				diags = append(diags, e)
+			}
+			obj.Group = &v2
 		}
 	}
 	if v1, ok := d.GetOk("gwdetect"); ok {
@@ -7530,9 +7761,18 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 			obj.L2forward = &v2
 		}
 	}
+	if v1, ok := d.GetOk("lacp_ha_secondary"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("lacp_ha_secondary", sv)
+				diags = append(diags, e)
+			}
+			obj.LacpHaSecondary = &v2
+		}
+	}
 	if v1, ok := d.GetOk("lacp_ha_slave"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.1") {
 				e := utils.AttributeVersionWarning("lacp_ha_slave", sv)
 				diags = append(diags, e)
 			}
@@ -7661,6 +7901,15 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 			obj.MeasuredUpstreamBandwidth = &tmp
 		}
 	}
+	if v1, ok := d.GetOk("media_type"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("media_type", sv)
+				diags = append(diags, e)
+			}
+			obj.MediaType = &v2
+		}
+	}
 	if v1, ok := d.GetOk("mediatype"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "v6.4.0") {
@@ -7779,6 +8028,16 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 			obj.NetflowSampler = &v2
 		}
 	}
+	if v1, ok := d.GetOk("np_qos_profile"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("np_qos_profile", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.NpQosProfile = &tmp
+		}
+	}
 	if v1, ok := d.GetOk("outbandwidth"); ok {
 		if v2, ok := v1.(int); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -7806,6 +8065,15 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 				diags = append(diags, e)
 			}
 			obj.Password = &v2
+		}
+	}
+	if v1, ok := d.GetOk("physical"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("physical", sv)
+				diags = append(diags, e)
+			}
+			obj.Physical = &v2
 		}
 	}
 	if v1, ok := d.GetOk("ping_serv_status"); ok {
@@ -7968,7 +8236,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 	}
 	if v1, ok := d.GetOk("ring_rx"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "v6.4.0", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "v7.2.8") {
 				e := utils.AttributeVersionWarning("ring_rx", sv)
 				diags = append(diags, e)
 			}
@@ -7978,7 +8246,7 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 	}
 	if v1, ok := d.GetOk("ring_tx"); ok {
 		if v2, ok := v1.(int); ok {
-			if !utils.CheckVer(sv, "v6.4.0", "") {
+			if !utils.CheckVer(sv, "v6.4.0", "v7.2.8") {
 				e := utils.AttributeVersionWarning("ring_tx", sv)
 				diags = append(diags, e)
 			}
@@ -8038,6 +8306,34 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 		old, new := d.GetChange("secondaryip")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
 			obj.Secondaryip = &[]models.SystemInterfaceSecondaryip{}
+		}
+	}
+	if v1, ok := d.GetOk("security_8021x_dynamic_vlan_id"); ok {
+		if v2, ok := v1.(int); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("security_8021x_dynamic_vlan_id", sv)
+				diags = append(diags, e)
+			}
+			tmp := int64(v2)
+			obj.Security8021xDynamicVlanId = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("security_8021x_master"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("security_8021x_master", sv)
+				diags = append(diags, e)
+			}
+			obj.Security8021xMaster = &v2
+		}
+	}
+	if v1, ok := d.GetOk("security_8021x_mode"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("security_8021x_mode", sv)
+				diags = append(diags, e)
+			}
+			obj.Security8021xMode = &v2
 		}
 	}
 	if v1, ok := d.GetOk("security_exempt_list"); ok {
@@ -8174,6 +8470,24 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 				diags = append(diags, e)
 			}
 			obj.Status = &v2
+		}
+	}
+	if v1, ok := d.GetOk("stp"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("stp", sv)
+				diags = append(diags, e)
+			}
+			obj.Stp = &v2
+		}
+	}
+	if v1, ok := d.GetOk("stp_ha_secondary"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("stp_ha_secondary", sv)
+				diags = append(diags, e)
+			}
+			obj.StpHaSecondary = &v2
 		}
 	}
 	if v1, ok := d.GetOk("stpforward"); ok {
@@ -8369,6 +8683,15 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 			obj.SwitchControllerNac = &v2
 		}
 	}
+	if v1, ok := d.GetOk("switch_controller_netflow_collect"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("switch_controller_netflow_collect", sv)
+				diags = append(diags, e)
+			}
+			obj.SwitchControllerNetflowCollect = &v2
+		}
+	}
 	if v1, ok := d.GetOk("switch_controller_rspan_mode"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -8439,6 +8762,24 @@ func getObjectSystemInterface(d *schema.ResourceData, sv string) (*models.System
 			}
 			tmp := int64(v2)
 			obj.TcpMss = &tmp
+		}
+	}
+	if v1, ok := d.GetOk("transceiver"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("transceiver", sv)
+				diags = append(diags, e)
+			}
+			obj.Transceiver = &v2
+		}
+	}
+	if v1, ok := d.GetOk("trunk"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("trunk", sv)
+				diags = append(diags, e)
+			}
+			obj.Trunk = &v2
 		}
 	}
 	if v1, ok := d.GetOk("trust_ip_1"); ok {

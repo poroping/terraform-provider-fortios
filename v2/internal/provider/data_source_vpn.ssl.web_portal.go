@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -218,6 +218,11 @@ func dataSourceVpnSslWebPortal() *schema.Resource {
 										Description: "URL parameter.",
 										Computed:    true,
 									},
+									"vnc_keyboard_layout": {
+										Type:        schema.TypeString,
+										Description: "Keyboard layout.",
+										Computed:    true,
+									},
 									"width": {
 										Type:        schema.TypeInt,
 										Description: "Screen width (range from 0 - 65535, default = 0).",
@@ -233,6 +238,11 @@ func dataSourceVpnSslWebPortal() *schema.Resource {
 						},
 					},
 				},
+			},
+			"client_src_range": {
+				Type:        schema.TypeString,
+				Description: "Allow client to add source range for the tunnel traffic.",
+				Computed:    true,
 			},
 			"clipboard": {
 				Type:        schema.TypeString,
@@ -257,6 +267,21 @@ func dataSourceVpnSslWebPortal() *schema.Resource {
 			"default_window_width": {
 				Type:        schema.TypeInt,
 				Description: "Screen width (range from 0 - 65535, default = 1024).",
+				Computed:    true,
+			},
+			"dhcp_ip_overlap": {
+				Type:        schema.TypeString,
+				Description: "Configure overlapping DHCP IP allocation assignment.",
+				Computed:    true,
+			},
+			"dhcp_ra_giaddr": {
+				Type:        schema.TypeString,
+				Description: "Relay agent gateway IP address to use in the giaddr field of DHCP requests.",
+				Computed:    true,
+			},
+			"dhcp6_ra_linkaddr": {
+				Type:        schema.TypeString,
+				Description: "Relay agent IPv6 link address to use in DHCP6 requests.",
 				Computed:    true,
 			},
 			"display_bookmark": {

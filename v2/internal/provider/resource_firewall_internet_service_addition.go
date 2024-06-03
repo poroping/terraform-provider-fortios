@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -66,6 +66,14 @@ func resourceFirewallInternetServiceAddition() *schema.Resource {
 				Optional:    true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"addr_mode": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"ipv4", "ipv6"}, false),
+
+							Description: "Address mode (IPv4 or IPv6).",
+							Optional:    true,
+							Computed:    true,
+						},
 						"id": {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(0, 255),
@@ -82,9 +90,9 @@ func resourceFirewallInternetServiceAddition() *schema.Resource {
 								Schema: map[string]*schema.Schema{
 									"end_port": {
 										Type:         schema.TypeInt,
-										ValidateFunc: validation.IntBetween(1, 65535),
+										ValidateFunc: validation.IntBetween(0, 65535),
 
-										Description: "Integer value for ending TCP/UDP/SCTP destination port in range (1 to 65535).",
+										Description: "Integer value for ending TCP/UDP/SCTP destination port in range (0 to 65535).",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -97,9 +105,9 @@ func resourceFirewallInternetServiceAddition() *schema.Resource {
 									},
 									"start_port": {
 										Type:         schema.TypeInt,
-										ValidateFunc: validation.IntBetween(1, 65535),
+										ValidateFunc: validation.IntBetween(0, 65535),
 
-										Description: "Integer value for starting TCP/UDP/SCTP destination port in range (1 to 65535).",
+										Description: "Integer value for starting TCP/UDP/SCTP destination port in range (0 to 65535).",
 										Optional:    true,
 										Computed:    true,
 									},
@@ -289,6 +297,10 @@ func flattenFirewallInternetServiceAdditionEntry(d *schema.ResourceData, v *[]mo
 		for i, cfg := range *v {
 			_ = i
 			v := make(map[string]interface{})
+			if tmp := cfg.AddrMode; tmp != nil {
+				v["addr_mode"] = *tmp
+			}
+
 			if tmp := cfg.Id; tmp != nil {
 				v["id"] = *tmp
 			}
@@ -381,6 +393,13 @@ func expandFirewallInternetServiceAdditionEntry(d *schema.ResourceData, v interf
 	for i := range l {
 		tmp := models.FirewallInternetServiceAdditionEntry{}
 		var pre_append string
+
+		pre_append = fmt.Sprintf("%s.%d.addr_mode", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.AddrMode = &v2
+			}
+		}
 
 		pre_append = fmt.Sprintf("%s.%d.id", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {

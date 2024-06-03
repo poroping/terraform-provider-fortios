@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -70,9 +70,9 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"oversize_limit": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1, 26214),
+							ValidateFunc: validation.IntBetween(1, 2414),
 
-							Description: "Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory file size that can be scanned (MB).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -159,7 +159,7 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"tcp_window_type": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"system", "static", "dynamic", "auto-tuning"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"auto-tuning", "system", "static", "dynamic"}, false),
 
 							Description: "TCP window type to use for this protocol.",
 							Optional:    true,
@@ -175,9 +175,9 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"uncompressed_oversize_limit": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1, 26214),
+							ValidateFunc: validation.IntBetween(1, 2414),
 
-							Description: "Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory uncompressed file size that can be scanned.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -235,7 +235,7 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 
-							Description: "Amount of data to send in a transmission for client comforting (1 - 65535 bytes, default = 1).",
+							Description: "Number of bytes to send in each transmission for client comforting (bytes).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -243,7 +243,15 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 900),
 
-							Description: "Period of time between start, or last transmission, and the next client comfort transmission of data (1 - 900 sec, default = 10).",
+							Description: "Interval between successive transmissions of data for client comforting (seconds).",
+							Optional:    true,
+							Computed:    true,
+						},
+						"explicit_ftp_tls": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+							Description: "Enable/disable FTP redirection for explicit FTPS.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -265,9 +273,9 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"oversize_limit": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1, 26214),
+							ValidateFunc: validation.IntBetween(1, 2414),
 
-							Description: "Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory file size that can be scanned (MB).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -336,7 +344,7 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"tcp_window_type": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"system", "static", "dynamic", "auto-tuning"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"auto-tuning", "system", "static", "dynamic"}, false),
 
 							Description: "TCP window type to use for this protocol.",
 							Optional:    true,
@@ -352,9 +360,9 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"uncompressed_oversize_limit": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1, 26214),
+							ValidateFunc: validation.IntBetween(1, 2414),
 
-							Description: "Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory uncompressed file size that can be scanned.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -387,7 +395,7 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 
-							Description: "Amount of data to send in a transmission for client comforting (1 - 65535 bytes, default = 1).",
+							Description: "Number of bytes to send in each transmission for client comforting (bytes).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -395,7 +403,7 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 900),
 
-							Description: "Period of time between start, or last transmission, and the next client comfort transmission of data (1 - 900 sec, default = 10).",
+							Description: "Interval between successive transmissions of data for client comforting (seconds).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -441,9 +449,9 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"oversize_limit": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1, 26214),
+							ValidateFunc: validation.IntBetween(1, 2414),
 
-							Description: "Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory file size that can be scanned (MB).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -568,7 +576,7 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"tcp_window_type": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"system", "static", "dynamic", "auto-tuning"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"auto-tuning", "system", "static", "dynamic"}, false),
 
 							Description: "TCP window type to use for this protocol.",
 							Optional:    true,
@@ -592,9 +600,17 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"uncompressed_oversize_limit": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1, 26214),
+							ValidateFunc: validation.IntBetween(1, 2414),
 
-							Description: "Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory uncompressed file size that can be scanned.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"unknown_content_encoding": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"block", "inspect", "bypass"}, false),
+
+							Description: "Configure the action the FortiGate unit will take on unknown content-encoding.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -603,6 +619,14 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{"reject", "tunnel", "best-effort"}, false),
 
 							Description: "How to handle HTTP sessions that do not comply with HTTP 0.9, 1.0, or 1.1.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"verify_dns_for_policy_matching": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+							Description: "Enable/disable verification of DNS for policy matching.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -633,9 +657,9 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"oversize_limit": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1, 26214),
+							ValidateFunc: validation.IntBetween(1, 2414),
 
-							Description: "Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory file size that can be scanned (MB).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -689,9 +713,9 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"uncompressed_oversize_limit": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1, 26214),
+							ValidateFunc: validation.IntBetween(1, 2414),
 
-							Description: "Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory uncompressed file size that can be scanned.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -739,9 +763,9 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"oversize_limit": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1, 26214),
+							ValidateFunc: validation.IntBetween(1, 2414),
 
-							Description: "Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory file size that can be scanned (MB).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -779,9 +803,9 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"uncompressed_oversize_limit": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1, 26214),
+							ValidateFunc: validation.IntBetween(1, 2414),
 
-							Description: "Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory uncompressed file size that can be scanned.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -820,9 +844,9 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"oversize_limit": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1, 26214),
+							ValidateFunc: validation.IntBetween(1, 2414),
 
-							Description: "Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory file size that can be scanned (MB).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -868,9 +892,9 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"uncompressed_oversize_limit": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1, 26214),
+							ValidateFunc: validation.IntBetween(1, 2414),
 
-							Description: "Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory uncompressed file size that can be scanned.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -909,9 +933,9 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"oversize_limit": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1, 26214),
+							ValidateFunc: validation.IntBetween(1, 2414),
 
-							Description: "Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory file size that can be scanned (MB).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -965,9 +989,9 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"uncompressed_oversize_limit": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1, 26214),
+							ValidateFunc: validation.IntBetween(1, 2414),
 
-							Description: "Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory uncompressed file size that can be scanned.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -1014,9 +1038,9 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"oversize_limit": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1, 26214),
+							ValidateFunc: validation.IntBetween(1, 2414),
 
-							Description: "Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory file size that can be scanned (MB).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -1078,9 +1102,9 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"uncompressed_oversize_limit": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1, 26214),
+							ValidateFunc: validation.IntBetween(1, 2414),
 
-							Description: "Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory uncompressed file size that can be scanned.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -1097,7 +1121,7 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 65535),
 
-							Description: "Amount of data to send in a transmission for client comforting (1 - 65535 bytes, default = 1).",
+							Description: "Number of bytes to send in each transmission for client comforting (bytes).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -1105,7 +1129,7 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 							Type:         schema.TypeInt,
 							ValidateFunc: validation.IntBetween(1, 900),
 
-							Description: "Period of time between start, or last transmission, and the next client comfort transmission of data (1 - 900 sec, default = 10).",
+							Description: "Interval between successive transmissions of data for client comforting (seconds).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -1119,9 +1143,9 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"oversize_limit": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1, 26214),
+							ValidateFunc: validation.IntBetween(1, 2414),
 
-							Description: "Maximum in-memory file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory file size that can be scanned (MB).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -1174,7 +1198,7 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"tcp_window_type": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"system", "static", "dynamic", "auto-tuning"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"auto-tuning", "system", "static", "dynamic"}, false),
 
 							Description: "TCP window type to use for this protocol.",
 							Optional:    true,
@@ -1190,9 +1214,9 @@ func resourceFirewallProfileProtocolOptions() *schema.Resource {
 						},
 						"uncompressed_oversize_limit": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(1, 26214),
+							ValidateFunc: validation.IntBetween(1, 2414),
 
-							Description: "Maximum in-memory uncompressed file size that can be scanned (1 - 383 MB, default = 10).",
+							Description: "Maximum in-memory uncompressed file size that can be scanned.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -1500,6 +1524,10 @@ func flattenFirewallProfileProtocolOptionsFtp(d *schema.ResourceData, v *models.
 				v["comfort_interval"] = *tmp
 			}
 
+			if tmp := cfg.ExplicitFtpTls; tmp != nil {
+				v["explicit_ftp_tls"] = *tmp
+			}
+
 			if tmp := cfg.InspectAll; tmp != nil {
 				v["inspect_all"] = *tmp
 			}
@@ -1687,8 +1715,16 @@ func flattenFirewallProfileProtocolOptionsHttp(d *schema.ResourceData, v *models
 				v["uncompressed_oversize_limit"] = *tmp
 			}
 
+			if tmp := cfg.UnknownContentEncoding; tmp != nil {
+				v["unknown_content_encoding"] = *tmp
+			}
+
 			if tmp := cfg.UnknownHttpVersion; tmp != nil {
 				v["unknown_http_version"] = *tmp
+			}
+
+			if tmp := cfg.VerifyDnsForPolicyMatching; tmp != nil {
+				v["verify_dns_for_policy_matching"] = *tmp
 			}
 
 			flat = append(flat, v)
@@ -2417,6 +2453,13 @@ func expandFirewallProfileProtocolOptionsFtp(d *schema.ResourceData, v interface
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.explicit_ftp_tls", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.ExplicitFtpTls = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.inspect_all", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
@@ -2756,10 +2799,24 @@ func expandFirewallProfileProtocolOptionsHttp(d *schema.ResourceData, v interfac
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.unknown_content_encoding", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.UnknownContentEncoding = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.unknown_http_version", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.UnknownHttpVersion = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.verify_dns_for_policy_matching", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.VerifyDnsForPolicyMatching = &v2
 			}
 		}
 

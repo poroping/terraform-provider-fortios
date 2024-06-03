@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -271,7 +271,7 @@ func resourceSystemSdwan() *schema.Resource {
 						},
 						"detect_mode": {
 							Type:         schema.TypeString,
-							ValidateFunc: validation.StringInSlice([]string{"active", "passive", "prefer-passive"}, false),
+							ValidateFunc: validation.StringInSlice([]string{"active", "passive", "prefer-passive", "remote", "agent-based"}, false),
 
 							Description: "The mode determining how to detect the server.",
 							Optional:    true,
@@ -297,6 +297,14 @@ func resourceSystemSdwan() *schema.Resource {
 							ValidateFunc: validation.StringLenBetween(0, 255),
 
 							Description: "Fully qualified domain name to resolve for the DNS probe.",
+							Optional:    true,
+							Computed:    true,
+						},
+						"embed_measured_health": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+							Description: "Enable/disable embedding measured health information.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -358,9 +366,9 @@ func resourceSystemSdwan() *schema.Resource {
 						},
 						"interval": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(500, 3600000),
+							ValidateFunc: validation.IntBetween(20, 3600000),
 
-							Description: "Status check interval in milliseconds, or the time between attempting to connect to the server (500 - 3600*1000 msec, default = 500).",
+							Description: "Status check interval in milliseconds, or the time between attempting to connect to the server (20 - 3600*1000 msec, default = 500).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -438,9 +446,9 @@ func resourceSystemSdwan() *schema.Resource {
 						},
 						"probe_timeout": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(500, 3600000),
+							ValidateFunc: validation.IntBetween(20, 3600000),
 
-							Description: "Time to wait before a probe packet is considered lost (500 - 3600*1000 msec, default = 500).",
+							Description: "Time to wait before a probe packet is considered lost (20 - 3600*1000 msec, default = 500).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -538,6 +546,22 @@ func resourceSystemSdwan() *schema.Resource {
 										Optional:    true,
 										Computed:    true,
 									},
+									"priority_in_sla": {
+										Type:         schema.TypeInt,
+										ValidateFunc: validation.IntBetween(0, 65535),
+
+										Description: "Value to be distributed into routing table when in-sla (0 - 65535, default = 0).",
+										Optional:    true,
+										Computed:    true,
+									},
+									"priority_out_sla": {
+										Type:         schema.TypeInt,
+										ValidateFunc: validation.IntBetween(0, 65535),
+
+										Description: "Value to be distributed into routing table when out-sla (0 - 65535, default = 0).",
+										Optional:    true,
+										Computed:    true,
+									},
 								},
 							},
 						},
@@ -546,6 +570,14 @@ func resourceSystemSdwan() *schema.Resource {
 							ValidateFunc: validation.IntBetween(0, 3600),
 
 							Description: "Time interval in seconds that SLA fail log messages will be generated (0 - 3600, default = 0).",
+							Optional:    true,
+							Computed:    true,
+						},
+						"sla_id_redistribute": {
+							Type:         schema.TypeInt,
+							ValidateFunc: validation.IntBetween(0, 32),
+
+							Description: "Select the ID from the SLA sub-table. The selected SLA's priority value will be distributed into the routing table (0 - 32, default = 0).",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -643,7 +675,7 @@ func resourceSystemSdwan() *schema.Resource {
 						},
 						"vrf": {
 							Type:         schema.TypeInt,
-							ValidateFunc: validation.IntBetween(0, 63),
+							ValidateFunc: validation.IntBetween(0, 251),
 
 							Description: "Virtual Routing Forwarding ID.",
 							Optional:    true,
@@ -903,6 +935,14 @@ func resourceSystemSdwan() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{"ipv4", "ipv6"}, false),
 
 							Description: "Address mode (IPv4 or IPv6).",
+							Optional:    true,
+							Computed:    true,
+						},
+						"agent_exclusive": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+							Description: "Set/unset the service as agent use exclusively.",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -2004,6 +2044,10 @@ func flattenSystemSdwanHealthCheck(d *schema.ResourceData, v *[]models.SystemSdw
 				v["dns_request_domain"] = *tmp
 			}
 
+			if tmp := cfg.EmbedMeasuredHealth; tmp != nil {
+				v["embed_measured_health"] = *tmp
+			}
+
 			if tmp := cfg.Failtime; tmp != nil {
 				v["failtime"] = *tmp
 			}
@@ -2098,6 +2142,10 @@ func flattenSystemSdwanHealthCheck(d *schema.ResourceData, v *[]models.SystemSdw
 
 			if tmp := cfg.SlaFailLogPeriod; tmp != nil {
 				v["sla_fail_log_period"] = *tmp
+			}
+
+			if tmp := cfg.SlaIdRedistribute; tmp != nil {
+				v["sla_id_redistribute"] = *tmp
 			}
 
 			if tmp := cfg.SlaPassLogPeriod; tmp != nil {
@@ -2214,6 +2262,14 @@ func flattenSystemSdwanHealthCheckSla(d *schema.ResourceData, v *[]models.System
 
 			if tmp := cfg.PacketlossThreshold; tmp != nil {
 				v["packetloss_threshold"] = *tmp
+			}
+
+			if tmp := cfg.PriorityInSla; tmp != nil {
+				v["priority_in_sla"] = *tmp
+			}
+
+			if tmp := cfg.PriorityOutSla; tmp != nil {
+				v["priority_out_sla"] = *tmp
 			}
 
 			flat = append(flat, v)
@@ -2386,6 +2442,10 @@ func flattenSystemSdwanService(d *schema.ResourceData, v *[]models.SystemSdwanSe
 			v := make(map[string]interface{})
 			if tmp := cfg.AddrMode; tmp != nil {
 				v["addr_mode"] = *tmp
+			}
+
+			if tmp := cfg.AgentExclusive; tmp != nil {
+				v["agent_exclusive"] = *tmp
 			}
 
 			if tmp := cfg.BandwidthWeight; tmp != nil {
@@ -3569,6 +3629,13 @@ func expandSystemSdwanHealthCheck(d *schema.ResourceData, v interface{}, pre str
 			}
 		}
 
+		pre_append = fmt.Sprintf("%s.%d.embed_measured_health", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.EmbedMeasuredHealth = &v2
+			}
+		}
+
 		pre_append = fmt.Sprintf("%s.%d.failtime", pre, i)
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(int); ok {
@@ -3749,6 +3816,14 @@ func expandSystemSdwanHealthCheck(d *schema.ResourceData, v interface{}, pre str
 			if v2, ok := v1.(int); ok {
 				v3 := int64(v2)
 				tmp.SlaFailLogPeriod = &v3
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.sla_id_redistribute", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.SlaIdRedistribute = &v3
 			}
 		}
 
@@ -3936,6 +4011,22 @@ func expandSystemSdwanHealthCheckSla(d *schema.ResourceData, v interface{}, pre 
 			if v2, ok := v1.(int); ok {
 				v3 := int64(v2)
 				tmp.PacketlossThreshold = &v3
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.priority_in_sla", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PriorityInSla = &v3
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.priority_out_sla", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(int); ok {
+				v3 := int64(v2)
+				tmp.PriorityOutSla = &v3
 			}
 		}
 
@@ -4193,6 +4284,13 @@ func expandSystemSdwanService(d *schema.ResourceData, v interface{}, pre string,
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.AddrMode = &v2
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.agent_exclusive", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.AgentExclusive = &v2
 			}
 		}
 

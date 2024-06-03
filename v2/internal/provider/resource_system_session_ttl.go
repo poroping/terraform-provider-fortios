@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -79,6 +79,14 @@ func resourceSystemSessionTtl() *schema.Resource {
 							ValidateFunc: validation.IntBetween(0, 255),
 
 							Description: "Protocol (0 - 255).",
+							Optional:    true,
+							Computed:    true,
+						},
+						"refresh_direction": {
+							Type:         schema.TypeString,
+							ValidateFunc: validation.StringInSlice([]string{"both", "outgoing", "incoming"}, false),
+
+							Description: "Refresh direction: Both, outgoing, incoming",
 							Optional:    true,
 							Computed:    true,
 						},
@@ -272,6 +280,10 @@ func flattenSystemSessionTtlPort(d *schema.ResourceData, v *[]models.SystemSessi
 				v["protocol"] = *tmp
 			}
 
+			if tmp := cfg.RefreshDirection; tmp != nil {
+				v["refresh_direction"] = *tmp
+			}
+
 			if tmp := cfg.StartPort; tmp != nil {
 				v["start_port"] = *tmp
 			}
@@ -344,6 +356,13 @@ func expandSystemSessionTtlPort(d *schema.ResourceData, v interface{}, pre strin
 			if v2, ok := v1.(int); ok {
 				v3 := int64(v2)
 				tmp.Protocol = &v3
+			}
+		}
+
+		pre_append = fmt.Sprintf("%s.%d.refresh_direction", pre, i)
+		if v1, ok := d.GetOk(pre_append); ok {
+			if v2, ok := v1.(string); ok {
+				tmp.RefreshDirection = &v2
 			}
 		}
 

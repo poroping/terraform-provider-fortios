@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.6,v7.0.2 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.6,v7.0.2,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -259,7 +259,7 @@ func dataSourceSystemModem() *schema.Resource {
 			},
 			"wireless_port": {
 				Type:        schema.TypeInt,
-				Description: "Enter wireless port number, 0 for default, 1 for first port, ... (0 - 4294967295, default = 0)",
+				Description: "Enter wireless port number: 0 for default, 1 for first port, and so on (0 - 4294967295).",
 				Computed:    true,
 			},
 		},

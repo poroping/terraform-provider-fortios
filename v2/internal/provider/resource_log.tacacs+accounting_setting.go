@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -38,6 +38,22 @@ func resourceLogTacacsaccountingSetting() *schema.Resource {
 				Optional:    true,
 				ForceNew:    true,
 			},
+			"interface": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 15),
+
+				Description: "Specify outgoing interface to reach server.",
+				Optional:    true,
+				Computed:    true,
+			},
+			"interface_select_method": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"auto", "sdwan", "specify"}, false),
+
+				Description: "Specify how to select outgoing interface to reach server.",
+				Optional:    true,
+				Computed:    true,
+			},
 			"server": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 63),
@@ -53,6 +69,14 @@ func resourceLogTacacsaccountingSetting() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 				Sensitive:   true,
+			},
+			"source_ip": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringLenBetween(0, 63),
+
+				Description: "Source IP address for communication to TACACS+ server.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"status": {
 				Type:         schema.TypeString,
@@ -218,6 +242,22 @@ func resourceLogTacacsaccountingSettingRead(ctx context.Context, d *schema.Resou
 func refreshObjectLogTacacsaccountingSetting(d *schema.ResourceData, o *models.LogTacacsaccountingSetting, sv string, sort bool) diag.Diagnostics {
 	var err error
 
+	if o.Interface != nil {
+		v := *o.Interface
+
+		if err = d.Set("interface", v); err != nil {
+			return diag.Errorf("error reading interface: %v", err)
+		}
+	}
+
+	if o.InterfaceSelectMethod != nil {
+		v := *o.InterfaceSelectMethod
+
+		if err = d.Set("interface_select_method", v); err != nil {
+			return diag.Errorf("error reading interface_select_method: %v", err)
+		}
+	}
+
 	if o.Server != nil {
 		v := *o.Server
 
@@ -232,6 +272,14 @@ func refreshObjectLogTacacsaccountingSetting(d *schema.ResourceData, o *models.L
 		if v == "ENC XXXX" {
 		} else if err = d.Set("server_key", v); err != nil {
 			return diag.Errorf("error reading server_key: %v", err)
+		}
+	}
+
+	if o.SourceIp != nil {
+		v := *o.SourceIp
+
+		if err = d.Set("source_ip", v); err != nil {
+			return diag.Errorf("error reading source_ip: %v", err)
 		}
 	}
 
@@ -250,6 +298,24 @@ func getObjectLogTacacsaccountingSetting(d *schema.ResourceData, sv string) (*mo
 	obj := models.LogTacacsaccountingSetting{}
 	diags := diag.Diagnostics{}
 
+	if v1, ok := d.GetOk("interface"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("interface", sv)
+				diags = append(diags, e)
+			}
+			obj.Interface = &v2
+		}
+	}
+	if v1, ok := d.GetOk("interface_select_method"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("interface_select_method", sv)
+				diags = append(diags, e)
+			}
+			obj.InterfaceSelectMethod = &v2
+		}
+	}
 	if v1, ok := d.GetOk("server"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -266,6 +332,15 @@ func getObjectLogTacacsaccountingSetting(d *schema.ResourceData, sv string) (*mo
 				diags = append(diags, e)
 			}
 			obj.ServerKey = &v2
+		}
+	}
+	if v1, ok := d.GetOk("source_ip"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("source_ip", sv)
+				diags = append(diags, e)
+			}
+			obj.SourceIp = &v2
 		}
 	}
 	if v1, ok := d.GetOk("status"); ok {

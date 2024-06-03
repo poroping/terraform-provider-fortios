@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -287,7 +287,7 @@ func resourceRouterBgpNeighborGroup() *schema.Resource {
 			},
 			"connect_timer": {
 				Type:         schema.TypeInt,
-				ValidateFunc: validation.IntBetween(0, 65535),
+				ValidateFunc: validation.IntBetween(1, 65535),
 
 				Description: "Interval (sec) for connect timer.",
 				Optional:    true,
@@ -454,7 +454,7 @@ func resourceRouterBgpNeighborGroup() *schema.Resource {
 				Computed:    true,
 			},
 			"local_as": {
-				Type: schema.TypeInt,
+				Type: schema.TypeString,
 
 				Description: "Local AS number of neighbor.",
 				Optional:    true,
@@ -609,6 +609,14 @@ func resourceRouterBgpNeighborGroup() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"password": {
+				Type: schema.TypeString,
+
+				Description: "Password used in MD5 authentication.",
+				Optional:    true,
+				Computed:    true,
+				Sensitive:   true,
+			},
 			"prefix_list_in": {
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringLenBetween(0, 35),
@@ -658,7 +666,7 @@ func resourceRouterBgpNeighborGroup() *schema.Resource {
 				Computed:    true,
 			},
 			"remote_as": {
-				Type: schema.TypeInt,
+				Type: schema.TypeString,
 
 				Description: "AS number of neighbor.",
 				Optional:    true,
@@ -1656,6 +1664,15 @@ func refreshObjectRouterBgpNeighborGroup(d *schema.ResourceData, o *models.Route
 		}
 	}
 
+	if o.Password != nil {
+		v := *o.Password
+
+		if v == "ENC XXXX" {
+		} else if err = d.Set("password", v); err != nil {
+			return diag.Errorf("error reading password: %v", err)
+		}
+	}
+
 	if o.PrefixListIn != nil {
 		v := *o.PrefixListIn
 
@@ -2454,13 +2471,12 @@ func getObjectRouterBgpNeighborGroup(d *schema.ResourceData, sv string) (*models
 		}
 	}
 	if v1, ok := d.GetOk("local_as"); ok {
-		if v2, ok := v1.(int); ok {
+		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
 				e := utils.AttributeVersionWarning("local_as", sv)
 				diags = append(diags, e)
 			}
-			tmp := int64(v2)
-			obj.LocalAs = &tmp
+			obj.LocalAs = &v2
 		}
 	}
 	if v1, ok := d.GetOk("local_as_no_prepend"); ok {
@@ -2640,6 +2656,15 @@ func getObjectRouterBgpNeighborGroup(d *schema.ResourceData, sv string) (*models
 			obj.Passive = &v2
 		}
 	}
+	if v1, ok := d.GetOk("password"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.8", "") {
+				e := utils.AttributeVersionWarning("password", sv)
+				diags = append(diags, e)
+			}
+			obj.Password = &v2
+		}
+	}
 	if v1, ok := d.GetOk("prefix_list_in"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -2695,13 +2720,12 @@ func getObjectRouterBgpNeighborGroup(d *schema.ResourceData, sv string) (*models
 		}
 	}
 	if v1, ok := d.GetOk("remote_as"); ok {
-		if v2, ok := v1.(int); ok {
+		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
 				e := utils.AttributeVersionWarning("remote_as", sv)
 				diags = append(diags, e)
 			}
-			tmp := int64(v2)
-			obj.RemoteAs = &tmp
+			obj.RemoteAs = &v2
 		}
 	}
 	if v1, ok := d.GetOk("remove_private_as"); ok {

@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -55,6 +55,51 @@ func dataSourceFirewallIppool() *schema.Resource {
 				Description: "Number of addresses in a block (64 - 4096, default = 128).",
 				Computed:    true,
 			},
+			"cgn_block_size": {
+				Type:        schema.TypeInt,
+				Description: "Number of ports in a block(64 to 4096 in unit of 64, default = 128).",
+				Computed:    true,
+			},
+			"cgn_client_endip": {
+				Type:        schema.TypeString,
+				Description: "Final client IPv4 address (inclusive) (format xxx.xxx.xxx.xxx, Default: 0.0.0.0).",
+				Computed:    true,
+			},
+			"cgn_client_ipv6shift": {
+				Type:        schema.TypeInt,
+				Description: "IPv6 shift for fixed-allocation.(default 0)",
+				Computed:    true,
+			},
+			"cgn_client_startip": {
+				Type:        schema.TypeString,
+				Description: "First client IPv4 address (inclusive) (format xxx.xxx.xxx.xxx, Default: 0.0.0.0).",
+				Computed:    true,
+			},
+			"cgn_fixedalloc": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable fixed-allocation mode.",
+				Computed:    true,
+			},
+			"cgn_overload": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable overload mode.",
+				Computed:    true,
+			},
+			"cgn_port_end": {
+				Type:        schema.TypeInt,
+				Description: "Ending public port can be allocated. ",
+				Computed:    true,
+			},
+			"cgn_port_start": {
+				Type:        schema.TypeInt,
+				Description: "Starting public port can be allocated. ",
+				Computed:    true,
+			},
+			"cgn_spa": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable single port allocation mode.",
+				Computed:    true,
+			},
 			"comments": {
 				Type:        schema.TypeString,
 				Description: "Comment.",
@@ -69,6 +114,20 @@ func dataSourceFirewallIppool() *schema.Resource {
 				Type:        schema.TypeInt,
 				Description: "Final port number (inclusive) in the range for the address pool (Default: 65533).",
 				Computed:    true,
+			},
+			"exclude_ip": {
+				Type:        schema.TypeList,
+				Description: "Exclude IPs x.x.x.x.",
+				Computed:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"subnet": {
+							Type:        schema.TypeString,
+							Description: "Exclude IPs",
+							Computed:    true,
+						},
+					},
+				},
 			},
 			"name": {
 				Type:        schema.TypeString,
@@ -120,9 +179,24 @@ func dataSourceFirewallIppool() *schema.Resource {
 				Description: "First port number (inclusive) in the range for the address pool (Default: 5117).",
 				Computed:    true,
 			},
+			"subnet_broadcast_in_ippool": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable inclusion of the subnetwork address and broadcast IP address in the NAT64 IP pool.",
+				Computed:    true,
+			},
 			"type": {
 				Type:        schema.TypeString,
 				Description: "IP pool type (overload, one-to-one, fixed port range, or port block allocation).",
+				Computed:    true,
+			},
+			"utilization_alarm_clear": {
+				Type:        schema.TypeInt,
+				Description: "Pool utilization alarm clear threshold (40-100).",
+				Computed:    true,
+			},
+			"utilization_alarm_raise": {
+				Type:        schema.TypeInt,
+				Description: "Pool utilization alarm raise threshold (50-100).",
 				Computed:    true,
 			},
 		},

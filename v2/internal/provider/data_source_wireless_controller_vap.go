@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -63,6 +63,11 @@ func dataSourceWirelessControllerVap() *schema.Resource {
 			"application_detection_engine": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable application detection engine (default = disable).",
+				Computed:    true,
+			},
+			"application_dscp_marking": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable application attribute based DSCP marking (default = disable).",
 				Computed:    true,
 			},
 			"application_list": {
@@ -138,6 +143,11 @@ func dataSourceWirelessControllerVap() *schema.Resource {
 			"captive_portal_auth_timeout": {
 				Type:        schema.TypeInt,
 				Description: "Hard timeout - AP will always clear the session after timeout regardless of traffic (0 - 864000 sec, default = 0).",
+				Computed:    true,
+			},
+			"captive_portal_fw_accounting": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable RADIUS accounting for captive portal firewall authentication session.",
 				Computed:    true,
 			},
 			"captive_portal_macauth_radius_secret": {
@@ -336,6 +346,11 @@ func dataSourceWirelessControllerVap() *schema.Resource {
 			"l3_roaming": {
 				Type:        schema.TypeString,
 				Description: "Enable/disable layer 3 roaming (default = disable).",
+				Computed:    true,
+			},
+			"l3_roaming_mode": {
+				Type:        schema.TypeString,
+				Description: "Select the way that layer 3 roaming traffic is passed (default = direct).",
 				Computed:    true,
 			},
 			"ldpc": {
@@ -721,6 +736,11 @@ func dataSourceWirelessControllerVap() *schema.Resource {
 				Description: "Enable/disable RADIUS-based MAC authentication of clients (default = disable).",
 				Computed:    true,
 			},
+			"radius_mac_auth_block_interval": {
+				Type:        schema.TypeInt,
+				Description: "Don't send RADIUS MAC auth request again if the client has been rejected within specific interval (0 or 30 - 864000 seconds, default = 0, 0 to disable blocking).",
+				Computed:    true,
+			},
 			"radius_mac_auth_server": {
 				Type:        schema.TypeString,
 				Description: "RADIUS-based MAC authentication server.",
@@ -747,7 +767,7 @@ func dataSourceWirelessControllerVap() *schema.Resource {
 			},
 			"radius_mac_mpsk_timeout": {
 				Type:        schema.TypeInt,
-				Description: "RADIUS MAC MPSK cache timeout interval (1800 - 864000, default = 86400).",
+				Description: "RADIUS MAC MPSK cache timeout interval (0 or 300 - 864000, default = 86400, 0 to disable caching).",
 				Computed:    true,
 			},
 			"radius_server": {
@@ -760,6 +780,11 @@ func dataSourceWirelessControllerVap() *schema.Resource {
 				Description: "Allowed data rates for 802.11a.",
 				Computed:    true,
 			},
+			"rates_11ac_mcs_map": {
+				Type:        schema.TypeString,
+				Description: "Comma separated list of max supported VHT MCS for spatial streams 1 through 8.",
+				Computed:    true,
+			},
 			"rates_11ac_ss12": {
 				Type:        schema.TypeString,
 				Description: "Allowed data rates for 802.11ac with 1 or 2 spatial streams.",
@@ -768,6 +793,11 @@ func dataSourceWirelessControllerVap() *schema.Resource {
 			"rates_11ac_ss34": {
 				Type:        schema.TypeString,
 				Description: "Allowed data rates for 802.11ac with 3 or 4 spatial streams.",
+				Computed:    true,
+			},
+			"rates_11ax_mcs_map": {
+				Type:        schema.TypeString,
+				Description: "Comma separated list of max supported HE MCS for spatial streams 1 through 8.",
 				Computed:    true,
 			},
 			"rates_11ax_ss12": {
@@ -800,11 +830,26 @@ func dataSourceWirelessControllerVap() *schema.Resource {
 				Description: "SAE-Groups.",
 				Computed:    true,
 			},
+			"sae_h2e_only": {
+				Type:        schema.TypeString,
+				Description: "Use hash-to-element-only mechanism for PWE derivation (default = disable).",
+				Computed:    true,
+			},
 			"sae_password": {
 				Type:        schema.TypeString,
 				Description: "WPA3 SAE password to be used to authenticate WiFi users.",
 				Computed:    true,
 				Sensitive:   true,
+			},
+			"sae_pk": {
+				Type:        schema.TypeString,
+				Description: "Enable/disable WPA3 SAE-PK (default = disable).",
+				Computed:    true,
+			},
+			"sae_private_key": {
+				Type:        schema.TypeString,
+				Description: "Private key used for WPA3 SAE-PK authentication.",
+				Computed:    true,
 			},
 			"scan_botnet_connections": {
 				Type:        schema.TypeString,
@@ -882,6 +927,11 @@ func dataSourceWirelessControllerVap() *schema.Resource {
 			"sticky_client_threshold_5g": {
 				Type:        schema.TypeString,
 				Description: "Minimum signal level/threshold in dBm required for the 5G client to be serviced by the AP (-95 to -20, default = -76).",
+				Computed:    true,
+			},
+			"sticky_client_threshold_6g": {
+				Type:        schema.TypeString,
+				Description: "Minimum signal level/threshold in dBm required for the 6G client to be serviced by the AP (-95 to -20, default = -76).",
 				Computed:    true,
 			},
 			"target_wake_time": {

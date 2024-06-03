@@ -1,5 +1,5 @@
 // Unofficial Fortinet Terraform Provider
-// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.2.0 schemas
+// Generated from templates using FortiOS v6.2.7,v6.4.0,v6.4.2,v6.4.3,v6.4.5,v6.4.6,v6.4.7,v6.4.8,v7.0.0,v7.0.1,v7.0.2,v7.0.3,v7.0.4,v7.0.5,v7.0.6,v7.2.0,v7.2.1,v7.2.8 schemas
 // Maintainers:
 // Justin Roberts (@poroping)
 
@@ -466,6 +466,14 @@ func resourceSystemAdmin() *schema.Resource {
 						},
 					},
 				},
+			},
+			"vdom_override": {
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"enable", "disable"}, false),
+
+				Description: "Enable to use the names of VDOMs provided by the remote authentication server to control the VDOMs that this administrator can access.",
+				Optional:    true,
+				Computed:    true,
 			},
 			"wildcard": {
 				Type:         schema.TypeString,
@@ -1126,6 +1134,14 @@ func refreshObjectSystemAdmin(d *schema.ResourceData, o *models.SystemAdmin, sv 
 		}
 	}
 
+	if o.VdomOverride != nil {
+		v := *o.VdomOverride
+
+		if err = d.Set("vdom_override", v); err != nil {
+			return diag.Errorf("error reading vdom_override: %v", err)
+		}
+	}
+
 	if o.Wildcard != nil {
 		v := *o.Wildcard
 
@@ -1377,6 +1393,15 @@ func getObjectSystemAdmin(d *schema.ResourceData, sv string) (*models.SystemAdmi
 			obj.Ip6Trusthost9 = &v2
 		}
 	}
+	if v1, ok := d.GetOk("list"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("list", sv)
+				diags = append(diags, e)
+			}
+			obj.List = &v2
+		}
+	}
 	if v1, ok := d.GetOk("name"); ok {
 		if v2, ok := v1.(string); ok {
 			if !utils.CheckVer(sv, "", "") {
@@ -1424,7 +1449,7 @@ func getObjectSystemAdmin(d *schema.ResourceData, sv string) (*models.SystemAdmi
 	}
 	if v1, ok := d.GetOk("radius_vdom_override"); ok {
 		if v2, ok := v1.(string); ok {
-			if !utils.CheckVer(sv, "", "") {
+			if !utils.CheckVer(sv, "", "v7.2.1") {
 				e := utils.AttributeVersionWarning("radius_vdom_override", sv)
 				diags = append(diags, e)
 			}
@@ -1519,6 +1544,15 @@ func getObjectSystemAdmin(d *schema.ResourceData, sv string) (*models.SystemAdmi
 				diags = append(diags, e)
 			}
 			obj.SshPublicKey3 = &v2
+		}
+	}
+	if v1, ok := d.GetOk("status"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("status", sv)
+				diags = append(diags, e)
+			}
+			obj.Status = &v2
 		}
 	}
 	if v1, ok := d.GetOk("trusthost1"); ok {
@@ -1653,6 +1687,15 @@ func getObjectSystemAdmin(d *schema.ResourceData, sv string) (*models.SystemAdmi
 		old, new := d.GetChange("vdom")
 		if len(old.([]interface{})) > 0 && len(new.([]interface{})) == 0 {
 			obj.Vdom = &[]models.SystemAdminVdom{}
+		}
+	}
+	if v1, ok := d.GetOk("vdom_override"); ok {
+		if v2, ok := v1.(string); ok {
+			if !utils.CheckVer(sv, "v7.2.1", "") {
+				e := utils.AttributeVersionWarning("vdom_override", sv)
+				diags = append(diags, e)
+			}
+			obj.VdomOverride = &v2
 		}
 	}
 	if v1, ok := d.GetOk("wildcard"); ok {
