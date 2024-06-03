@@ -4636,36 +4636,6 @@ func flattenRouterBgpVrfLeak(d *schema.ResourceData, v *[]models.RouterBgpVrfLea
 	return flat
 }
 
-func flattenRouterBgpVrfLeakTarget(d *schema.ResourceData, v *[]models.RouterBgpVrfLeakTarget, prefix string, sort bool) interface{} {
-	flat := make([]map[string]interface{}, 0)
-
-	if v != nil {
-		for i, cfg := range *v {
-			_ = i
-			v := make(map[string]interface{})
-			if tmp := cfg.Interface; tmp != nil {
-				v["interface"] = *tmp
-			}
-
-			if tmp := cfg.RouteMap; tmp != nil {
-				v["route_map"] = *tmp
-			}
-
-			if tmp := cfg.Vrf; tmp != nil {
-				v["vrf"] = *tmp
-			}
-
-			flat = append(flat, v)
-		}
-	}
-
-	if sort {
-		utils.SortSubtable(flat, "vrf")
-	}
-
-	return flat
-}
-
 func flattenRouterBgpVrfLeak6(d *schema.ResourceData, v *[]models.RouterBgpVrfLeak6, prefix string, sort bool) interface{} {
 	flat := make([]map[string]interface{}, 0)
 
@@ -7618,44 +7588,6 @@ func expandRouterBgpVrfImportRt(d *schema.ResourceData, v interface{}, pre strin
 		if v1, ok := d.GetOk(pre_append); ok {
 			if v2, ok := v1.(string); ok {
 				tmp.RouteTarget = &v2
-			}
-		}
-
-		result = append(result, tmp)
-	}
-	return &result, nil
-}
-
-func expandRouterBgpVrfLeakTarget(d *schema.ResourceData, v interface{}, pre string, sv string) (*[]models.RouterBgpVrfLeakTarget, error) {
-	l := v.([]interface{})
-	if len(l) == 0 || l[0] == nil {
-		return nil, nil
-	}
-
-	var result []models.RouterBgpVrfLeakTarget
-
-	for i := range l {
-		tmp := models.RouterBgpVrfLeakTarget{}
-		var pre_append string
-
-		pre_append = fmt.Sprintf("%s.%d.interface", pre, i)
-		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(string); ok {
-				tmp.Interface = &v2
-			}
-		}
-
-		pre_append = fmt.Sprintf("%s.%d.route_map", pre, i)
-		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(string); ok {
-				tmp.RouteMap = &v2
-			}
-		}
-
-		pre_append = fmt.Sprintf("%s.%d.vrf", pre, i)
-		if v1, ok := d.GetOk(pre_append); ok {
-			if v2, ok := v1.(string); ok {
-				tmp.Vrf = &v2
 			}
 		}
 
